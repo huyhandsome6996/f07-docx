@@ -4,6 +4,8 @@ Ngày: 18/10/2026. Nhánh: `tinh-nang/f07-tam-trang-va-chia-se-us015-us026`.
 
 **Chưa đạt nghiệm thu toàn bộ. Có 6 finding còn mở, trong đó R01 và R02 ảnh hưởng riêng tư.** Không merge/deploy dựa trên bảng PASS trong bàn giao cũ.
 
+**Đã recheck bản mới nhất trên F07 theo xác nhận của Huy:** branch và PR #42 vẫn ở bb75b2c, các kiểm tra bổ sung vẫn FAIL. Đọc [recheck/README.md](recheck/README.md) trước, rồi dùng [prompt cập nhật](PROMPT-NEXT-AGENT.md). Mục tiêu sau sửa là đạt [điều kiện bàn giao cho người dùng bình thường](READY-FOR-USER-TEST.md).
+
 - Commit đã kiểm: `bb75b2cee314bd5dfea3fff7928664dc68d3e2dd`.
 - Main khi kiểm: `571abcb7916954964d82e0aa27e7661e7d7efd83`.
 - PR được đối chiếu bằng Git remote ref: [#42](https://github.com/huyhandsome6996/family-bridge/pull/42). Không suy luận trạng thái Draft/approval từ ref này.

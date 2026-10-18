@@ -1,5 +1,7 @@
 # Kết quả kiểm tra mới
 
+Lần xác nhận lại sau khi người dùng yêu cầu kiểm đầu F07 mới nhất được ghi riêng ở [recheck/README.md](recheck/README.md). R01–R06 vẫn tái hiện tại cùng bb75b2c. Các số full suite dưới đây thuộc lượt review trước; lượt recheck chỉ chạy targeted tests cần thiết, không chạy lại full suite không đổi.
+
 Tất cả kết quả dưới đây gắn với `bb75b2cee314bd5dfea3fff7928664dc68d3e2dd`, ngày 18/10/2026. Các lượt chạy không được cộng dồn thành một số tests duy nhất.
 
 | Kiểm tra | Kết quả quan sát | Log / ghi chú |

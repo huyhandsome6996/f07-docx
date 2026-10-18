@@ -1,0 +1,30 @@
+{
+  "refs_checked_at_utc": "2026-10-18T08:55:40.160788+00:00",
+  "branch": "tinh-nang/f07-tam-trang-va-chia-se-us015-us026",
+  "branch_and_pr_head": "bb75b2cee314bd5dfea3fff7928664dc68d3e2dd",
+  "remote_refs": [
+    "bb75b2cee314bd5dfea3fff7928664dc68d3e2dd\trefs/heads/tinh-nang/f07-tam-trang-va-chia-se-us015-us026",
+    "bb75b2cee314bd5dfea3fff7928664dc68d3e2dd\trefs/pull/42/head"
+  ],
+  "test_evidence_completed_utc": {
+    "mysql-regressions.log": "2026-10-18T08:48:57.075123+00:00",
+    "mysql-create-race.log": "2026-10-18T08:49:28.226894+00:00",
+    "browser-review.log": "2026-10-18T08:49:09.199032+00:00"
+  },
+  "scope": "Fresh targeted rerun of all six findings on the latest F07 remote head; no new full-suite run and no application source changes.",
+  "mysql_regressions": {
+    "total": 3,
+    "failed": 3
+  },
+  "mysql_create_race": {
+    "total": 1,
+    "failed": 1,
+    "reason": "assertion expects sorted outcomes in the wrong order"
+  },
+  "browser": {
+    "observations": 9,
+    "passed": 4,
+    "failed": 5
+  },
+  "ready_for_normal_user_acceptance": false
+}

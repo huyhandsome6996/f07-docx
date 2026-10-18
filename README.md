@@ -6,6 +6,12 @@
 
 **F07 ở commit `bb75b2c` còn 6 finding, gồm 2 lỗi ảnh hưởng riêng tư.** Đã chạy kiểm tra bổ sung trên MySQL 8.4 và Chromium; chưa đạt nghiệm thu toàn bộ.
 
+Lần kiểm tra lại đầu F07 mới nhất vẫn tái hiện đủ 6 finding. **Chưa đạt điều kiện bàn giao nghiệm thu như người dùng bình thường.**
+
+- [Prompt mới nhất để copy](PROMPT-COPY-F07.md).
+- [Kết quả recheck và log mới](updates/2026-10-18-f07-review/recheck/README.md).
+- [Điều kiện để Huy tự kiểm thử bằng giao diện](updates/2026-10-18-f07-review/READY-FOR-USER-TEST.md).
+
 - [Bắt đầu với kết quả review](updates/2026-10-18-f07-review/README.md).
 - [6 finding và tiêu chí sửa](updates/2026-10-18-f07-review/FINDINGS.md).
 - [Kết quả tests mới](updates/2026-10-18-f07-review/TEST-RESULTS.md) và [25 tiêu chí nghiệm thu](updates/2026-10-18-f07-review/ACCEPTANCE.md).
@@ -48,10 +54,11 @@ git clone https://github.com/huyhandsome6996/f07-docx.git
 cd f07-docx
 python3 tools/bundles.py list
 python3 tools/bundles.py verify
+python3 tools/bundles.py extract 10 --dest /tmp/f07-reading
 python3 tools/bundles.py extract 01 --dest /tmp/f07-reading
 ```
 
-Sau đó đọc theo thứ tự tại `/tmp/f07-reading/`:
+Đọc `updates/2026-10-18-f07-review/recheck/README.md` và prompt mới trong gói 10 trước. Sau đó đọc bối cảnh lịch sử tại `/tmp/f07-reading/`:
 
 1. `00-READ-ME-FIRST-VI.md` và `01-START-HERE-EN.md`.
 2. `02-F07-DETAILED-MISSION-VI.md` và `03-F07-ACCEPTANCE-VI.md`.
