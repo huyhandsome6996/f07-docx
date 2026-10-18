@@ -1,0 +1,23 @@
+[PASS] health public 200 — status=200
+[PASS] login student (HSZE2E01) — status=200
+[PASS] login caregiver (PHZE2E01) — status=200
+[PASS] login stranger (HSZE2E99) — status=200
+[PASS] tạo mục hôm nay (riêng tư mặc định) — status=201 entry_date=2026-10-18
+[PASS] trùng ngày bị từ chối đúng contract — status=400
+[PASS] validation enum/note/uuid -> 400 envelope — enum=True note=True uuid=True
+[PASS] phân trang page_size=2 và 50 hoạt động thật — p2=2 p50=6
+[PASS] stranger đọc detail -> 404 — status=404
+[PASS] share sai UUID -> 400 (không 500) — status=400
+[PASS] share mục hôm nay cho PH (expected_revision=1) — status=201 share_id=4af72bb1-6133-4cf1-bebf-e84bd84aacf2
+[PASS] PH đọc đúng mục được chia sẻ (note nguyên vẹn) — list=200/1 detail=200
+[PASS] stranger dùng share_id của HS/PH -> 404 — status=404
+[PASS] sửa -> PH không đọc tiếp bản cũ; trạng thái stale_revision trung thực — edit=200 read=404 grant=stale_revision
+[PASS] xác nhận preview cũ -> 409 stale (v2 không lọt) — status=409
+[PASS] chia sẻ lại bản v2 -> PH đọc được revision 2 — status=201
+[PASS] PH đọc bản v2 — status=200
+[PASS] thu hồi -> 404 ngay + trạng thái revoked — revoke=200 read=404 grant=revoked
+[PASS] share lại sau thu hồi -> grant active trở lại (không trả row revoked) — status=201
+[PASS] F15 revoke mood_entry -> F07 read chặn ngay — f15=200 read=404
+[PASS] hủy kết nối -> danh sách phía nhận rỗng — revoke=200 list_empty=True
+
+TỔNG: 21/21 PASS

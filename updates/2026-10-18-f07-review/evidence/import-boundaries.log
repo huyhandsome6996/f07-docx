@@ -1,0 +1,24 @@
+══════════════════════════════════════════════════════════════════════════
+ Family Bridge — check import boundaries (ADR-4, W1-c)
+ Repo: /workspace/family-bridge-f07-review
+══════════════════════════════════════════════════════════════════════════
+
+ Vùng                                        nodes js/ht asset  bare unres
+ ─────────────────────────────────────────────────────────────────────────
+ web closure (web/)                        64    60     4     0     0
+ mini closure (zalo-mini-app/)             72    67     4     1     0
+ shared src (quét token thuần)             10     —     —     —     —
+   ↳ shared reachable từ mini               9     —     —     —     —
+   ↳ shared reachable từ web                9     —     —     —     —
+
+ Assertions:
+   (a) web closure không chứa zalo-mini-app/**          PASS
+   (b) mini closure không chứa web/**                   PASS
+   (c) shared thuần (không DOM/SDK/storage)             PASS
+   (d) web không zmp-sdk/localStorage./sessionStorage.  PASS
+   (e) web closure không bare import zmp-sdk            PASS
+
+ ✅ Không có vi phạm biên giới import.
+══════════════════════════════════════════════════════════════════════════
+ KẾT LUẬN: SẠCH — exit 0
+══════════════════════════════════════════════════════════════════════════

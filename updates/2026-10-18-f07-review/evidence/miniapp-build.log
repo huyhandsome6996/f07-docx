@@ -1,0 +1,67 @@
+
+> zalo-mini-app@0.3.0 build
+> vite build && node scripts/verify-build.mjs
+
+vite v8.3.4 building client environment for production...
+transforming...
+✓ 74 modules transformed.
+rendering chunks...
+computing gzip size...
+www/index.html                                    0.81 kB │ gzip:  0.46 kB
+www/app-config.json                               1.99 kB │ gzip:  0.75 kB
+www/assets/BeVietnamPro-Regular.ttf             132.94 kB
+www/assets/BeVietnamPro-Medium.ttf              135.98 kB
+www/assets/BeVietnamPro-SemiBold.ttf            136.73 kB
+www/assets/BeVietnamPro-Bold.ttf                140.30 kB
+www/assets/hero-welcome-tea.jpg                 155.73 kB
+www/assets/logo-mark-transparent.png            168.88 kB
+www/assets/logo-lockup-transparent.png          321.44 kB
+www/assets/index.css                             65.73 kB │ gzip:  9.64 kB
+www/assets/demo-banner-HObV4-Z2.module.js         0.16 kB │ gzip:  0.17 kB
+www/assets/logo-B7QkplaF.module.js                0.36 kB │ gzip:  0.28 kB
+www/assets/skeleton-BuqhO-xE.module.js            0.43 kB │ gzip:  0.33 kB
+www/assets/button-DYpQO_ek.module.js              0.48 kB │ gzip:  0.31 kB
+www/assets/card-DMgSimR1.module.js                0.60 kB │ gzip:  0.36 kB
+www/assets/nav-ByCpkiKC.module.js                 0.67 kB │ gzip:  0.31 kB
+www/assets/diary-Z7ieqKbo.module.js               0.67 kB │ gzip:  0.44 kB
+www/assets/not-found-DdjRLhj7.module.js           0.75 kB │ gzip:  0.47 kB
+www/assets/empty-state-B93xLM8T.module.js         0.79 kB │ gzip:  0.45 kB
+www/assets/top-bar-CMzzxStr.module.js             0.84 kB │ gzip:  0.50 kB
+www/assets/error-state-UYQBP7UZ.module.js         0.91 kB │ gzip:  0.52 kB
+www/assets/bottom-nav-Ht8AvHqJ.module.js          0.94 kB │ gzip:  0.55 kB
+www/assets/role-select-CjudTe76.module.js         1.43 kB │ gzip:  0.76 kB
+www/assets/status-badge-Ct75YyEC.module.js        1.66 kB │ gzip:  0.56 kB
+www/assets/dialog-D6XxmuwD.module.js              1.69 kB │ gzip:  0.84 kB
+www/assets/help-DZeip3NP.module.js                1.71 kB │ gzip:  0.89 kB
+www/assets/sheet-Bo4QTMLi.module.js               1.74 kB │ gzip:  0.92 kB
+www/assets/how-to-use-DkXsm04-.module.js          2.05 kB │ gzip:  1.07 kB
+www/assets/companion-D-MLtRnj.module.js           2.15 kB │ gzip:  1.15 kB
+www/assets/app-shell-CsElV3cz.module.js           3.18 kB │ gzip:  1.30 kB
+www/assets/welcome-CE5OXwcc.module.js             3.42 kB │ gzip:  1.48 kB
+www/assets/connection-check-CN7VHUF6.module.js    3.88 kB │ gzip:  1.64 kB
+www/assets/mood-shared-CPyt0Ctm.module.js         4.20 kB │ gzip:  1.76 kB
+www/assets/profile-p0Ii6tzC.module.js             4.23 kB │ gzip:  1.87 kB
+www/assets/consent-O4z-UZfT.module.js             4.84 kB │ gzip:  2.22 kB
+www/assets/mailbox-jMKLcwWS.module.js             9.60 kB │ gzip:  3.83 kB
+www/assets/message-U6LUXILy.module.js            10.72 kB │ gzip:  4.03 kB
+www/assets/settings-Du6EE-Ti.module.js           11.10 kB │ gzip:  3.70 kB
+www/assets/login-CQGxlGE_.module.js              11.72 kB │ gzip:  4.39 kB
+www/assets/cards-Bn23_Wrq.module.js              11.73 kB │ gzip:  4.50 kB
+www/assets/mood-DIuAHnLQ.module.js               13.47 kB │ gzip:  4.89 kB
+www/assets/proposal-Dh28ENX8.module.js           13.62 kB │ gzip:  4.48 kB
+www/assets/signal-D4g-ybmS.module.js             13.72 kB │ gzip:  4.86 kB
+www/assets/privacy-B-zCixJB.module.js            14.59 kB │ gzip:  5.05 kB
+www/assets/connect-BP4rfenc.module.js            19.57 kB │ gzip:  6.40 kB
+www/assets/compose-CqnWFgZX.module.js            23.15 kB │ gzip:  7.34 kB
+www/assets/home-BoEGTDrL.module.js               26.07 kB │ gzip:  7.68 kB
+www/assets/icon-Bnvw83HZ.module.js               26.46 kB │ gzip:  8.64 kB
+www/assets/app.module.js                         57.62 kB │ gzip: 15.55 kB
+www/assets/index.umd-j_zNid9d.module.js         249.19 kB │ gzip: 62.62 kB
+
+✓ built in 580ms
+Verified Zalo app-config and all referenced assets
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

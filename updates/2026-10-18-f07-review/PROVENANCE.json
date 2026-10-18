@@ -1,0 +1,20 @@
+{
+  "date": "2026-10-18",
+  "application_repository": "https://github.com/huyhandsome6996/family-bridge",
+  "branch": "tinh-nang/f07-tam-trang-va-chia-se-us015-us026",
+  "commit": "bb75b2cee314bd5dfea3fff7928664dc68d3e2dd",
+  "main_at_review": "571abcb7916954964d82e0aa27e7661e7d7efd83",
+  "pull_request": "https://github.com/huyhandsome6996/family-bridge/pull/42",
+  "tracked_application_files_changed_by_reviewer": false,
+  "branch_snapshot_scope": "46 tracked files changed against the merge base with main; partial reference, not a runnable checkout",
+  "runtime": {
+    "python": "3.12.14",
+    "node": "24.19.0",
+    "django": "5.2.18",
+    "djangorestframework": "3.17.2",
+    "mysql_server": "8.4.11",
+    "mysqlclient": "2.2.8",
+    "chromium": "154.0.8037.57",
+    "mysql_image_digest": "sha256:24989179f58856db763f418010c1169fecc944e3ec1ea7e921572d83eb070f70"
+  }
+}

@@ -1,5 +1,7 @@
 # Bằng chứng đóng gói — 18/10/2026
 
+Ghi nhận bên dưới thuộc đợt đóng gói lịch sử 00–09. Bổ sung gói 10 và kiểm tra runtime mới được mô tả riêng tại `../updates/2026-10-18-f07-review/TEST-RESULTS.md`; không áp giới hạn “không chạy F07” của đợt cũ cho đợt review mới.
+
 Phạm vi: tổ chức gói đính kèm vào kho tài liệu. Không chạy nhiệm vụ F07 hay script có sẵn bên trong ZIP.
 
 - ZIP đầu vào: 946 tệp, 18.525.248 byte sau giải nén. ZIP gốc được lưu nguyên byte ở `bundles/00-original/`.

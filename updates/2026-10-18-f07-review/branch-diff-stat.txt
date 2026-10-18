@@ -1,0 +1,47 @@
+ docs/features/f07/manifest.json                    |  20 +-
+ docs/features/f07/report.md                        |  43 ++
+ docs/features/f07/test.md                          |  53 ++
+ docs/handover/README.md                            |   1 +
+ .../f07-mood-sharing/ANTIGRAVITY-DEPLOY-HANDOFF.md |  47 ++
+ docs/handover/f07-mood-sharing/HUY-TEST-F07.md     |  49 ++
+ docs/handover/f07-mood-sharing/README.md           |  71 +++
+ .../f07-mood-sharing/architecture-and-contracts.md |  96 ++++
+ .../branch-compatibility-report.md                 |  56 ++
+ docs/handover/f07-mood-sharing/next-agent.md       |  52 ++
+ .../handover/f07-mood-sharing/privacy-lifecycle.md |  75 +++
+ docs/handover/f07-mood-sharing/reading-map.md      |  39 ++
+ docs/handover/f07-mood-sharing/review-rounds.md    |  72 +++
+ .../screenshots/01-mood-page-hs.png                | Bin 0 -> 70475 bytes
+ .../f07-mood-sharing/screenshots/02-mood-saved.png | Bin 0 -> 79800 bytes
+ .../screenshots/03-share-sheet.png                 | Bin 0 -> 72042 bytes
+ .../screenshots/04-share-grants.png                | Bin 0 -> 71475 bytes
+ .../screenshots/05-shared-list-ph.png              | Bin 0 -> 40239 bytes
+ .../screenshots/06-shared-detail-ph.png            | Bin 0 -> 59488 bytes
+ .../screenshots/07-revoked-blocked.png             | Bin 0 -> 54019 bytes
+ .../f07-mood-sharing/team-and-ownership.md         |  47 ++
+ .../f07-mood-sharing/verification-report.md        |  99 ++++
+ packages/family_bridge_features/f07_mood/api.py    |  42 +-
+ packages/family_bridge_features/f07_mood/apps.py   |  69 +++
+ packages/family_bridge_features/f07_mood/models.py |  15 +
+ .../f07_mood/services/__init__.py                  |   9 +
+ .../f07_mood/services/deletion.py                  |  39 ++
+ .../f07_mood/services/grant_provider.py            |  99 ++++
+ .../f07_mood/services/mood.py                      | 221 ++++++--
+ .../f07_mood/tests/test_f07_integration.py         | 241 +++++++++
+ .../f07_mood/tests/test_f07_regressions.py         | 291 ++++++++++
+ .../f07_mood/tests/test_race_mysql.py              | 107 ++++
+ packages/family_bridge_mobile/f07_mood/api.js      |  17 +-
+ .../family_bridge_shared/src/adapter/contract.js   |  10 +-
+ .../src/adapter/http-endpoints.js                  | 106 +++-
+ .../src/adapter/mock-adapter.js                    |  51 ++
+ .../tests/http-endpoints.test.mjs                  |  78 ++-
+ .../family_bridge_shared/tests/purity.test.mjs     |   2 +-
+ scripts/f07_local_e2e.py                           | 279 ++++++++++
+ scripts/f07_local_fixtures.py                      |  95 ++++
+ zalo-mini-app/src/app/router.js                    |   3 +
+ zalo-mini-app/src/pages/home/index.js              |  13 +-
+ zalo-mini-app/src/pages/mood-shared/index.js       | 189 +++++++
+ zalo-mini-app/src/pages/mood/index.js              | 583 +++++++++++++++++++++
+ zalo-mini-app/src/pages/profile/index.js           |  22 +
+ zalo-mini-app/tests/f07-mood.test.mjs              | 413 +++++++++++++++
+ 46 files changed, 3733 insertions(+), 81 deletions(-)

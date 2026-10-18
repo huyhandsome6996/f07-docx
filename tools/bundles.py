@@ -31,6 +31,13 @@ def load_catalog():
         raise ValueError('Duplicate bundle IDs')
     with (ROOT / 'catalog/CONTENTS.csv').open(newline='', encoding='utf-8') as f:
         rows = list(csv.DictReader(f))
+    extra_catalogs = {b['contents_file'] for b in bundles.values() if b.get('contents_file')}
+    for name in sorted(extra_catalogs):
+        inventory = ROOT.joinpath(*safe_path(name).parts)
+        if not inventory.resolve().is_relative_to(ROOT):
+            raise ValueError('Inventory escapes repository')
+        with inventory.open(newline='', encoding='utf-8') as f:
+            rows.extend(csv.DictReader(f))
     if len({r['path'] for r in rows}) != len(rows):
         raise ValueError('Duplicate catalog file paths')
     return catalog, bundles, rows
@@ -70,7 +77,8 @@ def check_rows(data, rows):
 
 def verify(catalog, bundles, rows):
     original = read_bundle(bundles['00'])
-    check_rows(original, rows)
+    source_rows = [r for r in rows if bundles.get(r['bundle_id'], {}).get('role') == 'partition']
+    check_rows(original, source_rows)
     manifest = list(csv.DictReader(io.StringIO(original['MANIFEST-SHA256.csv'].decode('utf-8-sig'))))
     if len({r['Path'] for r in manifest}) != len(manifest):
         raise ValueError('Duplicate paths in original manifest')
@@ -81,6 +89,7 @@ def verify(catalog, bundles, rows):
         if len(raw) != int(row['Bytes']) or sha(raw).lower() != row['SHA256'].lower():
             raise ValueError('Original input manifest mismatch')
     seen = set()
+    update_count = 0
     for key, bundle in bundles.items():
         if key == '00':
             continue
@@ -89,6 +98,11 @@ def verify(catalog, bundles, rows):
         if any(r['archive'] != bundle['archive'] for r in selected):
             raise ValueError('Catalog archive mapping mismatch')
         check_rows(data, selected)
+        if bundle.get('role') == 'review_update':
+            update_count += len(data)
+            continue
+        if bundle.get('role') != 'partition':
+            raise ValueError(f'Unsupported bundle role: {key}')
         if seen.intersection(data):
             raise ValueError('File appears in multiple partition bundles')
         for name, raw in data.items():
@@ -100,12 +114,16 @@ def verify(catalog, bundles, rows):
     expected = ''.join(f"{b['sha256']}  {b['archive']}\n" for b in bundles.values())
     if (ROOT / 'catalog/SHA256SUMS').read_text(encoding='utf-8') != expected:
         raise ValueError('SHA256SUMS mismatch')
-    print(f"OK: {len(bundles)} ZIPs; {len(original)} files preserved; {len(manifest)} original manifest hashes matched; partitions complete, disjoint and byte-identical.")
+    print(f"OK: {len(bundles)} ZIPs; {len(original)} original files preserved; {len(manifest)} original manifest hashes matched; partitions complete, disjoint and byte-identical; {update_count} update files verified.")
 
 
 def extract(bundle, rows, destination: str):
     data = read_bundle(bundle)
-    selected = rows if bundle['id'] == '00' else [r for r in rows if r['bundle_id'] == bundle['id']]
+    if bundle['id'] == '00':
+        with (ROOT / 'catalog/CONTENTS.csv').open(newline='', encoding='utf-8') as f:
+            selected = list(csv.DictReader(f))
+    else:
+        selected = [r for r in rows if r['bundle_id'] == bundle['id']]
     check_rows(data, selected)
     dest = Path(destination).absolute()
     if dest.is_symlink() or (dest / '.git').exists() or dest.resolve().is_relative_to(ROOT):

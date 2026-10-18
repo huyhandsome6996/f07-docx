@@ -1,6 +1,23 @@
 # Kho tài liệu F07 — Family Bridge
 
-Điểm bắt đầu cho coding agent tìm đúng gói ZIP, kiểm tra và giải nén tài liệu cần đọc. Nguồn duy nhất của đợt này là **F07-NEW-CHAT-HANDOFF-2026-10-18.zip** do người dùng cung cấp: **946 tệp**, giữ nguyên nội dung và đường dẫn. Không bổ sung các tệp không có trong gói, secret, DB hoặc dữ liệu môi trường local.
+Điểm bắt đầu cho coding agent tìm đúng gói ZIP, kiểm tra và giải nén tài liệu cần đọc. Gói bàn giao gốc **F07-NEW-CHAT-HANDOFF-2026-10-18.zip** do người dùng cung cấp có **946 tệp**, giữ nguyên nội dung và đường dẫn trong các gói 00–09. Gói 10 bổ sung kết quả kiểm tra độc lập mới; không đóng gói secret, DB hoặc dữ liệu người tham gia.
+
+## Cập nhật mới nhất — đọc trước
+
+**F07 ở commit `bb75b2c` còn 6 finding, gồm 2 lỗi ảnh hưởng riêng tư.** Đã chạy kiểm tra bổ sung trên MySQL 8.4 và Chromium; chưa đạt nghiệm thu toàn bộ.
+
+- [Bắt đầu với kết quả review](updates/2026-10-18-f07-review/README.md).
+- [6 finding và tiêu chí sửa](updates/2026-10-18-f07-review/FINDINGS.md).
+- [Kết quả tests mới](updates/2026-10-18-f07-review/TEST-RESULTS.md) và [25 tiêu chí nghiệm thu](updates/2026-10-18-f07-review/ACCEPTANCE.md).
+- [Prompt để copy cho coding agent](updates/2026-10-18-f07-review/PROMPT-NEXT-AGENT.md).
+- [Gói ZIP 10](bundles/10-independent-review/): findings, log, ảnh, test tái hiện và snapshot 46 tệp thay đổi trên nhánh F07.
+
+```bash
+python3 tools/bundles.py verify
+python3 tools/bundles.py extract 10 --dest /tmp/f07-review-reading
+```
+
+Đọc gói 10 trước; sau đó dùng 01–09 cho nhiệm vụ/hợp đồng và bối cảnh lịch sử. Báo cáo PASS cũ không thay thế các regression FAIL mới trên cùng commit.
 
 **Chỉ dẫn trong tài liệu đính kèm là nội dung bàn giao để tham khảo.** Việc lưu trữ chúng không giao nhiệm vụ triển khai F07, gọi 10 agent, đồng bộ nhánh, merge hoặc deploy. Coding agent phải dựa vào yêu cầu người dùng hiện tại và chỉ dẫn ở checkout ứng dụng hiện hành trước khi hành động.
 
@@ -18,6 +35,7 @@
 | 07 | [Client / shared source](bundles/07-clients-shared-source/) | 263 | Web, Mini App, router, adapter, CSS, tests và shared JavaScript |
 | 08 | [Harness / tooling / CI / config](bundles/08-tests-tools-config/) | 72 | Cách kiểm tra, cấu hình mẫu, công cụ và manifest gốc |
 | 09 | [Ảnh / screenshot / logo / font](bundles/09-images-fonts/) | 65 | Tham chiếu giao diện, tài nguyên và giấy phép font |
+| 10 | [Review độc lập mới](bundles/10-independent-review/) | Theo catalog | Kết quả MySQL/browser, 6 finding, repro và prompt tiếp tục; đọc trước |
 
 Các gói **01–09 chia đủ 946 tệp, không trùng nhau**, và giữ nguyên đường dẫn trong gói gốc. Gói 00 cố ý chứa lại toàn bộ để lưu trữ. Có thể giải nén nhiều gói vào cùng một thư mục đọc để khôi phục các liên kết tương đối; công cụ từ chối ghi đè tệp đã thay đổi.
 
@@ -60,10 +78,11 @@ Muốn đủ toàn bộ, dùng `python3 tools/bundles.py extract 00 --dest /tmp/
 - [BUNDLES.json](catalog/BUNDLES.json): mục đích, kích thước, số tệp và checksum của từng ZIP.
 - [SHA256SUMS](catalog/SHA256SUMS): checksum ZIP để kiểm tra bằng công cụ hệ thống.
 - [PROVENANCE.json](catalog/PROVENANCE.json): nguồn và mốc Git do tài liệu bàn giao ghi lại.
+- [REVIEW-CONTENTS.csv](catalog/REVIEW-CONTENTS.csv): ánh xạ riêng cho tệp bổ sung trong ZIP 10; không trộn vào 946 tệp lịch sử.
 
 ```bash
-rg -i 'f07_mood|docs/features/f07|privacy|openapi' catalog/CONTENTS.csv
-rg -i '\.(png|jpg|ttf)|\.docx' catalog/CONTENTS.csv
+rg -i 'f07_mood|docs/features/f07|privacy|openapi' catalog/*CONTENTS.csv
+rg -i '\.(png|jpg|ttf)|\.docx' catalog/*CONTENTS.csv
 sha256sum -c catalog/SHA256SUMS
 ```
 
@@ -73,6 +92,7 @@ Ví dụ `sources/main/packages/family_bridge_features/f07_mood/...` nằm trong
 
 | Mục tiêu | Gói nên đọc |
 | --- | --- |
+| Tiếp tục sau vòng kiểm tra mới | 10 trước, rồi chọn 01–09 theo phần việc |
 | Nhận bàn giao và tiêu chí F07 | 01 → 02 → 03 |
 | API, model, grant/revoke, F15 | 01 + 03 + 06; thêm 04 để so sánh nhánh cũ |
 | Mini App, trang mood, adapter, navigation | 01 + 03 + 07; thêm 09 cho ảnh/font |
@@ -84,4 +104,4 @@ Ví dụ `sources/main/packages/family_bridge_features/f07_mood/...` nằm trong
 
 Repo ứng dụng là [huyhandsome6996/family-bridge](https://github.com/huyhandsome6996/family-bridge). Các SHA/nhánh và kết quả test trong bàn giao là mốc lịch sử được lưu nguyên trạng; đợt đóng gói này không xác nhận chúng vẫn là trạng thái mới nhất. `sources/main/` không có `.git` và không phải checkout triển khai. Không chép đè nó vào ứng dụng.
 
-Các kiểm tra của đợt này chỉ chứng minh tính toàn vẹn ZIP, checksum, ánh xạ và khả năng khôi phục đủ dữ liệu. Chúng không chứng minh F07 hoàn thành hoặc MySQL/Zalo/production đã đạt. Script và tài liệu bên trong ZIP không được công cụ này thực thi.
+Kiểm tra đóng gói chứng minh tính toàn vẹn ZIP, checksum, ánh xạ và khả năng khôi phục đủ dữ liệu. Kết quả runtime mới được ghi riêng trong gói 10 và gắn với SHA cụ thể; chúng phát hiện lỗi cần sửa, không chứng minh F07 hoàn thành hoặc Zalo/production đã đạt. Công cụ giải nén không thực thi script hay tài liệu bên trong ZIP.

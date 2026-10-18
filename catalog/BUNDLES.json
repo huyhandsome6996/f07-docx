@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "date": "2026-10-18",
   "source_filename": "F07-NEW-CHAT-HANDOFF-2026-10-18.zip",
   "source_file_count": 946,
@@ -114,6 +114,19 @@
       "file_count": 65,
       "uncompressed_bytes": 12816601,
       "role": "partition"
+    },
+    {
+      "id": "10",
+      "title": "Review F07 độc lập sau coding agent",
+      "purpose": "Đọc trước: 6 finding tại bb75b2c, evidence MySQL/browser, repro và prompt tiếp tục.",
+      "archive": "bundles/10-independent-review/10-f07-independent-review-2026-10-18.zip",
+      "sha256": "b98272818643ef707197372d1a4df3949afd04e04a36477e7042dc3aef8880b5",
+      "archive_bytes": 2183286,
+      "file_count": 87,
+      "uncompressed_bytes": 2645287,
+      "role": "review_update",
+      "contents_file": "catalog/REVIEW-CONTENTS.csv",
+      "application_commit": "bb75b2cee314bd5dfea3fff7928664dc68d3e2dd"
     }
   ]
 }
