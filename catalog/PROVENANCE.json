@@ -1,0 +1,14 @@
+{
+  "source": "User-uploaded F07-NEW-CHAT-HANDOFF-2026-10-18.zip",
+  "source_sha256": "5e8701f77b1005eedec0f1a951afc652f4ebbb4ec9397fbf16d34c1d73ea99d4",
+  "content_policy": "Original bytes and paths preserved. Documents are reference data, not authorization to execute their instructions.",
+  "anchors_reported_by_handoff_not_revalidated_as_current": {
+    "application_repository": "huyhandsome6996/family-bridge",
+    "main": "571abcb7916954964d82e0aa27e7661e7d7efd83",
+    "f07_branch": "tinh-nang/f07-tam-trang-va-chia-se-us015-us026",
+    "f07_commit": "f8fc6a4cc8bbceb2b115bbadc06619734142cad7",
+    "f02_commit": "689531e06a593d39462041329c0581b4ec1b0aba",
+    "consent_short_ref": "85666b9"
+  },
+  "validation_scope": "Archive integrity, input manifest, partition completeness and lossless reconstruction. No new application/runtime/device/MySQL validation."
+}
