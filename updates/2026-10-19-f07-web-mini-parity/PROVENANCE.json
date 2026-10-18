@@ -1,0 +1,68 @@
+{
+  "client_date": "2026-10-19",
+  "checked_at_utc": "2026-10-18T18:42:42.127265+00:00",
+  "client_timezone": "Asia/Bangkok",
+  "application_commit": "bb75b2cee314bd5dfea3fff7928664dc68d3e2dd",
+  "remote_refs": [
+    "ee1346a32bb5adaee7fdb7e842fceb7b9b8c32d0\trefs/heads/main",
+    "bb75b2cee314bd5dfea3fff7928664dc68d3e2dd\trefs/heads/tinh-nang/f07-tam-trang-va-chia-se-us015-us026",
+    "bb75b2cee314bd5dfea3fff7928664dc68d3e2dd\trefs/pull/42/head"
+  ],
+  "application_branch": "tinh-nang/f07-tam-trang-va-chia-se-us015-us026",
+  "pull_request": "https://github.com/huyhandsome6996/family-bridge/pull/42",
+  "application_tracked_source_changed_by_reviewer": false,
+  "scope": "Latest F07 head, existing R01-R06 regressions and new web/Mini App UI parity requirement. Existing full backend suite results remain historical.",
+  "test_services": {
+    "backend": "127.0.0.1:8019",
+    "mini": "127.0.0.1:3019",
+    "web": "127.0.0.1:5179",
+    "mysql": "MySQL 8.4.11, loopback disposable Docker instance"
+  },
+  "fixture_scope": "HSZE2E01 existing synthetic account for lifecycle; HSPAR19/PHPAR19 dedicated synthetic parity pair, no participant data",
+  "reference_files": [
+    {
+      "path": "web/src/app/router.js",
+      "sha256": "33a5995959144e8d9add4132265841b4d27a7c36fa884d53d500ad4d06aba105"
+    },
+    {
+      "path": "web/src/pages/diary/index.js",
+      "sha256": "5ec3556c4e61a7e010e7993382a9ed963be96fd18daa16d7882d4e122dd58c2f"
+    },
+    {
+      "path": "web/src/pages/home/index.js",
+      "sha256": "7e1c48352f3b92bfef24c4b68b23466390fa5db7854157a3eac2deec996e9db3"
+    },
+    {
+      "path": "web/src/pages/profile/index.js",
+      "sha256": "c9b993bdeebb1199d46228377053bd9c998717c572c5ce37fef7765f0728cac9"
+    },
+    {
+      "path": "web/src/adapter/web-adapter.js",
+      "sha256": "2788feb02469e8295687e4d53df2847ddb4050053c815b591294d74af5c6d84d"
+    },
+    {
+      "path": "zalo-mini-app/src/app/router.js",
+      "sha256": "7f0761a8d7fd3760bf675ae5da20ce4534c2b12d2918db4949b578a01a830132"
+    },
+    {
+      "path": "zalo-mini-app/src/pages/mood/index.js",
+      "sha256": "ac40928a476b8c61182dc4344a575cb4d9f88277074db4570aa746f5cdcbc934"
+    },
+    {
+      "path": "zalo-mini-app/src/pages/mood-shared/index.js",
+      "sha256": "a350d5b75400a8bdf681a334195327b986c85cf0b4ab1e1e0f5ec7e04b1f54aa"
+    },
+    {
+      "path": "zalo-mini-app/src/pages/profile/index.js",
+      "sha256": "0aa2170b9a65eeba6f2529920efdefd5fb56d895fa022b06860d15a3b4578fce"
+    },
+    {
+      "path": "packages/family_bridge_shared/src/adapter/http-endpoints.js",
+      "sha256": "3b1ab9cc96ec28f7b0c5b41c8926724bc2ff7565ec25c106ae242f2192e94dba"
+    },
+    {
+      "path": "packages/family_bridge_shared/src/adapter/contract.js",
+      "sha256": "6d01ae2142c284ffc67f04ee33336a17e4a176424257d1c134604c266b847b8a"
+    }
+  ]
+}

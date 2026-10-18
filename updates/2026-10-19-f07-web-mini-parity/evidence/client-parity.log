@@ -1,0 +1,13 @@
+PASS mini-real-login: 200
+PASS mini-shared-adapter-real-api: {"allEightMethods":true,"listed":1,"detailRead":true}
+PASS mini-route-mood: ["mood"]
+PASS mini-route-mood-shared: ["mood-shared"]
+PASS mini-profile-f07-navigation: {"owner":1,"recipient":1}
+PASS web-real-login: 200
+PASS web-shared-adapter-real-api: {"allEightMethods":true,"listed":1,"detailRead":true}
+FAIL web-route-mood: ["not-found"]
+FAIL web-route-mood-shared: ["not-found"]
+FAIL web-profile-f07-navigation: {"owner":0,"recipient":0}
+PASS web-home-quick-mood-api-1: 400
+PASS web-home-quick-mood-api-2: 400
+INFO web-home-edit-placeholder true

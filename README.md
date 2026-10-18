@@ -1,8 +1,27 @@
 # Kho tài liệu F07 — Family Bridge
 
-Điểm bắt đầu cho coding agent tìm đúng gói ZIP, kiểm tra và giải nén tài liệu cần đọc. Gói bàn giao gốc **F07-NEW-CHAT-HANDOFF-2026-10-18.zip** do người dùng cung cấp có **946 tệp**, giữ nguyên nội dung và đường dẫn trong các gói 00–09. Gói 10 bổ sung kết quả kiểm tra độc lập mới; không đóng gói secret, DB hoặc dữ liệu người tham gia.
+Điểm bắt đầu cho coding agent tìm đúng gói ZIP, kiểm tra và giải nén tài liệu cần đọc. Gói bàn giao gốc **F07-NEW-CHAT-HANDOFF-2026-10-18.zip** do người dùng cung cấp có **946 tệp**, giữ nguyên nội dung và đường dẫn trong các gói 00–09. Gói 10 lưu review cũ; gói 11 có yêu cầu và kiểm tra mới nhất cho web/Mini App. Không đóng gói secret, DB hoặc dữ liệu người tham gia.
 
 ## Cập nhật mới nhất — đọc trước
+
+**19/10/2026: F07 phải có UI gọi backend API thật trên cả web và Zalo Mini App. Bản bb75b2c chưa đạt: R01–R06 còn lỗi và R07 thiếu luồng web đầy đủ.**
+
+- [Bàn giao mới nhất](updates/2026-10-19-f07-web-mini-parity/README.md).
+- [Quyết định của Huy thay phần “không sửa web” cũ](updates/2026-10-19-f07-web-mini-parity/USER-DECISION-WEB-PARITY.md).
+- [Thiếu sót web R07](updates/2026-10-19-f07-web-mini-parity/FINDINGS-R07.md) và [kết quả kiểm thử mới](updates/2026-10-19-f07-web-mini-parity/TEST-RESULTS.md).
+- [Ma trận UI/API hai client và nghiệm thu chéo](updates/2026-10-19-f07-web-mini-parity/REQUIREMENTS-AND-ACCEPTANCE.md).
+- [Prompt mới nhất để copy](PROMPT-COPY-F07.md).
+- [ZIP 11](bundles/11-web-mini-parity/).
+
+```bash
+python3 tools/bundles.py verify
+python3 tools/bundles.py extract 11 --dest /tmp/f07-current-reading
+python3 tools/bundles.py extract 10 --dest /tmp/f07-current-reading
+```
+
+Đọc gói 11 trước. Web hiện có shared adapter và quick mood gọi API nhưng thiếu các trang F07; tests/build xanh chưa chứng minh parity. Hướng dẫn lịch sử cấm sửa web được supersede trong phạm vi F07 theo yêu cầu mới, vẫn bảo toàn phần việc khác.
+
+## Review 18/10 — bối cảnh lịch sử
 
 **F07 ở commit `bb75b2c` còn 6 finding, gồm 2 lỗi ảnh hưởng riêng tư.** Đã chạy kiểm tra bổ sung trên MySQL 8.4 và Chromium; chưa đạt nghiệm thu toàn bộ.
 
@@ -41,7 +60,8 @@ python3 tools/bundles.py extract 10 --dest /tmp/f07-review-reading
 | 07 | [Client / shared source](bundles/07-clients-shared-source/) | 263 | Web, Mini App, router, adapter, CSS, tests và shared JavaScript |
 | 08 | [Harness / tooling / CI / config](bundles/08-tests-tools-config/) | 72 | Cách kiểm tra, cấu hình mẫu, công cụ và manifest gốc |
 | 09 | [Ảnh / screenshot / logo / font](bundles/09-images-fonts/) | 65 | Tham chiếu giao diện, tài nguyên và giấy phép font |
-| 10 | [Review độc lập mới](bundles/10-independent-review/) | Theo catalog | Kết quả MySQL/browser, 6 finding, repro và prompt tiếp tục; đọc trước |
+| 10 | [Review 18/10](bundles/10-independent-review/) | Theo catalog | Kết quả MySQL/browser, R01–R06 và repro; dùng sau yêu cầu mới ở 11 |
+| 11 | [Web và Mini App F07](bundles/11-web-mini-parity/) | Theo catalog | Yêu cầu hiện hành, R07, ma trận hai client, bằng chứng và prompt mới nhất; đọc đầu tiên |
 
 Các gói **01–09 chia đủ 946 tệp, không trùng nhau**, và giữ nguyên đường dẫn trong gói gốc. Gói 00 cố ý chứa lại toàn bộ để lưu trữ. Có thể giải nén nhiều gói vào cùng một thư mục đọc để khôi phục các liên kết tương đối; công cụ từ chối ghi đè tệp đã thay đổi.
 
@@ -54,11 +74,12 @@ git clone https://github.com/huyhandsome6996/f07-docx.git
 cd f07-docx
 python3 tools/bundles.py list
 python3 tools/bundles.py verify
+python3 tools/bundles.py extract 11 --dest /tmp/f07-reading
 python3 tools/bundles.py extract 10 --dest /tmp/f07-reading
 python3 tools/bundles.py extract 01 --dest /tmp/f07-reading
 ```
 
-Đọc `updates/2026-10-18-f07-review/recheck/README.md` và prompt mới trong gói 10 trước. Sau đó đọc bối cảnh lịch sử tại `/tmp/f07-reading/`:
+Đọc `updates/2026-10-19-f07-web-mini-parity/README.md` và prompt trong gói 11 trước, sau đó đọc finding/tests ở gói 10. Bối cảnh ban đầu tại `/tmp/f07-reading/`:
 
 1. `00-READ-ME-FIRST-VI.md` và `01-START-HERE-EN.md`.
 2. `02-F07-DETAILED-MISSION-VI.md` và `03-F07-ACCEPTANCE-VI.md`.
@@ -77,7 +98,7 @@ python3 tools/bundles.py extract 07 --dest /tmp/f07-reading
 python3 tools/bundles.py extract 09 --dest /tmp/f07-reading
 ```
 
-Muốn đủ toàn bộ, dùng `python3 tools/bundles.py extract 00 --dest /tmp/f07-full` thay cho các bước chọn gói.
+Muốn đủ bộ gốc lịch sử, dùng `python3 tools/bundles.py extract 00 --dest /tmp/f07-full` thay cho việc chọn 01–09. Gói 00 không chứa cập nhật sau đó; vẫn lấy thêm 11 và 10 để có yêu cầu/bằng chứng mới.
 
 ## Tìm đúng tệp trước khi tải/giải nén
 
@@ -86,6 +107,7 @@ Muốn đủ toàn bộ, dùng `python3 tools/bundles.py extract 00 --dest /tmp/
 - [SHA256SUMS](catalog/SHA256SUMS): checksum ZIP để kiểm tra bằng công cụ hệ thống.
 - [PROVENANCE.json](catalog/PROVENANCE.json): nguồn và mốc Git do tài liệu bàn giao ghi lại.
 - [REVIEW-CONTENTS.csv](catalog/REVIEW-CONTENTS.csv): ánh xạ riêng cho tệp bổ sung trong ZIP 10; không trộn vào 946 tệp lịch sử.
+- [PARITY-CONTENTS.csv](catalog/PARITY-CONTENTS.csv): ánh xạ riêng cho yêu cầu/bằng chứng mới trong ZIP 11.
 
 ```bash
 rg -i 'f07_mood|docs/features/f07|privacy|openapi' catalog/*CONTENTS.csv
@@ -99,7 +121,7 @@ Ví dụ `sources/main/packages/family_bridge_features/f07_mood/...` nằm trong
 
 | Mục tiêu | Gói nên đọc |
 | --- | --- |
-| Tiếp tục sau vòng kiểm tra mới | 10 trước, rồi chọn 01–09 theo phần việc |
+| Tiếp tục theo yêu cầu web/Mini App mới | 11 trước, rồi 10 và chọn 01–09 theo phần việc |
 | Nhận bàn giao và tiêu chí F07 | 01 → 02 → 03 |
 | API, model, grant/revoke, F15 | 01 + 03 + 06; thêm 04 để so sánh nhánh cũ |
 | Mini App, trang mood, adapter, navigation | 01 + 03 + 07; thêm 09 cho ảnh/font |

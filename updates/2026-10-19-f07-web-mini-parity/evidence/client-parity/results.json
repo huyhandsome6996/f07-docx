@@ -1,0 +1,245 @@
+{
+  "scope": "Real local class-session and adapter API; route/navigation parity; synthetic parity fixtures only",
+  "results": [
+    {
+      "name": "mini-real-login",
+      "pass": true,
+      "observed": 200
+    },
+    {
+      "name": "mini-shared-adapter-real-api",
+      "pass": true,
+      "observed": {
+        "allEightMethods": true,
+        "listed": 1,
+        "detailRead": true
+      }
+    },
+    {
+      "name": "mini-route-mood",
+      "pass": true,
+      "observed": [
+        "mood"
+      ]
+    },
+    {
+      "name": "mini-route-mood-shared",
+      "pass": true,
+      "observed": [
+        "mood-shared"
+      ]
+    },
+    {
+      "name": "mini-profile-f07-navigation",
+      "pass": true,
+      "observed": {
+        "owner": 1,
+        "recipient": 1
+      }
+    },
+    {
+      "name": "web-real-login",
+      "pass": true,
+      "observed": 200
+    },
+    {
+      "name": "web-shared-adapter-real-api",
+      "pass": true,
+      "observed": {
+        "allEightMethods": true,
+        "listed": 1,
+        "detailRead": true
+      }
+    },
+    {
+      "name": "web-route-mood",
+      "pass": false,
+      "observed": [
+        "not-found"
+      ]
+    },
+    {
+      "name": "web-route-mood-shared",
+      "pass": false,
+      "observed": [
+        "not-found"
+      ]
+    },
+    {
+      "name": "web-profile-f07-navigation",
+      "pass": false,
+      "observed": {
+        "owner": 0,
+        "recipient": 0
+      }
+    },
+    {
+      "name": "web-home-quick-mood-api-1",
+      "pass": true,
+      "observed": 400
+    },
+    {
+      "name": "web-home-quick-mood-api-2",
+      "pass": true,
+      "observed": 400
+    }
+  ],
+  "requests": [
+    {
+      "client": "mini",
+      "method": "GET",
+      "path": "/api/v1/auth/class-capabilities",
+      "status": 200
+    },
+    {
+      "client": "mini",
+      "method": "POST",
+      "path": "/api/v1/auth/class-session",
+      "status": 200
+    },
+    {
+      "client": "mini",
+      "method": "GET",
+      "path": "/api/v1/consents",
+      "status": 200
+    },
+    {
+      "client": "mini",
+      "method": "GET",
+      "path": "/api/v1/consents",
+      "status": 200
+    },
+    {
+      "client": "mini",
+      "method": "GET",
+      "path": "/api/v1/mood/entries",
+      "status": 200
+    },
+    {
+      "client": "mini",
+      "method": "GET",
+      "path": "/api/v1/mood/entries/<id>",
+      "status": 200
+    },
+    {
+      "client": "mini",
+      "method": "GET",
+      "path": "/api/v1/mood/entries",
+      "status": 200
+    },
+    {
+      "client": "mini",
+      "method": "GET",
+      "path": "/api/v1/mood/entries",
+      "status": 200
+    },
+    {
+      "client": "mini",
+      "method": "GET",
+      "path": "/api/v1/mood/entries/summary",
+      "status": 200
+    },
+    {
+      "client": "mini",
+      "method": "GET",
+      "path": "/api/v1/messages",
+      "status": 200
+    },
+    {
+      "client": "mini",
+      "method": "GET",
+      "path": "/api/v1/mood/entries/summary",
+      "status": 200
+    },
+    {
+      "client": "mini",
+      "method": "GET",
+      "path": "/api/v1/messages",
+      "status": 200
+    },
+    {
+      "client": "mini",
+      "method": "GET",
+      "path": "/api/v1/mood/shared",
+      "status": 200
+    },
+    {
+      "client": "web",
+      "method": "GET",
+      "path": "/api/v1/auth/class-capabilities",
+      "status": 200
+    },
+    {
+      "client": "web",
+      "method": "POST",
+      "path": "/api/v1/auth/class-session",
+      "status": 200
+    },
+    {
+      "client": "web",
+      "method": "GET",
+      "path": "/api/v1/consents",
+      "status": 200
+    },
+    {
+      "client": "web",
+      "method": "GET",
+      "path": "/api/v1/consents",
+      "status": 200
+    },
+    {
+      "client": "web",
+      "method": "GET",
+      "path": "/api/v1/mood/entries",
+      "status": 200
+    },
+    {
+      "client": "web",
+      "method": "GET",
+      "path": "/api/v1/mood/entries/<id>",
+      "status": 200
+    },
+    {
+      "client": "web",
+      "method": "GET",
+      "path": "/api/v1/mood/entries",
+      "status": 200
+    },
+    {
+      "client": "web",
+      "method": "GET",
+      "path": "/api/v1/messages",
+      "status": 200
+    },
+    {
+      "client": "web",
+      "method": "GET",
+      "path": "/api/v1/messages",
+      "status": 200
+    },
+    {
+      "client": "web",
+      "method": "GET",
+      "path": "/api/v1/program/my",
+      "status": 200
+    },
+    {
+      "client": "web",
+      "method": "GET",
+      "path": "/api/v1/connections",
+      "status": 200
+    },
+    {
+      "client": "web",
+      "method": "POST",
+      "path": "/api/v1/mood/entries",
+      "status": 400
+    },
+    {
+      "client": "web",
+      "method": "POST",
+      "path": "/api/v1/mood/entries",
+      "status": 400
+    }
+  ]
+}

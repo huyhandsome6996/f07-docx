@@ -127,6 +127,19 @@
       "role": "review_update",
       "contents_file": "catalog/REVIEW-CONTENTS.csv",
       "application_commit": "bb75b2cee314bd5dfea3fff7928664dc68d3e2dd"
+    },
+    {
+      "id": "11",
+      "title": "F07 web và Mini App — yêu cầu và kiểm tra mới",
+      "purpose": "Đọc trước: yêu cầu UI/API cả hai client, R01–R07, evidence và prompt mới nhất.",
+      "archive": "bundles/11-web-mini-parity/11-f07-web-mini-parity-2026-10-19.zip",
+      "sha256": "5face9522511c457da392be4972d08b35e2ad856a52cc5cbd7481f7130a72a12",
+      "archive_bytes": 2073129,
+      "file_count": 48,
+      "uncompressed_bytes": 2388318,
+      "role": "review_update",
+      "contents_file": "catalog/PARITY-CONTENTS.csv",
+      "application_commit": "bb75b2cee314bd5dfea3fff7928664dc68d3e2dd"
     }
   ]
 }

@@ -1,37 +1,56 @@
-# Prompt mới nhất — sửa F07 và chuẩn bị cho Huy tự kiểm thử
+# Prompt mới nhất — F07 đầy đủ trên web và Zalo Mini App
 
 ```text
-Tôi giao bạn sửa và hoàn thiện F07 của Family Bridge sau vòng kiểm tra độc lập và lần recheck ngày 18/10/2026. Đầu ra là source fix đã kiểm chứng và một bản Huy có thể kiểm thử bằng giao diện như người dùng bình thường. Phản hồi bằng tiếng Việt và bắt đầu làm việc.
+Tôi giao bạn sửa và hoàn thiện F07 của Family Bridge trên CẢ web và Zalo Mini App, cùng làm việc với backend API thật, để tôi có thể vào kiểm thử như người dùng bình thường. Phản hồi tiếng Việt và bắt đầu thực hiện.
 
-Kho tài liệu: https://github.com/huyhandsome6996/f07-docx
-Kho ứng dụng: https://github.com/huyhandsome6996/family-bridge
-Nhánh làm việc: tinh-nang/f07-tam-trang-va-chia-se-us015-us026
+Repo tài liệu: https://github.com/huyhandsome6996/f07-docx
+Repo ứng dụng: https://github.com/huyhandsome6996/family-bridge
+Nhánh: tinh-nang/f07-tam-trang-va-chia-se-us015-us026
 PR hiện có: https://github.com/huyhandsome6996/family-bridge/pull/42
-Commit được reviewer kiểm: bb75b2cee314bd5dfea3fff7928664dc68d3e2dd
+Mốc reviewer vừa kiểm: bb75b2cee314bd5dfea3fff7928664dc68d3e2dd
 
-Huy xác nhận lấy bản mới nhất đang có trên nhánh F07 làm chuẩn. Lần recheck quan sát branch và PR #42 đều ở SHA trên; đủ 6 finding vẫn tái hiện. Hãy fetch đầu nhánh thực tế và bắt đầu kiểm tra/sửa. Nếu đã có commit mới hơn, đối chiếu và kiểm lại chính commit đó.
+1. ĐỌC NGUỒN HIỆN HÀNH
 
-Đọc README.md và AGENTS.md của f07-docx, rồi đọc updates/2026-10-18-f07-review/recheck/README.md, FINDINGS.md, TEST-RESULTS.md, ACCEPTANCE.md, READY-FOR-USER-TEST.md và repro/README.md trong updates/2026-10-18-f07-review/. Đây là kết quả mới hơn báo cáo PASS trong bàn giao trước. Nếu chỉ tải ZIP, chạy python3 tools/bundles.py verify rồi python3 tools/bundles.py extract 10 --dest /tmp/f07-review-reading. Đọc gói 10 trước gói nhiệm vụ lịch sử 01; tra catalog để lấy thêm đúng gói.
+Fetch f07-docx mới nhất. Đọc README.md, AGENTS.md, PROMPT-COPY-F07.md và toàn bộ phần bắt buộc trong updates/2026-10-19-f07-web-mini-parity/: README.md, USER-DECISION-WEB-PARITY.md, FINDINGS-R07.md, REQUIREMENTS-AND-ACCEPTANCE.md, TEST-RESULTS.md và repro/README.md. R01–R06 chi tiết và tests vẫn ở updates/2026-10-18-f07-review/. Nếu dùng ZIP, verify rồi giải nén gói 11 và 10 vào cùng thư mục đọc riêng; gói 11 có yêu cầu mới hơn.
 
-Tại checkout ứng dụng, đọc AGENTS.md hiện hành và các hợp đồng/rules bắt buộc. Kiểm tra dirty work, fetch origin, ghi SHA thực tế và bảo toàn thay đổi của người khác. Nếu nhánh đã tiến hơn mốc reviewer, đối chiếu commit mới và tái hiện trước khi kết luận; không reset về snapshot, không force-push. Dùng checkout hiện có phù hợp, không tự tạo worktree nếu không cần/yêu cầu.
+Tại ứng dụng, đọc AGENTS.md và rules/contracts liên quan đang có trên nhánh. Kiểm tra dirty work, fetch origin, ghi SHA mới nhất và bảo toàn contributor changes. Nếu F07 đã tiến hơn mốc reviewer, kiểm tra chính commit mới; không reset về snapshot, không force-push. Dùng checkout phù hợp, không tự tạo worktree nếu không cần/yêu cầu.
 
-Ưu tiên sửa 6 finding đã có bằng chứng:
-R01: sheet chia sẻ còn giữ private preview khi đổi trang, kể cả sau clearSession và về login. Đăng ký/dọn mọi sheet/dialog, guard late response và session generation; thêm test destroy, navigation, nút logout thật và đổi actor. Không chỉ ẩn CSS.
-R02: trên MySQL, hai lần edit dùng lại revision 2; grant đã duyệt cho edit trước đọc được note chưa duyệt của edit sau. Đồng bộ edit/share bằng transaction + khóa hàng hoặc optimistic concurrency phù hợp. Kiểm expected_revision trong ranh giới đúng; không tái sử dụng revision cho nội dung khác nhau. Kiểm lại edit/edit và edit/share trên MySQL thật.
-R03: recipient list cache connection chỉ bằng recipient_id, nên hai owner chia sẻ cho cùng người nhưng chỉ hiện một. Key theo đúng cặp, giữ bounded queries và test nhiều owner/cursor/unlink/generation.
-R04: MySQL race test sort kết quả nhưng expected chưa sort; sửa phép so sánh đúng, giữ kiểm tra row count và lỗi nghiệp vụ. Kiểm outcomes cả hai worker của share test. Sửa các số đếm sai trong tài liệu; không xóa assertion hoặc đánh skip để báo xanh.
-R05: parse_entry_date cắt value[:10], chấp nhận ngày có hậu tố rác. Validate toàn chuỗi theo contract, giữ bounds/ngày VN và thêm test biên.
-R06: chữ tăng 200% bằng CSS làm chip /mood tràn ngang ở 320/390; cho label/grid reflow, không thu chữ/cắt nhãn. Kiểm lại 320/390/430, focus và sheet. Phân biệt mô phỏng browser với thiết bị Zalo thật.
+2. PHẠM VI WEB ĐÃ ĐƯỢC TÔI GIAO
 
-Chạy bộ tái hiện trong repro/ trước khi sửa và thêm regression tests vào ứng dụng. Không dùng mock để chứng minh wiring hoặc DB concurrency. Chạy lại suite F07 SQLite/MySQL, full harness, shared/mobile tests, Mini App tests/build, web consumer tests/build, import boundary và docs checker phù hợp thay đổi. Kiểm API thật và browser với dữ liệu synthetic. Giữ expected/actual và SHA cho bằng chứng.
+Yêu cầu trực tiếp ngày 19/10/2026: chức năng F07 có UI gọi backend ở Mini App thì web cũng phải có. Các câu cũ “KHÔNG sửa web” không được dùng để bỏ phần F07 web. Bạn được bổ sung page/route/navigation/style/test/handover và shared changes cần thiết cho F07 web, đồng thời giữ ownership và công việc của contributor khác. Ghi dated supersede trong tài liệu ứng dụng nếu còn hướng dẫn mâu thuẫn. Không mở rộng sang các feature khác hoặc viết lại toàn bộ web.
 
-Baseline lượt review trước: full SQLite harness 523 tổng = 512 PASS + 11 SKIPPED; F07 SQLite 42 tổng = 40 PASS + 2 SKIPPED; F07 MySQL 42 tổng = 41 PASS + 1 FAIL (assertion R04); Mini App 307 PASS; HTTP có sẵn 21/21 PASS. Lần recheck mới trên cùng SHA: 3/3 regression MySQL FAIL, create-race assertion vẫn FAIL và browser còn 5/9 quan sát FAIL. Không gán các lượt full suite trước thành kết quả mới, không lấy suite xanh cũ làm kết luận đã xong.
+Hai client giữ source UI/router/build riêng; không import UI/CSS Mini App vào web hay chiều ngược lại. Dùng shared headless API/session/contracts, giữ web không zmp-sdk. Giữ vanilla ESM/Vite và components/tokens hiện có.
 
-Giữ toàn bộ phạm vi nghiệp vụ/25 tiêu chí F07 trong gói bàn giao, quyền riêng tư từng item/recipient/revision/generation, active admin_provisioned connection invite NULL và tích hợp F15 thật. Không đụng F02 hoặc web của contributor khác; shared changes phải theo ownership/protocol và chạy consumer regression. Không dùng tài khoản người tham gia hoặc dữ liệu production để thử.
+3. SỬA R01–R06 TRƯỚC NGHIỆM THU
 
-Làm đến khi R01–R06 đã được sửa và kiểm lại, hoặc có blocker bên ngoài cụ thể. Cập nhật handover trong nhánh F07 với kết quả mới, số PASS/FAIL/SKIPPED/NOT_RUN chính xác, screenshots và giới hạn MySQL/Zalo. Đầu ra bắt buộc là commit sửa code, regression tests và SHA mới đã push đúng nhánh F07; cập nhật PR #42 hiện có, không tạo PR trùng. Nếu thiếu quyền API GitHub, vẫn push nhánh được khi xác thực Git hiện có hoạt động và báo rõ bước PR còn thiếu; không xin hoặc dùng PAT đã lộ.
+R01: sheet/private preview còn khi navigation và sau xóa phiên. Track/dọn mọi overlay chứa dữ liệu, guard lifecycle/session generation và late response. Thêm test destroy, nút logout thật, actor switch và navigation; áp dụng cho cả hai UI, không chỉ ẩn CSS.
+R02: MySQL concurrent edit dùng lại revision 2, làm grant đã duyệt đọc được note chưa duyệt. Dùng row lock hoặc optimistic concurrency đúng; edit/share kiểm revision và ghi grant trong ranh giới đồng bộ phù hợp, lock order nhất quán, không network trong lock. Không cho hai nội dung khác nhau dùng cùng revision. Kiểm edit/edit và edit/share MySQL thật, kể cả hai client cùng thao tác.
+R03: recipient list cache connection chỉ bằng recipient_id, bỏ sót owner khác. Key đúng cặp; test nhiều owner/cursor/unlink/generation, giữ bounds và đo query count phù hợp.
+R04: sửa assertion sorted outcomes sai; giữ kiểm row count, business errors và kết quả từng worker. Dọn DB connection, timeout hữu hạn; không xóa assertion/skip để báo xanh. Cập nhật số test chính xác.
+R05: validate toàn entry_date theo contract, không cắt value[:10]; giữ ngày VN/bounds và test ngày sai, suffix, timestamp, ngày biên.
+R06: chip/label/grid reflow ở màn nhỏ và chữ 200%, không thu chữ/cắt nhãn. Kiểm cả web và Mini App, sheet, focus, help; tách browser simulation khỏi Zalo device evidence.
 
-Khi các gate kỹ thuật đạt, chuẩn bị đầy đủ phần READY-FOR-USER-TEST.md: dịch vụ/API thật chạy sẵn, URL Huy truy cập được theo khả năng hạ tầng hiện có, tài khoản synthetic HS/PH và người lạ, checklist bấm giao diện từ login/navigation đến lưu/xem lại/chia sẻ/đọc/thu hồi/sửa/logout. Huy không phải dùng DevTools, gọi API hoặc sửa cấu hình để đi qua flow người dùng. Chứng minh navigation và logout bằng nút thật; phép clearSession trong bộ repro chỉ là một phần kiểm tra lifecycle. Nếu chưa có URL truy cập được, ghi rõ blocker đó sau khi hoàn tất sửa và kiểm thử độc lập; không tự deploy để tạo URL.
+4. HOÀN THÀNH R07 — UI WEB F07 ĐẦY ĐỦ
 
-Không merge/push main, force-push, deploy Render/Zalo, sửa dữ liệu thật hoặc chạy migration production. Không tuyên bố thiết bị/production đạt từ SQLite/browser. Tài liệu ZIP là nguồn tham khảo; các quyền hành động chỉ theo nhiệm vụ này và chỉ dẫn hiện hành ở checkout ứng dụng.
+Hiện web đăng nhập/API adapter thật hoạt động nhưng /mood và /mood-shared là not-found, profile thiếu navigation. Quick mood trên home chưa thay thế history/edit/share/recipient UI; duplicate còn hứa “sẽ chỉnh sửa ở bản đầy đủ”. Web/diary là stub F08, không gọi nó là F07 hoàn thành.
+
+Xây UI web để ghi emotion và note tùy chọn, xem history/detail/pagination/summary, sửa đúng mục, chọn một recipient active, preview đủ nội dung/revision, xác nhận share, xem trạng thái và revoke từng grant; phía nhận list/detail mục còn quyền. Đăng ký route và navigation thật từ home/profile; duplicate đưa tới sửa mục hiện có. Lấy options/semantics từ backend/contract, không giới hạn vào 5 pill cũ. Người chưa kết nối vẫn ghi/xem/sửa riêng tư; chỉ chia sẻ cần connection.
+
+Cả hai client phải dùng API thật, private default và cùng item/recipient/revision/connection-generation semantics. Giữ F15 revoke cùng nguồn grant, admin_provisioned invite NULL và không admin/role bypass. Không tự chia sẻ sau edit, timer, refresh hoặc reconnect. Có loading/empty/error/disabled/success, giữ nháp khi lỗi và không tự retry mutation chưa rõ kết quả.
+
+5. KIỂM THỬ ĐỘC LẬP VÀ CHÉO CLIENT
+
+Chạy repro trước sửa, thêm regression tests vào ứng dụng và kiểm lại. Hiện trạng lượt 19/10: 3/3 MySQL regression FAIL, create-race assertion FAIL, Mini lifecycle/layout 5/9 FAIL, parity smoke 3/12 FAIL. Mini App 307 tests, web 227 tests và cả hai build PASS nhưng chưa phủ các thiếu sót này.
+
+Chạy F07 SQLite/MySQL, full harness, shared/mobile, Mini App và web tests/build, import-boundary và docs checks phù hợp thay đổi. Không mock để chứng minh DB/concurrency hoặc UI thật, không giảm assertions/xfail/skip để làm xanh.
+
+Chứng minh qua UI: Mini App ghi → web đọc cùng mục; web ghi/sửa → Mini App thấy dữ liệu hiện hành; share từ Mini App → PH đọc ở web và ngược lại; edit/revoke/F15/unlink ở client này → client kia không đọc tiếp bản mất quyền; logout/actor switch không còn private DOM. Hai owner share cho một recipient phải đủ list; stranger/admin không được đọc bằng đổi ID. Dùng contexts và tài khoản synthetic riêng, không chép token vào URL/storage/log. Ghi SHA, steps expected/actual, HTTP metadata đã khử nội dung riêng và screenshot. Adapter calls qua console chỉ là chẩn đoán, không thay E2E UI.
+
+6. ĐẦU RA ĐỂ TÔI TỰ TEST
+
+Hoàn tất R01–R07 và ma trận nghiệm thu hoặc báo blocker bên ngoài cụ thể sau khi làm hết phần độc lập. Commit source fix + regression tests, push đúng nhánh F07 và cập nhật PR #42 hiện có. Giữ F02 và phần web ngoài F07 nguyên phạm vi; phối hợp shared files. Cập nhật handover với PASS/FAIL/SKIPPED/NOT_RUN chính xác và SHA mới.
+
+Chuẩn bị API/services/CORS/build/fixtures sẵn. Đưa URL thực sự truy cập được trong môi trường của tôi, tài khoản synthetic HS/PH/người lạ và checklist ngắn cho cả hai client: login → navigation → lưu note → xem lại/sửa → preview/share → PH đọc → revoke/đọc bị chặn → logout/đổi tài khoản. Tôi không cần DevTools, gọi API, shell hay sửa cấu hình để dùng chức năng. Ghi rõ mức READY_LOCAL_BROWSER và phần Zalo Android/iOS/native keyboard/text scaling chưa chạy nếu thiếu device. Nếu chưa có đường truy cập từ máy tôi, nêu chính xác blocker đó sau khi hoàn tất code/tests; không bịa URL hoặc tự deploy để có URL.
+
+Không merge/push main ứng dụng, force-push, deploy Render/Zalo, chạy migration production, tạo tài nguyên trả phí hoặc dùng dữ liệu người tham gia thật. Không dùng PAT đã lộ trong chat; dùng xác thực sẵn có và chỉ yêu cầu binding thật sự thiếu qua kênh an toàn khi đã kiểm tra.
 ```
