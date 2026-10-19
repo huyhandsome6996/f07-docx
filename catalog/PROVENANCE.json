@@ -1,6 +1,6 @@
 {
   "document_repo": "huyhandsome6996/f07-docx",
-  "document_branch": "F04-docx",
+  "document_branch": "f04-docx",
   "protected_branch": "main",
   "main_observed_sha": "a4a4b0982db5ae5cd48892d0e8ebf85ba407fdd2",
   "application_repo": "huyhandsome6996/family-bridge",
@@ -10,7 +10,7 @@
   "date": "2026-10-19",
   "timezone": "Asia/Bangkok",
   "docs_branch_web_check": "404 before local branch creation",
-  "remote_push_status": "BLOCKED_AUTHENTICATION: attempted push rejected with Invalid username or token; branch exists locally only",
+  "remote_push_status": "PREPARED_FOR_AUTHENTICATED_PUSH; publication not yet verified",
   "main_observed_after_sha": "a4a4b0982db5ae5cd48892d0e8ebf85ba407fdd2",
   "main_write_attempted": false
 }

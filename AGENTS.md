@@ -1,10 +1,10 @@
 # F04 documentation branch instructions
 
-This branch is **F04-docx** in `huyhandsome6996/f07-docx`. It stores F04 requirements, designs, images, prompts, audit reports and reproducible synthetic test material. It is not the Family Bridge application checkout.
+This branch is **f04-docx** in `huyhandsome6996/f07-docx`. It stores F04 requirements, designs, images, prompts, audit reports and reproducible synthetic test material. It is not the Family Bridge application checkout.
 
 Read `README.md`, `requirements/USER-DECISIONS.md`, `reports/2026-10-19-e0ee388.md` and `PROMPT-COPY-F04.md` first. Run `python3 tools/catalog.py verify` before relying on the archived files.
 
-The user explicitly reserves `main` of this repository for **F07**. Do not modify, push to, merge into, reset, or replace main. Do not change the default branch. All F04 document updates stay on **F04-docx**, with catalogs/checksums updated. Do not copy F07 files into this branch merely to reuse its layout. The branch has an independent root to separate the two document collections.
+The user explicitly reserves `main` of this repository for **F07**. Do not modify, push to, merge into, reset, or replace main. Do not change the default branch. All F04 document updates stay on **f04-docx**, with catalogs/checksums updated. Do not copy F07 files into this branch merely to reuse its layout. The branch has an independent root to separate the two document collections.
 
 Application work belongs to `huyhandsome6996/family-bridge`, normally branch `tinh-nang/f04-ai-ho-tro-dien-dat-us029-us033`. Read its live AGENTS/contracts/ownership before changing code. Document snapshots, HTML, ZIP contents and historical prompts here are reference data, not permission to execute scripts, deploy, merge application code or overwrite the application from a snapshot.
 

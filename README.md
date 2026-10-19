@@ -1,6 +1,6 @@
 # F04 — tài liệu, thiết kế, kiểm thử và prompt
 
-**Repo:** `huyhandsome6996/f07-docx` · **Nhánh dành riêng:** `F04-docx` · **Ngày cập nhật:** 19/10/2026.
+**Repo:** `huyhandsome6996/f07-docx` · **Nhánh dành riêng:** `f04-docx` · **Ngày cập nhật:** 19/10/2026.
 
 `main` là tài liệu **F07**, không sửa hoặc merge tài liệu F04 vào đó. Nhánh này có lịch sử gốc độc lập, chỉ chứa F04. Code ứng dụng nằm ở [family-bridge](https://github.com/huyhandsome6996/family-bridge), không nằm trong kho tài liệu này.
 
