@@ -1,0 +1,33 @@
+{
+  "review_date": "2026-10-19",
+  "timezone": "Asia/Ho_Chi_Minh",
+  "application_repository": "https://github.com/huyhandsome6996/family-bridge",
+  "application_branch": "tinh-nang/f02-dong-hanh-bon-tuan-us036-us044",
+  "application_sha": "c29469b3d57f2c2cc53fe686fe7ec8f917f2dec6",
+  "application_main_sha": "ee1346a32bb5adaee7fdb7e842fceb7b9b8c32d0",
+  "documents_repository": "https://github.com/huyhandsome6996/f07-docx",
+  "documents_branch": "F02-docx",
+  "documents_base_main_sha": "a4a4b0982db5ae5cd48892d0e8ebf85ba407fdd2",
+  "application_tracked_changes": "",
+  "database": "SQLite disposable local, production backend settings in development mode",
+  "fixture_class": "F02-QA-20261019",
+  "real_participant_data": false,
+  "production_database_accessed": false,
+  "mysql_tested": false,
+  "zalo_device_tested": false,
+  "application_committed_or_pushed": false,
+  "deployed": false,
+  "snapshot_paths": [
+    "docs/features/f02/scope.md",
+    "docs/product/four-week-flow.md",
+    "docs/handover/f02-qa/06-RESUME-HANDOVER.md",
+    "packages/family_bridge_features/f02_program/models.py",
+    "packages/family_bridge_features/f02_program/services/program.py",
+    "packages/family_bridge_features/f02_program/wiring.py",
+    "packages/family_bridge_features/f09_activities/services/activities.py",
+    "packages/family_bridge_features/f09_activities/wiring.py",
+    "zalo-mini-app/src/pages/companion/index.js",
+    "web/src/pages/companion/index.js"
+  ],
+  "scope": "QA, local fixture and docs only; snapshots are read-only evidence."
+}

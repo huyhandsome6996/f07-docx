@@ -1,4 +1,21 @@
-# Kho tài liệu F07 — Family Bridge
+# F02 — kho tài liệu và QA trên nhánh F02-docx
+
+**Bạn đang đọc nhánh F02-docx. Main dành F07, không sửa/merge vào main.**
+
+- [Quyết định lưu trữ của Huy](f02/00-USER-DECISIONS.md).
+- [Prompt copy cho chat coding F02](PROMPT-COPY-F02.md).
+- [Kết quả QA độc lập19/10/2026, source c29469b](f02/qa/2026-10-19-c29469b/README.md).
+- [7 phát hiện/gap và tiêu chí sửa](f02/qa/2026-10-19-c29469b/FINDINGS.md).
+- [Tests và giới hạn bằng chứng](f02/qa/2026-10-19-c29469b/TEST-RESULTS.md).
+- [Handover để tiếp tục](f02/qa/2026-10-19-c29469b/RESUME-HANDOVER.md).
+
+Source ứng dụng nằm ở repo [family-bridge](https://github.com/huyhandsome6996/family-bridge), nhánh `tinh-nang/f02-dong-hanh-bon-tuan-us036-us044`. Repo tài liệu này giữ bằng chứng, không deploy hoặc thay thế checkout ứng dụng.
+
+Từ19/10, tài liệu/ảnh/yêu cầu/prompt F02 lưu dưới `f02/` và entry prompt ở gốc nhánh này. Phần F07 kế thừa bên dưới giữ làm bối cảnh; không phải nhiệm vụ hiện hành của F02.
+
+---
+
+# Kho tài liệu F07 kế thừa từ main — không cập nhật trong nhiệm vụ F02
 
 Điểm bắt đầu cho coding agent tìm đúng gói ZIP, kiểm tra và giải nén tài liệu cần đọc. Gói bàn giao gốc **F07-NEW-CHAT-HANDOFF-2026-10-18.zip** do người dùng cung cấp có **946 tệp**, giữ nguyên nội dung và đường dẫn trong các gói 00–09. Gói 10 lưu review cũ; gói 11 có yêu cầu và kiểm tra mới nhất cho web/Mini App. Không đóng gói secret, DB hoặc dữ liệu người tham gia.
 

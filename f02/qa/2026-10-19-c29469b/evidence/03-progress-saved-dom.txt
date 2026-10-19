@@ -1,0 +1,84 @@
+- banner:
+  - heading "Đồng hành" [level=1]
+- heading "Chương trình Đồng hành bốn tuần" [level=2]
+- paragraph: "Tự nguyện hoàn toàn: bạn có thể xem bất kỳ tuần nào, bỏ qua, hoặc quay lại sau. Tiến độ chỉ mình bạn thấy — không xếp hạng, không trách móc."
+- paragraph: "Phiên bản nội dung đang theo: rev 1."
+- status
+- heading "Tuần 1 — Nhận diện cảm xúc — Tiếng lòng chưa nói" [level=2]
+- list:
+  - listitem: Gọi tên được ít nhất một cảm xúc của mình mỗi ngày
+  - listitem: Chia sẻ với người đồng hành một điều buồn/khó mở lời (khi sẵn sàng)
+  - listitem: Người đồng hành luyện nghe không phán xét
+- paragraph: Hướng dẫn cho bạn
+- paragraph: "Tuần này chỉ có một nhiệm vụ nhỏ: dám gọi tên cảm xúc của mình. Mỗi tối, chọn một từ cho cảm xúc trong ngày (vui, bình an, lo, mệt, khó nói thành lời) và ghi vào app hoặc sổ giấy — chỉ mình bạn thấy. Khi sẵn sàng, hãy chia sẻ với người đồng hành MỘT điều mà bạn chưa nói ra được. Không cần kể hết — chỉ cần câu mở đầu: 'Dạo này con/mình đang thấy…'. Bạn hoàn toàn có thể bỏ qua ngày nào đó, không ai chấm điểm. Nếu chưa muốn chia sẻ, đó cũng là một lựa chọn đúng."
+- generic: "Hoạt động chung: [THỬ LOCAL] Tiếng lòng chưa nói — trao nhau một điều · khoảng 1 phút"
+- generic: Đã mời — đang chờ phía kia phản hồi
+- generic: "[THỬ LOCAL] Tiếng lòng chưa nói — trao nhau một điều — Đã làm"
+- button "Đặt lại"
+- heading "Tuần 2 — Giảm so sánh — Bản sắc riêng của con" [level=2]
+- generic: Gợi ý tuần này
+- list:
+  - listitem: Ghi nhận một nỗ lực cụ thể của con/người kia (không so với ai)
+  - listitem: Luyện nghe 10 phút không ngắt lời
+  - listitem: Dành một khoảng thời gian nhỏ cho nhau mỗi ngày
+- paragraph: Hướng dẫn cho bạn
+- paragraph: "Tuần này mình tập nhìn lại chính mình, không nhìn sang người khác. Mỗi ngày, ghi lại MỘT việc bạn đã làm được (dù nhỏ: dậy đúng giờ, hỏi bài, giúp việc nhà). Cùng người đồng hành dành 10 phút nghe nhau nói — một người nói, một người nghe, rồi đổi vai. Bạn được chọn chủ đề bất kỳ: trò chơi, bài học khó, một bộ phim. Sổ giấy vẫn dùng được như mọi tuần."
+- generic: "Hoạt động chung: [THỬ LOCAL] Bản sắc riêng — nghe nhau 10 phút · khoảng 1 phút"
+- button "Mời cùng làm hoạt động này"
+- generic: "[THỬ LOCAL] Bản sắc riêng — nghe nhau 10 phút — Chưa làm"
+- button "Tôi đã làm"
+- button "Bỏ qua tuần này"
+- heading "Tuần 3 — Ranh giới riêng tư và niềm tin" [level=2]
+- list:
+  - listitem: Thống nhất một ranh giới riêng tư hai bên cùng tôn trọng
+  - listitem: "Điện thoại/thông tin riêng: hỏi trước khi xem"
+  - listitem: Thử dùng trạng thái 'Chỉ mình tôi' cho một ghi chú riêng
+- paragraph: Hướng dẫn cho bạn
+- paragraph: "Riêng tư không có nghĩa là giấu giếm — đó là sự tôn trọng. Tuần này, cùng người đồng hành thống nhất MỘT ranh giới (ví dụ: không đọc tin nhắn của nhau, gõ cửa trước khi vào phòng). Trong app, mọi ghi chú cảm xúc và nhật ký mặc định là 'Chỉ mình tôi' — bạn tự quyết định có chia sẻ hay không, và có thể rút lại. Nếu anh/chị muốn xem điều gì, bạn có quyền nói 'để mình chuẩn bị rồi mình chia sẻ'."
+- generic: "Hoạt động chung: [THỬ LOCAL] Ranh giới và niềm tin — chốt một quy ước · khoảng 1 phút"
+- button "Mời cùng làm hoạt động này"
+- generic: "[THỬ LOCAL] Ranh giới và niềm tin — chốt một quy ước — Chưa làm"
+- button "Tôi đã làm"
+- button "Bỏ qua tuần này"
+- heading "Tuần 4 — Cảm ơn, xin lỗi và Thỏa ước gia đình mới" [level=2]
+- list:
+  - listitem: Nói một lời cảm ơn hoặc xin lỗi cụ thể với nhau
+  - listitem: Cùng chọn những việc cụ thể muốn tiếp tục làm sau chương trình
+  - listitem: Hai bên cùng xác nhận thỏa ước cùng phiên bản
+- paragraph: Hướng dẫn cho bạn
+- paragraph: Tuần cuối — mình cùng giữ lại những gì đã tốt. Hãy nghĩ về một điều bạn muốn CẢM ƠN hoặc XIN LỖI người đồng hành (cụ thể, ngắn gọn). Sau đó, hai bên cùng chọn vài việc cụ thể muốn tiếp tục làm (mục 'Thỏa ước gia đình mới') và mỗi người tự bấm xác nhận — thỏa ước chỉ có hiệu lực khi CẢ HAI cùng xác nhận cùng phiên bản. Không có hiệu lực pháp lý — đó là lời hứa thân tình với nhau.
+- generic: "Hoạt động chung: [THỬ LOCAL] Thỏa ước gia đình mới — cùng chọn và cùng xác nhận · khoảng 1 phút"
+- button "Mời cùng làm hoạt động này"
+- generic: "[THỬ LOCAL] Thỏa ước gia đình mới — cùng chọn và cùng xác nhận — Chưa làm"
+- button "Tôi đã làm"
+- button "Bỏ qua tuần này"
+- heading "Thỏa ước gia đình mới (tuần 4)" [level=2]
+- generic: Chưa có đề xuất
+- list:
+  - listitem: Mỗi tuần có ít nhất một khoảng thời gian nói chuyện riêng không điện thoại
+  - listitem: Gọi tên cảm xúc thay vì trách móc
+  - listitem: Không so sánh con với ai — so với chính con hôm qua
+  - listitem: Tôn trọng ranh giới riêng tư đã thống nhất; muốn biết thì hỏi thẳng
+  - listitem: Cảm ơn và xin lỗi cụ thể, cả hai chiều
+- paragraph: Thỏa ước chỉ có hiệu lực khi CẢ HAI người tự bấm xác nhận cùng phiên bản. Đây là lời hứa thân tình giữa hai người — không phải văn bản pháp lý.
+- button "Đề xuất thỏa ước cho hai bên"
+- paragraph: Bạn hoàn toàn có thể dùng sổ giấy — không bắt đầu buộc ghi trong app.
+- paragraph: Nghỉ chương trình là lựa chọn bình thường — không ảnh hưởng đến các tính năng khác của app, và bạn có thể tham gia lại khi sẵn sàng.
+- button "Nghỉ chương trình (opt-out)"
+- navigation "Điều hướng chính":
+  - list:
+    - link "Trang chủ":
+      - /url: "#/home"
+      - generic: Trang chủ
+    - link "Đồng hành":
+      - /url: "#/companion"
+      - generic: Đồng hành
+    - link "Hộp thư":
+      - /url: "#/mailbox"
+      - generic: Hộp thư
+    - link "Nhật ký":
+      - /url: "#/diary"
+      - generic: Nhật ký
+    - link "Cá nhân":
+      - /url: "#/profile"
+      - generic: Cá nhân

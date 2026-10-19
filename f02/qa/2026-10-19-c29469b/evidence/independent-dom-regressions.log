@@ -1,0 +1,62 @@
+(node:14356) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/PC/Documents/Codex/2026-10-14/https-github-com-huyhandsome6996-family-bridge/work/qa-f02-c29469b-20261019/packages/family_bridge_shared/src/session.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\C:\Users\PC\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ R01: two published revisions cannot make an old one overwrite latest (187.2666ms)
+✖ R05: logged-in user can inspect a week guide without enrollment (90.9597ms)
+✖ R06: published activity steps are readable or have a detail CTA (85.6792ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 0
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2232.2563
+
+✖ failing tests:
+
+test at f02\tools\miniapp_repro.test.mjs:54:1
+✖ R01: two published revisions cannot make an old one overwrite latest (187.2666ms)
+  AssertionError [ERR_ASSERTION]: catalog [rev2,rev1] must not send rev1
+  
+  1 !== 2
+  
+      at TestContext.<anonymous> (file:///C:/Users/PC/Documents/Codex/2026-10-14/https-github-com-huyhandsome6996-family-bridge/work/f02-docx-repository/f02/tools/miniapp_repro.test.mjs:60:12)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 2,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at f02\tools\miniapp_repro.test.mjs:63:1
+✖ R05: logged-in user can inspect a week guide without enrollment (90.9597ms)
+  AssertionError [ERR_ASSERTION]: only enrollment CTA and titles do not provide read-only exploration
+      at TestContext.<anonymous> (file:///C:/Users/PC/Documents/Codex/2026-10-14/https-github-com-huyhandsome6996-family-bridge/work/f02-docx-repository/f02/tools/miniapp_repro.test.mjs:70:12)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at f02\tools\miniapp_repro.test.mjs:73:1
+✖ R06: published activity steps are readable or have a detail CTA (85.6792ms)
+  AssertionError [ERR_ASSERTION]: title/minutes/invite buttons are insufficient activity instructions
+      at TestContext.<anonymous> (file:///C:/Users/PC/Documents/Codex/2026-10-14/https-github-com-huyhandsome6996-family-bridge/work/f02-docx-repository/f02/tools/miniapp_repro.test.mjs:80:12)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

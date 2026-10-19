@@ -1,0 +1,82 @@
+(node:2788) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/PC/Documents/Codex/2026-10-14/https-github-com-huyhandsome6996-family-bridge/work/qa-f02-c29469b-20261019/packages/family_bridge_mobile/f02_program/api.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\C:\Users\PC\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ program api wrappers hit contract paths (3.3781ms)
+✔ page modules export factories (40.4857ms)
+✔ voluntary wording + per-person agreement + paper notebook option (27.4865ms)
+✔ family agreement instance wrappers hit pair-bound contract paths (0.9843ms)
+(node:13400) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/PC/Documents/Codex/2026-10-14/https-github-com-huyhandsome6996-family-bridge/work/qa-f02-c29469b-20261019/packages/family_bridge_shared/src/session.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\C:\Users\PC\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+▶ shared client — phân loại lỗi theo kind
+  ✔ thiếu baseUrl -> ApiError kind 'configuration', KHÔNG gọi fetch, message không lộ địa chỉ (29.0121ms)
+  ✔ baseUrl sai cú pháp -> kind 'configuration', KHÔNG lộ URL gốc/exception parser (0.6086ms)
+  ✔ https-only: http:// tới host không phải localhost -> kind 'configuration' (0.6238ms)
+  ✔ timer hủy giữa lúc đọc body -> kind 'timeout' (KHÔNG phải invalid_response) (71.8034ms)
+  ✔ timeout mặc định 15000ms: tại 14999ms chưa hủy, 15000ms hủy -> 'timeout' (mock timer) (10.0948ms)
+  ✔ 503 + envelope {error:{code,details}} -> kind 'http', status 503, giữ code/details (2.6435ms)
+  ✔ body 200 không parse được JSON (SyntaxError) -> kind 'invalid_response', giữ mã HTTP (0.9277ms)
+  ✔ Bearer từ getToken() — token chỉ nằm trong memory (SEC-10), không vào URL/storage (0.9962ms)
+✔ shared client — phân loại lỗi theo kind (119.9803ms)
+(node:8160) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/PC/Documents/Codex/2026-10-14/https-github-com-huyhandsome6996-family-bridge/work/qa-f02-c29469b-20261019/packages/family_bridge_shared/src/connection-check.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\C:\Users\PC\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+▶ shared connection-check — errorKind
+  ✔ đọc `kind` của ApiError (1.3347ms)
+  ✔ fallback an toàn: Error thường / ApiError cũ không kind / null -> 'unknown' (KHÔNG bao giờ timeout) (0.3122ms)
+✔ shared connection-check — errorKind (3.6135ms)
+▶ shared connection-check — failureFor theo kind
+  ✔ timeout -> title 'Kết nối quá thời gian chờ' (0.621ms)
+  ✔ configuration -> title cấu hình + message của lỗi (được nêu tên biến cấu hình) (0.4839ms)
+  ✔ configuration không có message -> dùng mô tả fallback (0.2525ms)
+  ✔ network -> title 'Chưa kết nối được máy chủ' (0.2371ms)
+  ✔ invalid_response -> title 'Không kiểm tra được kết nối' (0.2909ms)
+  ✔ fallback 'http' / 'unknown' (Error thường, ApiError cũ) -> lỗi chung, KHÔNG bao giờ coi là timeout (0.4637ms)
+✔ shared connection-check — failureFor theo kind (3.1744ms)
+▶ shared connection-check — messageOf
+  ✔ ưu tiên message có nội dung (trả nguyên văn), ngược lại trả fallback (0.2745ms)
+✔ shared connection-check — messageOf (0.5124ms)
+(node:13508) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/PC/Documents/Codex/2026-10-14/https-github-com-huyhandsome6996-family-bridge/work/qa-f02-c29469b-20261019/packages/family_bridge_shared/src/session.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\C:\Users\PC\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+▶ shared http-endpoints — authed + phiên
+  ✔ authed gắn Bearer từ getToken() (session in-memory được inject, không storage) (22.6913ms)
+  ✔ 401 cùng thế hệ phiên: xóa phiên (hành vi đăng xuất đúng) (1.9407ms)
+  ✔ 401 của phiên CŨ (generation đã đổi): KHÔNG xóa phiên mới, báo stale_session (1.2482ms)
+  ✔ response 200 của phiên cũ sau khi đổi phiên bị BỎ (stale_session) (1.038ms)
+  ✔ loginWithCredentials: cài phiên + loginMethod 'class' + role/classRef do máy chủ trả (2.6189ms)
+  ✔ loginWithCredentials: thiếu mã/mật khẩu -> 400 input_invalid, KHÔNG gọi fetch (1.1466ms)
+  ✔ loginWithCredentials: POST trả chậm sau khi phiên đổi -> stale_session, KHÔNG cài phiên (1.0563ms)
+✔ shared http-endpoints — authed + phiên (34.8959ms)
+▶ shared http-endpoints — idempotency + timeout
+  ✔ sendMessage gắn X-Idempotency-Key do caller tạo; thiếu key -> kind configuration (1.6039ms)
+  ✔ coldStartTimeoutMs áp dụng làm mặc định cho health/ready (call mở app đầu tiên) (153.6159ms)
+✔ shared http-endpoints — idempotency + timeout (156.795ms)
+▶ shared http-endpoints — hợp đồng boundary
+  ✔ getConnectionStatus/getProfile ném 501 (không fake dữ liệu ở mode production) (1.0824ms)
+  ✔ ready 503 là trạng thái hợp lệ -> 'unavailable' (không phải lỗi) (1.3851ms)
+  ✔ getCapabilities best-effort: mọi lỗi -> {} (không chặn đăng nhập) (1.6457ms)
+  ✔ thiếu baseUrl: requireBaseUrl ném kind configuration trước fetch (0.762ms)
+  ✔ surface phủ ADAPTER_METHODS: 86 tên hợp đồng, mọi method endpoint đều là hàm (0.5868ms)
+✔ shared http-endpoints — hợp đồng boundary (6.2146ms)
+(node:1484) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/PC/Documents/Codex/2026-10-14/https-github-com-huyhandsome6996-family-bridge/work/qa-f02-c29469b-20261019/packages/family_bridge_shared/src/index.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\C:\Users\PC\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+▶ shared purity contract (ADR-1)
+  ✔ src chỉ chứa file ESM .mjs/.js (không build artifact) (2.2314ms)
+  ✔ src/** KHÔNG import zmp-sdk và KHÔNG đụng window/document/storage trong code (43.9163ms)
+  ✔ package import được trong node thuần (không cần DOM/happy-dom) (26.3681ms)
+✔ shared purity contract (ADR-1) (76.3663ms)
+ℹ tests 38
+ℹ suites 8
+ℹ pass 38
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 564.2113
