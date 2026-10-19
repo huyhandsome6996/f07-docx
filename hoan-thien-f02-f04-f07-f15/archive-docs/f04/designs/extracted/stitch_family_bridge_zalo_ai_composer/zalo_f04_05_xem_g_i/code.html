@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+
+<html lang="vi"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_stack" name="shell-type"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;background-color:#fff8f6;}body{overscroll-behavior:none;-webkit-tap-highlight-color:transparent;font-family:'Be Vietnam Pro',sans-serif;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "surface": "#fff8f6", "on-primary": "#ffffff", "surface-tint": "#9f402d", "tertiary-fixed-dim": "#f7bc65", "on-secondary-fixed-variant": "#812815", "inverse-surface": "#502319", "primary": "#89301e", "on-surface-variant": "#56423e", "on-secondary-fixed": "#3d0600", "surface-container": "#ffe9e5", "surface-container-lowest": "#ffffff", "outline-variant": "#ddc0ba", "primary-container": "#a84733", "surface-container-highest": "#ffdad3", "outline": "#89726d", "surface-bright": "#fff8f6", "background": "#fff8f6", "secondary-container": "#ff866b", "tertiary": "#6b4600", "error": "#ba1a1a", "tertiary-fixed": "#ffddb2", "on-error": "#ffffff", "primary-fixed": "#ffdad3", "on-tertiary": "#ffffff", "inverse-primary": "#ffb4a4", "secondary": "#a03f2a", "surface-container-low": "#fff0ee", "primary-fixed-dim": "#ffb4a4", "tertiary-container": "#895c09", "on-tertiary-container": "#ffdeb4", "inverse-on-surface": "#ffede9", "secondary-fixed-dim": "#ffb4a3", "surface-variant": "#ffdad3", "surface-dim": "#ffcfc5", "on-primary-fixed-variant": "#802918", "on-primary-container": "#ffdcd5", "on-tertiary-fixed": "#291800", "on-background": "#360f07", "secondary-fixed": "#ffdad2", "on-secondary-container": "#741f0c", "error-container": "#ffdad6", "on-error-container": "#93000a", "on-primary-fixed": "#3e0500", "on-secondary": "#ffffff", "surface-container-high": "#ffe2dc", "on-tertiary-fixed-variant": "#624000", "on-surface": "#360f07" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "gutter": "1rem", "space-xs": "0.25rem", "margin": "1rem", "space-md": "0.75rem", "space-lg": "1rem", "space-xl": "1.5rem", "space-sm": "0.5rem" }, fontFamily: { "body-sm": ["Be Vietnam Pro"], "headline-md": ["Be Vietnam Pro"], "headline-sm": ["Be Vietnam Pro"], "label-sm": ["Be Vietnam Pro"], "body-md": ["Be Vietnam Pro"], "headline-lg": ["Be Vietnam Pro"], "label-lg": ["Be Vietnam Pro"], "label-md": ["Be Vietnam Pro"], "body-lg": ["Be Vietnam Pro"] }, fontSize: { "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0", "fontWeight": "400" }], "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "headline-sm": ["17px", { "lineHeight": "24px", "letterSpacing": "0", "fontWeight": "600" }], "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.02em", "fontWeight": "500" }], "body-md": ["15px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "400" }], "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700" }], "label-lg": ["15px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }], "label-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "500" }], "body-lg": ["16px", { "lineHeight": "24px", "letterSpacing": "0", "fontWeight": "400" }] } } } };</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface text-on-surface antialiased flex flex-col min-h-screen"><header class="fixed top-0 inset-x-0 z-50 bg-surface/90 backdrop-blur-xl pt-safe shadow-[0_1px_8px_rgba(113,61,50,0.04)]"><div class="h-14 px-margin flex items-center justify-between"><div class="flex items-center gap-space-xs"><button aria-label="Quay lại" class="w-11 h-11 flex items-center justify-center rounded-full text-on-surface hover:bg-surface-container-high transition-colors" onclick="history.back()"><span class="material-symbols-outlined text-[22px]">arrow_back</span></button><h1 class="font-headline-sm text-headline-sm text-on-surface tracking-tight">Chi Tiết Thư</h1></div><div class="flex items-center gap-1"><button aria-label="Tìm trợ giúp" class="w-11 h-11 flex items-center justify-center rounded-full text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined text-[22px]">help_outline</span></button><button aria-label="Thông báo" class="w-11 h-11 relative flex items-center justify-center rounded-full text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-2.5 right-2.5 w-2 h-2 rounded-full bg-primary ring-2 ring-surface"></span></button><img alt="Hồ sơ" class="w-8 h-8 rounded-full object-cover ml-1 border border-outline-variant/60" src="https://lh3.googleusercontent.com/aida/AEtjO1XVOFnPvAVfSCZo23kUylJr84N7vr1vlOzokk5AYi984yT2PtatMSJjO92e63aIXcsFYFNoFOQXtiqN9kZDg5yMcGtD-7bWHcKjg0eMiBt8Y0kLRhLbti3brM0dhESV15m9QBeok0WU-TnUIGn4osIxrvkIWRHBAeZvVfzyW-v4IdK0Mqs5Twb7XOWe5f5DAKRmK7foMg36mgiNo_jF_HjewlK6cnLyZ9VNSj5HubT7d2IStAJDEaglIc"/></div></div></header><main class="flex-1 flex flex-col relative w-full pt-14 pb-safe bg-surface px-margin"><div class="flex flex-col w-full pb-8">
+<!-- Status Badge & Gentle Reassurance Header -->
+<div class="pt-4 pb-3 flex flex-col gap-space-sm items-start">
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-high text-primary">
+<span class="material-symbols-outlined text-[16px]">edit_note</span>
+<span class="font-label-md text-label-md">Gợi ý để bạn xem lại</span>
+</div>
+<!-- Emotionally Safe Notice Banner -->
+<div class="w-full p-space-md rounded-xl bg-surface-container-low shadow-sm flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[20px] mt-0.5 shrink-0">info</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+        Hãy kiểm tra xem gợi ý có đúng ý bạn không. Bạn có thể sửa hoặc bỏ hoàn toàn. Chỉ lời bạn hài lòng mới được cất thành thư.
+      </p>
+</div>
+</div>
+<!-- Warm Illustration / Visual Metaphor -->
+<div class="w-full my-2 relative overflow-hidden rounded-xl bg-surface-container-lowest shadow-sm h-36 flex items-center justify-between px-space-lg">
+<div class="z-10 max-w-[210px] flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-secondary tracking-wide uppercase">Cầu nối yêu thương</span>
+<p class="font-headline-sm text-headline-sm text-on-surface">Giữ trọn lòng mình, thêm lời dịu dàng</p>
+</div>
+<div class="relative w-28 h-28 shrink-0 rounded-lg overflow-hidden shadow-inner">
+<img class="w-full h-full object-cover" data-alt="A warm hand-drawn watercolor illustration of a soft vintage writing desk with cream paper, a terracotta inkpot, and a dried botanical branch with soft warm sunlight streaming across, in gentle earthy tones of terracotta brown and warm linen cream, serene and comforting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-nFp6ETXblI1YkfT5urXJsDse66cY33YVH2q9qQRK7nHybJN8QZ6hz_XSGPwpfNhpoy3ovi6YBhReAgjOFzqi3VMz8-GYwazRrQk0uckrxzg71Zfs-u_vUwH_vKFiRdIqU-yWd2whl_hRfQA3jnEUOjB1hown1JZ7ndQiw69KfT-M1KXXH9ObPtSu9sFaGpj6ZlaHCen8fB_Y8Y0UgRv8pcdUw0_Vn8CjLEfijrlhB5RxRcdSbdA4Cw"/>
+</div>
+<div class="absolute -bottom-8 -right-8 w-32 h-32 rounded-full bg-surface-container opacity-40 blur-xl pointer-events-none"></div>
+</div>
+<!-- Main AI Suggestion Card (Hero Card) -->
+<div class="mt-space-sm w-full bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col gap-space-md relative overflow-hidden">
+<!-- Subtle top organic accent line -->
+<div class="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-primary via-secondary to-primary-container"></div>
+<div class="flex items-center justify-between pt-1">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[22px]">nature</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Gợi ý diễn đạt ấm áp</h2>
+</div>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm">Phiên bản 1</span>
+</div>
+<!-- Suggested Text Body -->
+<div class="p-space-md rounded-lg bg-surface-container-low">
+<p class="font-body-lg text-body-lg text-on-surface font-medium leading-relaxed italic">
+        “Con thấy áp lực khi chuyện học được nhắc nhiều lần. Con muốn được nói hết ý của mình.”
+      </p>
+</div>
+<!-- Decision Ownership Meta -->
+<div class="flex items-center gap-space-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-secondary">verified_user</span>
+<span class="font-label-sm text-label-sm">Gợi ý diễn đạt • Bạn toàn quyền quyết định</span>
+</div>
+</div>
+<!-- Original Draft Card (Collapsible & Strictly Private) -->
+<div class="mt-space-md w-full bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden transition-all duration-200">
+<button class="w-full p-space-lg flex items-center justify-between text-left focus:outline-none" id="toggleOriginalBtn" onclick="
+        const content = document.getElementById('originalDraftContent');
+        const arrow = document.getElementById('toggleArrow');
+        const isHidden = content.classList.contains('hidden');
+        if (isHidden) {
+          content.classList.remove('hidden');
+          arrow.style.transform = 'rotate(180deg)';
+        } else {
+          content.classList.add('hidden');
+          arrow.style.transform = 'rotate(0deg)';
+        }
+      " type="button">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant">lock</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Bản gốc bạn đã viết</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Chỉ riêng bạn</span>
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant transition-transform duration-200" id="toggleArrow">expand_more</span>
+</div>
+</button>
+<div class="px-space-lg pb-space-lg flex flex-col gap-space-md" id="originalDraftContent">
+<div class="p-space-md rounded-lg bg-surface-container">
+<p class="font-body-md text-body-md text-on-surface leading-relaxed">
+          Con áp lực vì bố mẹ nhắc chuyện học nhiều lần. Con muốn được nói hết ý.
+        </p>
+</div>
+<!-- Privacy & Consent Guarantee -->
+<div class="flex items-start gap-space-xs p-space-sm rounded-lg bg-surface-container-low">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant shrink-0 mt-0.5">visibility_off</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-snug">
+          Bản gốc và gợi ý này không bao giờ được gửi cho người nhận. Người nhận chỉ thấy lời cuối cùng khi bạn chủ động xác nhận ở bước sau.
+        </p>
+</div>
+</div>
+</div>
+<!-- Primary Interactive Action Stack (No Direct Send Affordance) -->
+<div class="mt-space-xl flex flex-col gap-space-md">
+<!-- Primary CTA: Edit this suggestion -->
+<button class="w-full h-12 rounded-xl bg-primary-container text-on-primary font-label-lg text-label-lg flex items-center justify-center gap-space-xs shadow-md active:bg-primary transition-colors" id="btnEditSuggestion" onclick="alert('Chuyển sang màn hình tinh chỉnh lời viết (ZALO-F04-06)');" type="button">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+<span>Sửa gợi ý này</span>
+</button>
+<!-- Secondary CTA 1: Request another suggestion -->
+<button class="w-full h-11 rounded-xl bg-surface-container-lowest text-primary font-label-lg text-label-lg flex items-center justify-center gap-space-xs shadow-sm active:bg-surface-container transition-colors" id="btnRegenerate" onclick="this.classList.add('opacity-70'); setTimeout(() =&gt; { this.classList.remove('opacity-70'); alert('Đang tìm góc nhìn ấm áp khác cho bạn...'); }, 300);" type="button">
+<span class="material-symbols-outlined text-[20px]">autorenew</span>
+<span>Tạo gợi ý khác</span>
+</button>
+<!-- Secondary CTA 2: Dismiss suggestion / Handwrite -->
+<button class="w-full h-11 rounded-xl bg-transparent text-on-surface-variant font-label-md text-label-md flex items-center justify-center gap-space-xs active:bg-surface-container-high transition-colors" id="btnDiscardSuggestion" onclick="alert('Trở về giao diện nhập tự do để bạn tự tay nắn nót từng chữ.');" type="button">
+<span class="material-symbols-outlined text-[18px]">draw</span>
+<span>Bỏ gợi ý (tiếp tục viết tay)</span>
+</button>
+</div>
+<!-- Supportive Utilities & Grounded Safeguards -->
+<div class="mt-space-lg pt-space-md flex items-center justify-between">
+<button class="inline-flex items-center gap-1 text-on-surface-variant hover:text-primary transition-colors py-2" onclick="alert('Đã lưu vào danh sách nháp riêng tư của bạn.');" type="button">
+<span class="material-symbols-outlined text-[18px]">bookmark_border</span>
+<span class="font-label-md text-label-md">Lưu nháp riêng</span>
+</button>
+<button class="inline-flex items-center gap-1 text-on-surface-variant hover:text-primary transition-colors py-2" onclick="alert('Đội ngũ cố vấn luôn đồng hành lắng nghe tâm sự của bạn.');" type="button">
+<span class="material-symbols-outlined text-[18px]">help_center</span>
+<span class="font-label-md text-label-md">Tìm trợ giúp</span>
+</button>
+</div>
+<!-- Subtle Footnote -->
+<div class="mt-space-xl text-center">
+<p class="font-label-sm text-label-sm text-outline tracking-wider">
+      * Dữ liệu minh họa • Luôn tôn trọng tiếng nói chân thật của bạn
+    </p>
+</div>
+</div></main></body></html>

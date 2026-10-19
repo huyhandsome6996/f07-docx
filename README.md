@@ -1,3 +1,33 @@
+# Bộ tài liệu hoàn thiện F02 F04 F07 F15
+
+**Nhánh hiện hành:** `tai_lieu_hoan_thien_F02_F04_F07_F15_docx`.
+
+Bắt đầu tại [hướng dẫn đọc tổng hợp](hoan-thien-f02-f04-f07-f15/00-READ-FIRST.md),
+[prompt để copy cho coding agent](PROMPT-COPY-F02-F04-F07-F15.md) và
+[prompt merge an toàn](hoan-thien-f02-f04-f07-f15/prompts/02-MERGE-AN-TOAN.md).
+
+Gồm bối cảnh HS/PH ghép sẵn, yêu cầu riêng bốn feature, UI đầy đủ web/Mini App,
+nguồn/docs/skills/rules/thiết kế/DOCX/ZIP/audit, ma trận conflict ở main a64f653,
+kiểm thử tích hợp, gate merge/release và rollback. Cả bốn nhánh đều có conflict
+với main tại snapshot; không tuyên bố đã sẵn sàng merge hoặc đã chạy app trong
+nhiệm vụ đóng gói này. Không sửa/merge/deploy repo ứng dụng trong đợt tạo bộ này.
+
+- [Yêu cầu và nguồn mới](hoan-thien-f02-f04-f07-f15/).
+- [Bằng chứng SHA và conflict](hoan-thien-f02-f04-f07-f15/evidence/branch-and-conflicts.json).
+- [Hướng dẫn Word](hoan-thien-f02-f04-f07-f15/HUONG-DAN-BAN-GIAO.docx).
+- [ZIP13 hướng dẫn và inventory](bundles/13-integration-four-features/).
+- [Ma trận nghiệm thu](hoan-thien-f02-f04-f07-f15/07-NGHIEM-THU-HAI-CLIENT.md).
+
+Kiểm tra: `python3 tools/validate_integration_kit.py` và `python3 tools/bundles.py verify`.
+Kho tài liệu main/F02-docx/F04-docx/f04-docx được giữ nguyên; chỉ nhánh tổng hợp này thay đổi.
+
+---
+
+## Phần kế thừa từ main F07 trước bộ tổng hợp
+
+Nội dung dưới đây là lịch sử của main docs e286f85. Các verdict/entry point chỉ
+áp dụng SHA ghi ở đó; dùng bộ tổng hợp ở trên cho nhiệm vụ bốn feature hiện hành.
+
 # Kho tài liệu F07 — Family Bridge
 
 Điểm bắt đầu cho coding agent tìm đúng ZIP, kiểm tra checksum và giải nén tài liệu cần đọc. Gói bàn giao gốc **946 tệp** giữ nguyên trong 00–09; các review bổ sung ở 10–12. Không đóng gói secret, DB hoặc dữ liệu người tham gia.

@@ -153,6 +153,25 @@
       "role": "review_update",
       "contents_file": "catalog/AUDIT-CONTENTS.csv",
       "application_commit": "2ffd674243c5063f95123010498bc9cc60cf441e"
+    },
+    {
+      "id": "13",
+      "title": "F02 F04 F07 F15 — bộ hoàn thiện và tích hợp an toàn",
+      "purpose": "Entry point mới trên nhánh tổng hợp; yêu cầu, prompt, conflict map, source pin, thiết kế và audit lịch sử. Không là verdict runtime.",
+      "archive": "bundles/13-integration-four-features/13-F02-F04-F07-F15-integration-kit.zip",
+      "sha256": "da9fb60038c950d1972a06518008319011bb4a1b6c366e65e1dc7fe0cbcd0536",
+      "archive_bytes": 315773,
+      "file_count": 23,
+      "uncompressed_bytes": 1199853,
+      "role": "review_update",
+      "contents_file": "catalog/INTEGRATION-CONTENTS.csv",
+      "application_commit": "a64f6531e627a9163b98d5a4fe8d6787ea45e36e",
+      "feature_heads": {
+        "F02": "e38688c8bbcd1848aca727630f0fe79cb98ce992",
+        "F04": "d33b250f16cab362cb3d93908274ea1df2967351",
+        "F07": "3fe66cd6b30fd4e1b905e243f272f13823a52ab1",
+        "F15": "aeae32124a00bd05fc39802f662370df60ebea93"
+      }
     }
   ]
 }

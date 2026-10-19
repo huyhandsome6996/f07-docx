@@ -1,0 +1,3066 @@
+--- e0ee388/packages/family_bridge_shared/tests/f04-contract.test.mjs
++++ ec29ab/packages/family_bridge_shared/tests/f04-contract.test.mjs
+@@ -7,6 +7,8 @@
+ //  - C6/C8: replay idempotency + editDraft KHÔNG gửi kind; pause chỉ chặn khi
+ //    ĐÃ chọn (mock không ép preview/send chờ 300s khi chưa chọn pause).
+ //  - Pagination mapping: F05/F07 dùng page_size + next; F06 server_time/pause_seconds.
++//  - N01 (QA 19/10): preview response kèm `body` snapshot server-bound;
++//    http pass-through nguyên vẹn; mock cùng shape (parity backend A2).
+ // Chạy: node --test packages/family_bridge_shared/tests/f04-contract.test.mjs
+ import { describe, it, mock } from "node:test";
+ import assert from "node:assert/strict";
+@@ -513,3 +515,93 @@
+     }
+   });
+ });
++
++// ---------------------------------------------------------------------------
++// N01 (QA F04 19/10 — P1 "gửi sai bản đã duyệt"): preview response PHẢI mang
++// `body` = snapshot server-bound. Nguồn sự thật: make_preview backend
++// (f06_drafts/services/drafts.py) sau khi A2 thêm field `body`; mock adapter
++// phải cùng shape để 2 client chạy mock có hành vi giống HTTP thật. Quy tắc
++// bảo trì (giống F5): khi backend đổi shape preview PHẢI cập nhật CẢ HAI
++// phía mock + mảng hằng dưới đây cùng một lúc.
++// ---------------------------------------------------------------------------
++const DOCUMENTED_PREVIEW_DTO_FIELDS = [
++  "preview_id",
++  "revision",
++  "recipient_id",
++  "body",
++  "deadline",
++  "server_time",
++];
++
++describe("N01 — mock previewDraft trả body server-bound (parity backend mới)", () => {
++  it("preview trả ĐÚNG key set {preview_id, revision, recipient_id, body, deadline, server_time} + source quy ước", async () => {
++    const adapter = createMockAdapter();
++    const draft = await adapter.createDraft({ kind: "text", body: "ban can gui", recipientId: "r-n01" });
++    const preview = await adapter.previewDraft(draft.draft_id);
++    assert.deepEqual(Object.keys(preview),
++      [...DOCUMENTED_PREVIEW_DTO_FIELDS, "source"],
++      "shape preview = make_preview backend (drafts.py) + body snapshot N01 + source ở cuối");
++  });
++
++  it("preview.body là snapshot đúng nội dung draft TẠI THỜI ĐIỂM preview (bản đã lưu cuối)", async () => {
++    const adapter = createMockAdapter();
++    const draft = await adapter.createDraft({ kind: "text", body: "ban dau", recipientId: "r-n01" });
++    const first = await adapter.previewDraft(draft.draft_id);
++    assert.equal(first.body, "ban dau");
++    // Sửa nháp (revision bump) → preview MỚI phải chốt bản mới.
++    const edited = await adapter.editDraft(draft.draft_id, { body: "ban da sua", recipientId: "r-n01" });
++    const second = await adapter.previewDraft(draft.draft_id);
++    assert.equal(second.body, "ban da sua", "body = bản server giữ sau editDraft");
++    assert.equal(second.revision, edited.revision);
++    assert.notEqual(second.preview_id, first.preview_id, "preview cũ hết giá trị sau edit");
++    // Snapshot của preview cũ GIỮ NGUYÊN (server-bound, không sống theo live state).
++    assert.equal(first.body, "ban dau");
++  });
++
++  it("N01 invalidate: confirm với preview cũ sau edit → 409 preview_stale (không gửi bản cũ)", async () => {
++    const adapter = createMockAdapter();
++    const draft = await adapter.createDraft({ kind: "text", body: "ban A", recipientId: "r-n01" });
++    const stale = await adapter.previewDraft(draft.draft_id);
++    await adapter.editDraft(draft.draft_id, { body: "ban B", recipientId: "r-n01" });
++    await assert.rejects(
++      () => adapter.confirmDraftSend(draft.draft_id, stale.preview_id),
++      (error) => error.status === 409 && error.code === "preview_stale",
++      "preview chốt bản A nhưng revision đã đổi — confirm phải bị chặn, không hồi sinh bản A",
++    );
++    const fresh = await adapter.previewDraft(draft.draft_id);
++    assert.equal(fresh.body, "ban B");
++    const sent = await adapter.confirmDraftSend(draft.draft_id, fresh.preview_id);
++    assert.equal(sent.status, "sent");
++  });
++});
++
++describe("N01 — http previewDraft pass-through NGUYÊN VẸN (không biến đổi envelope)", () => {
++  it("response của máy chủ trả NGUYÊN VẸN: body snapshot + mọi field server giữ nguyên", async () => {
++    clearSession();
++    setSession({ token: "tok", userId: "u", expiresAt: Date.now() + 60_000 });
++    // Shape = make_preview backend sau khi A2 thêm `body` (snapshot server-bound).
++    const serverPreview = {
++      preview_id: "8b1e1c58-0000-4a5a-9d1f-000000000001",
++      revision: 7,
++      recipient_id: "r-uuid-n01",
++      body: "bản máy chủ đã chốt — client KHÔNG được đọc live textarea thay cho field này",
++      deadline: null,
++      server_time: "2026-10-19T00:00:00+00:00",
++      server_only_field: "giữ nguyên (pass-through như aiRefine C3)",
++    };
++    const calls = await captureFetch(() => jsonResponse(serverPreview));
++    try {
++      const endpoints = makeEndpoints();
++      const preview = await endpoints.previewDraft("d-n01");
++      assert.deepEqual(preview, serverPreview,
++        "adapter phải trả preview nguyên vẹn — KHÔNG thêm/bớt/đổi tên field");
++      assert.equal(preview.body, serverPreview.body,
++        "body server-bound phải tới tay client nguyên vẹn (N01)");
++      assert.equal(calls[0].url, "https://backend.example/api/v1/drafts/d-n01/preview");
++      assert.equal(calls[0].options.method, "POST");
++    } finally {
++      clearSession();
++      mock.restoreAll();
++    }
++  });
++});
+--- e0ee388/packages/family_bridge_shared/src/adapter/mock-adapter.js
++++ ec29ab/packages/family_bridge_shared/src/adapter/mock-adapter.js
+@@ -547,10 +547,17 @@
+         );
+       }
+       const nowIso = new Date().toISOString();
++      // N01 (QA 19/10 — P1 "gửi sai bản đã duyệt"): preview response PHẢI kèm
++      // `body` = snapshot nội dung mà MÁY CHỦ vừa chốt (bản của draft tại thời
++      // điểm preview, sau mọi editDraft). Client bắt buộc hiển thị preview.body
++      // trong sheet xác nhận (fallback snapshot chốt trước await) — TUYỆT ĐỐI
++      // không đọc lại live textarea. Parity với make_preview backend
++      // (f06_drafts/services/drafts.py) sau khi A2 thêm field `body`.
+       return {
+         preview_id: `demo-preview-${draftId}-${draft.revision}`,
+         revision: draft.revision,
+         recipient_id: draft.recipient_id,
++        body: draft.body,
+         deadline: draft.pause ? draft.pause.deadline : null,
+         server_time: nowIso,
+         source: "fixture",
+--- e0ee388/packages/family_bridge_shared/src/adapter/http-endpoints.js
++++ ec29ab/packages/family_bridge_shared/src/adapter/http-endpoints.js
+@@ -329,7 +329,11 @@
+           method: "POST",
+           body: {},
+         }));
+-      return data; // preview gắn (revision, recipient, hash payload)
++      return data; // pass-through NGUYÊN VẸN (parity mock): {preview_id,
++      // revision, recipient_id, body, deadline, server_time} — `body` là
++      // snapshot server-bound (N01, QA 19/10): client hiển thị preview.body
++      // trong sheet xác nhận, KHÔNG đọc lại live textarea. Adapter KHÔNG được
++      // thêm/bớt field của preview (cùng quy tắc pass-through với aiRefine).
+     },
+ 
+     async confirmDraftSend(draftId, previewId) {
+--- /dev/null
++++ ec29ab/packages/family_bridge_features/f04_ai/tests/test_f04_claim_identity.py
+@@ -0,0 +1,314 @@
++"""F04 claim-identity fencing tests (N02 — QA probe, P1 18/10).
++
++Phiên race QA xác nhận (probe ngoài source, thứ tự giao nhau xác định):
++1. Request A claim key K (row X, INFLIGHT, payload H_A); provider A đang chờ.
++2. F15 deletion category "ai" process completed → hook xoá claim X (và
++   suggestions của author).
++3. Request B bắt đầu lại sau deletion, claim lại key K qua
++   `_claim_refine_operation` THẬT → row mới Y (payload khác); B dừng TRƯỚC
++   khi provider trả.
++4. Provider A trả kết quả cũ.
++5. Finalize cũ của A chỉ filter (author, key, INFLIGHT) → NHẬT NHẦM row Y của
++   B → lưu suggestion (hồi sinh dữ liệu đã xoá) + hoàn tất claim Y (cướp
++   claim của B).
++
++Nghiệm thu N02: finalize phải bị FENCE theo identity (pk + payload hash) của
++claim mà CHÍNH request đó tạo lúc nhận quyền gọi provider. Kết quả của request
++cũ KHÔNG được lưu dù key được tái dùng (deletion) hoặc reclaim sau TTL. TTL
++reclaim 60s giữ nguyên hành vi (retry của user là hợp lệ) — chỉ finalize cũ
++bị fence.
++
++Mọi thao tác DB đều đi qua CODE THẬT (deletion hook F15 thật,
++_claim_refine_operation thật); provider double chỉ DỰNG WINDOW giao nhau
++trong lúc "provider đang chờ" — cùng pattern DeletionDuringCallProvider
++trong test_f04_deletion.py. Không mock DB-level, không mock claim service.
++
++Ghi chú thiết kế cho case 3 (finalize race): R1A2-01 đảm bảo KHÔNG BAO GIỜ
++có 2 provider call cùng sống với 1 claim còn INFLIGHT — nên "provider 2 lần,
++cùng 1 claim" chỉ tồn tại ở cửa sổ finalize race (winner commit TRƯỚC khi
++finalize của thua cuộc chạy, cùng pattern RaceIntegrityTests trong
++test_f04.py). Test này pin: thua cuộc replay winner (đúng 1 suggestion),
++chỉ hoàn tất claim CỦA CHÍNH NÓ (pk-scoped), không đánh dấu claim nào khác.
++"""
++
++import datetime as dt
++from unittest import mock
++
++from family_bridge_core.idempotency import send_payload_hash
++from family_bridge_core.timeutils import UTC
++
++import labgrants.sessions as _lab_sessions
++from labgrants.f04_fixtures import TestAiProvider
++
++from ..models import (
++    STATUS_COMPLETED, STATUS_INFLIGHT, STATUS_SUGGESTED, AiRefineOperation,
++    AiSuggestion,
++)
++from ..services import registry
++from ..services.deletion import AiSuggestionDeletionHook
++from ..services.express import REFINE_OPERATION_TTL_SECONDS, AiExpressService
++from .helpers import auth_header, make_session
++from .test_f04 import F04ApiBase, HARSH, grant_ai_consent
++
++
++def _hash_for(text, revision=None):
++    """Cùng công thức payload hash với refine() (kind=ai_refine)."""
++    return send_payload_hash(kind="ai_refine", recipient_id="", body=text,
++                             reply_to=None, context_revision=revision)
++
++
++class ClaimReuseAfterDeletionTests(F04ApiBase):
++    """N02 case 1: deletion completed giữa chừng → request B claim lại key
++    (payload khác) qua service thật → finalize của A (kết quả cũ) phải bị
++    DROP: 0 suggestion (không hồi sinh dữ liệu đã xoá), claim Y của B vẫn
++    INFLIGHT (không bị cướp), phản hồi 503 trung thực."""
++
++    def test_claim_reuse_after_deletion_old_result_dropped(self):
++        key = "ai-identity-del-0001"
++        hash_b = _hash_for("Request B sau deletion — payload khác hẳn request A")
++
++        class DeletionThenReclaimProvider(TestAiProvider):
++            """Hook chạy GIỮA lời gọi provider của A: deletion thật hoàn tất,
++            request B claim lại key qua service thật → row Y (payload khác).
++            Kết quả của A trả SAU CÙNG — đúng cửa sổ race QA probe."""
++
++            def __init__(self, victim_id, victim_key, other_hash):
++                super().__init__()
++                self._victim_id = victim_id
++                self._key = victim_key
++                self._other_hash = other_hash
++                self.deletion_outcome = None
++                self.young_row_pk = None
++
++            def refine(self, *, text, purpose, timeout_seconds=None):
++                # (2) F15 deletion category "ai" HOÀN TẤT trong lúc chờ:
++                self.deletion_outcome = AiSuggestionDeletionHook() \
++                    .apply_user_deletion(user_id=self._victim_id)
++                # (3) Request B claim lại key K qua service thật → row Y.
++                AiExpressService()._claim_refine_operation(
++                    author_id=self._victim_id, idempotency_key=self._key,
++                    payload_hash=self._other_hash)
++                self.young_row_pk = str(AiRefineOperation.objects.get(
++                    author_id=self._victim_id,
++                    idempotency_key=self._key).pk)
++                # (4) Provider A trả kết quả cũ SAU CÙNG.
++                return super().refine(text=text, purpose=purpose,
++                                      timeout_seconds=timeout_seconds)
++
++        provider = DeletionThenReclaimProvider(str(self.student.pk), key,
++                                               hash_b)
++        registry.reset_registries()
++        registry.register_session_resolver(_lab_sessions.resolve_session)
++        registry.register_ai_provider(provider)
++
++        response = self._refine(self.student_token, key=key)
++
++        # Deletion thật đã chạy hoàn tất trước khi finalize của A chạy.
++        self.assertIsNotNone(provider.deletion_outcome)
++        self.assertTrue(provider.deletion_outcome["ok"])
++        self.assertIsNotNone(provider.young_row_pk)
++        # Assertion cốt lõi N02: kết quả cũ KHÔNG được lưu — không hồi sinh
++        # suggestion sau khi deletion completed (phải còn đúng 0).
++        self.assertEqual(AiSuggestion.objects.filter(
++            author_id=str(self.student.pk)).count(), 0)
++        # Claim Y của B không bị finalize cũ đánh dấu COMPLETED (cướp claim).
++        young = AiRefineOperation.objects.get(pk=provider.young_row_pk)
++        self.assertEqual(young.status, STATUS_INFLIGHT)
++        self.assertEqual(young.payload_hash_hex, hash_b)
++        # Kết quả bị bỏ một cách trung thực (503, không 500, không 201 giả).
++        self.assertEqual(response.status_code, 503)
++        self.assertEqual(response.data["error"]["details"]["reason"],
++                         "refine_result_discarded_after_deletion")
++        # Không còn claim nào khác sóng lại (X đã xoá, chỉ còn Y INFLIGHT).
++        self.assertEqual(AiRefineOperation.objects.filter(
++            author_id=str(self.student.pk),
++            idempotency_key=key, status=STATUS_INFLIGHT).count(), 1)
++
++
++class TtlReclaimFenceTests(F04ApiBase):
++    """N02 case 2: claim A (X) quá TTL 60s → user retry (B) reclaim HỢP LỆ
++    qua service thật (xoá X, tạo Y — CÙNG payload, đúng hợp đồng TTL giữ
++    nguyên) → finalize MUỘN của A (kết quả cũ) phải bị fence theo pk: 0
++    suggestion, Y vẫn INFLIGHT cho finalize thật sự của B."""
++
++    def test_ttl_reclaim_old_completion_fenced(self):
++        key = "ai-identity-ttl-0001"
++
++        class ReclaimDuringCallProvider(TestAiProvider):
++            """Hook giữa lời gọi provider của A: aging claim X quá TTL trên
++            server clock (pattern _age_claim trong test_f04.py), sau đó retry
++            của user reclaim qua service thật (cùng payload). Provider A trả
++            kết quả cũ SAU CÙNG."""
++
++            def __init__(self, victim_id, victim_key):
++                super().__init__()
++                self._victim_id = victim_id
++                self._key = victim_key
++                self.young_row_pk = None
++
++            def refine(self, *, text, purpose, timeout_seconds=None):
++                op = AiRefineOperation.objects.get(
++                    author_id=self._victim_id, idempotency_key=self._key)
++                stale = dt.datetime.now(tz=UTC) - dt.timedelta(
++                    seconds=REFINE_OPERATION_TTL_SECONDS + 5)
++                AiRefineOperation.objects.filter(pk=op.pk).update(
++                    created_at=stale, updated_at=stale)
++                # TTL reclaim giữ nguyên hành vi: cùng payload mới được nhận.
++                AiExpressService()._claim_refine_operation(
++                    author_id=self._victim_id, idempotency_key=self._key,
++                    payload_hash=_hash_for(text))
++                self.young_row_pk = str(AiRefineOperation.objects.get(
++                    author_id=self._victim_id,
++                    idempotency_key=self._key).pk)
++                return super().refine(text=text, purpose=purpose,
++                                      timeout_seconds=timeout_seconds)
++
++        provider = ReclaimDuringCallProvider(str(self.student.pk), key)
++        registry.reset_registries()
++        registry.register_session_resolver(_lab_sessions.resolve_session)
++        registry.register_ai_provider(provider)
++
++        response = self._refine(self.student_token, key=key)
++
++        # Reclaim đã thật sự diễn ra (X bị xoá, Y đã sinh trong lúc A chờ).
++        self.assertIsNotNone(provider.young_row_pk)
++        # Kết quả cũ của A KHÔNG được lưu dù key được reclaim sau TTL.
++        self.assertEqual(AiSuggestion.objects.filter(
++            author_id=str(self.student.pk)).count(), 0)
++        # Claim Y (thế hệ reclaim) không bị finalize cũ hoàn tất thay.
++        young = AiRefineOperation.objects.get(pk=provider.young_row_pk)
++        self.assertEqual(young.status, STATUS_INFLIGHT)
++        self.assertEqual(young.payload_hash_hex, _hash_for(HARSH))
++        # Fence 503 trung thực (reclaim-deleted cùng họng mapping với deletion
++        # — kết quả cũ bị bỏ, không tự lưu dưới bất kỳ hình thức nào).
++        self.assertEqual(response.status_code, 503)
++        self.assertEqual(response.data["error"]["details"]["reason"],
++                         "refine_result_discarded_after_deletion")
++
++
++class FinalizeRaceReplayTests(F04ApiBase):
++    """N02 case 3: cùng 1 claim, finalize race (winner commit trước khi
++    finalize của thua cuộc chạy) → thua cuộc replay winner: đúng 1 suggestion,
++    KHÔNG đánh dấu claim nào khác ngoài claim của chính nó (pk-scoped),
++    retry cùng key vẫn replay (không provider call thêm)."""
++
++    def test_finalize_race_replays_winner_same_claim(self):
++        key = "ai-identity-race-0001"
++        winner_text = "Bản ghi thắng cuộc đua (cùng claim)"
++        winner_hash = _hash_for(HARSH)
++        entered = []
++
++        class WinnerDuringCallProvider(TestAiProvider):
++            def __init__(self, victim_id):
++                super().__init__()
++                self._victim_id = victim_id
++
++            def refine(self, *, text, purpose, timeout_seconds=None):
++                entered.append(1)
++                # Winner cùng key commit TRƯỚC finalize của A (window race
++                # thật — cùng pattern RaceIntegrityTests trong test_f04.py).
++                AiSuggestion.objects.create(
++                    author_id=self._victim_id, purpose=purpose,
++                    status=STATUS_SUGGESTED, original_text=text,
++                    suggested_text=winner_text,
++                    provider_id=self.provider_id,
++                    model_revision=self.model_revision,
++                    prompt_revision=self.prompt_revision,
++                    idempotency_key=key, payload_hash_hex=winner_hash)
++                return super().refine(text=text, purpose=purpose,
++                                      timeout_seconds=timeout_seconds)
++
++        # Claim "lạ" cùng author nhưng KHÁC key: finalize của A không được
++        # đụng đến (không update mù theo author).
++        decoy = AiRefineOperation.objects.create(
++            author_id=str(self.student.pk), idempotency_key="ai-identity-decoy",
++            payload_hash_hex=winner_hash, status=STATUS_INFLIGHT)
++
++        provider = WinnerDuringCallProvider(str(self.student.pk))
++        registry.reset_registries()
++        registry.register_session_resolver(_lab_sessions.resolve_session)
++        registry.register_ai_provider(provider)
++
++        response = self._refine(self.student_token, key=key)
++
++        self.assertEqual(response.status_code, 201)
++        # Lần finalize đầu: thua cuộc REPLAY winner, không lưu row thứ 2.
++        self.assertEqual(response.data["suggested_text"], winner_text)
++        self.assertEqual(len(entered), 1)  # đúng 1 generation (R1A2-01 giữ nguyên)
++        self.assertEqual(AiSuggestion.objects.filter(
++            author_id=str(self.student.pk)).count(), 1)
++        own = AiRefineOperation.objects.get(
++            author_id=str(self.student.pk), idempotency_key=key)
++        self.assertEqual(own.status, STATUS_COMPLETED)  # chỉ claim của mình
++        # Claim khác (decoy) phải còn nguyên INFLIGHT.
++        decoy.refresh_from_db()
++        self.assertEqual(decoy.status, STATUS_INFLIGHT)
++        # Lần 2 (client retry cùng key): replay winner, không provider thêm.
++        retry = self._refine(self.student_token, key=key)
++        self.assertEqual(retry.status_code, 201)
++        self.assertEqual(retry.data["suggested_text"], winner_text)
++        self.assertEqual(retry.data["suggestion_id"],
++                         response.data["suggestion_id"])
++        self.assertEqual(len(entered), 1)
++        self.assertEqual(AiSuggestion.objects.count(), 1)
++        self.assertEqual(AiRefineOperation.objects.filter(
++            author_id=str(self.student.pk), idempotency_key=key).count(), 1)
++
++
++class NormalFlowUnaffectedTests(F04ApiBase):
++    """N02 case 4: regression chống sửa phá luồng thường — claim → provider
++    OK → finalize → 1 suggestion + claim COMPLETED, hash khớp payload."""
++
++    def test_normal_flow_unaffected(self):
++        key = "ai-identity-ok-0001"
++        response = self._refine(self.student_token, key=key)
++        self.assertEqual(response.status_code, 201)
++        self.assertEqual(len(self.provider.calls), 1)
++        row = AiSuggestion.objects.get(pk=response.data["suggestion_id"])
++        self.assertEqual(row.status, "suggested")
++        self.assertEqual(row.payload_hash_hex, _hash_for(HARSH))
++        op = AiRefineOperation.objects.get(
++            author_id=str(self.student.pk), idempotency_key=key)
++        self.assertEqual(op.status, STATUS_COMPLETED)
++        self.assertEqual(op.payload_hash_hex, row.payload_hash_hex)
++        # Replay sau thành công vẫn trả đúng row cũ, không provider thêm.
++        replay = self._refine(self.student_token, key=key)
++        self.assertEqual(replay.status_code, 201)
++        self.assertEqual(replay.data["suggestion_id"], str(row.pk))
++        self.assertEqual(len(self.provider.calls), 1)
++
++
++class DeletionInflightBasicTests(F04ApiBase):
++    """N02 case 5: giữ logic R02 cũ (XANH) — deletion trong khi provider chờ,
++    KHÔNG có reclaim → finalize bị chặn, 0 suggestion, claim dọn sạch.
++    Mirror gọn của LateProviderResultAfterDeletionTests (test_f04_deletion.py)."""
++
++    def test_deletion_inflight_basic_kept_green(self):
++        class DeletionDuringCallProvider(TestAiProvider):
++            def __init__(self, victim_id):
++                super().__init__()
++                self._victim_id = victim_id
++                self.deletion_outcome = None
++
++            def refine(self, *, text, purpose, timeout_seconds=None):
++                self.deletion_outcome = AiSuggestionDeletionHook() \
++                    .apply_user_deletion(user_id=self._victim_id)
++                return super().refine(text=text, purpose=purpose,
++                                      timeout_seconds=timeout_seconds)
++
++        provider = DeletionDuringCallProvider(str(self.student.pk))
++        registry.reset_registries()
++        registry.register_session_resolver(_lab_sessions.resolve_session)
++        registry.register_ai_provider(provider)
++
++        response = self._refine(self.student_token, key="ai-identity-r02-0001")
++
++        self.assertIsNotNone(provider.deletion_outcome)
++        self.assertTrue(provider.deletion_outcome["ok"])
++        self.assertEqual(AiSuggestion.objects.filter(
++            author_id=str(self.student.pk)).count(), 0)
++        self.assertEqual(AiRefineOperation.objects.filter(
++            author_id=str(self.student.pk)).count(), 0)
++        self.assertEqual(response.status_code, 503)
++        self.assertEqual(response.data["error"]["details"]["reason"],
++                         "refine_result_discarded_after_deletion")
+--- e0ee388/packages/family_bridge_features/f04_ai/services/express.py
++++ ec29ab/packages/family_bridge_features/f04_ai/services/express.py
+@@ -25,7 +25,13 @@
+    atomic claim (AiRefineOperation) -> provider call OUTSIDE every
+    transaction.atomic -> short atomic finalize (suggestion insert + claim
+    COMPLETED). Provider/network I/O never runs inside a transaction or row
+-   lock.
++   lock. Claim IDENTITY fencing (N02, QA 18/10): the request captures the
++   pk + payload hash of ITS OWN claim at claim time and finalize locks THAT
++   row by pk — never "any INFLIGHT row with the same author+key". A key
++   reused after an F15 deletion or a TTL reclaim belongs to a NEW generation
++   with its own row; the old request's late result is fenced (dropped, 503
++   refine_result_discarded_after_deletion), never stored onto the new
++   generation's claim.
+ 7. Provider failure modes map to truthful statuses: timeout/outage/quota ->
+    temporarily_unavailable (503) with reason; malformed/oversized/truncated
+    output -> temporarily_unavailable(provider_output_invalid|_truncated).
+@@ -78,9 +84,23 @@
+ 
+ 
+ class _RefineFencedByDeletion(Exception):
+-    """R02 (QA 18/10): the F15 deletion committed while the provider call
+-    was in flight — the claim row is gone, so the spent provider result
+-    must be DROPPED, never persisted as a suggestion."""
++    """R02 (QA 18/10) + N02 identity fence: the claim row THIS request owns
++    is gone at finalize time — the F15 deletion committed, or a TTL reclaim
++    replaced the row with a new generation. The spent provider result must
++    be DROPPED, never persisted as a suggestion and never attributed to the
++    next generation's claim."""
++
++    def __init__(self, reason: str = "claim_row_missing") -> None:
++        super().__init__(reason)
++        self.reason = reason
++
++
++class _RefineClaimIdentityMismatch(Exception):
++    """N02 defense-in-depth: under the finalize row lock the claim's stored
++    payload hash no longer matches THIS request's payload — the identity
++    binding (claim_pk <-> payload_hash) is broken out-of-band. Refuse to
++    store anything: an old result must never land on a different
++    generation's claim."""
+ 
+ 
+ def validate_input_revision(value: Any) -> Optional[int]:
+@@ -163,10 +183,14 @@
+                                 payload_hash: str):
+         """Claim the per-(author, key) operation slot in a SHORT atomic.
+ 
+-        Returns None when this request owns the claim and may proceed to the
+-        provider call; returns an AiSuggestion when the operation already
+-        reached a completed outcome with the same payload (replay — the
+-        caller must return it without any provider call).
++        Returns the claim IDENTITY (dict {"claim_pk", "payload_hash"}) when
++        this request owns a FRESH claim and may proceed to the provider
++        call; returns an AiSuggestion when the operation already reached a
++        completed outcome with the same payload (replay — the caller must
++        return it without any provider call). The caller must carry the
++        identity through Phase 3 and present it at finalize: the finalize
++        fence (N02) validates pk + payload hash under lock so a reused or
++        TTL-reclaimed key can never inherit an older request's result.
+ 
+         Raises:
+         - SlotUnavailable (409): a FRESH (< TTL) INFLIGHT claim exists —
+@@ -180,12 +204,15 @@
+         for _ in range(3):  # bounded: stale reclamation retries at most once
+             try:
+                 with transaction.atomic():
+-                    AiRefineOperation.objects.create(
++                    row = AiRefineOperation.objects.create(
+                         author_id=str(author_id),
+                         idempotency_key=idempotency_key,
+                         payload_hash_hex=payload_hash,
+                         status=STATUS_INFLIGHT)
+-                return None  # claimed: this request may call the provider
++                # N02: claimed — capture THIS generation's identity so the
++                # finalize fence can re-lock exactly this row by pk.
++                return {"claim_pk": str(row.pk),
++                        "payload_hash": payload_hash}
+             except IntegrityError:
+                 op = AiRefineOperation.objects.filter(
+                     author_id=str(author_id),
+@@ -261,11 +288,14 @@
+ 
+         # Phase 2: claim the operation slot (R1A2-01, short atomic). A replay
+         # here means the operation already finished with the same payload.
+-        replay = self._claim_refine_operation(
++        # Otherwise keep the claim IDENTITY: finalize must fence on exactly
++        # this row (pk + payload hash), never on author+key alone (N02).
++        claim_identity = self._claim_refine_operation(
+             author_id=str(author_id), idempotency_key=idempotency_key,
+             payload_hash=payload_hash)
+-        if replay is not None:
+-            return replay
++        if isinstance(claim_identity, AiSuggestion):
++            return claim_identity  # replay of the finished operation
++        claim_pk = claim_identity["claim_pk"]
+ 
+         # Phase 3: provider/network I/O — deliberately OUTSIDE any
+         # transaction.atomic (probe-tested: connection.in_atomic_block False).
+@@ -290,29 +320,49 @@
+         # the winner, never 500s and never creates a second stored operation
+         # for the same key.
+         #
+-        # R02 fence (QA 18/10): the claim row is re-verified UNDER LOCK
+-        # inside this same atomic. The F15 deletion hook deletes the
+-        # author's AiSuggestion + AiRefineOperation rows atomically
+-        # (frozen contract C9); if that deletion committed during the
+-        # provider wait (Phase 3 is deliberately OUTSIDE any transaction),
+-        # the claim no longer exists and the result is fenced: NOTHING is
+-        # stored (deletion completed -> suggestion count stays 0). Locking
+-        # the claim row first means a deletion racing THIS finalize blocks
+-        # on the row lock and then deletes both rows — the fence cannot be
+-        # interleaved into a resurrected row.
++        # R02 + N02 identity fence (QA 18/10): the claim row is re-verified
++        # UNDER LOCK inside this same atomic — by PK, the exact row THIS
++        # request claimed, never "any INFLIGHT row with the same author+key".
++        # The F15 deletion hook deletes the author's AiSuggestion +
++        # AiRefineOperation rows atomically (frozen contract C9), and the TTL
++        # reclaim replaces a stale row with a NEW generation row (same key,
++        # new pk). If our row is gone or its identity no longer matches, the
++        # result is fenced: NOTHING is stored (deletion completed ->
++        # suggestion count stays 0) and the next generation's INFLIGHT claim
++        # is never completed on our behalf. Locking the claim row first means
++        # a deletion racing THIS finalize blocks on the row lock and then
++        # deletes both rows — the fence cannot be interleaved into a
++        # resurrected row.
+         try:
+             with transaction.atomic():
+                 claim = (AiRefineOperation.objects.select_for_update()
+-                         .filter(author_id=str(author_id),
+-                                 idempotency_key=idempotency_key,
+-                                 status=STATUS_INFLIGHT).first())
++                         .filter(pk=claim_pk).first())
+                 if claim is None:
+-                    # Outcome of the deletion race: the author's data was
+-                    # deleted between claim and finalize. The provider call
+-                    # is already spent (billed) — exactly why nothing may
+-                    # be persisted from it afterwards (C6 analog of the
+-                    # consent/kill-switch finalize recheck).
++                    # Outcome of the deletion/reclaim race: OUR claim row no
++                    # longer exists (deleted, or replaced by a new generation
++                    # after the TTL). The provider call is already spent
++                    # (billed) — exactly why nothing may be persisted from
++                    # it afterwards (C6 analog of the consent/kill-switch
++                    # finalize recheck).
+                     raise _RefineFencedByDeletion()
++                if claim.payload_hash_hex != payload_hash:
++                    # N02: identity binding broken (hash differs under lock)
++                    # — this row belongs to a different payload generation;
++                    # never write our result onto it.
++                    raise _RefineClaimIdentityMismatch()
++                if claim.status != STATUS_INFLIGHT:
++                    # Our OWN row already reached COMPLETED (a twin finalize
++                    # holding the same identity won the race): replay the
++                    # stored outcome honestly — never store a second row and
++                    # never touch any other claim.
++                    winner = AiSuggestion.objects.filter(
++                        author_id=str(author_id),
++                        idempotency_key=idempotency_key).first()
++                    if (winner is None
++                            or winner.payload_hash_hex != payload_hash):
++                        raise TemporarilyUnavailable(
++                            {"reason": "refine_race_unresolved"})
++                    return winner
+                 suggestion = AiSuggestion.objects.create(
+                     author_id=str(author_id), purpose=purpose,
+                     status=STATUS_SUGGESTED,
+@@ -330,10 +380,17 @@
+                 claim.save(update_fields=["status", "updated_at"])
+                 return suggestion
+         except _RefineFencedByDeletion:
+-            # Truthful 503: the operation no longer exists — the request
+-            # must NOT create a suggestion after deletion completed.
++            # Truthful 503: the operation no longer exists (deletion
++            # completed, or the key was TTL-reclaimed into a new generation)
++            # — the request must NOT create a suggestion after deletion, and
++            # a late result must never land on the next generation's claim.
+             raise ModuleUnavailable(
+                 {"reason": "refine_result_discarded_after_deletion"}) from None
++        except _RefineClaimIdentityMismatch:
++            # N02 defense-in-depth: the locked row's payload identity no
++            # longer matches this request. Drop the result; nothing stored.
++            raise ModuleUnavailable(
++                {"reason": "refine_claim_identity_mismatch"}) from None
+         except IntegrityError:
+             winner = AiSuggestion.objects.filter(
+                 author_id=str(author_id),
+@@ -349,12 +406,13 @@
+             if winner.payload_hash_hex != payload_hash:
+                 raise DuplicateKeyPayloadMismatch(
+                     {"reason": "same_key_different_payload"}) from None
+-            # Replay of the concurrent winner: reconcile our claim (if we
+-            # own one) so the marker reflects the reached outcome; the real
+-            # winner already completed the shared operation row.
++            # Replay of the concurrent winner: reconcile ONLY OUR OWN claim
++            # row (by pk — N02) so the marker reflects the reached outcome.
++            # The old author+key+INFLIGHT update would also complete a NEW
++            # generation's claim created after a deletion/TTL reclaim — the
++            # same steal path the finalize fence closes.
+             AiRefineOperation.objects.filter(
+-                author_id=str(author_id), idempotency_key=idempotency_key,
+-                status=STATUS_INFLIGHT).update(
++                pk=claim_pk, status=STATUS_INFLIGHT).update(
+                 status=STATUS_COMPLETED, updated_at=dt.datetime.now(tz=UTC))
+             return winner  # replay of the concurrent winner: no second row
+ 
+--- e0ee388/packages/family_bridge_features/f06_drafts/tests/test_f06.py
++++ ec29ab/packages/family_bridge_features/f06_drafts/tests/test_f06.py
+@@ -274,20 +274,42 @@
+     def test_no_pause_preview_shape_confirm_ok(self):
+         # (a)+(d) draft thường không pause: preview OK với shape ổn định
+         # (deadline luôn có mặt, = None khi không pause), confirm OK.
++        # N01 (QA 19/10): shape cộng thêm "body" — snapshot server-bound
++        # đúng bản server sẽ gửi khi confirm (parity với
++        # DOCUMENTED_PREVIEW_DTO_FIELDS trong
++        # packages/family_bridge_shared/tests/f04-contract.test.mjs).
+         draft = self._created_draft()
+         preview = self._preview(str(draft.id))
+         self.assertEqual(preview.status_code, 200)
+         self.assertEqual(
+             set(preview.data.keys()),
+-            {"preview_id", "revision", "recipient_id", "deadline",
++            {"preview_id", "revision", "recipient_id", "body", "deadline",
+              "server_time"})
+         self.assertIsNone(preview.data["deadline"])
+         self.assertEqual(preview.data["revision"], draft.revision)
+         self.assertEqual(preview.data["recipient_id"], str(self.caregiver.pk))
++        # N01: body snapshot KHỚP ĐÚNG draft.body đã lưu trên server.
++        self.assertEqual(preview.data["body"], draft.body)
+         confirmed = self._confirm(str(draft.id), preview.data["preview_id"])
+         self.assertEqual(confirmed.status_code, 200, confirmed.data)
+         self.assertEqual(len(self.sender.sent), 1)
+         self.assertEqual(Draft.objects.get(pk=draft.id).status, "sent")
++
++    def test_preview_body_snapshot_after_edit_is_new_saved_body(self):
++        # N01: preview sau edit phải chốt bản MỚI đã lưu (revision bump),
++        # không phải bản cũ client đang giữ trong textarea.
++        draft = self._created_draft()
++        first = self._preview(str(draft.id))
++        self.assertEqual(first.data["body"], draft.body)
++        edited = self.service.edit(author_id=str(self.student.pk),
++                                   draft_id=str(draft.id),
++                                   body="bản đã sửa sau preview đầu",
++                                   title="", card_id="", card_version=None,
++                                   recipient_id=str(self.caregiver.pk))
++        second = self._preview(str(draft.id))
++        self.assertEqual(second.data["body"], "bản đã sửa sau preview đầu")
++        self.assertEqual(second.data["body"], edited.body)
++        self.assertEqual(second.data["revision"], edited.revision)
+ 
+     def test_paused_t299_confirm_blocked_cooldown(self):
+         # (b) đã chọn pause → respect deadline server: t=299 chặn
+--- e0ee388/packages/family_bridge_features/f06_drafts/services/drafts.py
++++ ec29ab/packages/family_bridge_features/f06_drafts/services/drafts.py
+@@ -211,8 +211,15 @@
+             recipient_id=draft.recipient_id, payload_hash_hex=payload_hash)
+         # Shape stability: "deadline" mirrors the paused-state only (None
+         # when no pause is active — same parity as the shared mock adapter).
++        # N01 (QA 19/10, P1 "gửi sai bản đã duyệt"): "body" là snapshot
++        # server-bound TẠI THỜI ĐIỂM preview — bản server sẽ thực sự gửi khi
++        # confirm (confirm tự kiểm revision/recipient/payload_hash của bản
++        # đã lưu, không đọc live textarea phía client). Author-only field:
++        # preview chỉ trả cho chính tác giả draft của mình (không vi phạm
++        # privacy — same scope as the draft GET endpoint).
+         return {"preview_id": str(preview.id), "revision": draft.revision,
+                 "recipient_id": draft.recipient_id,
++                "body": draft.body,
+                 "deadline": (draft.pause_deadline_at.isoformat()
+                              if draft.pause_deadline_at else None),
+                 "server_time": now.isoformat()}
+--- /dev/null
++++ ec29ab/tests/qa-f04/n01-preview-inflight-a5.test.mjs
+@@ -0,0 +1,349 @@
++// tests/qa-f04/n01-preview-inflight-a5.test.mjs — A5 độc lập (F04-A5).
++//
++// Mục đích: probe MỨC UNIT cho N01 (QA F04 19/10, P1 "gửi sai bản đã duyệt")
++// chạy TRỰC TIẾP trên 2 module page thật (web + zalo-mini-app), KHÔNG copy
++// test của A3/A4 (khác cách dựng: adapter tự viết có DEFERRED promise —
++// preview chỉ resolve khi test cho phép, mô phỏng request đang bay).
++//
++// LỊCH SỬ PROBE (trung thực):
++//   - Phiên trước (e0ee388, chưa sửa): probe ghim "sheet phải hiển thị
++//     preview.body (A) dù user sửa trong lúc bay" → ĐỎ vì sheet render
++//     live textarea B (web:836, mini:1228). Bằng chứng ĐỎ giữ nguyên:
++//     f04-fix-evidence/a5/a5-n01-unit-RED.log.
++//   - Sau fix: A1 chốt hợp đồng docs/features/f04/web-zalo-parity.md §6.3
++//     và A4/A3 hiện thực theo đúng (d): lệch snapshot sau await → KHÔNG mở
++//     sheet + note trung thực + mở khóa (hướng "invalidate", an toàn hơn
++//     hướng "hiển thị snapshot cũ"). Do đó probe được TINH CHỈNH để ghim
++//     ĐÚNG hợp đồng theo 2 chiều, vẫn đỏ-by-construction trên e0ee388
++//     (kịch bản 1: sheet cũ VẪN mở — xem a5-n01-unit-RED.log — nên assert
++//     "sheet KHÔNG mở" chắc chắn fail trên code chưa sửa):
++//       1) sửa trong lúc preview bay → textarea bị KHÓA khi bay (rào cản 1),
++//          resolve preview xong sheet KHÔNG mở (rào cản 2), note invalidate
++//          trung thực, KHÔNG confirmDraftSend, compose mở khóa lại;
++//       2) KHÔNG sửa → sheet mở và hiển thị ĐÚNG preview.body máy chủ (A).
++//
++// Giới hạn trung thực: happy-dom KHÔNG phải browser thật (không layout, không
++// network) — bằng chứng trình duyệt end-to-end (Playwright + Chromium, Django
++// thật) nằm ở repro/preview_race.mjs; probe này ghim CONTRACT của client.
++//
++// Chạy (từ repo root):
++//   node --test tests/qa-f04/n01-preview-inflight-a5.test.mjs
++// Yêu cầu: web/node_modules + zalo-mini-app/node_modules (npm ci) cho happy-dom.
++
++import { register } from "node:module";
++import { createRequire } from "node:module";
++import { pathToFileURL } from "node:url";
++
++// Hook asset (ảnh .png/.svg) dùng chung infra repo web/tests/asset-hook.mjs —
++// đăng ký TRƯỚC mọi import động của src (URL TUYỆT ĐỐI vì register resolve
++// trong loader worker, không relative theo file test này).
++await register(
++  pathToFileURL(new URL("../../web/tests/asset-hook.mjs", import.meta.url).pathname),
++);
++
++// happy-dom resolve từ web/node_modules (devDependency pin 20.14.6).
++const requireFromWeb = createRequire(
++  new URL("../../web/package.json", import.meta.url),
++);
++const { Window } = requireFromWeb("happy-dom");
++
++// --------------------------------------------------------------- DOM globals
++const domWindow = new Window({ url: "https://localhost/" });
++globalThis.window = domWindow;
++globalThis.document = domWindow.document;
++globalThis.Node = domWindow.Node;
++globalThis.Element = domWindow.Element;
++globalThis.HTMLElement = domWindow.HTMLElement;
++globalThis.DocumentFragment = domWindow.DocumentFragment;
++globalThis.Event = domWindow.Event;
++globalThis.CustomEvent = domWindow.CustomEvent;
++globalThis.location = domWindow.location;
++
++const { describe, it } = await import("node:test");
++const assert = (await import("node:assert/strict")).default;
++
++// ---------------------------------------------------------------- fixtures
++const SERVER_BODY = "BẢN MÁY CHỦ ĐÃ CHỐT LÚC PREVIEW (A5)";
++const TAMPERED_BODY = "BẢN USER GÕ THÊM KHI PREVIEW ĐANG BAY (A5)";
++const RECIPIENT_ID = "9f1d2c3e-0000-4a5a-9d1f-a5a5a5a5a5a1";
++const DRAFT_ID = "d1a7b8c2-0000-4b6b-8e2c-a5a5a5a5a5a2";
++const PREVIEW_ID = "p3e4f5a6-0000-4c7c-9d3d-a5a5a5a5a5a3";
++const REVISION = 4;
++
++const INVALIDATE_NOTE =
++  "Nội dung hoặc người nhận đã thay đổi trong khi lấy bản xem trước — hãy bấm “Xem trước nội dung” lại.";
++
++/** Adapter tự viết: list connections/drafts tối giản + previewDraft DEFERRED.
++ * previewDraft() không resolve cho tới khi test gọi releasePreview(payload). */
++function makeDeferredPreviewAdapter() {
++  let releasePreview = null;
++  let previewCalls = 0;
++  const confirmCalls = [];
++  const editCalls = [];
++  const adapter = {
++    mode: "synthetic",
++    async listConnections() {
++      return {
++        results: [{
++          connection_id: "conn-a5-1",
++          other_party_id: RECIPIENT_ID,
++          status: "active",
++          relationship_kind: "primary",
++          counterpart: { display_name: "Mẹ (A5 fixture)" },
++        }],
++      };
++    },
++    async listDrafts() {
++      return {
++        results: [{
++          draft_id: DRAFT_ID,
++          kind: "text",
++          status: "editing",
++          body: SERVER_BODY,
++          revision: REVISION,
++          recipient_id: RECIPIENT_ID,
++        }],
++        serverTime: "2026-10-19T00:00:00+00:00",
++      };
++    },
++    async editDraft(draftId, patch) {
++      editCalls.push({ draftId, patch });
++      return {
++        draft_id: draftId, status: "editing",
++        revision: REVISION + editCalls.length,
++        body: patch.body, recipient_id: RECIPIENT_ID,
++        server_time: "2026-10-19T00:00:01+00:00",
++      };
++    },
++    previewDraft(_draftId) {
++      previewCalls += 1;
++      return new Promise((resolve) => {
++        releasePreview = (payload) => resolve(payload);
++      });
++    },
++    async confirmDraftSend(draftId, previewId) {
++      confirmCalls.push({ draftId, previewId });
++      return { status: "sent", message_id: "m-a5-1" };
++    },
++  };
++  return {
++    adapter,
++    get previewCalls() { return previewCalls; },
++    get confirmCalls() { return confirmCalls; },
++    get editCalls() { return editCalls; },
++    releasePreview(payload) {
++      if (!releasePreview) throw new Error("previewDraft chưa được gọi");
++      releasePreview(payload);
++    },
++  };
++}
++
++/** Server preview payload theo hợp đồng N01 (snapshot máy chủ). */
++function serverPreviewPayload() {
++  return {
++    preview_id: PREVIEW_ID,
++    revision: REVISION,
++    recipient_id: RECIPIENT_ID,
++    body: SERVER_BODY,
++    deadline: null,
++    server_time: "2026-10-19T00:00:02+00:00",
++  };
++}
++
++const wait = (ms) => new Promise((r) => setTimeout(r, ms));
++
++async function waitFor(predicate, label, timeoutMs = 5000) {
++  const deadline = Date.now() + timeoutMs;
++  while (Date.now() < deadline) {
++    const value = predicate();
++    if (value) return value;
++    await wait(10);
++  }
++  throw new Error(`waitFor timeout: ${label}`);
++}
++
++async function setSessions() {
++  const webSession = await import("../../web/src/core/session.js");
++  const miniSession = await import("../../zalo-mini-app/src/core/session.js");
++  for (const mod of [webSession, miniSession]) {
++    mod.clearSession();
++    mod.setSession({
++      token: "a5-synthetic-token",
++      userId: "u-a5-author",
++      expiresAt: Date.now() + 60_000,
++    });
++  }
++  return { webSession, miniSession };
++}
++
++/** Fake ctx dùng chung: store tĩnh + navigate no-op. */
++function makeCtx(adapter) {
++  return {
++    store: { getState: () => ({ role: "student", demoMode: false }) },
++    adapter,
++    navigate: () => {},
++  };
++}
++
++/** Status note element (.fb-page__note) của root. */
++const noteEl = (root) => root.querySelector(".fb-page__note");
++
++/**
++ * Chạy 1 kịch bản N01 trên 1 module page.
++ *  - tamperDuringFlight=true  : sửa textarea khi preview đang bay (rào cản 1+2).
++ *  - tamperDuringFlight=false : không sửa → sheet mở, hiển thị snapshot máy chủ.
++ * Trả về bằng chứng dữ liệu.
++ */
++async function runPreviewInflightScenario({ label, pageModuleUrl, tamperDuringFlight }) {
++  const harness = makeDeferredPreviewAdapter();
++  const root = document.createElement("div");
++  document.body.appendChild(root);
++
++  const { page } = await import(pageModuleUrl);
++  const ctx = makeCtx(harness.adapter);
++  const rendered = page.render(ctx);
++  root.appendChild(rendered);
++
++  // Chờ renderCompose (list connections/drafts resolve) → textarea có body A.
++  const textarea = await waitFor(
++    () => root.querySelector("textarea.fb-compose__textarea"),
++    `${label}: textarea compose render`,
++  );
++  assert.equal(textarea.value, SERVER_BODY,
++    `${label}: textarea khởi tạo từ draft máy chủ (body A)`);
++
++  // Bấm "Xem trước nội dung" → previewDraft gọi và TREO.
++  const previewBtn = await waitFor(() => {
++    const buttons = [...root.querySelectorAll("button")];
++    return buttons.find((b) => (b.textContent || "").trim() === "Xem trước nội dung") || null;
++  }, `${label}: nút xem trước`);
++  previewBtn.click();
++  await waitFor(() => harness.previewCalls > 0,
++    `${label}: previewDraft được gọi`);
++  await wait(30); // nhường microtask onPreview chạy tới await previewDraft
++
++  // Trong lúc request đang bay: ghi nhận trạng thái khóa của compose.
++  const editableDuringPreview = !textarea.disabled && !textarea.readOnly;
++
++  let sheetShownText = null;
++  if (tamperDuringFlight) {
++    // Author "gõ thêm" (mô phỏng cả đường xuyên rào cản 1: ghi programmatic).
++    textarea.value = TAMPERED_BODY;
++    textarea.dispatchEvent(new domWindow.Event("input", { bubbles: true }));
++  }
++
++  // Máy chủ trả snapshot A (đã chốt lúc preview).
++  harness.releasePreview(serverPreviewPayload());
++
++  const evidence = {
++    label,
++    tamperDuringFlight,
++    editableDuringPreview,
++    serverBoundBody: SERVER_BODY,
++    tamperedBody: TAMPERED_BODY,
++  };
++
++  if (tamperDuringFlight) {
++    // Hợp đồng §6.3(d): lệch snapshot sau await → KHÔNG mở sheet; note trung
++    // thực; KHÔNG confirmDraftSend; compose mở khóa lại cho lượt preview sau.
++    await waitFor(
++      () => (noteEl(root)?.textContent || "").includes("đã thay đổi trong khi lấy bản xem trước"),
++      `${label}: note invalidate trung thực sau khi lệch snapshot`,
++    );
++    evidence.invalidateNoteShown = true;
++    await wait(150); // grace: nếu code lỗi, sheet sẽ kịp mở trong khoảng này
++    evidence.sheetOpenedAfterInvalidate = !!root.querySelector(".fb-compose__preview-body");
++    evidence.sheetShownText = null;
++    evidence.confirmCalledAfterInvalidate = harness.confirmCalls.length;
++    evidence.textareaUnlockedAfter = !textarea.disabled && !textarea.readOnly;
++  } else {
++    // Hợp đồng §6.3(e): không lệch → sheet mở, hiển thị ĐÚNG preview.body.
++    const previewBodyEl = await waitFor(
++      () => root.querySelector(".fb-compose__preview-body"),
++      `${label}: sheet xác nhận (.fb-compose__preview-body) mở`,
++    );
++    sheetShownText = previewBodyEl.textContent || "";
++    evidence.sheetShownText = sheetShownText;
++    evidence.sheetShowsServerSnapshot = sheetShownText === SERVER_BODY;
++    evidence.sheetShowsLiveEdit = sheetShownText === TAMPERED_BODY;
++    evidence.confirmCalledBeforeUserAction = harness.confirmCalls.length;
++  }
++
++  if (typeof page.destroy === "function") page.destroy();
++  root.remove();
++  return evidence;
++}
++
++// ---------------------------------------------------------------- sessions
++await setSessions();
++
++// ---------------------------------------------------------------- page modules
++const WEB_COMPOSE = new URL("../../web/src/pages/compose/index.js", import.meta.url).href;
++const MINI_COMPOSE = new URL("../../zalo-mini-app/src/pages/compose/index.js", import.meta.url).href;
++
++describe("A5 N01 — preview đang bay: không bao giờ gửi/hiển thị bản khác snapshot máy chủ", () => {
++  it("web: sửa nội dung khi preview đang bay → KHÔNG mở sheet, note invalidate, không confirm, mở khóa (hợp đồng §6.3d)", async () => {
++    const evidence = await runPreviewInflightScenario({
++      label: "web", pageModuleUrl: WEB_COMPOSE, tamperDuringFlight: true,
++    });
++    console.log("A5_N01_EVIDENCE", JSON.stringify(evidence));
++    // Rào cản 1: trong lúc bay, compose phải khóa nhập (không cho gõ mới).
++    assert.equal(evidence.editableDuringPreview, false,
++      "N01 rào cản 1: textarea phải bị khóa khi preview đang bay");
++    // Rào cản 2: lệch snapshot sau await → sheet KHÔNG được mở.
++    assert.equal(evidence.invalidateNoteShown, true,
++      "N01: phải có note trung thực 'nội dung đã thay đổi trong khi lấy bản xem trước'");
++    assert.equal(evidence.sheetOpenedAfterInvalidate, false,
++      "N01 rào cản 2: sheet xác nhận KHÔNG được mở khi nội dung lệch snapshot sau await " +
++      "(code cũ mở sheet hiển thị live edit — xem a5-n01-unit-RED.log)");
++    assert.equal(evidence.confirmCalledAfterInvalidate, 0,
++      "N01: không được gọi confirmDraftSend sau invalidate");
++    assert.equal(evidence.textareaUnlockedAfter, true,
++      "N01: compose phải mở khóa lại sau invalidate (cho lượt xem trước kế tiếp)");
++  });
++
++  it("mini: sửa nội dung khi preview đang bay → KHÔNG mở sheet, note invalidate, không confirm, mở khóa (hợp đồng §6.3d)", async () => {
++    const evidence = await runPreviewInflightScenario({
++      label: "mini", pageModuleUrl: MINI_COMPOSE, tamperDuringFlight: true,
++    });
++    console.log("A5_N01_EVIDENCE", JSON.stringify(evidence));
++    assert.equal(evidence.editableDuringPreview, false,
++      "N01 rào cản 1: textarea phải bị khóa khi preview đang bay");
++    assert.equal(evidence.invalidateNoteShown, true,
++      "N01: phải có note trung thực 'nội dung đã thay đổi trong khi lấy bản xem trước'");
++    assert.equal(evidence.sheetOpenedAfterInvalidate, false,
++      "N01 rào cản 2: sheet xác nhận KHÔNG được mở khi nội dung lệch snapshot sau await");
++    assert.equal(evidence.confirmCalledAfterInvalidate, 0,
++      "N01: không được gọi confirmDraftSend sau invalidate");
++    assert.equal(evidence.textareaUnlockedAfter, true,
++      "N01: compose phải mở khóa lại sau invalidate");
++  });
++
++  it("web: không sửa gì → sheet hiển thị ĐÚNG preview.body máy chủ (A), không phải live textarea (§6.3e)", async () => {
++    const evidence = await runPreviewInflightScenario({
++      label: "web", pageModuleUrl: WEB_COMPOSE, tamperDuringFlight: false,
++    });
++    console.log("A5_N01_EVIDENCE", JSON.stringify(evidence));
++    assert.equal(evidence.sheetShowsServerSnapshot, true,
++      "N01: sheet xác nhận phải hiển thị ĐÚNG snapshot preview.body của máy chủ " +
++      `(nhận: "${evidence.sheetShownText}") — không được lấy live textarea`);
++    assert.equal(evidence.sheetShowsLiveEdit, false,
++      "N01: sheet không được hiển thị nội dung khác snapshot máy chủ");
++    assert.equal(evidence.confirmCalledBeforeUserAction, 0,
++      "N01: không auto-confirm — gửi chỉ xảy ra khi user bấm Gửi trong sheet");
++  });
++
++  it("mini: không sửa gì → sheet hiển thị ĐÚNG preview.body máy chủ (A), không phải live textarea (§6.3e)", async () => {
++    const evidence = await runPreviewInflightScenario({
++      label: "mini", pageModuleUrl: MINI_COMPOSE, tamperDuringFlight: false,
++    });
++    console.log("A5_N01_EVIDENCE", JSON.stringify(evidence));
++    assert.equal(evidence.sheetShowsServerSnapshot, true,
++      "N01: sheet xác nhận phải hiển thị ĐÚNG snapshot preview.body của máy chủ " +
++      `(nhận: "${evidence.sheetShownText}")`);
++    assert.equal(evidence.sheetShowsLiveEdit, false,
++      "N01: sheet không được hiển thị nội dung khác snapshot máy chủ");
++    assert.equal(evidence.confirmCalledBeforeUserAction, 0,
++      "N01: không auto-confirm — gửi chỉ xảy ra khi user bấm Gửi trong sheet");
++  });
++});
+--- e0ee388/zalo-mini-app/tests/stitch-upgrade.test.mjs
++++ ec29ab/zalo-mini-app/tests/stitch-upgrade.test.mjs
+@@ -350,7 +350,15 @@
+     assert.ok(ok.draft_id);
+   });
+ 
+-  it("mock: preview trả ĐÚNG shape backend — KHÔNG có body (compose dùng snapshot)", async () => {
++  // CẬP NHẬT (N01 — QA 19/10, P1 "gửi sai bản đã duyệt"): test cũ pin shape
++  // CŨ "preview KHÔNG có body (compose dùng snapshot)" — assert hành vi SAI
++  // theo hợp đồng mới. Backend A2 (make_preview, f06_drafts/services/drafts.py)
++  // giờ trả kèm `body` = snapshot nội dung MÁY CHỦ chốt; mock (A1) đồng bộ;
++  // client (mini + web) bắt buộc hiển thị `preview.body ?? snapshotBody` trong
++  // sheet xác nhận — TUYỆT ĐỐI không đọc lại live textarea (nguồn lỗi N01:
++  // preview đang bay sửa nội dung -> sheet hiện bản khác bản máy chủ bind).
++  // Nên test đổi chiều: preview PHẢI có body (shape mới), các trường cũ giữ nguyên.
++  it("mock: preview trả ĐÚNG shape backend MỚI — CÓ body (snapshot máy chủ cho sheet xác nhận)", async () => {
+     const { ctx } = makeCtx({ demo: true, role: "student" });
+     const created = await ctx.adapter.createDraft({
+       kind: "text",
+@@ -362,16 +370,16 @@
+     // mock không cho sửa deadline từ ngoài; thay vào đó kiểm tra shape qua
+     // việc preview CHƯA hết giờ trả cooldown (đã test ở trên) và shape các
+     // trường dự kiến có mặt khi hợp lệ được pin qua source của mock:
+-    // {preview_id, revision, recipient_id, deadline, server_time} — không body.
++    // {preview_id, revision, recipient_id, body, deadline, server_time}.
+     // ADR-1 (task 18-a): mock-adapter chuyển về packages/family_bridge_shared
+-    // (shim giữ path import). Đọc SOURCE từ file thật trong shared — assertion
+-    // KHÔNG đổi.
++    // (shim giữ path import). Đọc SOURCE từ file thật trong shared.
+     const mockSource = readFileSync(join(ROOT, "..", "packages", "family_bridge_shared", "src", "adapter", "mock-adapter.js"), "utf8");
+     const previewFn = mockSource.slice(
+       mockSource.indexOf("async previewDraft"),
+       mockSource.indexOf("async confirmDraftSend"),
+     );
+-    assert.ok(!previewFn.includes("body: draft.body"), "preview KHÔNG được trả body như backend");
++    assert.ok(previewFn.includes("body: draft.body"),
++      "preview PHẢI trả body = snapshot máy chủ (hợp đồng N01 mới — client dùng preview.body ?? snapshotBody)");
+     for (const field of ["preview_id", "revision:", "recipient_id", "deadline", "server_time"]) {
+       assert.ok(previewFn.includes(field), `preview phải có ${field}`);
+     }
+--- /dev/null
++++ ec29ab/zalo-mini-app/tests/f04-preview-snapshot.test.mjs
+@@ -0,0 +1,512 @@
++// tests/f04-preview-snapshot.test.mjs — N01 (QA 19/10, P1 "gửi sai bản đã duyệt")
++// US-033: preview đang bay phải CHỐT snapshot + KHÓA soạn thảo; sheet xác nhận
++// hiển thị ĐÚNG bản máy chủ bind (preview.body ?? snapshot), KHÔNG đọc live
++// textarea; Gửi phải re-verify trước khi confirm.
++//
++// Kịch bản N01 tái hiện (browser thật @ e0ee388, FAIL 2/2 client): bấm
++// "Xem trước nội dung" → request trì hoãn → textarea VẪN sửa được, author đổi
++// thành B → request đi tiếp, server bind bản A → sheet đọc LIVE textarea hiển
++// thị B → author bấm xác nhận → recipient nhận A (khác B đã duyệt).
++//
++// Hợp đồng fix (freeze toàn đội):
++//  1) previewSeq token — sau MỖI await, lệch -> ABORT im lặng;
++//  2) snapshot (body/recipient/revision) chốt TRƯỚC await preview;
++//  3) đang bay: khóa textarea + chọn người nhận + nút preview (rào cản 1);
++//  4) sau await: body/recipient/revision đổi -> KHÔNG mở sheet + note trung
++//     thực + mở khóa (rào cản 2);
++//  5) sheet hiển thị preview.body ?? snapshotBody — TUYỆT ĐỐI không live text;
++//  6) Gửi: re-verify trước khi confirmDraftSend — lệch -> lỗi trong sheet,
++//     KHÔNG gửi, không đóng sheet ép;
++//  7) sync editDraft lỗi trước preview -> dừng, không preview, mở khóa.
++//
++// Pattern happy-dom giống tests/f04-ai-refine.test.mjs: gắn globals TRƯỚC
++// import động; adapter stub tự dựng với DELAY điều khiển được (deferred).
++import { register } from "node:module";
++await register(new URL("./asset-hook.mjs", import.meta.url));
++const { Window } = await import("happy-dom");
++const domWindow = new Window({ url: "https://localhost/?demo=1" });
++
++globalThis.window = domWindow;
++globalThis.document = domWindow.document;
++globalThis.Node = domWindow.Node;
++globalThis.Element = domWindow.Element;
++globalThis.HTMLElement = domWindow.HTMLElement;
++globalThis.DocumentFragment = domWindow.DocumentFragment;
++globalThis.Event = domWindow.Event;
++globalThis.CustomEvent = domWindow.CustomEvent;
++globalThis.KeyboardEvent = domWindow.KeyboardEvent;
++globalThis.MouseEvent = domWindow.MouseEvent;
++globalThis.location = domWindow.location;
++
++const { describe, it } = await import("node:test");
++const assert = (await import("node:assert/strict")).default;
++
++const { initStore, setRole, resetState } = await import("../src/app/store.js");
++const compose = (await import("../src/pages/compose/index.js")).page;
++
++const wait = (ms) => new Promise((r) => setTimeout(r, ms));
++
++function textOf(el) {
++  return (el.textContent || "").replace(/\s+/g, " ").trim();
++}
++
++function findButton(root, needle) {
++  return Array.from(root.querySelectorAll("button")).find(
++    (btn) => textOf(btn).includes(needle),
++  );
++}
++
++function type(el, value) {
++  el.value = value;
++  el.dispatchEvent(new Event("input", { bubbles: true }));
++}
++
++function createDeferred() {
++  let resolve;
++  let reject;
++  const promise = new Promise((res, rej) => {
++    resolve = res;
++    reject = rej;
++  });
++  return { promise, resolve, reject };
++}
++
++/* ----------------------- Fixture: bản nháp trên máy chủ ----------------------- */
++
++const SERVER_DRAFT = {
++  draft_id: "d-n01",
++  revision: 2,
++  status: "editing",
++  pause: null,
++  recipient_id: "u-care-1",
++  body: "Bản A đã nằm trên máy chủ.",
++};
++
++const BODY_A = SERVER_DRAFT.body;
++const BODY_B = "Con vừa sửa thành bản B khi preview đang bay.";
++
++const CONNECTIONS = [
++  {
++    connection_id: "c-1",
++    other_party_id: "u-care-1",
++    status: "active",
++    relationship_kind: "parent",
++    counterpart: { display_name: "Bố" },
++  },
++  {
++    connection_id: "c-2",
++    other_party_id: "u-care-2",
++    status: "active",
++    relationship_kind: "backup",
++    counterpart: { display_name: "Chú Hùng" },
++  },
++];
++
++/** Adapter stub với previewDraft/editDraft DELAY điều khiển được. */
++function createAdapter(behavior = {}) {
++  const calls = {
++    editDraft: [],
++    preview: [],
++    confirmSend: [],
++  };
++  const deferredPreviews = []; // mỗi lượt previewDraft push 1 deferred
++  const deferredEdits = [];
++
++  const adapter = {
++    listConnections: async () => ({ results: CONNECTIONS }),
++    listDrafts: async () => ({
++      results: [{ ...SERVER_DRAFT }],
++      serverTime: "2026-10-19T00:00:00Z",
++    }),
++    aiStatus: async () => ({ ai_enabled: false }),
++    createDraft: async (args) => ({
++      draft_id: "d-new",
++      revision: 1,
++      status: "editing",
++      server_time: "2026-10-19T00:00:00Z",
++      ...args,
++    }),
++    editDraft: async (id, args) => {
++      calls.editDraft.push({ id, ...args });
++      if (behavior.editError) throw behavior.editError;
++      if (behavior.deferEdit) {
++        const d = createDeferred();
++        deferredEdits.push(d);
++        return d.promise;
++      }
++      return {
++        draft_id: id,
++        revision: SERVER_DRAFT.revision + 1,
++        status: "editing",
++        server_time: "2026-10-19T00:00:00Z",
++      };
++    },
++    previewDraft: async (id) => {
++      calls.preview.push(id);
++      if (behavior.deferPreview) {
++        const d = createDeferred();
++        deferredPreviews.push(d);
++        return d.promise;
++      }
++      // Hợp đồng MỚI (A2 backend): response kèm `body` = snapshot máy chủ.
++      // behavior.noBody = true -> shape CŨ (không body) để test fallback
++      // `preview.body ?? snapshotBody`.
++      const payload = {
++        preview_id: "pv-1",
++        revision: SERVER_DRAFT.revision,
++        recipient_id: SERVER_DRAFT.recipient_id,
++        deadline: null,
++        server_time: "2026-10-19T00:00:00Z",
++      };
++      if (!behavior.noBody) payload.body = behavior.previewBody ?? BODY_A;
++      return payload;
++    },
++    confirmDraftSend: async (id, previewId) => {
++      calls.confirmSend.push({ id, previewId });
++      return { message_id: "m-1", state: "sent" };
++    },
++    sendMessage: async () => {
++      throw new Error("compose KHÔNG được dùng sendMessage");
++    },
++    lookupOperation: async (key) => ({ status: "sent", key }),
++  };
++  return { adapter, calls, deferredPreviews, deferredEdits };
++}
++
++function makeCtx({ adapter } = {}) {
++  initStore({ demoMode: true });
++  resetState();
++  setRole("student");
++  return {
++    ctx: {
++      store: { getState: () => ({ demoMode: true, role: "student" }) },
++      adapter,
++      navigate: () => {},
++      setRole: () => {},
++      rebuildAdapter: () => {},
++      params: new URLSearchParams(""),
++    },
++  };
++}
++
++function mount(ctx) {
++  const host = document.createElement("div");
++  document.body.appendChild(host);
++  const el = compose.render(ctx);
++  host.appendChild(el);
++  return { host, el };
++}
++
++function cleanup(host) {
++  host.remove();
++  document.body.querySelectorAll(".fb-sheet-root, .fb-dialog-root").forEach((el) => el.remove());
++  resetState();
++}
++
++/** statusNote của trang (p.fb-page__note[role=status] đầu tiên trong page). */
++function statusNoteOf(el) {
++  return el.querySelector("p.fb-page__note[role='status']");
++}
++
++function previewBodyOf(sheet) {
++  const node = sheet.querySelector(".fb-compose__preview-body");
++  return node ? node.textContent : null;
++}
++
++/** Mở sheet chọn người nhận (trước/Trong khi preview) và chọn một người. */
++function pickRecipient(el, label) {
++  const changePill = Array.from(el.querySelectorAll("button")).find(
++    (btn) => textOf(btn).includes("Đổi"),
++  );
++  assert.ok(changePill, "nút Đổi người nhận phải tồn tại");
++  changePill.click();
++  const sheet = document.body.querySelector(".fb-sheet-root");
++  assert.ok(sheet, "sheet chọn người nhận phải mở");
++  const target = findButton(sheet, label);
++  assert.ok(target, `phải có lựa chọn "${label}" trong sheet người nhận`);
++  target.click();
++}
++
++/* ================================ N01 snapshot ================================ */
++
++describe("N01 (US-033): preview chốt snapshot — sheet KHÔNG đọc live textarea", () => {
++  it("(1) sửa body trong lúc preview đang bay -> KHÔNG mở sheet từ phiên cũ; nếu có hiển thị thì phải là bản A, không bao giờ là live B", async () => {
++    const { adapter, calls, deferredPreviews } = createAdapter({ deferPreview: true });
++    const { ctx } = makeCtx({ adapter });
++    const { host, el } = mount(ctx);
++    await wait(80);
++
++    const textarea = el.querySelector("#fb-compose-body");
++    assert.equal(textarea.value, BODY_A, "textarea tải đúng bản A từ máy chủ");
++
++    findButton(el, "Xem trước nội dung").click();
++    await wait(40);
++    assert.equal(calls.preview.length, 1, "preview đã đi máy chủ");
++
++    // N01 đúng kịch bản browser thật: sửa textarea KHI request đang bay
++    // (set value trực tiếp — mô phỏng mọi đường đổi, kể cả vượt qua khóa).
++    type(textarea, BODY_B);
++    deferredPreviews[0].resolve({
++      preview_id: "pv-1",
++      revision: SERVER_DRAFT.revision,
++      recipient_id: SERVER_DRAFT.recipient_id,
++      body: BODY_A, // máy chủ bind bản A
++    });
++    await wait(60);
++
++    const sheet = document.body.querySelector(".fb-sheet-root");
++    if (sheet) {
++      // Phòng thủ cuối (hợp đồng mục 5): sheet TỒN TẠI thì cũng phải hiển thị
++      // ĐÚNG bản máy chủ bind (A) — không bao giờ là live textarea (B).
++      const shown = previewBodyOf(sheet);
++      assert.equal(
++        shown,
++        BODY_A,
++        `sheet xác nhận phải hiển thị snapshot bản A của máy chủ — thực tế đang hiển thị live textarea: "${shown}" (N01: sửa khi đang bay làm sheet lệch bản)`,
++      );
++    }
++    // Hợp đồng mục 4 (rào cản 2): body đổi trong lúc bay -> KHÔNG mở sheet,
++    // phải có thông báo invalidate trung thực.
++    // (assert với actual là Element happy-dom gây treo/OOM — dùng boolean.)
++    assert.ok(
++      !document.body.querySelector(".fb-sheet-root"),
++      "body đã đổi trong lúc lấy bản xem trước -> KHÔNG được mở sheet xác nhận",
++    );
++    assert.ok(
++      textOf(el).includes("đã thay đổi trong khi lấy bản xem trước"),
++      "phải có thông báo trung thực yêu cầu xem trước lại",
++    );
++    assert.equal(textarea.readOnly, false, "phải mở khóa textarea sau invalidate");
++    assert.equal(calls.confirmSend.length, 0, "không gửi gì sau invalidate");
++    cleanup(host);
++  });
++
++  it("(2) body đổi trong lúc bay (response shape CŨ không body) -> không mở sheet + thông báo invalidate + mở khóa", async () => {
++    const { adapter, calls, deferredPreviews } = createAdapter({
++      deferPreview: true,
++      noBody: true, // fallback `preview.body ?? snapshotBody` phải dùng snapshot
++    });
++    const { ctx } = makeCtx({ adapter });
++    const { host, el } = mount(ctx);
++    await wait(80);
++
++    const textarea = el.querySelector("#fb-compose-body");
++    findButton(el, "Xem trước nội dung").click();
++    await wait(40);
++    type(textarea, BODY_B);
++    deferredPreviews[0].resolve({
++      preview_id: "pv-1",
++      revision: SERVER_DRAFT.revision,
++      recipient_id: SERVER_DRAFT.recipient_id,
++    });
++    await wait(60);
++
++    assert.ok(
++      !document.body.querySelector(".fb-sheet-root"),
++      "sheet KHÔNG được mở khi body đã đổi trong lúc bay",
++    );
++    const note = statusNoteOf(el);
++    assert.ok(
++      note && textOf(note).includes("đã thay đổi trong khi lấy bản xem trước"),
++      `status note phải nói trung thực về invalidate — thực tế: "${note ? textOf(note) : "không có note"}"`,
++    );
++    assert.equal(textarea.readOnly, false, "khóa phải được mở lại sau invalidate");
++    const previewBtn = findButton(el, "Xem trước nội dung");
++    assert.equal(previewBtn.disabled, false, "nút preview phải mở lại để xem trước lần nữa");
++    assert.equal(calls.confirmSend.length, 0);
++    cleanup(host);
++  });
++
++  it("(3) người nhận đổi trong lúc bay (đường khác qua sheet đang mở) -> không mở sheet + invalidate + mở khóa", async () => {
++    const { adapter, calls, deferredPreviews } = createAdapter({ deferPreview: true });
++    const { ctx } = makeCtx({ adapter });
++    const { host, el } = mount(ctx);
++    await wait(80);
++
++    const textarea = el.querySelector("#fb-compose-body");
++    // Mở SẴN sheet chọn người nhận TRƯỚC khi preview — đây là "đường đổi khác"
++    // mà rào cản 2 phải chặn (không phụ thuộc khóa nút Đổi khi đang bay).
++    pickRecipient(el, "Bố"); // chốt recipient hiện tại (u-care-1, không đổi)
++
++    findButton(el, "Xem trước nội dung").click();
++    await wait(40);
++    assert.equal(calls.preview.length, 1);
++
++    // Đổi người nhận KHI preview đang bay (sheet chọn người vẫn mở).
++    pickRecipient(el, "Chú Hùng");
++    deferredPreviews[0].resolve({
++      preview_id: "pv-1",
++      revision: SERVER_DRAFT.revision,
++      recipient_id: SERVER_DRAFT.recipient_id,
++      body: BODY_A,
++    });
++    await wait(60);
++
++    assert.ok(
++      !document.body.querySelector(".fb-sheet-root"),
++      "người nhận đã đổi trong lúc bay -> KHÔNG được mở sheet xác nhận",
++    );
++    assert.ok(
++      textOf(el).includes("đã thay đổi trong khi lấy bản xem trước"),
++      "thông báo invalidate trung thực",
++    );
++    assert.equal(textarea.readOnly, false, "mở khóa sau invalidate");
++    assert.equal(calls.confirmSend.length, 0);
++    cleanup(host);
++  });
++
++  it("(4) Gửi phải re-verify: sửa body SAU khi sheet mở -> bấm Gửi KHÔNG gọi confirm, hiện lỗi trong sheet", async () => {
++    const { adapter, calls } = createAdapter(); // preview trả ngay, có body A
++    const { ctx } = makeCtx({ adapter });
++    const { host, el } = mount(ctx);
++    await wait(80);
++
++    findButton(el, "Xem trước nội dung").click();
++    await wait(60);
++    const sheet = document.body.querySelector(".fb-sheet-root");
++    assert.ok(sheet, "luồng bình thường -> sheet mở");
++
++    // Sửa textarea SAU khi sheet đã mở (khóa đã nhả sau khi preview xong).
++    type(el.querySelector("#fb-compose-body"), "Con sửa sau khi sheet mở.");
++    findButton(sheet, "Gửi cho").click();
++    await wait(60);
++
++    assert.equal(
++      calls.confirmSend.length,
++      0,
++      "N01 mục 6: nội dung lệch bản hiển thị -> KHÔNG được gọi confirmDraftSend",
++    );
++    assert.ok(sheet.isConnected, "không được đóng sheet ép khi re-verify lệch");
++    assert.ok(
++      textOf(sheet).includes("đã thay đổi sau khi xem trước"),
++      "lỗi trung thực phải hiển thị TRONG sheet nơi người dùng đang nhìn",
++    );
++    cleanup(host);
++  });
++
++  it("(5) luồng bình thường không đổi gì -> sheet hiển thị đúng bản A, Gửi gọi confirm với preview_id đúng", async () => {
++    const { adapter, calls } = createAdapter({
++      previewBody: BODY_A, // hợp đồng MỚI: máy chủ trả body = snapshot
++    });
++    const { ctx } = makeCtx({ adapter });
++    const { host, el } = mount(ctx);
++    await wait(80);
++
++    findButton(el, "Xem trước nội dung").click();
++    await wait(60);
++    const sheet = document.body.querySelector(".fb-sheet-root");
++    assert.ok(sheet, "luồng lành phải mở sheet xác nhận");
++    assert.equal(
++      previewBodyOf(sheet),
++      BODY_A,
++      "sheet hiển thị đúng bản máy chủ chốt (preview.body)",
++    );
++
++    findButton(sheet, "Gửi cho").click();
++    await wait(60);
++    assert.equal(calls.confirmSend.length, 1, "Gửi gọi confirm đúng 1 lần");
++    assert.deepEqual(
++      calls.confirmSend[0],
++      { id: SERVER_DRAFT.draft_id, previewId: "pv-1" },
++      "confirm mang đúng draft_id + preview_id",
++    );
++    cleanup(host);
++  });
++
++  it("(6) previewSeq: bấm 2 lần liên tiếp khi đang bay -> chỉ 1 request (phiên duy nhất = phiên cuối); xong vẫn xem trước lại được", async () => {
++    const { adapter, calls, deferredPreviews } = createAdapter({
++      deferPreview: true,
++      noBody: true, // phiên hiển thị qua fallback snapshot
++    });
++    const { ctx } = makeCtx({ adapter });
++    const { host, el } = mount(ctx);
++    await wait(80);
++
++    findButton(el, "Xem trước nội dung").click();
++    await wait(40);
++    // Bấm lần 2 khi phiên 1 đang bay: bị khóa (rào cản 1) -> KHÔNG tạo request
++    // thứ hai; phiên cũ không thể bị "ghi đè" vì không có phiên chồng.
++    findButton(el, "Xem trước nội dung").click();
++    await wait(40);
++    assert.equal(
++      calls.preview.length,
++      1,
++      "đang bay phải khóa nút preview — không tạo request chồng (chỉ phiên cuối/duy nhất được chạy)",
++    );
++
++    deferredPreviews[0].resolve({
++      preview_id: "pv-1",
++      revision: SERVER_DRAFT.revision,
++      recipient_id: SERVER_DRAFT.recipient_id,
++    });
++    await wait(60);
++    const sheets = document.body.querySelectorAll(".fb-sheet-root");
++    assert.equal(sheets.length, 1, "đúng MỘT sheet của phiên duy nhất");
++    assert.equal(previewBodyOf(sheets[0]), BODY_A, "sheet hiển thị snapshot bản A");
++    assert.equal(calls.confirmSend.length, 0, "chưa gửi gì");
++
++    // Đóng sheet ("Giữ lại làm nháp") -> khóa nhả -> xem trước lại được.
++    findButton(sheets[0], "Giữ lại làm nháp").click();
++    await wait(40);
++    assert.ok(
++      !document.body.querySelector(".fb-sheet-root"),
++      "sheet đóng sạch",
++    );
++    assert.equal(
++      findButton(el, "Xem trước nội dung").disabled,
++      false,
++      "không được khóa kẹt — vẫn xem trước lại được",
++    );
++    findButton(el, "Xem trước nội dung").click();
++    await wait(40);
++    assert.equal(calls.preview.length, 2, "phiên mới chạy bình thường sau khi phiên cũ xong");
++    assert.equal(deferredPreviews.length, 2);
++    deferredPreviews[1].resolve({
++      preview_id: "pv-2",
++      revision: SERVER_DRAFT.revision,
++      recipient_id: SERVER_DRAFT.recipient_id,
++    });
++    await wait(60);
++    assert.equal(document.body.querySelectorAll(".fb-sheet-root").length, 1, "phiên mới mở đúng 1 sheet");
++    cleanup(host);
++  });
++
++  it("(7) sync editDraft lỗi TRƯỚC preview -> không gọi previewDraft, mở khóa, thông báo trung thực", async () => {
++    const { adapter, calls, deferredEdits } = createAdapter({
++      deferEdit: true,
++      noBody: true,
++    });
++    const { ctx } = makeCtx({ adapter });
++    const { host, el } = mount(ctx);
++    await wait(80);
++
++    const textarea = el.querySelector("#fb-compose-body");
++    type(textarea, "Con sửa nội dung trước khi xem trước."); // lệch synced -> cần sync
++
++    findButton(el, "Xem trước nội dung").click();
++    await wait(40);
++    assert.equal(calls.editDraft.length, 1, "phải sync editDraft trước preview");
++    assert.equal(textarea.readOnly, true, "đang bay -> textarea phải bị khóa (rào cản 1)");
++
++    deferredEdits[0].reject(new Error("network down"));
++    await wait(60);
++
++    assert.equal(
++      calls.preview.length,
++      0,
++      "sync lỗi -> KHÔNG được gọi previewDraft (dừng flow)",
++    );
++    assert.equal(textarea.readOnly, false, "lỗi -> mở khóa textarea");
++    assert.equal(
++      findButton(el, "Xem trước nội dung").disabled,
++      false,
++      "lỗi -> mở khóa nút preview",
++    );
++    const note = statusNoteOf(el);
++    assert.ok(
++      note && textOf(note).includes("đồng bộ"),
++      `thông báo phải trung thực về việc đồng bộ lỗi — thực tế: "${note ? textOf(note) : "không có note"}"`,
++    );
++    cleanup(host);
++  });
++});
+--- e0ee388/zalo-mini-app/src/pages/compose/index.js
++++ ec29ab/zalo-mini-app/src/pages/compose/index.js
+@@ -44,6 +44,23 @@
+ // - Không auto-generate (C6): AI chỉ chạy khi bấm nút; loading không chặn gõ
+ //   tay/lưu nháp/help; AI off/503/timeout/quota -> thông báo trung thực,
+ //   KHÔNG fallback giả gợi ý.
++//
++// N01 (QA 19/10 — P1 "gửi sai bản đã duyệt", US-033; tái hiện browser thật
++// @ e0ee388, FAIL 2/2 client):
++// - Bấm "Xem trước nội dung" -> request preview bị trì hoãn -> textarea VẪN
++//   sửa được, author đổi thành B -> request đi tiếp, server bind bản A ->
++//   sheet xác nhận đọc LIVE textarea hiển thị B -> xác nhận -> người nhận
++//   nhận A (khác B đã duyệt). Hợp đồng fix (freeze toàn đội):
++//   1) previewSeq token — sau MỖI await so lại token, lệch -> ABORT im lặng;
++//   2) snapshot (body/recipient/revision) chốt TRƯỚC await preview;
++//   3) đang bay: khóa textarea + chọn người nhận + nút preview (rào cản 1);
++//   4) sau await: body/recipient/revision đổi -> KHÔNG mở sheet + thông báo
++//      trung thực + mở khóa (rào cản 2);
++//   5) sheet hiển thị preview.body ?? snapshotBody (hợp đồng mới của máy chủ
++//      có `body` — parity backend A2/mock A1) — TUYỆT ĐỐI không đọc live text;
++//   6) Gửi: re-verify trước confirmDraftSend; lệch -> lỗi trong sheet, không
++//      gửi, không đóng sheet ép;
++//   7) sync editDraft lỗi -> dừng flow, không preview, mở khóa.
+ import { h, clear } from "../../app/dom.js";
+ import { hasLiveSession } from "../../core/session.js";
+ import { POLICY_PURPOSES } from "../../core/policy.js";
+@@ -65,6 +82,12 @@
+ // R2A3-04: aiStatus LỖI (mạng/phiên) ≠ AI OFF thật — sentinel để note không
+ // tuyên bố sai "chưa được bật trên máy chủ" khi thực ra là không kiểm tra được.
+ const AI_STATUS_UNREACHABLE = { unreachable: true };
++
++// N01: copy trung thực cho trạng thái preview-locked + invalidate (dùng chung
++// một nguồn để status note + title nút không lệch nhau).
++const PREVIEW_BUSY_NOTE = "Đang lấy bản xem trước từ máy chủ…";
++const PREVIEW_INVALIDATE_NOTE =
++  "Nội dung hoặc người nhận đã thay đổi trong khi lấy bản xem trước — hãy bấm “Xem trước nội dung” lại.";
+ 
+ // Vòng đếm pause SVG (w12): stroke chạy theo tỷ lệ remaining/PAUSE_SECONDS.
+ const RING_RADIUS = 28;
+@@ -250,6 +273,7 @@
+     pauseBtnIcon: null,
+     previewBtn: null,
+     statusNote: null,
++    recipientChangeBtn: null, // N01: nút "Đổi" người nhận — khóa khi preview đang bay
+     pauseInfo: null,
+     recipientName: null,
+     recipientAvatar: null,
+@@ -280,6 +304,10 @@
+     connections,
+     aiEnabled,
+     aiStatusUnknown, // R2A3-04: không kiểm tra được trạng thái AI ≠ AI off
++    // N01: token phiên preview (tăng ở ĐẦU mỗi lượt chạy) + cờ "đang bay" để
++    // refreshPauseUi giữ nút preview khóa giữa các lần gọi phụ.
++    previewSeq: 0,
++    previewInFlight: false,
+   };
+ 
+   // F04 hợp đồng v1 — trạng thái riêng của cổng AI trên trang này.
+@@ -335,14 +363,31 @@
+   recipientText.appendChild(ui.recipientName);
+   recipientWho.appendChild(recipientText);
+   recipientRow.appendChild(recipientWho);
++  // N01 (test N01-3): nút "Đổi" mở sheet ĐỒNG BỘ trong nhịp click — đường đổi
++  // người nhận phải luôn sẵn sàng (kể cả khi preview đang bay; rào cản 2 trong
++  // onPreview là chốt chặn thật). busyGuard đẩy handler xuống vi mô-task nên
++  // không dùng ở đây; chặn mở chồng sheet bằng cờ đồng bộ.
++  let recipientSheetOpen = false;
+   const changePill = h("button", {
+     class: "fb-compose__change-btn",
+     type: "button",
+-    onclick: () => guarded("recipient", () => openRecipientSheet(body, ctx, state, ui)),
++    onclick: () => {
++      if (recipientSheetOpen) return;
++      recipientSheetOpen = true;
++      openRecipientSheet(body, ctx, state, ui, {
++        onClosed: () => { recipientSheetOpen = false; },
++      });
++    },
+   },
+     h("span", {}, "Đổi"),
+     createIcon({ name: "expand_more", size: 16 }),
+   );
++  // N01: nút "Đổi" người nhận KHÔNG bị khóa khi preview đang bay — đường đổi
++  // qua sheet vẫn phải mở được (test N01-3 "đường khác qua sheet đang mở");
++  // rào cản 2 (so snapshot sau await trong onPreview) là chốt chặn thật cho
++  // thay đổi người nhận giữa chừng. Khi đang bay chỉ gắn giải thích trung
++  // thực (title) cho control này.
++  ui.recipientChangeBtn = changePill;
+   recipientRow.appendChild(changePill);
+   recipientCard.appendChild(recipientRow);
+   mainCol.appendChild(recipientCard);
+@@ -1003,7 +1048,7 @@
+   state.recipientId = selected.other_party_id || selected.connection_id;
+ }
+ 
+-function openRecipientSheet(root, ctx, state, ui) {
++function openRecipientSheet(root, ctx, state, ui, { onClosed } = {}) {
+   const list = h("div", { style: "display:flex;flex-direction:column;gap:var(--fb-space-2);" });
+   const active = state.connections.filter((connection) => connection && connection.status === "active");
+ 
+@@ -1030,7 +1075,9 @@
+         onClick: () => {
+           state.recipientId = connection.other_party_id || connection.connection_id;
+           refreshRecipientUi(state, ui);
+-          sheet.remove();
++          // N01: đóng qua close() (không remove trực tiếp) để onClose luôn
++          // chạy — nhả cờ mở sheet + trả focus đúng contract mục 3.
++          sheet.close();
+         },
+       }),
+     );
+@@ -1044,6 +1091,8 @@
+     ),
+     onClose: () => {
+       if (sheet && sheet.isConnected) sheet.remove();
++      // N01: báo lại cho caller (nhả cờ chặn mở chồng sheet).
++      if (typeof onClosed === "function") onClosed();
+     },
+   });
+   root.appendChild(sheet);
+@@ -1139,19 +1188,30 @@
+     ui.statusNote.textContent = "Lời nhắn chưa có nội dung — hãy viết vài dòng trước khi xem trước.";
+     return;
+   }
+-  ui.statusNote.textContent = "Đang lấy bản xem trước từ máy chủ…";
++  // N01 (rào cản 1): phiên đang bay -> bấm lần nữa KHÔNG tạo request chồng
++  // (nút đã khóa; đây là rào chắn dự phòng cho mọi đường gọi khác).
++  if (state.previewInFlight) return;
++  // N01: token phiên preview — tăng ở ĐẦU mỗi lần chạy; sau MỖI await so lại
++  // token, lệch -> ABORT im lặng (phiên mới hơn thay thế; request cũ không mở
++  // sheet, không ghi đè state/UI mới).
++  const previewSeq = (state.previewSeq = (state.previewSeq || 0) + 1);
++  ui.statusNote.textContent = PREVIEW_BUSY_NOTE;
++  lockComposeForPreview(state, ui);
+   const run = async () => {
+     // R01 (QA F04 18/10 — P1 “gửi sai bản đã duyệt”): AI suggestion chỉ
+     // đổ vào textarea (không tự lưu). Preview phải bám đúng text đang
+     // hiển thị trong sheet xác nhận — khác bản máy chủ giữ thì TỰ ĐỒNG
+     // BỘ (editDraft) trước, nếu không confirm sẽ gửi original cũ.
+     const pendingText = currentBodyText(ui).trim();
+-    if (pendingText !== state.syncedBody) {
++    if (pendingText && pendingText !== state.syncedBody) {
++      if (state.previewSeq !== previewSeq) return;
+       ui.statusNote.textContent = "Đang đồng bộ nội dung mới lên máy chủ…";
+       const updated = await ctx.adapter.editDraft(state.draftId, {
+         body: pendingText,
+         recipientId: state.recipientId || undefined,
+       });
++      // N01: sau MỖI await so lại token — lệch -> abort im lặng.
++      if (state.previewSeq !== previewSeq) return;
+       state.revision = updated.revision;
+       state.status = updated.status;
+       state.pause = updated.pause || null;
+@@ -1160,12 +1220,41 @@
+       state.syncedBody = pendingText;
+       refreshPauseUi(state, ui);
+     }
+-    ui.statusNote.textContent = "Đang lấy bản xem trước từ máy chủ…";
++    if (state.previewSeq !== previewSeq) return;
++    // N01: chuẩn hoá textarea == đúng bản máy chủ đang giữ (chỉ khác
++    // khoảng trắng đầu/cuối) để snapshot khớp tuyệt đối với body máy chủ bind.
++    if (currentBodyText(ui) !== pendingText) {
++      ui.textarea.value = pendingText;
++      ui.counter.textContent = `${pendingText.length} ký tự`;
++    }
++    // N01: chốt snapshot TRƯỚC await preview (sau bước sync dirty body
++    // thành công — R01 giữ nguyên): text/recipient/revision tại thời điểm này.
++    const snapshot = {
++      body: currentBodyText(ui),
++      recipientId: state.recipientId,
++      revision: state.revision,
++    };
++    ui.statusNote.textContent = PREVIEW_BUSY_NOTE;
+     const preview = await ctx.adapter.previewDraft(state.draftId);
++    if (state.previewSeq !== previewSeq) return;
++    // N01 (rào cản 2): sau await bắt buộc kiểm tra lại — body/recipient/
++    // revision đổi khi preview đang bay -> KHÔNG mở sheet; báo trung thực
++    // + mở khóa.
++    if (currentBodyText(ui) !== snapshot.body
++      || state.recipientId !== snapshot.recipientId
++      || state.revision !== snapshot.revision) {
++      unlockComposeForPreview(state, ui);
++      ui.statusNote.textContent = PREVIEW_INVALIDATE_NOTE;
++      return;
++    }
+     ui.statusNote.textContent = "";
+-    openConfirmSheet(ctx, state, ui, preview);
++    unlockComposeForPreview(state, ui);
++    openConfirmSheet(ctx, state, ui, preview, snapshot);
+   };
+   run().catch((error) => {
++    // N01: request cũ (phiên đã bị thay thế) KHÔNG ghi đè state/UI mới.
++    if (state.previewSeq !== previewSeq) return;
++    unlockComposeForPreview(state, ui);
+     if (error && error.code === "cooldown_active") {
+       const remaining = error.details && Number.isFinite(Number(error.details.remaining_seconds))
+         ? Number(error.details.remaining_seconds)
+@@ -1178,18 +1267,92 @@
+       refreshPauseUi(state, ui);
+       return;
+     }
+-    ui.statusNote.textContent = describeError(error, "Chưa lấy được bản xem trước. Vui lòng thử lại sau.");
++    // N01 mục 7: sync editDraft lỗi -> dừng flow, KHÔNG preview, đã mở khóa,
++    // thông báo trung thực (nói đúng cả bước đồng bộ).
++    ui.statusNote.textContent = describeError(error,
++      "Chưa đồng bộ được nội dung mới hoặc chưa lấy được bản xem trước — không có gì được gửi. Vui lòng thử lại sau.");
+   });
+ }
+ 
+-function openConfirmSheet(ctx, state, ui, preview) {
++/* ---------------- N01: khóa soạn trong lúc preview đang bay ---------------- */
++
++/**
++ * Rào cản 1 (N01): preview đang bay -> khóa textarea (readOnly + disabled) và
++ * nút preview kèm giải thích trung thực (status note do onPreview đặt + title
++ * nút). Nút "Đổi" người nhận KHÔNG khóa — đường đổi qua sheet vẫn mở được
++ * (test N01-3); rào cản 2 (so snapshot sau await) là chốt chặn thật cho thay
++ * đổi người nhận giữa chừng. refreshPauseUi tôn trọng state.previewInFlight
++ * nên việc làm mới UI giữa chừng (sau sync) không tự mở khóa.
++ */
++function lockComposeForPreview(state, ui) {
++  state.previewInFlight = true;
++  if (ui.textarea) {
++    ui.textarea.readOnly = true;
++    ui.textarea.disabled = true;
++  }
++  ui.previewBtn.disabled = true;
++  ui.previewBtn.title = PREVIEW_BUSY_NOTE;
++  ui.previewBtn.setAttribute("aria-busy", "true");
++  if (ui.recipientChangeBtn) {
++    ui.recipientChangeBtn.title =
++      "Bạn vẫn có thể đổi người nhận — nếu người nhận thay đổi, bản xem trước này sẽ bị hủy.";
++  }
++}
++
++/** Mở khóa khi preview xong hoặc bị invalidate — trả trạng thái nút preview
++ * đúng theo dữ liệu máy chủ (refreshPauseUi). */
++function unlockComposeForPreview(state, ui) {
++  state.previewInFlight = false;
++  if (ui.textarea) {
++    ui.textarea.readOnly = false;
++    ui.textarea.disabled = false;
++  }
++  ui.previewBtn.removeAttribute("aria-busy");
++  if (ui.recipientChangeBtn) ui.recipientChangeBtn.title = "";
++  refreshPauseUi(state, ui);
++}
++
++function openConfirmSheet(ctx, state, ui, preview, snapshot) {
+   const recipientName = ui.recipientName.textContent || "người nhận";
++  // N01: sheet hiển thị BẢN MÁY CHỦ BIND — `preview.body` khi response mới có
++  // (server-bound snapshot — parity backend A2/mock A1), fallback snapshot đã
++  // sync cho response cũ chưa trả body. TUYỆT ĐỐI KHÔNG đọc live textarea
++  // (`String(ui.textarea.value || "")` cũ là nguồn lỗi N01: preview đang bay
++  // sửa nội dung -> sheet hiện bản khác bản máy chủ bind).
++  const serverBoundBody = preview && typeof preview.body === "string" && preview.body.length > 0
++    ? preview.body
++    : snapshot.body;
++  // Máy chủ có thể chuẩn hoá text khi bind mà không bump revision — nhận bản
++  // máy chủ làm chuẩn (textarea + syncedBody) để re-verify bên dưới không chặn
++  // nhầm lượt gửi hợp lệ; nếu không có khác biệt thì không đụng gì.
++  if (serverBoundBody !== snapshot.body) {
++    state.syncedBody = serverBoundBody;
++    snapshot.body = serverBoundBody;
++    ui.textarea.value = serverBoundBody;
++    ui.counter.textContent = `${serverBoundBody.length} ký tự`;
++  }
++  const displayedSnapshot = String(serverBoundBody);
+   const sheetError = h("div", { role: "alert" });
+ 
+   const confirmBtn = createButton({
+     label: `Gửi cho ${recipientName}`,
+     variant: "primary",
+     onClick: () => {
++      // N01 mục 6: re-verify TRƯỚC khi gọi confirmDraftSend — nội dung đang
++      // hiển thị phải vẫn là bản snapshot máy chủ + người nhận không đổi;
++      // lệch -> lỗi trung thực TRONG sheet, KHÔNG gửi, không đóng sheet ép.
++      if (currentBodyText(ui) !== displayedSnapshot
++        || state.recipientId !== snapshot.recipientId) {
++        const changedCopy = state.recipientId !== snapshot.recipientId
++          ? "Người nhận đã thay đổi sau khi xem trước — hãy chọn lại người nhận rồi bấm “Xem trước nội dung” lại."
++          : "Nội dung đã thay đổi sau khi xem trước — hãy bấm “Xem trước nội dung” lại.";
++        clear(sheetError);
++        sheetError.appendChild(
++          h("p", { class: "fb-compose__sheet-error", role: "alert" }, changedCopy),
++        );
++        ui.statusNote.textContent = `${changedCopy} Bấm “Xem trước nội dung” để lấy bản mới.`;
++        return;
++      }
+       confirmBtn.disabled = true;
+       const run = async () => {
+         await ctx.adapter.confirmDraftSend(state.draftId, preview.preview_id);
+@@ -1225,9 +1388,9 @@
+ 
+   const content = h("div", {},
+     h("p", {}, "Xem lại lời nhắn trước khi gửi. Đây là bước xác nhận cuối cùng — bạn vẫn có thể giữ lại làm nháp."),
+-    h("div", { class: "fb-compose__preview-body" }, String(ui.textarea.value || "")),
++    h("div", { class: "fb-compose__preview-body" }, displayedSnapshot),
+     h("p", { class: "fb-page__note" },
+-      "Máy chủ đã chốt bản xem trước với người nhận và nội dung hiện tại — sửa nội dung sau bước này sẽ cần xem trước lại."),
++      "Bản hiển thị phía trên là bản máy chủ đã chốt cho lần xem trước này — sửa nội dung hoặc đổi người nhận sau bước này sẽ cần xem trước lại."),
+     sheetError,
+     confirmBtn,
+     createButton({
+@@ -1251,8 +1414,14 @@
+ 
+ function refreshPauseUi(state, ui) {
+   // w12 niêm phong: paused -> làm mờ body nháp + hiện ghi chú (presentation).
++  // N01: preview đang bay -> textarea khóa hẳn (readOnly + disabled tạm thời);
++  // khóa do lockComposeForPreview đặt, refreshPauseUi chỉ GIỮ nguyên trạng
++  // thái khóa giữa các lần làm mới UI (sau sync editDraft).
+   const isPaused = state.status === "paused";
+-  if (ui.textarea) ui.textarea.classList.toggle("fb-compose__textarea--sealed", isPaused);
++  if (ui.textarea) {
++    ui.textarea.classList.toggle("fb-compose__textarea--sealed", isPaused);
++    ui.textarea.disabled = Boolean(state.previewInFlight);
++  }
+   if (ui.sealedNote) ui.sealedNote.hidden = !isPaused;
+ 
+   if (ui.privacyChipText) {
+@@ -1307,10 +1476,11 @@
+       ),
+     );
+     const serverAllowsPreview = Boolean(state.rowCanPreview) || remaining === 0;
+-    ui.previewBtn.disabled = !serverAllowsPreview;
+-    ui.previewBtn.title = serverAllowsPreview
+-      ? ""
+-      : "Máy chủ chưa mở xem trước — còn khoảng dừng.";
++    // N01: đang bay -> giữ nút preview khóa kèm giải thích trung thực.
++    ui.previewBtn.disabled = state.previewInFlight ? true : !serverAllowsPreview;
++    ui.previewBtn.title = state.previewInFlight
++      ? PREVIEW_BUSY_NOTE
++      : (serverAllowsPreview ? "" : "Máy chủ chưa mở xem trước — còn khoảng dừng.");
+     // w12 vòng đếm: stroke chạy theo remaining máy chủ (không timer);
+     // đổi sang xanh success khi máy chủ báo hết giờ (remaining === 0).
+     if (ui.ringProgress) {
+@@ -1328,10 +1498,11 @@
+   ui.timerBadge.textContent = formatRemaining(PAUSE_SECONDS);
+   ui.timerBadge.title = "Khoảng dừng chuẩn 5 phút — thời gian thật do máy chủ ghi khi bạn bắt đầu.";
+   ui.progressFill.style.width = "0%";
+-  ui.previewBtn.disabled = !state.draftId;
+-  ui.previewBtn.title = state.draftId
+-    ? ""
+-    : "Chưa có bản nháp để xem trước — hãy lưu nháp trước.";
++  // N01: đang bay -> giữ nút preview khóa kèm giải thích trung thực.
++  ui.previewBtn.disabled = state.previewInFlight ? true : !state.draftId;
++  ui.previewBtn.title = state.previewInFlight
++    ? PREVIEW_BUSY_NOTE
++    : (state.draftId ? "" : "Chưa có bản nháp để xem trước — hãy lưu nháp trước.");
+   ui.pauseBtnIcon.remove();
+   ui.pauseBtnIcon = createIcon({ name: "play_arrow", size: 20 });
+   ui.pauseBtnLabel.textContent = "Bắt đầu 5 phút nghỉ";
+--- /dev/null
++++ ec29ab/web/tests/f04-preview-snapshot.test.mjs
+@@ -0,0 +1,424 @@
++// tests/f04-preview-snapshot.test.mjs — N01 (QA F04 19/10, P1): preview đang
++// bay + sheet xác nhận phải bám BẢN MÁY CHỦ BIND, không bao giờ đọc live
++// textarea. 7 case tương đương mini (hai client đồng nhất) + 1 case bonus ở
++// bước re-verify của sheet:
++//   1. preview đang bay sửa body  -> server-truth thắng (không sheet lệch bản)
++//   2. body đổi khi bay           -> không mở sheet + invalidate + mở khóa
++//   3. recipient đổi khi bay      -> invalidate
++//   4. Gửi trong sheet khi body đổi sau khi sheet mở -> không gọi confirmSend
++//   5. luồng bình thường          -> sheet hiện bản máy chủ, confirm đúng preview_id
++//   6. double-click preview       -> chỉ 1 request + 1 sheet (không sheet chồng)
++//   7. sync editDraft lỗi         -> không gọi previewDraft + mở khóa
++//   +bonus: recipient đổi sau khi sheet mở -> re-verify chặn, không gửi
++//
++// Adapter giả có DELAY điều khiển được (deferPreview/deferEdit) — cùng kiểu
++// fake adapter có kiểm soát resolve như f04-ai-parity.test.mjs.
++//
++// Chạy: node --test tests/f04-preview-snapshot.test.mjs
++import { register } from "node:module";
++await register(new URL("./asset-hook.mjs", import.meta.url));
++const { Window } = await import("happy-dom");
++const domWindow = new Window({ url: "https://localhost/?demo=1" });
++
++globalThis.window = domWindow;
++globalThis.document = domWindow.document;
++globalThis.Node = domWindow.Node;
++globalThis.Element = domWindow.Element;
++globalThis.HTMLElement = domWindow.HTMLElement;
++globalThis.DocumentFragment = domWindow.DocumentFragment;
++globalThis.Event = domWindow.Event;
++globalThis.CustomEvent = domWindow.CustomEvent;
++globalThis.KeyboardEvent = domWindow.KeyboardEvent;
++globalThis.MouseEvent = domWindow.MouseEvent;
++globalThis.location = domWindow.location;
++
++const { describe, it } = await import("node:test");
++const assert = (await import("node:assert/strict")).default;
++
++const { initStore, setRole, resetState } = await import("../src/app/store.js");
++const { setSession } = await import("../src/core/session.js");
++const { ApiError } = await import("../../packages/family_bridge_shared/src/api/client.mjs");
++
++const compose = (await import("../src/pages/compose/index.js")).page;
++
++const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
++
++function textOf(el) {
++  return (el.textContent || "").replace(/\s+/g, " ").trim();
++}
++
++function findButton(root, needle) {
++  return Array.from(root.querySelectorAll("button")).find(
++    (btn) => textOf(btn).includes(needle),
++  );
++}
++
++/** Tìm sheet theo tiêu đề — phân biệt sheet người nhận vs sheet xác nhận. */
++function findSheetByTitle(title) {
++  return Array.from(document.body.querySelectorAll(".fb-sheet")).find(
++    (sheetEl) => textOf(sheetEl.querySelector(".fb-sheet__title")) === title,
++  ) || null;
++}
++
++function makeCtx({ adapter }) {
++  initStore({ demoMode: false });
++  resetState();
++  setRole("student");
++  return {
++    ctx: {
++      store: { getState: () => ({ demoMode: false, role: "student" }) },
++      adapter,
++      navigate: () => {},
++      setRole: () => {},
++      rebuildAdapter: () => {},
++      params: new URLSearchParams(""),
++    },
++    adapter,
++  };
++}
++
++function mount(pageModule, ctx) {
++  const host = document.createElement("div");
++  document.body.appendChild(host);
++  const el = pageModule.render(ctx);
++  host.appendChild(el);
++  return { host, el };
++}
++
++function unmount(host) {
++  host.remove();
++  document.body.querySelectorAll(".fb-sheet-root, .fb-dialog-root, .fb-overlay").forEach((el) => el.remove());
++}
++
++function withSession() {
++  setSession({
++    token: "test-token-n01",
++    userId: "u-student-1",
++    expiresAt: Date.now() + 60 * 60 * 1000,
++    displayName: "Học sinh Test",
++  });
++}
++
++const SERVER_BODY = "Bản A đã lưu";
++const EDITED_DRAFT = {
++  draft_id: "d-1", revision: 1, status: "editing", pause: null,
++  recipient_id: "u-care-1", body: SERVER_BODY, server_time: "2026-10-16T00:00:00Z",
++};
++
++const TWO_CONNECTIONS = [
++  {
++    connection_id: "c-1", status: "active", relationship_kind: "primary",
++    generation: 1, other_party_id: "u-care-1",
++    counterpart: { display_name: "Người chăm sóc Một", identity_basis: "self_declared" },
++  },
++  {
++    connection_id: "c-2", status: "active", relationship_kind: "backup",
++    generation: 1, other_party_id: "u-care-2",
++    counterpart: { display_name: "Người chăm sóc Hai", identity_basis: "self_declared" },
++  },
++];
++
++/** Adapter giả: trạng thái máy chủ riêng (server.body/revision/recipientId)
++ * + DELAY điều khiển được cho preview/edit (deferred promise). */
++function n01Adapter({ behavior = {} } = {}) {
++  const server = {
++    body: SERVER_BODY,
++    revision: 1,
++    recipientId: "u-care-1",
++  };
++  behavior.deferredPreview = behavior.deferredPreview || [];
++  behavior.deferredEdit = behavior.deferredEdit || [];
++  return {
++    mode: "web",
++    listConnections: async () => ({
++      results: behavior.connections || TWO_CONNECTIONS,
++      nextCursor: null,
++    }),
++    listDrafts: async () => ({
++      results: [JSON.parse(JSON.stringify(EDITED_DRAFT))],
++      serverTime: "2026-10-16T00:00:00Z",
++    }),
++    createDraft: async () => { throw new Error("không dùng trong test N01"); },
++    editDraft: async (id, { body }) => {
++      behavior.editDraftBodies = behavior.editDraftBodies || [];
++      behavior.editDraftBodies.push(body);
++      if (behavior.deferEdit) {
++        await new Promise((res) => behavior.deferredEdit.push(res));
++      }
++      if (behavior.editError) throw behavior.editError;
++      server.revision += 1;
++      server.body = body;
++      return {
++        draft_id: id, revision: server.revision, status: "editing",
++        pause: null, server_time: "2026-10-16T00:00:00Z", body,
++      };
++    },
++    previewDraft: async (id) => {
++      behavior.previewCalls = (behavior.previewCalls || 0) + 1;
++      if (behavior.deferPreview) {
++        await new Promise((res) => behavior.deferredPreview.push(res));
++      }
++      if (behavior.previewError) throw behavior.previewError;
++      return {
++        preview_id: `pv-${behavior.previewCalls}`,
++        draft_id: id,
++        revision: server.revision,
++        recipient_id: server.recipientId,
++        deadline: "2026-10-16T00:05:00Z",
++        server_time: "2026-10-16T00:00:00Z",
++        // Hợp đồng mới: response preview kèm `body` = bản máy chủ BIND.
++        body: behavior.previewBody !== undefined ? behavior.previewBody : server.body,
++      };
++    },
++    confirmDraftSend: async (id, previewId) => {
++      behavior.confirmArgs = behavior.confirmArgs || [];
++      behavior.confirmArgs.push([id, previewId]);
++      if (behavior.confirmError) throw behavior.confirmError;
++      return { draft_id: id, preview_id: previewId, status: "sent" };
++    },
++    pauseDraft: async () => ({ status: "paused", pause: { remaining_seconds: 300, can_preview: false } }),
++    cancelDraftPause: async () => ({ status: "editing", pause: null }),
++    aiStatus: async () => ({ ai_enabled: true }),
++    listConsents: async () => ([
++      { purpose: "ai_processing", decision: "accepted", policy_version: "ai-v1", withdrawn: false, current: true },
++    ]),
++    recordConsent: async (args) => ({ consent_id: "c-1", ...args }),
++    aiRefine: async () => { throw new Error("không dùng trong test N01"); },
++    aiAccept: async (id) => ({ suggestion_id: id, status: "accepted" }),
++    aiDiscard: async (id) => ({ suggestion_id: id, status: "discarded" }),
++  };
++}
++
++async function setupCompose(behavior) {
++  withSession();
++  const adapter = n01Adapter({ behavior });
++  const { ctx } = makeCtx({ adapter });
++  const { host, el } = mount(compose, ctx);
++  await wait(60); // đợi listConnections/listDrafts + aiStatus resolve
++  const textarea = el.querySelector("#fb-compose-body");
++  const previewBtn = el.querySelector(".fb-btn-hero");
++  const changeBtn = el.querySelector(".fb-compose__change-btn");
++  return { host, el, behavior, textarea, previewBtn, changeBtn };
++}
++
++function typeText(textarea, text) {
++  textarea.value = text;
++  textarea.dispatchEvent(new domWindow.Event("input", { bubbles: true }));
++}
++
++describe("F04 web — N01 preview snapshot (server-truth, không đọc live textarea)", () => {
++  it("case 1 — preview đang bay sửa body: sheet KHÔNG được hiện bản live khác bản máy chủ bind; nếu hiển thị lệch thì KHÔNG được gửi", async () => {
++    const { host, el, behavior, textarea, previewBtn } = await setupCompose({ deferPreview: true });
++
++    previewBtn.click(); // preview đang bay
++    await wait(30);
++    typeText(textarea, "Bản B sửa khi preview đang bay"); // user sửa khi bay
++    behavior.deferredPreview[0](); // preview của bản A về
++    await wait(40);
++
++    const confirmSheet = findSheetByTitle("Xem trước nội dung");
++    const sheetBody = confirmSheet && confirmSheet.querySelector(".fb-compose__preview-body");
++    assert.ok(
++      !confirmSheet || textOf(sheetBody) === SERVER_BODY,
++      `server-truth: sheet phải hiển thị bản máy chủ bind (${SERVER_BODY}) hoặc không mở; `
++        + `thấy: ${confirmSheet ? textOf(sheetBody) : "(không mở sheet)"}`,
++    );
++    if (confirmSheet) {
++      // Bản hiển thị lệch server -> bấm Gửi cũng không được trao gửi nhầm.
++      findButton(confirmSheet, "Gửi cho Người chăm sóc Một").click();
++      await wait(40);
++      assert.equal((behavior.confirmArgs || []).length, 0,
++        "sheet hiển thị lệch bản bind -> KHÔNG được gọi confirmDraftSend");
++    }
++    unmount(host);
++  });
++
++  it("case 2 — body đổi khi bay: KHÔNG mở sheet + thông báo invalidate + mở khóa (trước đó khóa kèm giải thích trung thực)", async () => {
++    const { host, el, behavior, textarea, previewBtn, changeBtn } = await setupCompose({ deferPreview: true });
++
++    previewBtn.click();
++    await wait(30);
++    // Trong lúc bay: khóa đúng spec (textarea + control người nhận + nút
++    // preview) kèm giải thích trung thực.
++    assert.equal(textarea.disabled, true, "preview đang bay -> textarea bị khóa");
++    assert.equal(previewBtn.disabled, true, "preview đang bay -> nút preview bị khóa");
++    assert.equal(changeBtn.disabled, true, "preview đang bay -> control người nhận bị khóa");
++    assert.ok(textOf(el).includes("Đang lấy bản xem trước từ máy chủ…"),
++      "giải thích trung thực trong lúc khóa");
++
++    typeText(textarea, "Bản B đổi khi bay");
++    behavior.deferredPreview[0]();
++    await wait(40);
++
++    assert.equal(findSheetByTitle("Xem trước nội dung"), null,
++      "body đổi khi bay -> KHÔNG mở sheet xác nhận");
++    assert.ok(textOf(el).includes("đã thay đổi trong khi lấy bản xem trước"),
++      "thông báo invalidate trung thực cho user");
++    assert.equal(textarea.disabled, false, "invalidate -> mở khóa textarea");
++    assert.equal(previewBtn.disabled, false, "invalidate -> mở khóa nút preview");
++    assert.equal(changeBtn.disabled, false, "invalidate -> mở khóa control người nhận");
++    unmount(host);
++  });
++
++  it("case 2b (bonus re-check revision) — Lưu nháp giữa chừng preview bay (revision đổi) -> invalidate, không mở sheet", async () => {
++    const { host, el, behavior, textarea, previewBtn } = await setupCompose({ deferPreview: true });
++
++    previewBtn.click();
++    await wait(30);
++    assert.equal(textarea.disabled, true, "preview đang bay -> textarea khóa");
++    // "Lưu nháp" KHÔNG thuộc danh sách khóa (spec item 3) — nếu nó bump
++    // revision trong lúc bay thì re-check sau await phải chặn sheet.
++    findButton(el, "Lưu nháp riêng").click();
++    await wait(30);
++    assert.deepEqual(behavior.editDraftBodies, [SERVER_BODY],
++      "save giữa chừng đã editDraft (revision máy chủ đổi)");
++    behavior.deferredPreview[0]();
++    await wait(40);
++
++    assert.equal(findSheetByTitle("Xem trước nội dung"), null,
++      "revision đổi khi bay -> KHÔNG mở sheet xác nhận");
++    assert.ok(textOf(el).includes("đã thay đổi trong khi lấy bản xem trước"),
++      "thông báo invalidate trung thực");
++    assert.equal(textarea.disabled, false, "invalidate -> mở khóa textarea");
++    unmount(host);
++  });
++
++  it("case 3 — recipient đổi khi bay: invalidate (không mở sheet)", async () => {
++    const { host, el, behavior, textarea, previewBtn, changeBtn } = await setupCompose({ deferPreview: true });
++
++    // Mở sẵn sheet chọn người nhận rồi bấm preview — sheet người nhận còn mở
++    // khi preview đang bay, mô phỏng user đổi người nhận giữa chừng.
++    changeBtn.click();
++    await wait(30);
++    assert.ok(findSheetByTitle("Chọn người nhận"), "sheet người nhận mở trước khi preview");
++    previewBtn.click();
++    await wait(30);
++    assert.equal(changeBtn.disabled, true, "khi bay control người nhận bị khóa");
++    // Đổi người nhận GIỮA CHỪNG preview đang bay (option trong sheet còn mở).
++    const recipientSheet = findSheetByTitle("Chọn người nhận");
++    findButton(recipientSheet, "Người chăm sóc Hai").click(); // state.recipientId -> u-care-2
++    await wait(20);
++
++    behavior.deferredPreview[0]();
++    await wait(40);
++
++    assert.equal(findSheetByTitle("Xem trước nội dung"), null,
++      "recipient đổi khi bay -> KHÔNG mở sheet xác nhận");
++    assert.ok(textOf(el).includes("đã thay đổi trong khi lấy bản xem trước"),
++      "thông báo invalidate trung thực");
++    assert.equal(textarea.disabled, false, "invalidate -> mở khóa textarea");
++    unmount(host);
++  });
++
++  it("case 4 — Gửi trong sheet khi body đổi SAU KHI sheet mở: KHÔNG gọi confirmSend, lỗi trung thực trong sheet", async () => {
++    const { host, el, behavior, textarea, previewBtn } = await setupCompose({});
++
++    previewBtn.click();
++    await wait(40);
++    const confirmSheet = findSheetByTitle("Xem trước nội dung");
++    assert.ok(confirmSheet, "luồng bình thường -> sheet xác nhận mở");
++
++    typeText(textarea, "Bản B sửa sau khi sheet mở");
++    findButton(confirmSheet, "Gửi cho Người chăm sóc Một").click();
++    await wait(40);
++
++    assert.equal((behavior.confirmArgs || []).length, 0,
++      "body đã đổi sau khi xem trước -> KHÔNG gọi confirmDraftSend");
++    assert.ok(
++      textOf(confirmSheet).includes("Nội dung đã thay đổi sau khi xem trước"),
++      "lỗi trung thực phải nằm TRONG sheet nơi user đang nhìn",
++    );
++    unmount(host);
++  });
++
++  it("case 4b (bonus re-verify) — recipient đổi SAU KHI sheet mở: KHÔNG gọi confirmSend, lỗi trong sheet", async () => {
++    const { host, el, behavior, previewBtn, changeBtn } = await setupCompose({});
++
++    previewBtn.click();
++    await wait(40);
++    const confirmSheet = findSheetByTitle("Xem trước nội dung");
++    assert.ok(confirmSheet, "sheet xác nhận mở");
++
++    // Đổi người nhận khi sheet đang mở (control người nhận KHÔNG bị khóa sau
++    // khi preview xong — re-verify tại thời điểm bấm Gửi là lưới chốt).
++    changeBtn.click();
++    await wait(30);
++    const recipientSheet = findSheetByTitle("Chọn người nhận");
++    assert.ok(recipientSheet, "sheet chọn người nhận mở được khi sheet xác nhận đang mở");
++    findButton(recipientSheet, "Người chăm sóc Hai").click();
++    await wait(20);
++
++    findButton(confirmSheet, "Gửi cho Người chăm sóc Một").click();
++    await wait(40);
++
++    assert.equal((behavior.confirmArgs || []).length, 0,
++      "recipient đã đổi sau khi xem trước -> KHÔNG gọi confirmDraftSend");
++    assert.ok(
++      textOf(confirmSheet).includes("Người nhận đã thay đổi sau khi xem trước"),
++      "lỗi trung thực về người nhận phải nằm trong sheet",
++    );
++    unmount(host);
++  });
++
++  it("case 5 — luồng bình thường: sheet hiện đúng bản máy chủ, confirm gọi với preview_id đúng, receipt sent", async () => {
++    const { host, el, behavior, previewBtn } = await setupCompose({});
++
++    previewBtn.click();
++    await wait(40);
++    const confirmSheet = findSheetByTitle("Xem trước nội dung");
++    assert.ok(confirmSheet, "preview -> sheet xác nhận mở");
++    const previewBody = confirmSheet.querySelector(".fb-compose__preview-body");
++    assert.equal(textOf(previewBody), SERVER_BODY,
++      "sheet hiển thị bản máy chủ bind (preview.body ?? snapshotBody)");
++    assert.ok(findButton(confirmSheet, "Giữ lại làm nháp"), "vẫn còn đường giữ lại làm nháp");
++
++    findButton(confirmSheet, "Gửi cho Người chăm sóc Một").click();
++    await wait(40);
++    assert.deepEqual(behavior.confirmArgs, [["d-1", "pv-1"]],
++      "confirm gọi đúng (draftId, preview_id) của bản đã xem trước");
++    assert.ok(el.querySelector(".fb-compose__receipt--sent"),
++      "sent chỉ báo khi máy chủ xác nhận");
++    unmount(host);
++  });
++
++  it("case 6 — double-click preview: chỉ 1 request bind + MỘT sheet xác nhận (không sheet chồng)", async () => {
++    const { host, el, behavior, previewBtn } = await setupCompose({ deferPreview: true });
++
++    previewBtn.click();
++    previewBtn.click(); // double-click cùng tick
++    await wait(20);
++    assert.equal(behavior.previewCalls, 1,
++      "double-click không tạo request preview/bind trùng");
++
++    behavior.deferredPreview[0]();
++    await wait(40);
++    const sheets = Array.from(document.body.querySelectorAll(".fb-sheet")).filter(
++      (sheetEl) => textOf(sheetEl.querySelector(".fb-sheet__title")) === "Xem trước nội dung",
++    );
++    assert.equal(sheets.length, 1, "chỉ MỘT sheet xác nhận mở");
++    assert.equal(textOf(sheets[0].querySelector(".fb-compose__preview-body")), SERVER_BODY,
++      "sheet của phiên hợp lệ hiển thị bản máy chủ bind");
++    unmount(host);
++  });
++
++  it("case 7 — sync editDraft lỗi: KHÔNG gọi previewDraft + mở khóa + thông báo trung thực", async () => {
++    const { host, el, behavior, textarea, previewBtn } = await setupCompose({
++      editError: new ApiError("Kết nối quá thời gian chờ.", 0, "timeout"),
++    });
++
++    typeText(textarea, "Bản B chưa lưu");
++    previewBtn.click();
++    await wait(40);
++
++    assert.deepEqual(behavior.editDraftBodies, ["Bản B chưa lưu"],
++      "đã thử đồng bộ đúng bản mới trước khi preview");
++    assert.equal(behavior.previewCalls, undefined,
++      "sync lỗi -> dừng flow, KHÔNG gọi previewDraft");
++    assert.equal(textarea.disabled, false, "lỗi -> mở khóa textarea");
++    assert.ok(textOf(el).includes("Kết nối quá thời gian chờ"),
++      "thông báo lỗi trung thực");
++    assert.equal(findSheetByTitle("Xem trước nội dung"), null,
++      "sync lỗi -> không mở sheet");
++    unmount(host);
++  });
++});
+--- e0ee388/web/tests/f04-ai-parity.test.mjs
++++ ec29ab/web/tests/f04-ai-parity.test.mjs
+@@ -112,6 +112,17 @@
+ 
+ /** Adapter web giả tối thiểu cho compose: draft engine + AI hooks kiểm soát. */
+ function f04Adapter({ behavior = {} } = {}) {
++  // N01 (19/10): hợp đồng preview mới trả kèm `body` = bản máy chủ BIND
++  // (server-bound snapshot). Adapter giả phải phản ánh đúng contract mới:
++  // server body = body của draft ban đầu, đổi theo MỖI editDraft — sheet
++  // xác nhận phải hiển thị bản này (preview.body ?? snapshotBody), KHÔNG
++  // đọc live textarea. (Cập nhật adapter giả vì hành vi cũ "preview trả
++  // body: "x" cố định" không còn đúng hợp đồng.)
++  if (behavior.serverBody === undefined) {
++    behavior.serverBody = behavior.drafts && behavior.drafts[0] && behavior.drafts[0].body != null
++      ? String(behavior.drafts[0].body)
++      : "x";
++  }
+   return {
+     mode: "web",
+     listConnections: async () => ({
+@@ -130,6 +141,7 @@
+       // Ghi nhận body lưu lên máy chủ — dùng assert "preview dùng bản ĐÃ SỬA".
+       behavior.editDraftBodies = behavior.editDraftBodies || [];
+       behavior.editDraftBodies.push(body);
++      behavior.serverBody = body; // N01: máy chủ giờ giữ đúng bản này
+       return {
+         draft_id: id, revision: (behavior.revision = (behavior.revision || 1) + 1),
+         status: "editing", pause: null, server_time: "2026-10-16T00:00:00Z", body,
+@@ -138,7 +150,15 @@
+     previewDraft: async (id) => {
+       behavior.previewCalls = (behavior.previewCalls || 0) + 1;
+       if (behavior.previewError) throw behavior.previewError;
+-      return { preview_id: "pv-1", draft_id: id, body: "x" };
++      // N01: response preview kèm server-bound snapshot (body/revision/
++      // recipient_id) — parity với backend A2.
++      return {
++        preview_id: "pv-1",
++        draft_id: id,
++        revision: behavior.revision || 1,
++        recipient_id: "u-care-1",
++        body: behavior.serverBody,
++      };
+     },
+     confirmDraftSend: async (id, previewId) => {
+       behavior.confirmCalls = (behavior.confirmCalls || 0) + 1;
+--- e0ee388/web/src/styles/components.css
++++ ec29ab/web/src/styles/components.css
+@@ -1982,6 +1982,19 @@
+   background: var(--fb-surface-container);
+ }
+ 
++/* N01 (F04, 19/10): trạng thái preview-locked — bản xem trước đang lấy từ
++   máy chủ nên đường soạn/người nhận bị khóa tạm thời; giải thích trung thực
++   nằm ở status note (role=status) + title/aria-busy trên nút preview. */
++.fb-compose__textarea:disabled {
++  opacity: 0.55;
++  cursor: not-allowed;
++}
++
++.fb-compose__change-btn:disabled {
++  opacity: 0.55;
++  cursor: not-allowed;
++}
++
+ .fb-compose__ai {
+   background: var(--fb-surface-low);
+   border-radius: var(--fb-radius-group);
+--- e0ee388/web/src/pages/compose/index.js
++++ ec29ab/web/src/pages/compose/index.js
+@@ -18,6 +18,15 @@
+ //   làm mới (không polling); thanh tiến trình chạy bằng CSS transition.
+ // - "Tổng đài tham vấn 111 & chuyên gia luôn sẵn sàng" -> dẫn về trang Trợ
+ //   giúp (nguồn liên hệ được xác minh ở đó), không tự nhét hotline.
++//
++// N01 (QA F04 19/10 — P1 “preview đang bay, sheet hiện bản live nhưng máy
++// chủ bind bản cũ”): phiên preview có token (previewSeq) — tăng ở đầu mỗi lần
++// bấm, sau MỖI await so lại, lệch -> abort im lặng; chốt snapshot (body đã
++// sync + recipient + revision) TRƯỚC await preview; trong lúc bay khóa
++// textarea/control người nhận/nút preview kèm giải thích trung thực; sau await
++// body/recipient/revision đổi -> KHÔNG mở sheet, báo invalidate + mở khóa.
++// Sheet xác nhận hiển thị preview.body ?? snapshotBody (bản máy chủ bind) —
++// KHÔNG đọc live textarea; bấm Gửi re-verify trước khi confirmDraftSend.
+ //
+ // M4 restyle (w11/w12 Stitch — CHỈ PRESENTATION, hành vi giữ nguyên):
+ // - Desktop >=1024px: bố cục 2 cột (.fb-compose-grid) — soạn thảo trái;
+@@ -50,6 +59,12 @@
+ const BODY_MAX = 4000; // ràng buộc backend (f06 _content_fields)
+ const PAUSE_SECONDS = 300; // hiển thị khoảng dừng chuẩn (máy chủ quyết thật)
+ const DRAFT_KIND = "text"; // backend KINDS chỉ nhận ("text","emotion_card")
++
++// N01: copy trung thực cho trạng thái preview-locked + invalidate (dùng chung
++// một nguồn để status note + title nút không lệch nhau).
++const PREVIEW_BUSY_NOTE = "Đang lấy bản xem trước từ máy chủ…";
++const PREVIEW_INVALIDATE_NOTE =
++  "Nội dung hoặc người nhận đã thay đổi trong khi lấy bản xem trước — hãy bấm “Xem trước nội dung” lại.";
+ 
+ // Vòng đếm pause SVG (w12): stroke chạy theo tỷ lệ remaining/PAUSE_SECONDS.
+ const RING_RADIUS = 28;
+@@ -265,6 +280,10 @@
+     fetchedAtMs: draft || listServerTimeIso ? Date.now() : null,
+     recipientId: draft ? draft.recipient_id : null,
+     connections,
++    // N01: token phiên preview + cờ khóa nháp khi preview đang bay. Chỉ vòng
++    // đời trang này dùng — không phải state máy chủ.
++    previewSeq: 0,
++    previewLock: false,
+   };
+ 
+   // ---- Bố cục desktop 2 cột (w11): <1024px vẫn 1 cột (CSS) ----
+@@ -315,6 +334,7 @@
+     createIcon({ name: "expand_more", size: 16 }),
+   );
+   recipientRow.appendChild(changePill);
++  ui.recipientChangeBtn = changePill; // N01: khóa khi preview đang bay
+   recipientCard.appendChild(recipientRow);
+   mainCol.appendChild(recipientCard);
+ 
+@@ -740,7 +760,12 @@
+     ui.statusNote.textContent = "Lời nhắn chưa có nội dung — hãy viết vài dòng trước khi xem trước.";
+     return;
+   }
+-  ui.statusNote.textContent = "Đang lấy bản xem trước từ máy chủ…";
++  // N01 (QA F04 19/10 — P1): token phiên preview — tăng ở ĐẦU mỗi lần bấm;
++  // sau MỖI await so lại; lệch -> abort im lặng (phiên mới hơn thay thế;
++  // request cũ không mở sheet, không ghi đè state mới).
++  const previewSeq = (state.previewSeq = (state.previewSeq || 0) + 1);
++  ui.statusNote.textContent = PREVIEW_BUSY_NOTE;
++  lockComposeForPreview(state, ui);
+   const run = async () => {
+     // R01 (QA F04 18/10 — P1 “gửi sai bản đã duyệt”): AI suggestion chỉ
+     // đổ vào textarea (không tự lưu). Nếu để preview bind BẢN CŨ trên
+@@ -750,11 +775,13 @@
+     // luôn bám đúng text trong sheet xác nhận.
+     const pendingText = currentBodyText(ui).trim();
+     if (pendingText && pendingText !== state.syncedBody) {
++      if (state.previewSeq !== previewSeq) return;
+       ui.statusNote.textContent = "Đang đồng bộ nội dung mới lên máy chủ…";
+       const updated = await ctx.adapter.editDraft(state.draftId, {
+         body: pendingText,
+         recipientId: state.recipientId || undefined,
+       });
++      if (state.previewSeq !== previewSeq) return;
+       state.revision = updated.revision;
+       state.status = updated.status;
+       state.pause = updated.pause || null;
+@@ -763,12 +790,40 @@
+       state.syncedBody = pendingText;
+       refreshPauseUi(state, ui);
+     }
+-    ui.statusNote.textContent = "Đang lấy bản xem trước từ máy chủ…";
++    if (state.previewSeq !== previewSeq) return;
++    // N01: chuẩn hoá textarea == đúng bản máy chủ đang giữ (chỉ khác
++    // khoảng trắng đầu/cuối) để snapshot khớp tuyệt đối với server body.
++    if (currentBodyText(ui) !== pendingText) {
++      ui.textarea.value = pendingText;
++      ui.counter.textContent = `${pendingText.length} ký tự`;
++    }
++    // N01: chốt snapshot TRƯỚC await preview (sau bước sync dirty body
++    // thành công — R01 giữ nguyên): text/recipient/revision tại thời điểm này.
++    const snapshot = {
++      body: currentBodyText(ui),
++      recipientId: state.recipientId,
++      revision: state.revision,
++    };
++    ui.statusNote.textContent = PREVIEW_BUSY_NOTE;
+     const preview = await ctx.adapter.previewDraft(state.draftId);
++    if (state.previewSeq !== previewSeq) return;
++    // N01: sau await bắt buộc kiểm tra lại — body/recipient/revision đổi khi
++    // preview đang bay -> KHÔNG mở sheet; báo trung thực + mở khóa.
++    if (currentBodyText(ui) !== snapshot.body
++      || state.recipientId !== snapshot.recipientId
++      || state.revision !== snapshot.revision) {
++      unlockComposeForPreview(state, ui);
++      ui.statusNote.textContent = PREVIEW_INVALIDATE_NOTE;
++      return;
++    }
+     ui.statusNote.textContent = "";
+-    openConfirmSheet(ctx, state, ui, preview);
++    unlockComposeForPreview(state, ui);
++    openConfirmSheet(ctx, state, ui, preview, snapshot);
+   };
+   run().catch((error) => {
++    // N01: request cũ (phiên đã bị thay thế) KHÔNG ghi đè state/UI mới.
++    if (state.previewSeq !== previewSeq) return;
++    unlockComposeForPreview(state, ui);
+     if (error && error.code === "cooldown_active") {
+       const remaining = error.details && Number.isFinite(Number(error.details.remaining_seconds))
+         ? Number(error.details.remaining_seconds)
+@@ -779,18 +834,80 @@
+       refreshPauseUi(state, ui);
+       return;
+     }
++    // N01 spec 7: sync/editDraft lỗi -> dừng flow, không preview, đã mở khóa,
++    // thông báo trung thực.
+     ui.statusNote.textContent = describeError(error, "Chưa lấy được bản xem trước. Vui lòng thử lại sau.");
+   });
+ }
+ 
+-function openConfirmSheet(ctx, state, ui, preview) {
++/* --------------- N01: khóa nháp trong lúc preview đang bay --------------- */
++
++/**
++ * Khóa đường ghi nội dung/người nhận khi preview đang bay: textarea + control
++ * người nhận + nút preview, kèm giải thích trung thực (status note do onPreview
++ * đặt + title/aria-busy trên nút). refreshPauseUi tôn trọng state.previewLock
++ * nên việc làm mới UI giữa chừng (sau sync) không tự mở khóa.
++ */
++function lockComposeForPreview(state, ui) {
++  state.previewLock = true;
++  if (ui.textarea) ui.textarea.disabled = true;
++  if (ui.recipientChangeBtn) ui.recipientChangeBtn.disabled = true;
++  ui.previewBtn.disabled = true;
++  ui.previewBtn.title = PREVIEW_BUSY_NOTE;
++  ui.previewBtn.setAttribute("aria-busy", "true");
++}
++
++/** Mở khóa khi preview xong hoặc bị invalidate — trả trạng thái nút preview
++ * đúng theo dữ liệu máy chủ (refreshPauseUi). */
++function unlockComposeForPreview(state, ui) {
++  state.previewLock = false;
++  if (ui.textarea) ui.textarea.disabled = false;
++  if (ui.recipientChangeBtn) ui.recipientChangeBtn.disabled = false;
++  ui.previewBtn.removeAttribute("aria-busy");
++  refreshPauseUi(state, ui);
++}
++
++function openConfirmSheet(ctx, state, ui, preview, snapshot) {
+   const recipientName = ui.recipientName.textContent || "người nhận";
++  // N01: sheet hiển thị BẢN MÁY CHỦ BIND — `preview.body` khi response mới có
++  // (server-bound snapshot), fallback snapshot đã sync cho backend cũ chưa trả
++  // body. KHÔNG ĐỌC live textarea (`String(ui.textarea.value || "")` cũ là
++  // nguồn lỗi N01: preview đang bay sửa nội dung -> sheet hiện bản live khác
++  // bản máy chủ bind).
++  const serverBoundBody = preview && typeof preview.body === "string" && preview.body.length > 0
++    ? preview.body
++    : snapshot.body;
++  // Máy chủ có thể chuẩn hoá text khi bind mà không bump revision — nhận bản
++  // máy chủ làm chuẩn (textarea + syncedBody) để re-verify bên dưới không chặn
++  // nhầm lượt gửi hợp lệ; nếu không có khác biệt thì không đụng gì.
++  if (serverBoundBody !== snapshot.body) {
++    state.syncedBody = serverBoundBody;
++    snapshot.body = serverBoundBody;
++    ui.textarea.value = serverBoundBody;
++    ui.counter.textContent = `${serverBoundBody.length} ký tự`;
++  }
++  const displayedSnapshot = String(serverBoundBody);
+   const sheetError = h("div", { role: "alert" });
+ 
+   const confirmBtn = createButton({
+     label: `Gửi cho ${recipientName}`,
+     variant: "primary",
+     onClick: () => {
++      // N01: re-verify TRƯỚC khi gọi confirmDraftSend — nội dung đang hiển thị
++      // phải vẫn là bản snapshot máy chủ + người nhận không đổi; lệch -> lỗi
++      // trung thực trong sheet, KHÔNG gửi.
++      if (currentBodyText(ui) !== displayedSnapshot
++        || state.recipientId !== snapshot.recipientId) {
++        const changedCopy = state.recipientId !== snapshot.recipientId
++          ? "Người nhận đã thay đổi sau khi xem trước — hãy xem trước lại."
++          : "Nội dung đã thay đổi sau khi xem trước — hãy xem trước lại.";
++        clear(sheetError);
++        sheetError.appendChild(
++          h("p", { class: "fb-compose__sheet-error", role: "alert" }, changedCopy),
++        );
++        ui.statusNote.textContent = `${changedCopy} Bấm “Xem trước nội dung” để lấy bản mới.`;
++        return;
++      }
+       // F04 frame 12 — trạng thái "sending": chặn double-click + báo đang gửi.
+       confirmBtn.disabled = true;
+       confirmBtn.textContent = "Đang gửi…";
+@@ -833,9 +950,9 @@
+ 
+   const content = h("div", {},
+     h("p", {}, "Xem lại lời nhắn trước khi gửi. Đây là bước xác nhận cuối cùng — bạn vẫn có thể giữ lại làm nháp."),
+-    h("div", { class: "fb-compose__preview-body" }, String(ui.textarea.value || "")),
++    h("div", { class: "fb-compose__preview-body" }, displayedSnapshot),
+     h("p", { class: "fb-page__note" },
+-      "Máy chủ đã chốt bản xem trước với người nhận và nội dung hiện tại — sửa nội dung sau bước này sẽ cần xem trước lại."),
++      "Bản hiển thị phía trên là bản máy chủ đã chốt cho lần xem trước này — sửa nội dung hoặc đổi người nhận sau bước này sẽ cần xem trước lại."),
+     sheetError,
+     confirmBtn,
+     createButton({
+@@ -859,8 +976,12 @@
+ 
+ function refreshPauseUi(state, ui) {
+   // w12 niêm phong: paused -> làm mờ body nháp + hiện ghi chú (presentation).
++  // N01: preview đang bay -> textarea khóa hẳn (disabled) tạm thời.
+   const isPaused = state.status === "paused";
+-  if (ui.textarea) ui.textarea.classList.toggle("fb-compose__textarea--sealed", isPaused);
++  if (ui.textarea) {
++    ui.textarea.classList.toggle("fb-compose__textarea--sealed", isPaused);
++    ui.textarea.disabled = Boolean(state.previewLock);
++  }
+   if (ui.sealedNote) ui.sealedNote.hidden = !isPaused;
+ 
+   if (ui.privacyChipText) {
+@@ -915,10 +1036,10 @@
+       ),
+     );
+     const serverAllowsPreview = Boolean(state.rowCanPreview) || remaining === 0;
+-    ui.previewBtn.disabled = !serverAllowsPreview;
+-    ui.previewBtn.title = serverAllowsPreview
+-      ? ""
+-      : "Máy chủ chưa mở xem trước — còn khoảng dừng.";
++    ui.previewBtn.disabled = state.previewLock ? true : !serverAllowsPreview;
++    ui.previewBtn.title = state.previewLock
++      ? PREVIEW_BUSY_NOTE
++      : (serverAllowsPreview ? "" : "Máy chủ chưa mở xem trước — còn khoảng dừng.");
+     // w12 vòng đếm: stroke chạy theo remaining máy chủ (không timer);
+     // đổi sang xanh success khi máy chủ báo hết giờ (remaining === 0).
+     if (ui.ringProgress) {
+@@ -938,10 +1059,10 @@
+   ui.timerBadge.title = "Khoảng dừng chuẩn 5 phút — thời gian thật do máy chủ ghi khi bạn bắt đầu.";
+   ui.progressFill.style.width = "0%";
+   const canPreview = Boolean(state.draftId);
+-  ui.previewBtn.disabled = !canPreview;
+-  ui.previewBtn.title = canPreview
+-    ? ""
+-    : "Chưa có bản nháp để xem trước — hãy lưu nháp trước.";
++  ui.previewBtn.disabled = state.previewLock ? true : !canPreview;
++  ui.previewBtn.title = state.previewLock
++    ? PREVIEW_BUSY_NOTE
++    : (canPreview ? "" : "Chưa có bản nháp để xem trước — hãy lưu nháp trước.");
+   ui.pauseBtnIcon.remove();
+   ui.pauseBtnIcon = createIcon({ name: "play_arrow", size: 20 });
+   ui.pauseBtnLabel.textContent = "Bắt đầu 5 phút nghỉ";
+@@ -952,7 +1073,14 @@
+ }
+ 
+ function describeError(error, fallback) {
++  // N01: máy chủ từ chối confirm bằng preview_stale kèm reason (backend f06:
++  // draft_changed_after_preview / recipient_changed_after_preview) — biến thành
++  // hướng dẫn "xem trước lại" thay vì lỗi khô.
++  const staleReason = error && error.details && error.details.reason;
+   if (error && error.code === "preview_stale") {
++    if (staleReason === "recipient_changed_after_preview") {
++      return "Người nhận đã thay đổi sau khi xem trước — hãy chọn lại người nhận rồi bấm “Xem trước nội dung” lần nữa.";
++    }
+     return "Bản xem trước đã cũ sau khi bạn sửa nội dung — hãy bấm “Xem trước nội dung” lần nữa.";
+   }
+   if (error && error.kind === "timeout") {
+--- /dev/null
++++ ec29ab/docs/features/f04/web-design-states.md
+@@ -0,0 +1,81 @@
++# F04 — Web compose: inventory trạng thái (khung mini → state → component → API → status)
++
++Feature: F04 / US-029 / US-033 — AI hỗ trợ diễn đạt. Nhánh
++`tinh-nang/f04-ai-ho-tro-dien-dat-us029-us033` (working tree, CHƯA commit).
++Tác giả: **A4-V** (phiên xác minh N01 web, 2026-10-19).
++
++Mục đích: inventory các TRẠNG THÁI của màn soạn thư web (`#/compose`,
++`web/src/pages/compose/index.js` + `web/src/components/ai-assist.js`) đối chiếu
++với **24 khung mini** nguồn tại
++`upload/f04-docx-extract/f04-docx/designs/extracted/stitch_family_bridge_zalo_ai_composer/`
++(16 khung học sinh `zalo_f04_01…14` + 8 khung người chăm sóc `zalo_f04_cg_01…06`;
++web gốc chỉ có 4 khung trong `stitch_family_bridge_ai_composer/` — xem
++`docs/features/f04/web-zalo-parity.md` mục 1 để có bảng 24 dòng frame đầy đủ).
++
++Nguyên tắc ghi nhận (giống parity doc): **trung thực** — state nào chưa có thì
++ghi THIẾU, không gán "đã đủ" nếu chỉ có test source-level, không tự tạo route
++cho khung ngoài phạm vi F04.
++
++Cách đọc cột status:
++
++- **có sẵn** — đã có trước vòng fix N01, có test hoặc code pin (không đụng
++  trong phiên này).
++- **mới 19/10/2026** — bổ sung trong vòng fix N01 (phiên A4 trước + xác minh
++  A4-V), có test thật xanh trong `web/tests/f04-preview-snapshot.test.mjs`
++  (9/9 PASS) hoặc `f04-ai-parity.test.mjs`.
++- **THIẾU** — chưa có; ghi rõ hệ quả và đề xuất.
++
++---
++
++## 1. Bảng inventory trạng thái web compose
++
++| # | Trạng thái | Web component / route (file + hàm thật) | API / backend | Frame mini liên quan | Status |
++|---|---|---|---|---|---|
++| S01 | Chưa đăng nhập (production) | `compose/index.js` `page.render` → `createEmptyState` "Cần đăng nhập để soạn thư" + nút → `#/login` | Không gọi API (guard `hasLiveSession()` local) | — (ngụ ý của frame 01/02) | có sẵn |
++| S02 | Loading lúc vào trang | skeleton `createSkeleton({variant:"line"})` + `role="status"` "Đang tải bản soạn…" (`render`, trước `Promise.all`) | `GET /connections` + `GET /drafts` (qua `listConnections`/`listDrafts`) | 01/02 (trước khi vào trạng thái gốc) | có sẵn |
++| S03 | Lỗi tải trang | `renderLoadError()` → `createErrorState` "Không tải được màn soạn thư" + "Thử lại" (dispatch `hashchange`) | `listConnections`/`listDrafts` fail → catch | — | có sẵn |
++| S04 | Soạn — bản trống (chưa có nội dung) | `renderCompose()` editor `#fb-compose-body` + counter; guard bấm Lưu nháp/Xem trước → statusNote "Lời nhắn chưa có nội dung…" | không gọi | 01, 02, 17, 18 | có sẵn |
++| S05 | Đang đồng bộ bản sửa lên máy chủ (R01) | `onPreview()` — statusNote "Đang đồng bộ nội dung mới lên máy chủ…" trước `editDraft` khi body lệch `syncedBody` | `POST /drafts/{id}` (edit, revision máy chủ) | 07 (sửa & áp dụng trước khi gửi) | có sẵn |
++| S06 | **Preview-locked — bản xem trước đang bay** | `onPreview()` → `lockComposeForPreview()`: `textarea.disabled`, `recipientChangeBtn.disabled`, `previewBtn.disabled` + `title`/`aria-busy` + statusNote `PREVIEW_BUSY_NOTE`; CSS `.fb-compose__textarea:disabled` / `.fb-compose__change-btn:disabled` (components.css, mới) | `POST /drafts/{id}/preview` đang chờ | 12 (xem trước & xác nhận — phần đang chờ) | **mới 19/10/2026 (N01)** |
++| S07 | Double-click preview → chỉ 1 phiên | token `state.previewSeq` tăng ở đầu mỗi lần bấm + nút bị khóa khi bay → request/sheet không nhân bản | `previewDraft` gọi đúng 1 lần | 12 | **mới 19/10/2026 (N01, test case 6)** |
++| S08 | **Invalidate khi snapshot lệch** (body/recipient/revision đổi khi bay) | sau mỗi `await` so lại `previewSeq`; sau `previewDraft` so lại `currentBodyText/snapshot.body`, `state.recipientId`, `state.revision` lệch → **KHÔNG mở sheet** + statusNote `PREVIEW_INVALIDATE_NOTE` + `unlockComposeForPreview()` | `previewDraft` đã trả nhưng bị bỏ qua (client-side guard) | 12 | **mới 19/10/2026 (N01, test case 2/2b/3)** |
++| S09 | Máy chủ từ chối `preview_stale` (kèm reason) | `describeError()` — reason `recipient_changed_after_preview` → "Người nhận đã thay đổi sau khi xem trước…", còn lại → "Bản xem trước đã cũ…"; kèm mở khóa | `POST /drafts/{id}/confirm-send` → 409 `preview_stale` (backend f06) | 12, 14 | có sẵn; **mở rộng copy reason 19/10/2026** |
++| S10 | Cooldown active (`cooldown_active`) | `onPreview()` catch → statusNote remaining từ `details.remaining_seconds` + `refreshPauseUi()`; preview nút khóa tới khi máy chủ mở | 403 `cooldown_active` + `details.remaining_seconds` (pause 300s máy chủ chốt) | 13 | có sẵn |
++| S11 | Paused — niêm phong (w12) | `refreshPauseUi()`: `textarea--sealed` + `sealedNote` + ring SVG stroke theo `remaining_seconds` máy chủ (KHÔNG timer — DSA-10) | state `pause` từ `GET /drafts`; `pauseDraft`/`cancelDraftPause` | 13 | có sẵn |
++| S12 | Hết giờ — máy chủ mở preview | `refreshPauseUi()`: `serverAllowsPreview` (row `can_preview` hoặc `remaining === 0`) → mở nút "Xem trước nội dung" | `pause.can_preview` / `remaining_seconds=0` | 13 | có sẵn |
++| S13 | Sheet xác nhận — hiển thị **bản máy chủ bind** | `openConfirmSheet(ctx, state, ui, preview, snapshot)`: `serverBoundBody = preview.body ?? snapshot.body`; **KHÔNG đọc live textarea** (bỏ `String(ui.textarea.value||"")` cũ dòng 836); nếu server normalize text (khác snapshot, không bump revision) thì nhận bản máy chủ làm chuẩn (textarea + syncedBody) | response preview mới kèm `body` (backend A2 `make_preview`; mock shared đã parity) | 12 | **mới 19/10/2026 (N01)** |
++| S14 | Sending — đang gửi | confirmBtn → "Đang gửi…" + disabled (chặn double-click) | `POST /drafts/{id}/confirm-send` | 14 | có sẵn |
++| S15 | **Re-verify trước Gửi trong sheet** | onClick "Gửi cho {tên}" so lại `currentBodyText(ui) !== displayedSnapshot` hoặc `state.recipientId !== snapshot.recipientId` → lỗi trung thực **TRONG sheet** (`role="alert"`) + KHÔNG gọi confirm | không gọi khi lệch | 12 | **mới 19/10/2026 (N01, test case 4/4b)** |
++| S16 | Kết quả gửi — sent | `renderSendReceipt(ui.mainCol, {outcome:"sent"})` + reset composer (textarea rỗng, state mới) | confirm-send thành công | 14 | có sẵn |
++| S17 | Kết quả gửi — unknown (không tự retry) | `renderSendReceipt({outcome:"unknown"})` + sheet error "KẾT QUẢ CHƯA XÁC ĐỊNH… không gửi lại ngay" + "Kiểm tra trạng thái mới nhất" | confirm-send lỗi/mất response; không tạo key gửi lại | 14 | có sẵn |
++| S18 | **Sync editDraft lỗi → dừng flow** | `run().catch` trong `onPreview`: phiên cũ bỏ qua (previewSeq), `unlockComposeForPreview()`, `describeError` — KHÔNG gọi `previewDraft`, không mở sheet | `editDraft` 4xx/5xx/timeout | 07, 12 | **mới 19/10/2026 (N01 — hành vi dừng + mở khóa pin bằng test case 7)** |
++| S19 | Chọn người nhận (+ rỗng) | `openRecipientSheet()` — sheet "Chọn người nhận", chỉ kết nối `active`; rỗng → dẫn `#/connect`; pill "Đổi" `.fb-compose__change-btn` | `GET /connections` (active two-way) | 11 | có sẵn |
++| S20 | AI consent gate | `components/ai-assist.js` `createAiAssist()` → `openConsentSheet()`: disclosure Gemini + `recordConsent({purpose:"ai_processing"})`; decline → ghi nhận im + manual path; 403 `consent_required` → mở lại sheet (không loop) | `GET/POST /consents`; guard `has_active_consent()` (f01) | 03, 04 | có sẵn |
++| S21 | AI loading + hủy chờ | `renderPanel("loading")` skeleton + nút "Hủy chờ gợi ý" (`refineSeq` — response muộn bỏ qua, không tự retry); không khóa gõ/lưu nháp | `POST /ai/refine` (idempotency key) | 05 | có sẵn (được vá ở phiên A4-FINISH trước vòng N01) |
++| S22 | AI gợi ý hiển thị + chấp nhận/bỏ | `renderPanel("suggestion")` — `suggested_text` qua `textContent` (SEC-12); "Dùng gợi ý" → `aiAccept` chỉ điền textarea; "Bỏ" → `aiDiscard` | `POST /ai/suggestions/{id}/accept|discard` | 06, 08 | có sẵn |
++| S23 | AI gợi ý lỗi thời (stale) | banner `.fb-ai-assist__stale` + khóa "Dùng gợi ý" + "Tạo gợi ý mới"; re-check `boundRev !== revision` tại thời điểm bấm | local revision guard (input_revision echo) | 09 | có sẵn |
++| S24 | AI tắt / lỗi | `describeAiError()` → panel lỗi `role=alert`; `aiStatus()` off → CTA disabled + lý do; lỗi mạng → "chưa kiểm tra được" (fail-closed, không giả on/off); manual path nguyên | `GET /ai/status` (`FB_AI_ENABLED` kill switch); 429/503/timeout map | 10 | có sẵn |
++| S25 | Biến thể người chăm sóc | cùng route/component, `editorCopy` + `AI_COPY.caregiver` theo `store.role` | cùng bộ API | 17–20 | có sẵn |
++| S26 | Keyboard-open / mobile-web | textarea native (IME thật), không vẽ bàn phím giả; grid 2 cột chỉ ≥1024px (`shell.css`) | không cần endpoint | 01, 07, 17, 19 | có sẵn (responsive smoke source-level) |
++
++## 2. Trạng thái THIẾU / chưa kiểm chứng (trung thực)
++
++| # | Khoảng trống | Chi tiết | Hệ quả | Đề xuất |
++|---|---|---|---|---|
++| G1 | **Không tự re-sync nháp sau invalidate** | Khi S08 invalidate (lệch snapshot), trang chỉ mở khóa + báo "bấm Xem trước nội dung lại"; KHÔNG chủ động `listDrafts`/reload để kéo revision/body mới nhất về `state` | Nếu lệch do tab/máy chủ khác (không phải thao tác cục bộ), `state.revision` có thể cũ cho tới lần lưu/preview kế tiếp; `editDraft` kế tiếp sẽ bị máy chủ từ chối revision conflict → user thấy lỗi trung thực, không mất dữ liệu | Chấp nhận được cho P1 này (an toàn, không gửi sai bản); nếu muốn mượt hơn: sau invalidate gọi 1 lần `listDrafts` để refresh `state` — cần test riêng, KHÔNG làm trong vòng fix N01 |
++| G2 | **Screenshot/visual QA cho mọi state** | Môi trường sandbox không có trình duyệt chụp ảnh — toàn bộ state trên chỉ có bằng chứng DOM test (`node --test` happy-dom) + source-level; KHÔNG có PNG state thật | Nghiệm thu visual (khung 12/13/14 đặc biệt) chưa làm | Cần môi trường có browser (Playwright) chạy bộ chụp theo bảng trên |
++
++Khung mini **không có** trạng thái web tương ứng (không bịa): frame 21
++(caregiver hub — LAYOUT-ONLY), frame 22–24 (tư vấn/booking — OUT-OF-SCOPE theo
++handoff 05; xem parity doc mục 1 dòng 21–24).
++
++## 3. Tổng kết
++
++- 26 trạng thái đã có (S01–S26), trong đó **6 trạng thái + 1 mở rộng copy là
++  mới/được bổ sung 19/10/2026** bởi fix N01: S06, S07, S08, S13, S15, S18
++  (+ S09 mở rộng reason). Mọi trạng thái mới đều có test thật xanh trong
++  `web/tests/f04-preview-snapshot.test.mjs` (9/9) — xác minh lại A4-V:
++  `npm test` 222/222 PASS, `npm run build` PASS (evidence:
++  `f04-fix-evidence/a4/green-verified.log`).
++- 2 khoảng trống ghi nhận trung thực: G1 (re-sync sau invalidate — chưa làm,
++  có chủ ý), G2 (screenshot — NOT_RUN do môi trường).
+--- e0ee388/docs/features/f04/manifest.json
++++ ec29ab/docs/features/f04/manifest.json
+@@ -2,7 +2,10 @@
+   "feature_id": "F04",
+   "branch": "tinh-nang/f04-ai-ho-tro-dien-dat-us029-us033",
+   "baseline_sha": "72930ae",
+-  "us": ["US-029", "US-033"],
++  "us": [
++    "US-029",
++    "US-033"
++  ],
+   "backend": {
+     "app_label": "f04_ai",
+     "package": "family_bridge_features.f04_ai",
+@@ -15,9 +18,18 @@
+       "POST /api/v1/ai/suggestions/{id}/accept (author-only, một chiều, KHÔNG gửi)",
+       "POST /api/v1/ai/suggestions/{id}/discard (author-only, một chiều)"
+     ],
+-    "models": ["AiSuggestion (+ input_revision nullable)"],
+-    "ports_provided": ["AiExpressService (refine/decide/status)", "deletion hook category 'ai' (F15 register_deletion_hook)"],
+-    "ports_consumed": ["AI provider port (Gemini REST qua stdlib, host allowlist generativelanguage.googleapis.com; env GEMINI_API_KEY secret / GEMINI_MODEL pin / FB_AI_ENABLED kill switch mặc định off / GEMINI_TIMEOUT_SECONDS 3..30 default 15 / GEMINI_MAX_OUTPUT_TOKENS 64..4096 default 1024; không network ở import/startup/health; thiếu config -> AI off fail closed)", "consent has_active_consent(user, ai_processing) của F01", "session resolver"]
++    "models": [
++      "AiSuggestion (+ input_revision nullable)"
++    ],
++    "ports_provided": [
++      "AiExpressService (refine/decide/status)",
++      "deletion hook category 'ai' (F15 register_deletion_hook)"
++    ],
++    "ports_consumed": [
++      "AI provider port (Gemini REST qua stdlib, host allowlist generativelanguage.googleapis.com; env GEMINI_API_KEY secret / GEMINI_MODEL pin / FB_AI_ENABLED kill switch mặc định off / GEMINI_TIMEOUT_SECONDS 3..30 default 15 / GEMINI_MAX_OUTPUT_TOKENS 64..4096 default 1024; không network ở import/startup/health; thiếu config -> AI off fail closed)",
++      "consent has_active_consent(user, ai_processing) của F01",
++      "session resolver"
++    ]
+   },
+   "shared": {
+     "package": "packages/family_bridge_shared",
+@@ -26,18 +38,30 @@
+       "aiRefine({text,purpose,key,inputRevision?}) -> POST /api/v1/ai/refine; DTO pass-through NGUYÊN VẸN (suggested_text, không refined_text)",
+       "aiAccept/aiDiscard -> POST /api/v1/ai/suggestions/{id}/accept|discard",
+       "editDraft KHÔNG gửi kind (C8); listMessages/listMoodEntries dùng page_size + map next; listDrafts map server_time/pause_seconds",
++      "previewDraft pass-through nguyên vẹn; response preview kèm `body` snapshot server-bound (N01, QA 2026-10-19 — mock ĐÃ trả body, backend chờ A2 thêm vào make_preview)",
+       "mock-adapter khớp serializer thật + echo input_revision + replay theo key"
+     ],
+-    "regression_tests": "packages/family_bridge_shared/tests/f04-contract.test.mjs"
++    "regression_tests": "packages/family_bridge_shared/tests/f04-contract.test.mjs (31 test, gồm 4 test N01 preview-snapshot) + tests/test_f04_contract_a5.mjs (13 test — chạy tường minh, không khớp glob)"
+   },
+-  "mobile": {"module": "packages/family_bridge_mobile/f04_ai", "pages": ["refine"]},
+-  "ui_owners": {"web": "A4 (web/src/pages/compose|message + components/ai-assist.js)", "zalo": "A3 (zalo-mini-app/src/pages/compose|message)"},
++  "mobile": {
++    "module": "packages/family_bridge_mobile/f04_ai",
++    "pages": [
++      "refine"
++    ]
++  },
++  "ui_owners": {
++    "web": "A4 (web/src/pages/compose|message + components/ai-assist.js)",
++    "zalo": "A3 (zalo-mini-app/src/pages/compose|message)"
++  },
+   "tests": {
+-    "shared": "node --test packages/family_bridge_shared/tests/*.test.mjs -> 50/50 PASS (50 gồm 16 regression F04-A1)",
++    "shared": "node --test packages/family_bridge_shared/tests/*.test.mjs -> 65/65 PASS (2026-10-19, gồm 31 regression F04-A1 với 4 test N01 preview-snapshot)",
+     "backend": "do A2 duy trì (working tree đang sửa: consent gate, provider ngoài atomic, input_revision, Gemini transport)",
+     "mobile": "3 PASS",
+-    "not_run": ["MySQL quota race (SQLite thay thế không được coi là bằng chứng)", "live Gemini smoke (opt-in, key đã rotate)"]
++    "not_run": [
++      "MySQL quota race (SQLite thay thế không được coi là bằng chứng)",
++      "live Gemini smoke (opt-in, key đã rotate)"
++    ]
+   },
+   "status": "in_progress",
+-  "status_note": "Trung thực theo lớp: shared contract/adapter/mock/tests = implemented (A1); backend Django/Gemini/consent = do A2 đang hoàn thiện trên cùng nhánh (working tree, chưa commit); web/zalo UI = A4/A3; QA độc lập = A5. Không giữ claim 'implemented' tổng thể."
++  "status_note": "Trung thực theo lớp sau đợt sửa N01+N02 2026-10-19: shared contract/adapter/mock/tests = implemented (A1; +N01 preview body snapshot parity); backend claim-identity fence N02 + make_preview body = implemented (A2; red-before-fix 2 fail 1!=0 -> green 170/170, MySQL row-lock chưa test); web N01 snapshot/lock/invalidate = implemented (A4; 222/222 + build); zalo mini N01 = implemented (A3; 330/330 + build); QA độc lập A5: đỏ->xanh 3 mức (unit probe 4/4, browser Chromium thật + Django thật finalMatchesPreview=true 2/2 web+mini, probe claim-reuse old_private_rows=0), security review 0 P1/P2. NOT_RUN: MySQL race, Gemini live, Render, Zalo device. Không giữ claim 'implemented' tổng thể cho các phần NOT_RUN."
+ }
+--- e0ee388/docs/features/f04/web-zalo-parity.md
++++ ec29ab/docs/features/f04/web-zalo-parity.md
+@@ -157,3 +157,152 @@
+   contract freeze v1 và backend đã land)*.
+ - Verify test: **A5** *(placeholder — chờ rerun độc lập `cd web && npm test`
+   và đối chiếu 24 dòng)*.
++
++## 6. Preview snapshot contract (N01) — QA 2026-10-19
++
++> **Phạm vi hiệu lực**: áp dụng cho các commit sửa N01 trên nhánh
++> `tinh-nang/f04-ai-ho-tro-dien-dat-us029-us033` — snapshot audit tại SHA
++> `e0ee38827562a75542fa79fff50984696088d1c9` (đã xác minh = đúng SHA được audit),
++> ngày chốt **2026-10-19**. Mục này **supersede** khẳng định "shared KHÔNG yêu
++> cầu thay đổi" ở mục 4 (đúng tại thời điểm viết, nhưng N01 buộc preview
++> response thêm `body` nên shared phải cập nhật mock + test).
++
++### 6.1 Lỗi N01 (P1) — "gửi sai bản đã duyệt"
++
++Khi preview request đang bay, author sửa textarea → sheet xác nhận hiển thị
++nội dung B (đọc LIVE textarea) trong khi server bind bản A → recipient nhận A
++khác B đã duyệt. Đường đọc live textarea duy nhất liên quan preview/sheet:
++
++- `web/src/pages/compose/index.js:836` — `openConfirmSheet()` render
++  `String(ui.textarea.value || "")` tại thời điểm mở sheet (sau await).
++- `zalo-mini-app/src/pages/compose/index.js:1228` — y hệt.
++- Ngoài `compose/index.js` KHÔNG còn đường nào đọc live textarea để hiển thị
++  preview: đã grep toàn bộ `web/src` + `zalo-mini-app/src` — các hit `.value`
++  còn lại thuộc luồng khác (login/connect/mailbox/cards/settings/consent) và
++  `message/index.js` chỉ gửi reply qua `sendMessage` (không đi qua preview/
++  confirm-send). Grep evidence: mục 6.5.
++
++Gốc rễ: `onPreview()` không chốt snapshot, không có token chống phiên cũ, và
++không khóa input trong lúc request bay → mọi state giữa các bước `await`
++(editDraft sync → previewDraft) đều có thể đổi dưới chân flow.
++
++### 6.2 Request/response shape mới (backend A2 + shared A1)
++
++Request KHÔNG đổi:
++
++- `POST /api/v1/drafts/{draft_id}/preview` — body `{}`, Bearer, author-only,
++  gate `_deadline_guard` giữ nguyên (409 `cooldown_active` khi ĐANG paused còn
++  deadline — C8/R2A3-01).
++
++Response THÊM `body` (server-bound snapshot):
++
++```json
++{
++  "preview_id": "<uuid>",
++  "revision": <int — revision của draft TẠI THỜI ĐIỂM preview>,
++  "recipient_id": "<uuid|null>",
++  "body": "<nội dung draft mà MÁY CHỦ vừa chốt — snapshot bất biến>",
++  "deadline": "<iso|null>",
++  "server_time": "<iso>"
++}
++```
++
++- Nguồn sự thật backend: `make_preview` (f06_drafts/services/drafts.py:200) —
++  hiện trả 5 field, A2 thêm `"body": draft.body` (đọc một chiều; audit tại
++  SHA e0ee388 chưa có field này).
++- `body` là SNAPSHOT chốt lúc preview: sau đó draft đổi (edit lưu) không ảnh
++  hưởng giá trị đã trả; confirm_send vẫn validate `used` + `revision` +
++  `recipient_id` như hiện tại — `body` chỉ là bản "đã duyệt để hiển thị".
++- Shared HTTP adapter (`http-endpoints.js` `previewDraft`): **pass-through
++  NGUYÊN VẸN** — `return data` không thêm/bớt/đổi tên field (đã chứng minh
++  bằng đọc code + test mới "N01 — http previewDraft pass-through"). Khi A2
++  land `body`, cả hai client nhận ngay, không phải đổi adapter.
++- Shared mock adapter (`mock-adapter.js` `previewDraft`): **ĐÃ trả thêm
++  `body: draft.body`** (A1, phiên 2026-10-19) — parity để hai client chạy demo
++  `?demo=1` có hành vi giống HTTP thật. Zalo shim
++  (`zalo-mini-app/src/core/adapter/mock-adapter.js`) re-export shared nên tự
++  nhận thay đổi; web import thẳng shared.
++- Key set chuẩn (đơn nguồn trong test): `preview_id, revision, recipient_id,
++  body, deadline, server_time` (+ `source:"fixture"` ở cuối CHỈ ở mock — quy
++  ước mock-wide như F5). Bảo trì: đổi shape preview phải sửa CẢ mock +
++  `DOCUMENTED_PREVIEW_DTO_FIELDS` + test Python phía backend cùng lúc.
++
++### 6.3 Hành vi client bắt buộc (web = zalo-mini-app, như nhau)
++
++Ký hiệu: `snapshotBody/snapshotRecipientId/snapshotRevision` = giá trị chốt
++trước await; `previewSeq` = token tăng dần mỗi lượt preview.
++
++1. **(a) previewSeq token** — tăng ở ĐẦU mỗi lần `onPreview`; mọi `await`
++   (editDraft sync, previewDraft) xong phải so lại token: lệch → abort IM
++   LẶNG (phiên mới hơn đã chạy, không toast chồng, không mở sheet).
++2. **(b) Snapshot trước await** — sau khi bước sync-dirty (editDraft) THÀNH
++   CÔNG và TRƯỚC `await previewDraft`, chốt `snapshotBody` (text đã trim đã
++   sync), `snapshotRecipientId`, `snapshotRevision` (từ edit response).
++3. **(c) Khóa khi đang bay** — textarea + sheet chọn người nhận + nút preview
++   disabled kèm giải thích trung thực ("Đang lấy bản xem trước từ máy chủ…");
++   mở lại sau mọi nhánh kết thúc (kể cả abort).
++4. **(d) Kiểm tra sau await** — nếu live body/recipient/revision (hoặc state)
++   lệch snapshot → KHÔNG mở sheet; báo "Nội dung/người nhận đã thay đổi trong
++   khi lấy bản xem trước — hãy bấm Xem trước nội dung lại"; mở khóa.
++5. **(e) Sheet hiển thị `preview.body`** (fallback `snapshotBody` nếu server
++   cũ chưa trả body) — TUYỆT ĐỐI không đọc live textarea.
++6. **(f) Re-verify trước confirm** — nút Gửi trong sheet kiểm lại
++   `body === snapshotBody && recipient không đổi && revision không đổi` trước
++   khi gọi `confirmDraftSend`; lệch → đóng/refresh sheet theo nhánh (d).
++7. **(g) Sync/editDraft lỗi** — dừng flow, KHÔNG gọi preview, mở khóa, báo lỗi
++   lưu nháp trung thực (không tự retry).
++8. **(h) Giữ nguyên** xử lý unknown-outcome (confirm lỗi mạng → "KẾT QUẢ CHƯA
++   XÁC ĐỊNH", không tự retry/auto-send) + `cooldown_active` (báo
++   `remaining_seconds` của máy chủ); copy tiếng Việt có dấu.
++
++### 6.4 Các trường hợp invalidate + unknown outcome
++
++| # | Sự kiện | Server phản ứng | Client bắt buộc |
++|---|---|---|---|
++| 1 | Edit LƯU (editDraft/createDraft) sau preview | revision bump → confirm preview cũ 409 `preview_stale` (`draft_changed_after_preview`) | Test mới N01 pin 409; UI phải quay lại bước preview |
++| 2 | Preview mới cùng revision | backend supersedes: preview cũ `used=true` → confirm preview cũ 409 `preview_already_used` | Chỉ giữ preview mới nhất trong state |
++| 3 | Đổi người nhận sau preview | confirm 409 `preview_stale` (`recipient_changed_after_preview`) | Snapshot recipient + re-verify (f) |
++| 4 | Edit CHƯA lưu trong lúc preview bay | KHÔNG có invalidate (server không thấy) — chính là gap N01 | (b)(c)(d)(e): snapshot + khóa + so lại sau await; sheet chỉ hiển thị `preview.body` |
++| 5 | Đang paused còn deadline | preview/confirm 409 `cooldown_active` + `details.remaining_seconds` | Giữ nguyên xử lý hiện có (h) |
++| 6 | Logout/đổi phiên trong lúc bay | 401 / `stale_session` | previewSeq lệch → abort im lặng (a); tuyệt đối không mở sheet với kết quả của phiên cũ |
++| 7 | Confirm-send lỗi mạng / không response | KẾT QUẢ không xác định | Giữ nguyên unknown-outcome: báo CHƯA XÁC ĐỊNH trong sheet, không tự retry, không tự suy thành công (h) |
++
++> Lưu ý parity mock: `preview_id` của mock là deterministic
++> `demo-preview-{draftId}-{revision}` nên hai lần preview CÙNG revision trả
++> cùng id — mock KHÔNG mô phỏng được nhánh `preview_already_used` (backend
++> tạo row mới + supersede cũ mỗi lần preview). Client không được dựa vào điều
++> này: luôn dùng preview mới nhất và để 409 của máy chủ là phán quyết cuối.
++
++### 6.5 Ma trận cross-client (state × web × mini × route/component/API × status)
++
++Trạng thái audit tại SHA e0ee388 (trước fix của A3/A4):
++
++| State (compose) | Web (`#/compose` — `web/src/pages/compose/index.js`) | Zalo Mini (`#/compose` — `zalo-mini-app/src/pages/compose/index.js`) | Route/Component/API | Status contract (A1) | Status code |
++|---|---|---|---|---|---|
++| idle → bấm "Xem trước nội dung" | `onPreview()` dòng 732 (guarded "preview") | `onPreview()` dòng 1131 (guarded "preview") | `POST /api/v1/drafts/{id}/preview` | Shape mới chốt §6.2 | mock DONE (A1); backend `body` CHỜ A2 |
++| sync dirty trước preview | dòng 745–765: đọc live `pendingText` → `editDraft` (không snapshot, không token) | dòng 1144–1162: y hệt | `POST /api/v1/drafts/{id}` (edit, C8 kind-optional) | (b)(g) chốt §6.3 | BUG N01 → A4 / A3 |
++| preview in-flight | KHÔNG khóa textarea/recipient; không previewSeq | y hệt | preview đang bay | (a)(c) chốt §6.3 | BUG N01 → A4 / A3 |
++| preview về, mở sheet | `openConfirmSheet()` dòng 786; hiển thị `ui.textarea.value` LIVE dòng 836 | `openConfirmSheet()` dòng 1185; hiển thị live dòng 1228 | — | (e): hiển thị `preview.body` (fallback snapshot) | BUG N01 → A4 / A3 |
++| confirm trong sheet | `confirmBtn` dòng 790–832: gọi thẳng `confirmDraftSend`, không re-verify | dòng 1189–1224: y hệt | `POST /api/v1/drafts/{id}/confirm-send` | (f) re-verify bắt buộc | BUG N01 → A4 / A3 |
++| confirm thành công | receipt `sent` + reset composer | y hệt | confirm-send | Giữ nguyên | OK |
++| confirm unknown | `unknown` + "Kiểm tra trạng thái mới nhất", không retry | y hệt | confirm-send | Giữ nguyên (h) | OK |
++| 409 cooldown_active | báo `remaining_seconds` + `refreshPauseUi` | y hệt (copy R2A3-01) | preview/confirm | Giữ nguyên (h) | OK |
++| phiên đổi giữa chừng | chỉ có stale-session ở lớp adapter; preview flow chưa có token | y hệt | — | (a) previewSeq chốt §6.3 | BUG N01 → A4 / A3 |
++| demo `?demo=1` | import `createMockAdapter` shared (web-adapter.js:28) | shim `core/adapter/mock-adapter.js` → shared | shared mock | `body` DONE (A1) + test N01 xanh | DONE (A1) |
++
++Bằng chứng test shared (A1, 2026-10-19): `node --test
++packages/family_bridge_shared/tests/*.test.mjs` → **65/65 PASS** (gồm 4 test
++N01 mới trong `f04-contract.test.mjs`: key-set preview, snapshot đúng thời
++điểm preview, invalidate 409 preview_stale, pass-through HTTP nguyên vẹn);
++`node --test packages/family_bridge_shared/tests/test_f04_contract_a5.mjs` →
++**13/13 PASS** (chạy tường minh — file không khớp glob). Mobile shared loop:
++**51/51 PASS**. Evidence: `/home/z/my-project/f04-fix-evidence/a1/`.
++
++### 6.6 Ghi chú ownership
++
++- Shared (mock + http comment + tests) và docs này: **A1** — ĐÃ sửa phiên
++  2026-10-19.
++- Backend thêm `"body": draft.body` vào `make_preview` (+ test Python pin
++  shape): **A2** — CHƯA land tại SHA e0ee388.
++- Web `onPreview/openConfirmSheet` theo §6.3: **A4** — CHỜ.
++- Zalo `onPreview/openConfirmSheet` theo §6.3: **A3** — CHỜ.

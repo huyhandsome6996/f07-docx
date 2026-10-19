@@ -1,0 +1,159 @@
+✔ ai api wrappers hit contract paths and carry idempotency key (1.901919ms)
+✔ refine without inputRevision omits the optional field (0.330461ms)
+✔ page modules export factories (7.426216ms)
+✔ suggestion text renders as text (suggested_text only); notice states minimal payload (45.4963ms)
+✔ page implements inputRevision stale guard bound at request time (14.252695ms)
+▶ shared client — phân loại lỗi theo kind
+  ✔ thiếu baseUrl -> ApiError kind 'configuration', KHÔNG gọi fetch, message không lộ địa chỉ (5.168944ms)
+  ✔ baseUrl sai cú pháp -> kind 'configuration', KHÔNG lộ URL gốc/exception parser (0.692384ms)
+  ✔ https-only: http:// tới host không phải localhost -> kind 'configuration' (0.501646ms)
+  ✔ timer hủy giữa lúc đọc body -> kind 'timeout' (KHÔNG phải invalid_response) (60.120913ms)
+  ✔ timeout mặc định 15000ms: tại 14999ms chưa hủy, 15000ms hủy -> 'timeout' (mock timer) (1.198117ms)
+  ✔ 503 + envelope {error:{code,details}} -> kind 'http', status 503, giữ code/details (1.226988ms)
+  ✔ body 200 không parse được JSON (SyntaxError) -> kind 'invalid_response', giữ mã HTTP (0.610987ms)
+  ✔ Bearer từ getToken() — token chỉ nằm trong memory (SEC-10), không vào URL/storage (1.076257ms)
+✔ shared client — phân loại lỗi theo kind (72.8149ms)
+▶ shared connection-check — errorKind
+  ✔ đọc `kind` của ApiError (1.517069ms)
+  ✔ fallback an toàn: Error thường / ApiError cũ không kind / null -> 'unknown' (KHÔNG bao giờ timeout) (0.126325ms)
+✔ shared connection-check — errorKind (2.504293ms)
+▶ shared connection-check — failureFor theo kind
+  ✔ timeout -> title 'Kết nối quá thời gian chờ' (0.352378ms)
+  ✔ configuration -> title cấu hình + message của lỗi (được nêu tên biến cấu hình) (0.221932ms)
+  ✔ configuration không có message -> dùng mô tả fallback (0.106015ms)
+  ✔ network -> title 'Chưa kết nối được máy chủ' (0.103798ms)
+  ✔ invalid_response -> title 'Không kiểm tra được kết nối' (0.255113ms)
+  ✔ fallback 'http' / 'unknown' (Error thường, ApiError cũ) -> lỗi chung, KHÔNG bao giờ coi là timeout (0.166008ms)
+✔ shared connection-check — failureFor theo kind (1.712851ms)
+▶ shared connection-check — messageOf
+  ✔ ưu tiên message có nội dung (trả nguyên văn), ngược lại trả fallback (0.127817ms)
+✔ shared connection-check — messageOf (0.243888ms)
+▶ F04 C2 — http aiRefine body mapping + idempotency header
+  ✔ legacy: KHÔNG truyền inputRevision -> body {original_text, purpose} KHÔNG có input_revision (8.461328ms)
+  ✔ C2: inputRevision nguyên dương -> body.input_revision = N (1..2147483647) (0.678409ms)
+  ✔ C2: inputRevision sai (0, âm, lẻ, chuỗi, quá 2^31-1) -> 400 input_invalid TRƯỚC fetch (1.136602ms)
+  ✔ thiếu key -> ApiError kind configuration TRƯỚC fetch (C1: header bắt buộc) (4.585866ms)
+✔ F04 C2 — http aiRefine body mapping + idempotency header (16.452741ms)
+▶ F04 C3 — http aiRefine DTO pass-through (không đổi tên field)
+  ✔ response của máy chủ trả NGUYÊN VẸN: suggested_text + input_revision echo giữ nguyên (1.16122ms)
+✔ F04 C3 — http aiRefine DTO pass-through (không đổi tên field) (1.316727ms)
+▶ C8 — http editDraft/createDraft (kind OPTIONAL khi edit)
+  ✔ editDraft: body KHÔNG chứa `kind`, có body/title; createDraft: body CÓ kind (0.900786ms)
+✔ C8 — http editDraft/createDraft (kind OPTIONAL khi edit) (1.181482ms)
+▶ C4 — consents mapping (gate consent là việc của MÁY CHỦ)
+  ✔ recordConsent gửi {purpose, policy_version, decision}; listConsents đọc envelope consents[] (1.047456ms)
+✔ C4 — consents mapping (gate consent là việc của MÁY CHỦ) (1.404894ms)
+▶ Pagination mapping (handoff 02 §4.6)
+  ✔ listMessages: gửi page_size (KHÔNG phải limit) + map next -> nextCursor (1.037896ms)
+  ✔ listDrafts: map server_time/pause_seconds của F06; next_cursor -> nextCursor (0.914425ms)
+✔ Pagination mapping (handoff 02 §4.6) (2.276464ms)
+▶ F04 mock-adapter — khớp serializer thật (không mock lệch schema)
+  ✔ aiRefine mock: suggested_text (KHÔNG refined_text) + echo input_revision + đủ field view() (314.911044ms)
+  ✔ mock aiRefine: thiếu inputRevision -> echo null (legacy hợp lệ) (301.499531ms)
+  ✔ mock aiRefine C6: replay cùng key+payload -> CÙNG suggestion_id; key khác payload -> 409 (1204.811908ms)
+  ✔ mock aiRefine: inputRevision sai -> 400 input_invalid; thiếu key -> configuration (601.881347ms)
+✔ F04 mock-adapter — khớp serializer thật (không mock lệch schema) (2423.853507ms)
+▶ C8 — mock drafts: không chọn pause thì preview/send KHÔNG bị ép chờ
+  ✔ create -> preview (không pause) -> confirm-send đều hợp lệ ngay (1354.246355ms)
+  ✔ ĐÃ chọn pause: preview/confirm bị chặn 409 cooldown_active cho tới deadline (1806.31437ms)
+  ✔ mock editDraft không cần kind: edit sau create vẫn bump revision (902.031877ms)
+✔ C8 — mock drafts: không chọn pause thì preview/send KHÔNG bị ép chờ (4063.187408ms)
+▶ C8/F1 — mock guard status-aware: pause→edit→preview CHO QUA
+  ✔ pause → edit → preview/confirm hợp lệ ngay; edit giữ deadline nhưng guard không áp dụng (2253.471875ms)
+  ✔ đang paused còn deadline → 409 cooldown_active; paused hết hạn → preview/confirm cho qua (2705.429038ms)
+  ✔ listDrafts: đang paused → remaining_seconds>0 + can_preview=false (chưa tới deadline) (1055.490601ms)
+✔ C8/F1 — mock guard status-aware: pause→edit→preview CHO QUA (6014.87161ms)
+▶ F2 — mock consents shape = ConsentView.get (f01 api.py:191-211)
+  ✔ chưa ghi: đủ 3 purpose, decision 'none' + current false; rút giữ decision + withdrawn:true + current theo version (571.172474ms)
+  ✔ current = policy_version == phiên bản hiện hành; version khác → current false (601.802345ms)
+  ✔ accept lại sau rút (latest-wins) → withdrawn false, current true (571.961631ms)
+✔ F2 — mock consents shape = ConsentView.get (f01 api.py:191-211) (1745.371646ms)
+▶ F4 — mock replay so khớp payload KHÔNG gồm purpose (send_payload_hash)
+  ✔ cùng key + text + input_revision nhưng purpose khác → REPLAY (không 409) (904.075297ms)
+✔ F4 — mock replay so khớp payload KHÔNG gồm purpose (send_payload_hash) (904.86861ms)
+▶ F5 — shape contract đơn nguồn: mock DTO = đúng key set AiSuggestion.view()
+  ✔ mock aiRefine trả ĐÚNG key set + đúng thứ tự (+source quy ước ở cuối) (300.430941ms)
+  ✔ mock decide (aiAccept/aiDiscard) cùng key set, decided_at ISO, one-way; replay phản ánh trạng đã quyết (801.405098ms)
+  ✔ mock confirmDraftSend trả đúng shape confirm_send backend: {message_id, draft_id, status} (1352.610247ms)
+  ✔ mock listConsents mỗi row đúng 5 field ConsentView.get + decision thuộc enum backend (150.601622ms)
+✔ F5 — shape contract đơn nguồn: mock DTO = đúng key set AiSuggestion.view() (2605.59865ms)
+▶ shared http-endpoints — authed + phiên
+  ✔ authed gắn Bearer từ getToken() (session in-memory được inject, không storage) (9.287131ms)
+  ✔ 401 cùng thế hệ phiên: xóa phiên (hành vi đăng xuất đúng) (6.067534ms)
+  ✔ 401 của phiên CŨ (generation đã đổi): KHÔNG xóa phiên mới, báo stale_session (35.324904ms)
+  ✔ response 200 của phiên cũ sau khi đổi phiên bị BỎ (stale_session) (0.707337ms)
+  ✔ loginWithCredentials: cài phiên + loginMethod 'class' + role/classRef do máy chủ trả (1.206903ms)
+  ✔ loginWithCredentials: thiếu mã/mật khẩu -> 400 input_invalid, KHÔNG gọi fetch (0.724272ms)
+  ✔ loginWithCredentials: POST trả chậm sau khi phiên đổi -> stale_session, KHÔNG cài phiên (0.543623ms)
+✔ shared http-endpoints — authed + phiên (70.941748ms)
+▶ shared http-endpoints — idempotency + timeout
+  ✔ sendMessage gắn X-Idempotency-Key do caller tạo; thiếu key -> kind configuration (1.091464ms)
+  ✔ coldStartTimeoutMs áp dụng làm mặc định cho health/ready (call mở app đầu tiên) (144.74232ms)
+✔ shared http-endpoints — idempotency + timeout (146.488957ms)
+▶ shared http-endpoints — hợp đồng boundary
+  ✔ getConnectionStatus/getProfile ném 501 (không fake dữ liệu ở mode production) (1.623722ms)
+  ✔ ready 503 là trạng thái hợp lệ -> 'unavailable' (không phải lỗi) (0.793322ms)
+  ✔ getCapabilities best-effort: mọi lỗi -> {} (không chặn đăng nhập) (0.652682ms)
+  ✔ thiếu baseUrl: requireBaseUrl ném kind configuration trước fetch (0.50854ms)
+  ✔ surface phủ ADAPTER_METHODS: 69 tên hợp đồng, mọi method endpoint đều là hàm (0.299332ms)
+✔ shared http-endpoints — hợp đồng boundary (11.63396ms)
+▶ shared purity contract (ADR-1)
+  ✔ src chỉ chứa file ESM .mjs/.js (không build artifact) (1.395481ms)
+  ✔ src/** KHÔNG import zmp-sdk và KHÔNG đụng window/document/storage trong code (22.638672ms)
+  ✔ package import được trong node thuần (không cần DOM/happy-dom) (25.68885ms)
+✔ shared purity contract (ADR-1) (57.633662ms)
+▶ A5 contract — aiRefine method/path/headers/body (freeze v1)
+  ✔ POST /api/v1/ai/refine + X-Idempotency-Key + Bearer; body đúng shape (6.2253ms)
+  ✔ inputRevision hợp lệ → body.input_revision nguyên giá trị (echo contract) (6.685218ms)
+  ✔ inputRevision sai (0 / âm / lẻ / chuỗi / vượt 2^31-1) → ApiError 400 input_invalid TRƯỚC fetch (1.38219ms)
+  ✔ thiếu key → ApiError kind configuration, KHÔNG gọi fetch (0.539146ms)
+✔ A5 contract — aiRefine method/path/headers/body (freeze v1) (20.554037ms)
+▶ A5 contract — DTO pass-through NGUYÊN VẸN, không biến đổi envelope
+  ✔ trả đúng object máy chủ trả (deepEqual), kể field lạ của server (0.640206ms)
+  ✔ 409 duplicate_key_payload_mismatch nổi lên nguyên status + code (0.550511ms)
+  ✔ 503 temporarily_unavailable (provider lỗi) nổi lên nguyên vẹn (0.666933ms)
+  ✔ aiAccept/aiDiscard: POST đúng path, body {}; aiStatus GET pass-through (5.804698ms)
+✔ A5 contract — DTO pass-through NGUYÊN VẸN, không biến đổi envelope (8.182476ms)
+▶ A5 contract — editDraft + consents khớp C-hợp đồng
+  ✔ editDraft: POST /api/v1/drafts/{id}, KHÔNG BAO GIỜ gửi kind, map snake_case (5.113932ms)
+  ✔ consents: GET list; POST {purpose, policy_version, decision}; withdraw đúng path (2.59133ms)
+  ✔ ADAPTER_METHODS có đủ bộ F04 (nguồn duy nhất chống drift) (0.216604ms)
+✔ A5 contract — editDraft + consents khớp C-hợp đồng (30.878214ms)
+▶ A5 contract — mock-adapter: suggested_text duy nhất, KHÔNG refined_text
+  ✔ aiRefine mock: shape khớp serializer thật + replay không sinh gợi ý mới (1506.595304ms)
+  ✔ grep-like: không còn sinh refined_text ngoài comment trong adapter src (3.161499ms)
+✔ A5 contract — mock-adapter: suggested_text duy nhất, KHÔNG refined_text (1510.134737ms)
+ℹ tests 79
+ℹ suites 23
+ℹ pass 79
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 18334.229376
+══════════════════════════════════════════════════════════════════════════
+ Family Bridge — check import boundaries (ADR-4, W1-c)
+ Repo: /workspace/f04-20261019/source
+══════════════════════════════════════════════════════════════════════════
+
+ Vùng                                        nodes js/ht asset  bare unres
+ ─────────────────────────────────────────────────────────────────────────
+ web closure (web/)                        64    60     4     0     0
+ mini closure (zalo-mini-app/)             70    65     4     1     0
+ shared src (quét token thuần)             10     —     —     —     —
+   ↳ shared reachable từ mini               9     —     —     —     —
+   ↳ shared reachable từ web                9     —     —     —     —
+
+ Assertions:
+   (a) web closure không chứa zalo-mini-app/**          PASS
+   (b) mini closure không chứa web/**                   PASS
+   (c) shared thuần (không DOM/SDK/storage)             PASS
+   (d) web không zmp-sdk/localStorage./sessionStorage.  PASS
+   (e) web closure không bare import zmp-sdk            PASS
+
+ ✅ Không có vi phạm biên giới import.
+══════════════════════════════════════════════════════════════════════════
+ KẾT LUẬN: SẠCH — exit 0
+══════════════════════════════════════════════════════════════════════════
+Agent documents OK: files/links, 5 skills, wiring, Taste checksums/MIT, SEC register; 20 FL, 6 AF, 22 CAP, 24 WF, 23 DEC, 120 CFG, 78 cases and F01..F15/US mapping.
+This does not verify runtime, diagram rendering, source URLs, security or agent obedience.

@@ -1,0 +1,1 @@
+Snapshot tài liệu F04 và diff code tại ec29abbb60bb5948fff2e87e63b0db5e0cdc4333. Dữ liệu tham chiếu, không chép đè source hoặc coi claim PASS trong snapshot là kết quả audit mới. Báo cáo hiện hành ở reports/2026-10-19-ec29ab.md.

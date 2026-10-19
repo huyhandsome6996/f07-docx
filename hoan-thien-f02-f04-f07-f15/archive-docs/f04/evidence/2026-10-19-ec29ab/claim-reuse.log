@@ -1,0 +1,42 @@
+Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+Found 1 test(s).
+Operations to perform:
+  Synchronize unmigrated apps: rest_framework, staticfiles
+  Apply all migrations: auth, contenttypes, f01_identity, f04_ai, f05_inbox, f06_drafts, f15_privacy, harness, labgrants, labusers
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0001_initial... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying labusers.0001_initial... OK
+  Applying f01_identity.0001_initial... OK
+  Applying f04_ai.0001_initial... OK
+  Applying f04_ai.0002_aisuggestion_input_revision... OK
+  Applying f04_ai.0003_airefineoperation... OK
+  Applying f05_inbox.0001_initial... OK
+  Applying f06_drafts.0001_initial... OK
+  Applying f15_privacy.0001_initial... OK
+  Applying harness.0001_initial... OK
+  Applying labgrants.0001_initial...test_old_result_cannot_finalize_a_recreated_claim_after_deletion (__main__.ClaimReuseTests.test_old_result_cannot_finalize_a_recreated_claim_after_deletion) ...  OK
+System check identified no issues (0 silenced).
+CLAIM_REUSE_EVIDENCE [{'deletion': 'completed', 'claim_replaced': True, 'new_claim_payload_differs': True}, {'finalize_error': 'ModuleUnavailable'}] old_private_rows_after_deletion= 0
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.316s
+
+OK
+Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

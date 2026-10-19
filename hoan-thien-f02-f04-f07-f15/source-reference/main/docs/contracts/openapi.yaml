@@ -1,0 +1,576 @@
+openapi: 3.0.3
+info:
+  title: Family Bridge API
+  version: 0.1.0-b00
+  description: >-
+    Hợp đồng OpenAPI ban đầu do B00 lập (US-004/DEC-22). Các path có
+    `x-status: proposed` là THIẾT KẾ, chưa phải endpoint đã triển khai; các
+    nhánh feature chốt schema cụ thể trong PR của mình trước khi B18 ghép.
+    Quy tắc chung: /api/v1/, JSON, HTTPS thật, bearer application token,
+    lỗi chuẩn {"error": {"code", "details"}}; UUID nội bộ; Zalo id là chuỗi;
+    UTC ISO-8601 lưu trữ, hiển thị Asia/Ho_Chi_Minh; mặc định deny;
+    list page 20/max 50 cursor (created_at, id) — quyền lọc trong DB trước
+    phân trang.
+servers:
+  - url: https://{host}/api/v1
+    description: Backend thật (điền sau khi Antigravity deploy Render)
+    variables:
+      host:
+        default: PENDING_BACKEND_HOST
+        description: Nguồn — external-inputs.md; không chế URL
+security:
+  - bearerAuth: []
+paths:
+  /health/:
+    get:
+      security: []
+      summary: Process liveness (không chứng minh schema/feature)
+      x-status: implemented-in-scaffold
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: "ok" }
+  /ready/:
+    get:
+      security: []
+      summary: DB reachability; 503 khi không truy vấn được
+      x-status: implemented-in-scaffold
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: "ok" }
+        "503":
+          description: DB unreachable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StatusUnavailable"
+  /auth/session:
+    post:
+      summary: Đổi credential Zalo đã lấy qua SDK lấy session của Family Bridge
+      description: >-
+        Backend gọi provider xác minh đúng App ID (SEC-01), map
+        (provider, app_id, provider_subject) -> UUID nội bộ, cấp token ứng
+        dụng. Không tin zalo_id/role client. x-status: proposed (F01).
+      x-owner-feature: F01
+      x-status: proposed
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [access_token]
+              properties:
+                access_token: { type: string }
+      responses:
+        "200": { $ref: "#/components/responses/SessionIssued" }
+        "400": { $ref: "#/components/responses/Error400" }
+        "401": { $ref: "#/components/responses/Error401" }
+  /connections/invites:
+    post:
+      summary: Tạo lời mời kết nối (mã ngẫu nhiên, hash at rest, TTL)
+      x-owner-feature: F01
+      x-status: proposed
+      responses:
+        "200": { $ref: "#/components/responses/InviteCreated" }
+        "401": { $ref: "#/components/responses/Error401" }
+        "429": { $ref: "#/components/responses/Error429" }
+  /auth/me:
+    get:
+      summary: Danh tính hiển thị TỰ KHAI BÁO của chính mình (không phải Zalo xác minh)
+      x-owner-feature: F01
+      x-status: proposed
+      responses:
+        "200": { $ref: "#/components/responses/OperationStatus" }
+        "401": { $ref: "#/components/responses/Error401" }
+    put:
+      summary: Đặt/cập nhật tên gọi tự khai báo (display_name 1..80 ký tự)
+      x-owner-feature: F01
+      x-status: proposed
+      responses:
+        "200": { $ref: "#/components/responses/OperationStatus" }
+        "400": { $ref: "#/components/responses/Error400" }
+        "401": { $ref: "#/components/responses/Error401" }
+  /connections/invites/preview:
+    post:
+      summary: Kiểm tra mã mời READ-ONLY trước khi chấp nhận (ai tạo mã, quan hệ gì)
+      x-owner-feature: F01
+      x-status: proposed
+      responses:
+        "200": { $ref: "#/components/responses/InviteClaimed" }
+        "400": { $ref: "#/components/responses/Error400" }
+        "404": { $ref: "#/components/responses/Error404" }
+        "429": { $ref: "#/components/responses/Error429" }
+  /connections/invites/claim:
+    post:
+      summary: Nhập mã mời và xác nhận phía người nhận
+      x-owner-feature: F01
+      x-status: proposed
+      responses:
+        "200": { $ref: "#/components/responses/InviteClaimed" }
+        "403": { $ref: "#/components/responses/Error403" }
+        "404": { $ref: "#/components/responses/Error404" }
+  /drafts/{draft_id}/pause:
+    post:
+      summary: Tạm dừng tự chọn 300 giây (server quyết định cooldown_until)
+      x-owner-feature: F06
+      x-status: proposed
+      responses:
+        "200": { $ref: "#/components/responses/PauseStarted" }
+        "409": { $ref: "#/components/responses/Error409" }
+  /messages:
+    get:
+      summary: Hộp thư (cursor; metadata tối thiểu; lọc quyền trước)
+      x-owner-feature: F05
+      x-status: proposed
+      responses:
+        "200": { $ref: "#/components/responses/MessagePage" }
+    post:
+      summary: Gửi tin — idempotency key + payload hash bắt buộc
+      x-owner-feature: F05
+      x-status: proposed
+      parameters:
+        - $ref: "#/components/parameters/IdempotencyKey"
+      responses:
+        "200": { $ref: "#/components/responses/MessageSent" }
+        "409": { $ref: "#/components/responses/Error409" }
+  /operations/{idempotency_key}:
+    get:
+      summary: Tra trạng thái operation khi không rõ kết quả mạng (cùng key)
+      x-status: proposed
+      responses:
+        "200": { $ref: "#/components/responses/OperationStatus" }
+  /privacy/grants/{grant_id}/revoke:
+    post:
+      summary: Thu hồi grant từng mục/recipient/revision
+      x-owner-feature: F15
+      x-status: proposed
+      responses:
+        "200": { $ref: "#/components/responses/GrantRevoked" }
+        "403": { $ref: "#/components/responses/Error403" }
+  /auth/class-session:
+    post:
+      summary: Đăng nhập tài khoản lớp (mã lớp + mật khẩu) — không qua Zalo
+      description: >-
+        F16. Lỗi 401 generic GIỐNG HỆT nhau cho mã không tồn tại / sai mật
+        khẩu / tài khoản vô hiệu (chống dò mã). 429 khi guard DB 10 fail/15ph
+        hoặc throttle class_login 200/hour. Không có "ép đổi mật khẩu lần
+        đầu".
+      x-owner-feature: F16
+      x-status: implemented
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [code, password]
+              properties:
+                code: { type: string, example: "HS001" }
+                password: { type: string }
+      responses:
+        "200": { $ref: "#/components/responses/ClassSessionIssued" }
+        "400": { $ref: "#/components/responses/Error400" }
+        "401": { $ref: "#/components/responses/Error401" }
+        "429": { $ref: "#/components/responses/Error429" }
+  /auth/class-capabilities:
+    get:
+      summary: Snapshot công khai các phương thức đăng nhập + cài đặt F16
+      description: >-
+        zalo=false khi FB_ZALO_LOGIN_ENABLED tắt HOẶC thiếu
+        ZALO_APP_ID/ZALO_APP_SECRET (fail closed).
+      x-owner-feature: F16
+      x-status: implemented
+      security: []
+      responses:
+        "200": { $ref: "#/components/responses/ClassCapabilities" }
+  /auth/class-password:
+    post:
+      summary: Đổi mật khẩu (yêu cầu mật khẩu hiện tại); thu hồi phiên KHÁC
+      x-owner-feature: F16
+      x-status: implemented
+      responses:
+        "200": { $ref: "#/components/responses/ClassPasswordChanged" }
+        "400": { $ref: "#/components/responses/Error400" }
+        "401": { $ref: "#/components/responses/Error401" }
+        "403": { $ref: "#/components/responses/Error403" }
+  /auth/class-code:
+    post:
+      summary: Đổi mã đăng nhập lớp (yêu cầu mật khẩu hiện tại)
+      x-owner-feature: F16
+      x-status: implemented
+      responses:
+        "200": { $ref: "#/components/responses/ClassCodeChanged" }
+        "400": { $ref: "#/components/responses/Error400" }
+        "401": { $ref: "#/components/responses/Error401" }
+        "403": { $ref: "#/components/responses/Error403" }
+  /auth/class-display-name:
+    post:
+      summary: Đặt tên gọi tự khai báo (yêu cầu mật khẩu hiện tại)
+      x-owner-feature: F16
+      x-status: implemented
+      responses:
+        "200": { $ref: "#/components/responses/ClassDisplayNameSet" }
+        "400": { $ref: "#/components/responses/Error400" }
+        "401": { $ref: "#/components/responses/Error401" }
+        "403": { $ref: "#/components/responses/Error403" }
+  /classroom/proposals:
+    get:
+      summary: Danh sách đề xuất kết nối HS/PH mà tôi là một trong hai bên
+      description: >-
+        Cursor (updated_at, id), page 20/max 50; không đếm toàn bộ. Đối tác
+        chỉ hiện display_name tự khai báo + identity_basis.
+      x-owner-feature: F16
+      x-status: implemented
+      responses:
+        "200": { $ref: "#/components/responses/ClassProposalPage" }
+        "401": { $ref: "#/components/responses/Error401" }
+  /classroom/proposals/{proposal_id}/confirm:
+    post:
+      summary: Xác nhận đề xuất (2 bước; bước 2 tạo invite + connection trong 1 transaction)
+      description: >-
+        Xác nhận 1 → awaiting_confirmation (không tạo invite). Xác nhận 2 →
+        pre-check lời mời primary đang mở của người xác nhận (400
+        proposal_blocked_by_open_invite) và cặp kết nối active (400
+        already_connected), rồi InviteService của F01 chạy trong CÙNG
+        transaction. Không thuộc proposal → 404.
+      x-owner-feature: F16
+      x-status: implemented
+      responses:
+        "200": { $ref: "#/components/responses/ClassProposalConfirmed" }
+        "400": { $ref: "#/components/responses/Error400" }
+        "401": { $ref: "#/components/responses/Error401" }
+        "403": { $ref: "#/components/responses/Error403" }
+        "404": { $ref: "#/components/responses/Error404" }
+        "409": { $ref: "#/components/responses/Error409" }
+        "429": { $ref: "#/components/responses/Error429" }
+  /classroom/proposals/{proposal_id}/decline:
+    post:
+      summary: Từ chối đề xuất (refused | wrong_pair); đóng invite nền nếu có
+      x-owner-feature: F16
+      x-status: implemented
+      responses:
+        "200": { $ref: "#/components/responses/ClassProposalClosed" }
+        "400": { $ref: "#/components/responses/Error400" }
+        "404": { $ref: "#/components/responses/Error404" }
+  /classroom/proposals/{proposal_id}/cancel:
+    post:
+      summary: Hủy đề xuất (một trong hai bên, khi còn mở)
+      x-owner-feature: F16
+      x-status: implemented
+      responses:
+        "200": { $ref: "#/components/responses/ClassProposalClosed" }
+        "400": { $ref: "#/components/responses/Error400" }
+        "404": { $ref: "#/components/responses/Error404" }
+  /classroom/admin/classes:
+    get:
+      summary: Lớp trong phạm vi grant classroom.provision (bổ sung 18/10/2026 — CAP-23)
+      x-owner-feature: F16
+      x-status: implemented
+      responses:
+        "200": { description: "{results:[{class_ref, students, caregivers, pending_proposals}]}" }
+        "401": { $ref: "#/components/responses/Error401" }
+        "404": { $ref: "#/components/responses/Error404" }
+  /classroom/admin/pairs-preview:
+    post:
+      summary: Xem trước cặp HS-PH (CHỈ ĐỌC, per-row status/problems)
+      x-owner-feature: F16
+      x-status: implemented
+      responses:
+        "200": { description: "{ok, dry_run:true, summary, rows[]}" }
+        "400": { $ref: "#/components/responses/Error400" }
+        "401": { $ref: "#/components/responses/Error401" }
+        "403": { $ref: "#/components/responses/Error403" }
+        "404": { $ref: "#/components/responses/Error404" }
+  /classroom/admin/pairs-apply:
+    post:
+      summary: Lưu cặp → Connection ACTIVE ngay (provenance admin, batch_ref idempotent)
+      x-owner-feature: F16
+      x-status: implemented
+      responses:
+        "200": { description: "{ok, wrote, batch_id, connected, already_active, reconnected, errors, rows[]}" }
+        "400": { $ref: "#/components/responses/Error400" }
+        "401": { $ref: "#/components/responses/Error401" }
+        "403": { $ref: "#/components/responses/Error403" }
+        "404": { $ref: "#/components/responses/Error404" }
+  /classroom/admin/backfill-inventory:
+    get:
+      summary: Kho cặp đang chờ đủ điều kiện chuyển (doc-only)
+      x-owner-feature: F16
+      x-status: implemented
+      responses:
+        "200": { description: "{accounts, proposals, already_active_pairs, eligible_pairs, blocked_pairs}" }
+        "401": { $ref: "#/components/responses/Error401" }
+        "403": { $ref: "#/components/responses/Error403" }
+        "404": { $ref: "#/components/responses/Error404" }
+  /classroom/admin/backfill-apply:
+    post:
+      summary: Chuyển cặp đang chờ thành Connection ACTIVE (không hồi sinh revoked)
+      x-owner-feature: F16
+      x-status: implemented
+      responses:
+        "200": { description: "{ok, activated, already_active, blocked, errors, rows[]}" }
+        "400": { $ref: "#/components/responses/Error400" }
+        "401": { $ref: "#/components/responses/Error401" }
+        "403": { $ref: "#/components/responses/Error403" }
+        "404": { $ref: "#/components/responses/Error404" }
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: FB-APP-TOKEN
+  parameters:
+    IdempotencyKey:
+      name: X-Idempotency-Key
+      in: header
+      required: true
+      schema: { type: string, minLength: 8, maxLength: 128 }
+  schemas:
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code]
+          properties:
+            code:
+              type: string
+              enum: [input_invalid, not_authenticated, not_authorized, not_found,
+                     revision_conflict, preview_stale, duplicate_key_payload_mismatch,
+                     slot_unavailable, cooldown_active, consent_required,
+                     policy_not_approved, report_policy_unset, module_unavailable,
+                     rate_limited, temporarily_unavailable]
+            details: { type: object, additionalProperties: true }
+    StatusUnavailable:
+      type: object
+      properties:
+        status: { type: string, example: "unavailable" }
+    ClassProposal:
+      type: object
+      properties:
+        proposal_id: { type: string, format: uuid }
+        status:
+          type: string
+          enum: [proposed, awaiting_confirmation, connected, declined, canceled]
+        my_role: { type: string, enum: [student, caregiver] }
+        my_confirmed: { type: boolean }
+        counterpart_confirmed: { type: boolean }
+        counterpart:
+          type: object
+          properties:
+            display_name: { type: string }
+            identity_basis: { type: string, example: "self_declared" }
+        revision: { type: integer }
+        created_at: { type: string, format: date-time }
+        updated_at: { type: string, format: date-time }
+  responses:
+    SessionIssued:
+      description: Phiên ứng dụng đã cấp
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              token: { type: string }
+              expires_at: { type: string, format: date-time }
+    InviteCreated:
+      description: Lời mời đã tạo (mã KHÔNG bao giờ xuất hiện trong log)
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              invite_id: { type: string, format: uuid }
+              expires_at: { type: string, format: date-time }
+              code: { type: string, description: chỉ trả một lần cho người tạo }
+    InviteClaimed:
+      description: Người nhận đã xác nhận; chờ bên tạo xác nhận
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status: { type: string, example: awaiting_confirmation }
+    PauseStarted:
+      description: cooldown_until = server_now + 300; hết giờ vẫn là nháp
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              cooldown_until: { type: string, format: date-time }
+              server_time: { type: string, format: date-time }
+    MessagePage:
+      description: Trang hộp thư (cursor, không COUNT toàn bộ)
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              next: { type: string, nullable: true }
+              results: { type: array, items: { type: object } }
+    MessageSent:
+      description: Tin đã ghi snapshot approved_body (không chứa original AI)
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message_id: { type: string, format: uuid }
+    OperationStatus:
+      description: sent | not_found | pending | failed
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              idempotency_key: { type: string }
+              state: { type: string }
+    GrantRevoked:
+      description: Thu hồi thành công; đọc mới bị chặn ngay
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              revoked_at: { type: string, format: date-time }
+    ClassSessionIssued:
+      description: Phiên ứng dụng đã cấp cho tài khoản lớp (F16)
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              token: { type: string }
+              token_type: { type: string, example: "Bearer" }
+              expires_at: { type: string, format: date-time }
+              user:
+                type: object
+                properties:
+                  id: { type: string, format: uuid }
+                  display_name: { type: string }
+                  role: { type: string, enum: [student, caregiver] }
+                  class_ref: { type: string }
+              consents_required: { type: array, items: { type: string } }
+    ClassCapabilities:
+      description: Snapshot capability công khai (F16)
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              login_methods:
+                type: object
+                properties:
+                  local_class: { type: boolean }
+                  zalo: { type: boolean }
+              settings:
+                type: object
+                properties:
+                  change_password: { type: boolean }
+                  change_code: { type: boolean }
+                  change_display_name: { type: boolean }
+              policy:
+                type: object
+                properties:
+                  no_forced_password_change: { type: boolean }
+    ClassPasswordChanged:
+      description: Phiên hiện tại giữ nguyên; các phiên khác đã thu hồi
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              changed: { type: boolean }
+              sessions_revoked_other: { type: integer }
+    ClassCodeChanged:
+      description: Mã đăng nhập mới (chuẩn hóa UPPERCASE)
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              login_code: { type: string, example: "HS001" }
+              changed: { type: boolean }
+    ClassDisplayNameSet:
+      description: Tên gọi tự khai báo đã lưu
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              display_name: { type: string }
+              identity_basis: { type: string, example: "self_declared" }
+    ClassProposalPage:
+      description: Trang đề xuất của chính mình (cursor, không COUNT toàn bộ)
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              results:
+                type: array
+                items: { $ref: "#/components/schemas/ClassProposal" }
+              next_cursor: { type: string, nullable: true }
+    ClassProposalConfirmed:
+      description: Bước 1 → connection null; bước 2 → connection active
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              proposal_id: { type: string, format: uuid }
+              status: { type: string }
+              my_confirmed: { type: boolean }
+              counterpart_confirmed: { type: boolean }
+              connection:
+                nullable: true
+                type: object
+                properties:
+                  connection_id: { type: string, format: uuid }
+                  status: { type: string }
+                  relationship_kind: { type: string, enum: [primary, backup] }
+                  generation: { type: integer }
+    ClassProposalClosed:
+      description: Đề xuất đã declined/canceled (payload danh sách đầy đủ)
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ClassProposal"
+    Error400:
+      description: Lỗi đầu vào
+      content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } }
+    Error401:
+      description: Chưa xác thực
+      content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } }
+    Error403:
+      description: Bị từ chối (không tiết lộ tồn tại khi áp dụng 404)
+      content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } }
+    Error404:
+      description: Không tìm thấy / không tiết lộ
+      content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } }
+    Error409:
+      description: Xung đột trạng thái/revision/idempotency
+      content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } }
+    Error429:
+      description: Giới hạn tần suất
+      content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } }
+x-notes: >-
+  File này là skeleton version 0.1.0 cho B00: chốt quy ước chung + mẫu path
+  đại diện. Mỗi nhánh feature mở rộng đúng phần của mình (thêm path kèm
+  x-owner-feature) trong PR của nhánh đó; breaking change phải qua lead với
+  revision mới. Không thêm path demo không có code.

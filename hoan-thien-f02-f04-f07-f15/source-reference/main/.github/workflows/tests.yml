@@ -1,0 +1,129 @@
+# B17 — least-privilege CI: tests only, read-only token, no secrets on
+# untrusted events. Actions are referenced by major version tag here and
+# MUST be pinned to full commit SHAs before this workflow guards any
+# production path (documented in ops/runbook.md).
+name: tests
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install Django/DRF
+        run: pip install "Django>=5.2,<6" "djangorestframework>=3.16,<4"
+      - name: Feature-lab harness tests (all feature labels)
+        working-directory: tests/feature-lab
+        env:
+          DJANGO_SETTINGS_MODULE: harness.settings
+          DJANGO_ENV: test
+          # Harness refuses to load feature apps without FB_FEATURES; without
+          # it the suite errors spuriously (apps uninstalled -> missing tables).
+          # Label list = B18 integration set (docs/features/integration/report.md).
+          FB_FEATURES: "f01_identity,f15_privacy,f05_inbox,f03_cards,f04_ai,f06_drafts,f07_mood,f08_journal,f10_signal,f11_supporters,f13_help,f12_appointments,f09_activities,f02_program,f14_surveys,admin_core,f16_classroom"
+        run: |
+          python manage.py test harness labgrants \
+            family_bridge_features.f01_identity \
+            family_bridge_features.f15_privacy \
+            family_bridge_features.f05_inbox \
+            family_bridge_features.f03_cards \
+            family_bridge_features.f04_ai \
+            family_bridge_features.f06_drafts \
+            family_bridge_features.f07_mood \
+            family_bridge_features.f08_journal \
+            family_bridge_features.f10_signal \
+            family_bridge_features.f11_supporters \
+            family_bridge_features.f13_help \
+            family_bridge_features.f12_appointments \
+            family_bridge_features.f09_activities \
+            family_bridge_features.f02_program \
+            family_bridge_features.f14_surveys \
+            family_bridge_features.admin_core \
+            family_bridge_features.f16_classroom -v 1
+
+  mobile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Vanilla JS module tests
+        run: |
+          for t in packages/family_bridge_mobile/*/tests/*.test.mjs; do
+            node --test "$t"
+          done
+
+  miniapp:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install zalo-mini-app deps
+        working-directory: zalo-mini-app
+        run: npm ci
+      - name: Mini App QA tests (happy-dom)
+        working-directory: zalo-mini-app
+        run: node --test tests/*.test.mjs
+
+  # W1-c (web-miniapp-separation, ADR-4): job web — tests + build của frontend
+  # web độc lập, tests shared package, và kiểm chứng biên giới import
+  # transitive (scripts/check_import_boundaries.mjs). Giữa wave, web/ hoặc
+  # packages/family_bridge_shared/tests có thể chưa tồn tại: các bước tương
+  # ứng được guard (bỏ qua có cảnh báo) thay vì fail đỏ cả nhánh.
+  web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Detect wave readiness (web/ + shared tests có thể chưa có)
+        id: detect
+        run: |
+          if [ -f web/package-lock.json ]; then
+            echo "has_web=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_web=false" >> "$GITHUB_OUTPUT"
+          fi
+          if compgen -G "packages/family_bridge_shared/tests/*.test.mjs" > /dev/null; then
+            echo "has_shared_tests=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_shared_tests=false" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: actions/setup-node@v4
+        if: steps.detect.outputs.has_web == 'true'
+        with:
+          node-version: "22.12.0"
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - uses: actions/setup-node@v4
+        if: steps.detect.outputs.has_web != 'true'
+        with:
+          node-version: "22.12.0"
+      - name: Web tests + build (cd web)
+        if: steps.detect.outputs.has_web == 'true'
+        working-directory: web
+        run: |
+          npm ci
+          if [ -d tests ]; then
+            node --test tests/*.test.mjs
+          else
+            echo "web/tests chưa có — bỏ qua (wave sau)"
+          fi
+          npm run build
+      - name: Shared package tests (node --test từ repo root)
+        if: steps.detect.outputs.has_shared_tests == 'true'
+        run: node --test packages/family_bridge_shared/tests/*.test.mjs
+      - name: Import boundary check (transitive web↔mini↔shared)
+        run: node scripts/check_import_boundaries.mjs
+

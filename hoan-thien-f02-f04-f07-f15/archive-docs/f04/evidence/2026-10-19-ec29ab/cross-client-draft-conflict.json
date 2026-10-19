@@ -1,0 +1,22 @@
+[
+  {
+    "label": "web-stale-save-after-mini",
+    "initialRevision": 1,
+    "otherClientSaveHttp": 200,
+    "otherClientSavedRevision": 2,
+    "staleClientSaveHttp": 200,
+    "staleClientResponseRevision": 3,
+    "finalServerBody": "AUDIT_CLIENT_A_UNSAVED_web-stale-save-after-mini",
+    "overwroteOtherClientWithoutConflict": true
+  },
+  {
+    "label": "mini-stale-save-after-web",
+    "initialRevision": 1,
+    "otherClientSaveHttp": 200,
+    "otherClientSavedRevision": 2,
+    "staleClientSaveHttp": 200,
+    "staleClientResponseRevision": 3,
+    "finalServerBody": "AUDIT_CLIENT_A_UNSAVED_mini-stale-save-after-web",
+    "overwroteOtherClientWithoutConflict": true
+  }
+]

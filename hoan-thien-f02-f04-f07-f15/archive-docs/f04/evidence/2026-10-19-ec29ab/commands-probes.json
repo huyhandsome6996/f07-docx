@@ -1,0 +1,22 @@
+[
+  {
+    "name": "regression",
+    "command": [
+      "/workspace/f04-review-20261019-ec29ab/venv/bin/python",
+      "/workspace/f04-review-20261019-ec29ab/independent_backend_probe.py"
+    ],
+    "cwd": "/workspace/f04-review-20261019-ec29ab",
+    "exit_code": 0,
+    "seconds": 2.99
+  },
+  {
+    "name": "claim-reuse",
+    "command": [
+      "/workspace/f04-review-20261019-ec29ab/venv/bin/python",
+      "/workspace/f04-review-20261019-ec29ab/probe_claim_reuse.py"
+    ],
+    "cwd": "/workspace/f04-review-20261019-ec29ab",
+    "exit_code": 0,
+    "seconds": 1.58
+  }
+]

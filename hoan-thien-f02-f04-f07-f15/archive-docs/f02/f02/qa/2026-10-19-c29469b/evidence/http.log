@@ -1,0 +1,47 @@
+PASS LOGIN-HS901 login synthetic actor
+PASS LOGIN-PH901 login synthetic actor
+PASS LOGIN-HS903 login synthetic actor
+PASS CONSENT-HS participant chooses service consent
+PASS A01-HS admin pair already active without confirmation
+PASS A01-PROPOSALS-HS no proposal to confirm
+PASS CONSENT-PH participant chooses service consent
+PASS A01-PH admin pair already active without confirmation
+PASS A01-PROPOSALS-PH no proposal to confirm
+PASS A04 four published weeks from real startup provider
+PASS E01 anonymous request denied
+PASS B01-HS voluntary enrollment pins revision1
+PASS A07-HS week4 available before week1 completion
+PASS C01-HS real weeks response has activities, not fake field
+PASS B10-HS paper alternative
+PASS B01-PH voluntary enrollment pins revision1
+PASS A07-PH week4 available before week1 completion
+PASS C01-PH real weeks response has activities, not fake field
+PASS B10-PH paper alternative
+PASS B02-HS save own progress done
+PASS B03-HS reload keeps own independent progress
+PASS B02-PH save own progress skipped
+PASS B03-PH reload keeps own independent progress
+PASS B04 cannot tick another participant
+PASS B05 reject activity outside requested week
+PASS B02-RESET clear own progress
+PASS C02-CATALOG published activity revision2 exists
+PASS C04 invite does not auto-accept
+PASS C07 duplicate pending invite uses same id
+PASS C04-RECEIVED receiver sees actual pending invite
+PASS C05-SENDER sender cannot accept for receiver
+PASS C06 other family cannot accept invite
+PASS C05-ACCEPT receiver accepts
+PASS D01-D04 admin inviteNULL pair can propose without signatures
+PASS D11 other family cannot sign
+PASS D05 one signature stays proposed
+PASS D05-DUP same person cannot sign twice
+PASS D06 two different signatures confirm same revision
+FAIL NEW-TIMESTAMP confirmed_at is second-signature time
+PASS B09-OUT opt-out is voluntary
+PASS B09-NO-ENROLL no phantom active enrollment
+PASS B09-REJOIN rejoin explicitly
+PASS C04-UNLINK-PRE pending invite exists before unlink
+PASS D12-UNLINK unlink succeeds through real F01
+PASS D12-OVERVIEW old family agreement unavailable after unlink
+FAIL NEW-F09-UNLINK cannot accept joint invitation after connection revoked
+RESULT 44 PASS; 2 FAIL

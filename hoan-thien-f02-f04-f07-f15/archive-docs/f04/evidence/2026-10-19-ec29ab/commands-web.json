@@ -1,0 +1,23 @@
+[
+  {
+    "name": "web-test",
+    "command": [
+      "npm",
+      "test"
+    ],
+    "cwd": "/workspace/f04-review-20261019-ec29ab/source/web",
+    "exit_code": 0,
+    "seconds": 27.9
+  },
+  {
+    "name": "web-build",
+    "command": [
+      "npm",
+      "run",
+      "build"
+    ],
+    "cwd": "/workspace/f04-review-20261019-ec29ab/source/web",
+    "exit_code": 0,
+    "seconds": 0.54
+  }
+]

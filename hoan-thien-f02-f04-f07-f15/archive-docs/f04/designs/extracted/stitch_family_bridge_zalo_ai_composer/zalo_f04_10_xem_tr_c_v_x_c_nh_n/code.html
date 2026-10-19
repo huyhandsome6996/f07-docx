@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+
+<html lang="vi"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_stack" name="shell-type"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;background-color:#fff8f6;}body{overscroll-behavior:none;-webkit-tap-highlight-color:transparent;font-family:'Be Vietnam Pro',sans-serif;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "surface": "#fff8f6", "on-primary": "#ffffff", "surface-tint": "#9f402d", "tertiary-fixed-dim": "#f7bc65", "on-secondary-fixed-variant": "#812815", "inverse-surface": "#502319", "primary": "#89301e", "on-surface-variant": "#56423e", "on-secondary-fixed": "#3d0600", "surface-container": "#ffe9e5", "surface-container-lowest": "#ffffff", "outline-variant": "#ddc0ba", "primary-container": "#a84733", "surface-container-highest": "#ffdad3", "outline": "#89726d", "surface-bright": "#fff8f6", "background": "#fff8f6", "secondary-container": "#ff866b", "tertiary": "#6b4600", "error": "#ba1a1a", "tertiary-fixed": "#ffddb2", "on-error": "#ffffff", "primary-fixed": "#ffdad3", "on-tertiary": "#ffffff", "inverse-primary": "#ffb4a4", "secondary": "#a03f2a", "surface-container-low": "#fff0ee", "primary-fixed-dim": "#ffb4a4", "tertiary-container": "#895c09", "on-tertiary-container": "#ffdeb4", "inverse-on-surface": "#ffede9", "secondary-fixed-dim": "#ffb4a3", "surface-variant": "#ffdad3", "surface-dim": "#ffcfc5", "on-primary-fixed-variant": "#802918", "on-primary-container": "#ffdcd5", "on-tertiary-fixed": "#291800", "on-background": "#360f07", "secondary-fixed": "#ffdad2", "on-secondary-container": "#741f0c", "error-container": "#ffdad6", "on-error-container": "#93000a", "on-primary-fixed": "#3e0500", "on-secondary": "#ffffff", "surface-container-high": "#ffe2dc", "on-tertiary-fixed-variant": "#624000", "on-surface": "#360f07" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "gutter": "1rem", "space-xs": "0.25rem", "margin": "1rem", "space-md": "0.75rem", "space-lg": "1rem", "space-xl": "1.5rem", "space-sm": "0.5rem" }, fontFamily: { "body-sm": ["Be Vietnam Pro"], "headline-md": ["Be Vietnam Pro"], "headline-sm": ["Be Vietnam Pro"], "label-sm": ["Be Vietnam Pro"], "body-md": ["Be Vietnam Pro"], "headline-lg": ["Be Vietnam Pro"], "label-lg": ["Be Vietnam Pro"], "label-md": ["Be Vietnam Pro"], "body-lg": ["Be Vietnam Pro"] }, fontSize: { "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0", "fontWeight": "400" }], "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "headline-sm": ["17px", { "lineHeight": "24px", "letterSpacing": "0", "fontWeight": "600" }], "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.02em", "fontWeight": "500" }], "body-md": ["15px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "400" }], "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700" }], "label-lg": ["15px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }], "label-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "500" }], "body-lg": ["16px", { "lineHeight": "24px", "letterSpacing": "0", "fontWeight": "400" }] } } } };</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head><body class="bg-surface text-on-surface antialiased flex flex-col min-h-screen"><header class="fixed top-0 inset-x-0 z-50 bg-surface/90 backdrop-blur-xl pt-safe shadow-[0_1px_8px_rgba(113,61,50,0.04)]"><div class="h-14 px-margin flex items-center justify-between"><div class="flex items-center gap-space-xs"><button aria-label="Quay lại" class="w-11 h-11 flex items-center justify-center rounded-full text-on-surface hover:bg-surface-container-high transition-colors" onclick="history.back()"><span class="material-symbols-outlined text-[22px]">arrow_back</span></button><h1 class="font-headline-sm text-headline-sm text-on-surface tracking-tight">Chi Tiết Thư</h1></div><div class="flex items-center gap-1"><button aria-label="Tìm trợ giúp" class="w-11 h-11 flex items-center justify-center rounded-full text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined text-[22px]">help_outline</span></button><button aria-label="Thông báo" class="w-11 h-11 relative flex items-center justify-center rounded-full text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-2.5 right-2.5 w-2 h-2 rounded-full bg-primary ring-2 ring-surface"></span></button><img alt="Hồ sơ" class="w-8 h-8 rounded-full object-cover ml-1 border border-outline-variant/60" src="https://lh3.googleusercontent.com/aida/AEtjO1XVOFnPvAVfSCZo23kUylJr84N7vr1vlOzokk5AYi984yT2PtatMSJjO92e63aIXcsFYFNoFOQXtiqN9kZDg5yMcGtD-7bWHcKjg0eMiBt8Y0kLRhLbti3brM0dhESV15m9QBeok0WU-TnUIGn4osIxrvkIWRHBAeZvVfzyW-v4IdK0Mqs5Twb7XOWe5f5DAKRmK7foMg36mgiNo_jF_HjewlK6cnLyZ9VNSj5HubT7d2IStAJDEaglIc"/></div></div></header><main class="flex-1 flex flex-col relative w-full pt-14 pb-safe bg-surface px-margin"><div class="flex flex-col w-full pb-8">
+<!-- Status Badge Notification -->
+<div class="pt-3 pb-2 flex justify-center">
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-high shadow-sm">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="font-label-md text-label-md text-on-surface-variant font-medium">
+        Xem trước thư gửi • Chưa gửi đi
+      </span>
+</div>
+</div>
+<!-- Editorial Screen Intro -->
+<div class="px-1 py-2 text-center">
+<h2 class="font-headline-md text-headline-md text-on-surface tracking-tight">
+      Kiểm tra kỹ lời nhắn trước khi gửi
+    </h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 max-w-[340px] mx-auto leading-relaxed">
+      Hãy đọc lại thật chậm. Thư chỉ được chuyển đi khi bạn bấm xác nhận bên dưới.
+    </p>
+</div>
+<!-- Recipient Profile Card -->
+<div class="mt-3 bg-surface-container-lowest rounded-xl p-3.5 shadow-sm">
+<div class="flex items-center justify-between gap-3">
+<div class="flex items-center gap-3 min-w-0">
+<div class="relative flex-shrink-0">
+<img class="w-12 h-12 rounded-full object-cover shadow-inner" data-alt="A gentle Vietnamese middle-aged mother wearing a cozy warm terracotta knitted sweater with a kind compassionate expression, soft natural indoor window morning light, organic warm tone portrait photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuARhaTp6FKWj7gm1jnweadzfFvwm4ciKXN232PPVkGuILVDxjhszn00b5XPk2wWt4NVMOGeCZs0Q8zaRYlabOAjQCyBPOuC_28-_7KzeqMw23zFO9iekiPpcyMLkd69brHO3Vdicq0kgJh0YW3dSczIOZ3VnF-KlqYJkaEnquTVM1oH2G-mtneKNlNSkSoazeQej92qen9HwTHOgkNa-LumcO2MYIAfX3GTbgnk2WKOHSV4HU91H2ghKQ"/>
+<div class="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-tertiary-fixed rounded-full flex items-center justify-center shadow-xs">
+<span class="material-symbols-outlined text-[11px] text-on-tertiary-fixed" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</div>
+</div>
+<div class="min-w-0 flex-1">
+<div class="flex items-center gap-1.5">
+<span class="font-label-sm text-label-sm text-primary uppercase tracking-wider font-semibold">Gửi đến</span>
+<span class="inline-block w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Kết nối gia đình</span>
+</div>
+<div class="font-headline-sm text-headline-sm text-on-surface truncate">
+            Mẹ (Nguyễn Thị Mai)
+          </div>
+</div>
+</div>
+<button class="flex-shrink-0 px-2.5 py-1.5 rounded-lg text-primary hover:bg-surface-container transition-colors flex items-center gap-1 active:scale-95" onclick="history.back()" type="button">
+<span class="font-label-sm text-label-sm font-semibold">Đổi người nhận</span>
+<span class="material-symbols-outlined text-[15px]">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Letter Preview Box (Warm Stationary Styling) -->
+<div class="mt-4 relative bg-surface-container-lowest rounded-xl p-5 shadow-sm overflow-hidden">
+<!-- Subtle tactile stamp icon watermark in corner -->
+<div class="absolute -top-3 -right-3 w-16 h-16 rounded-full bg-surface-container flex items-center justify-center opacity-60 pointer-events-none">
+<span class="material-symbols-outlined text-surface-tint text-2xl">mark_email_read</span>
+</div>
+<!-- Letter Meta Header -->
+<div class="flex items-center justify-between pb-3">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[18px]">history_edu</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">
+          Nội dung thư sẽ gửi
+        </span>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-surface-container font-label-sm text-label-sm text-on-surface-variant">
+        Bản chính thức
+      </span>
+</div>
+<!-- Handcrafted Letter Content Area -->
+<div class="my-2 p-4 rounded-lg bg-surface-container-low shadow-inner">
+<p class="font-body-lg text-body-lg text-on-surface leading-relaxed select-text font-normal italic">
+        “Con thấy áp lực khi chuyện học được nhắc nhiều lần. Con muốn bố mẹ nghe con nói hết ý.”
+      </p>
+</div>
+<!-- Letter Footer Note & Word Count -->
+<div class="mt-3 pt-2 flex items-center justify-between">
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px]">visibility</span>
+<span class="font-label-sm text-label-sm">Chỉ hiển thị văn bản này với người nhận</span>
+</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant font-medium">
+        89 ký tự
+      </div>
+</div>
+</div>
+<!-- Reassurance / Explicit Consent Notice Card -->
+<div class="mt-4 bg-surface-container-low rounded-xl p-4 shadow-sm flex items-start gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest flex-shrink-0 flex items-center justify-center mt-0.5">
+<span class="material-symbols-outlined text-primary text-[19px]">spa</span>
+</div>
+<div class="min-w-0 flex-1">
+<div class="font-label-lg text-label-lg text-on-surface font-semibold">
+        Bạn luôn là người làm chủ
+      </div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 leading-normal">
+        Nếu bạn cần thêm thời gian suy nghĩ, bạn có thể chọn <strong>Khoảng dừng 5 phút</strong> hoặc lưu nháp riêng an toàn trên máy.
+      </p>
+</div>
+</div>
+<!-- Interactive Sensory Anchor / Mindful Pulse -->
+<div class="mt-4 px-2 flex items-center justify-center gap-2">
+<div class="h-px bg-surface-container-highest flex-1"></div>
+<div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container text-on-surface-variant">
+<span class="material-symbols-outlined text-[15px] text-tertiary">sentiment_calm</span>
+<span class="font-label-sm text-label-sm">Thở một hơi chậm rãi trước khi quyết định</span>
+</div>
+<div class="h-px bg-surface-container-highest flex-1"></div>
+</div>
+<!-- Action CTAs Stack -->
+<div class="mt-5 flex flex-col gap-2.5">
+<!-- Primary CTA: Direct Confirm Send -->
+<button class="w-full h-12 rounded-xl bg-primary-container text-on-primary font-label-lg text-label-lg flex items-center justify-center gap-2 shadow-sm hover:brightness-105 active:scale-[0.98] transition-transform duration-100" id="btn-confirm-send" type="button">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">send</span>
+<span>Gửi thư cho Mẹ ngay</span>
+</button>
+<!-- F04-11 Pause 5 Mins Consideration Feature -->
+<button class="w-full h-11 rounded-xl bg-surface-container-lowest text-primary font-label-lg text-label-lg flex items-center justify-center gap-2 shadow-sm hover:bg-surface-container transition-colors active:scale-[0.98]" id="btn-mindful-pause" type="button">
+<span class="material-symbols-outlined text-[19px]">hourglass_top</span>
+<span>Khoảng dừng 5 phút để suy nghĩ thêm</span>
+</button>
+<!-- Revert / Edit Trigger -->
+<button class="w-full h-10 rounded-xl text-on-surface-variant font-label-md text-label-md flex items-center justify-center gap-1.5 hover:text-primary transition-colors" onclick="history.back()" type="button">
+<span class="material-symbols-outlined text-[18px]">edit_note</span>
+<span>Quay lại chỉnh sửa lời nhắn</span>
+</button>
+</div>
+<!-- Footer Authenticity / Bridge Guarantee -->
+<div class="mt-6 text-center">
+<div class="inline-flex items-center gap-1.5 text-on-surface-variant opacity-75">
+<span class="material-symbols-outlined text-[14px]">verified_user</span>
+<span class="font-label-sm text-label-sm">Dữ liệu minh họa • Thư điện tử an toàn Family Bridge</span>
+</div>
+</div>
+<!-- Interactive Feedback Sheet Modal (Hidden by Default) -->
+<div class="hidden fixed inset-0 z-50 bg-inverse-surface/40 backdrop-blur-xs flex items-end justify-center p-0" id="pause-modal">
+<div class="w-full max-w-[480px] bg-surface rounded-t-2xl p-5 shadow-xl transition-transform animate-in duration-200">
+<div class="w-10 h-1 bg-outline-variant rounded-full mx-auto mb-4"></div>
+<div class="flex items-center gap-3 mb-3">
+<div class="w-10 h-10 rounded-full bg-tertiary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-on-tertiary-fixed text-xl">self_improvement</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Đã kích hoạt khoảng dừng 5 phút</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Lời nhắn của bạn đã được lưu nháp an toàn</p>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-5">
+        Lá thư này sẽ giữ nguyên tại đây. Bạn có thể uống một ngụm nước, thư giãn và quay lại gửi khi tâm trạng đã sẵn sàng.
+      </p>
+<div class="flex flex-col gap-2">
+<button class="w-full h-11 rounded-xl bg-primary text-on-primary font-label-lg text-label-lg flex items-center justify-center shadow-sm" id="btn-close-modal" type="button">
+          Đồng ý, tôi sẽ quay lại sau
+        </button>
+</div>
+</div>
+</div>
+</div>
+<script>
+  (function() {
+    const pauseBtn = document.getElementById('btn-mindful-pause');
+    const modal = document.getElementById('pause-modal');
+    const closeModalBtn = document.getElementById('btn-close-modal');
+    const sendBtn = document.getElementById('btn-confirm-send');
+
+    if (pauseBtn && modal && closeModalBtn) {
+      pauseBtn.addEventListener('click', function() {
+        modal.classList.remove('hidden');
+      });
+
+      closeModalBtn.addEventListener('click', function() {
+        modal.classList.add('hidden');
+      });
+
+      modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+          modal.classList.add('hidden');
+        }
+      });
+    }
+
+    if (sendBtn) {
+      sendBtn.addEventListener('click', function() {
+        const originalText = sendBtn.innerHTML;
+        sendBtn.disabled = true;
+        sendBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-[20px]">sync</span><span>Đang gửi thư an toàn...</span>';
+        setTimeout(function() {
+          sendBtn.innerHTML = '<span class="material-symbols-outlined text-[20px]">done</span><span>Thư đã được trao gửi!</span>';
+          sendBtn.classList.remove('bg-primary-container');
+          sendBtn.classList.add('bg-tertiary-container');
+        }, 900);
+      });
+    }
+  })();
+</script></main></body></html>

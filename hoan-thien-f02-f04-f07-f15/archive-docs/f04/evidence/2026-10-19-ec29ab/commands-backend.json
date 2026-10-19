@@ -1,0 +1,38 @@
+[
+  {
+    "name": "foundation",
+    "command": [
+      "/workspace/f04-review-20261019-ec29ab/venv/bin/python",
+      "manage.py",
+      "test",
+      "--noinput"
+    ],
+    "cwd": "/workspace/f04-review-20261019-ec29ab/source/backend",
+    "exit_code": 0,
+    "seconds": 6.98
+  },
+  {
+    "name": "backend-check",
+    "command": [
+      "/workspace/f04-review-20261019-ec29ab/venv/bin/python",
+      "manage.py",
+      "check"
+    ],
+    "cwd": "/workspace/f04-review-20261019-ec29ab/source/backend",
+    "exit_code": 0,
+    "seconds": 0.44
+  },
+  {
+    "name": "migration-drift",
+    "command": [
+      "/workspace/f04-review-20261019-ec29ab/venv/bin/python",
+      "manage.py",
+      "makemigrations",
+      "--check",
+      "--dry-run"
+    ],
+    "cwd": "/workspace/f04-review-20261019-ec29ab/source/backend",
+    "exit_code": 0,
+    "seconds": 0.52
+  }
+]

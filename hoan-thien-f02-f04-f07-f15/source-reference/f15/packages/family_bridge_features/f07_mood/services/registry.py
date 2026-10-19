@@ -1,0 +1,49 @@
+"""F07 port registry — connection reader + session resolver."""
+
+from __future__ import annotations
+
+from typing import Callable, Optional
+
+_connection_reader: Optional[Callable] = None
+_session_resolver: Optional[Callable] = None
+
+
+def register_connection_reader(fn: Callable) -> None:
+    global _connection_reader
+    if not (callable(fn) or hasattr(fn, "active_connection_between")):
+        raise ValueError("connection reader must implement the port")
+    _connection_reader = fn
+
+
+def register_session_resolver(fn: Callable) -> None:
+    global _session_resolver
+    if not callable(fn):
+        raise ValueError("session resolver must be callable")
+    _session_resolver = fn
+
+
+def reset_registries() -> None:
+    global _connection_reader, _session_resolver
+    _connection_reader = None
+    _session_resolver = None
+
+
+def get_connection_reader() -> Optional[Callable]:
+    """Registered reader wins (tests/standalone composition). R10 fix: when
+    nothing is registered (real config boot, no lab fixtures), the
+    production fallback is F01's real InviteService so share/list flows use
+    the SAME connection substrate as the rest of the product. ImportError-
+    guarded: standalone runs without f01 stay fail-closed (None)."""
+    if _connection_reader is not None:
+        return _connection_reader
+    try:
+        from family_bridge_features.f01_identity.services.invites import (
+            InviteService,
+        )
+        return InviteService()
+    except ImportError:
+        return None
+
+
+def get_session_resolver() -> Optional[Callable]:
+    return _session_resolver

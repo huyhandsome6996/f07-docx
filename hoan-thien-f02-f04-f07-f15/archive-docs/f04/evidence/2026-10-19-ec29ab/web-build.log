@@ -1,0 +1,57 @@
+
+> family-bridge-web@0.3.0 build
+> vite build
+
+vite v8.3.4 building client environment for production...
+transforming...
+✓ 66 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                     0.85 kB │ gzip:  0.51 kB
+dist/assets/BeVietnamPro-Regular-DxE1rDs9.ttf     132.94 kB
+dist/assets/BeVietnamPro-Medium-zLP32ZWI.ttf      135.98 kB
+dist/assets/BeVietnamPro-SemiBold-DEWu8_st.ttf    136.73 kB
+dist/assets/BeVietnamPro-Bold-C_pM0_D6.ttf        140.30 kB
+dist/assets/hero-welcome-tea-CWl9abdP.jpg         155.73 kB
+dist/assets/logo-mark-transparent-BishO1QN.png    168.88 kB
+dist/assets/logo-lockup-transparent-cgusvOql.png  321.44 kB
+dist/assets/index-zINqGMRN.css                     70.37 kB │ gzip: 10.46 kB
+dist/assets/demo-banner-DYoJcrgw.js                 0.17 kB │ gzip:  0.18 kB
+dist/assets/logo-Cqeyw_JV.js                        0.38 kB │ gzip:  0.30 kB
+dist/assets/button-Bm3Z8qb8.js                      0.48 kB │ gzip:  0.32 kB
+dist/assets/card-B6nMo2KI.js                        0.60 kB │ gzip:  0.36 kB
+dist/assets/diary-CFq0fQ_3.js                       0.66 kB │ gzip:  0.45 kB
+dist/assets/nav-ByCpkiKC.js                         0.67 kB │ gzip:  0.31 kB
+dist/assets/not-found-FQwsKNiY.js                   0.74 kB │ gzip:  0.47 kB
+dist/assets/empty-state-DYc-SYRo.js                 0.80 kB │ gzip:  0.46 kB
+dist/assets/top-bar-BoF3tWlj.js                     0.85 kB │ gzip:  0.50 kB
+dist/assets/bottom-nav-CyZEuWe2.js                  0.93 kB │ gzip:  0.56 kB
+dist/assets/error-state-CsOR_gnc.js                 1.30 kB │ gzip:  0.73 kB
+dist/assets/role-select-C9l8BiFv.js                 1.41 kB │ gzip:  0.76 kB
+dist/assets/status-badge-kX9XcVqI.js                1.67 kB │ gzip:  0.57 kB
+dist/assets/dialog-D4IzOwur.js                      1.70 kB │ gzip:  0.85 kB
+dist/assets/help-AROlAuDv.js                        1.70 kB │ gzip:  0.90 kB
+dist/assets/sheet-DJjpy-XC.js                       1.75 kB │ gzip:  0.93 kB
+dist/assets/how-to-use-DBOlxR4O.js                  2.06 kB │ gzip:  1.09 kB
+dist/assets/companion-BjkR6x7U.js                   2.12 kB │ gzip:  1.15 kB
+dist/assets/app-shell-9Lojeybc.js                   3.17 kB │ gzip:  1.31 kB
+dist/assets/welcome-C3HNfhgw.js                     3.42 kB │ gzip:  1.50 kB
+dist/assets/profile-Bq5Qul6t.js                     3.76 kB │ gzip:  1.74 kB
+dist/assets/connection-check-CmGVnlvQ.js            3.81 kB │ gzip:  1.63 kB
+dist/assets/consent-BhfsSS4a.js                     4.77 kB │ gzip:  2.21 kB
+dist/assets/message-DaVv-Oe3.js                     8.34 kB │ gzip:  3.46 kB
+dist/assets/mailbox-ycnhqaJt.js                     9.53 kB │ gzip:  3.81 kB
+dist/assets/settings-CaxZ3qvj.js                   11.07 kB │ gzip:  3.68 kB
+dist/assets/cards-CbFW4eEe.js                      11.65 kB │ gzip:  4.48 kB
+dist/assets/login-BHev6UJ7.js                      11.68 kB │ gzip:  4.39 kB
+dist/assets/proposal-BKKMwiYY.js                   11.97 kB │ gzip:  4.16 kB
+dist/assets/signal-BBJHe_f8.js                     13.65 kB │ gzip:  4.85 kB
+dist/assets/privacy-DYowXqax.js                    14.51 kB │ gzip:  5.03 kB
+dist/assets/ai-assist-DhMxQuzc.js                  15.37 kB │ gzip:  4.28 kB
+dist/assets/connect-B7WOZfR9.js                    19.46 kB │ gzip:  6.38 kB
+dist/assets/home-F7a_q4Ru.js                       23.58 kB │ gzip:  7.08 kB
+dist/assets/compose-I43_dNcn.js                    24.11 kB │ gzip:  7.55 kB
+dist/assets/icon-Bnvw83HZ.js                       26.46 kB │ gzip:  8.64 kB
+dist/assets/index-CP6r3d7O.js                      51.31 kB │ gzip: 14.16 kB
+
+✓ built in 200ms

@@ -1,0 +1,59 @@
+
+> zalo-mini-app@0.3.0 build
+> vite build && node scripts/verify-build.mjs
+
+vite v8.3.4 building client environment for production...
+transforming...
+✓ 72 modules transformed.
+rendering chunks...
+computing gzip size...
+www/index.html                                    0.81 kB │ gzip:  0.46 kB
+www/app-config.json                               1.86 kB │ gzip:  0.71 kB
+www/assets/BeVietnamPro-Regular.ttf             132.94 kB
+www/assets/BeVietnamPro-Medium.ttf              135.98 kB
+www/assets/BeVietnamPro-SemiBold.ttf            136.73 kB
+www/assets/BeVietnamPro-Bold.ttf                140.30 kB
+www/assets/hero-welcome-tea.jpg                 155.73 kB
+www/assets/logo-mark-transparent.png            168.88 kB
+www/assets/logo-lockup-transparent.png          321.44 kB
+www/assets/index.css                             67.30 kB │ gzip:  9.81 kB
+www/assets/demo-banner-HObV4-Z2.module.js         0.16 kB │ gzip:  0.17 kB
+www/assets/logo-B7QkplaF.module.js                0.36 kB │ gzip:  0.28 kB
+www/assets/button-DYpQO_ek.module.js              0.48 kB │ gzip:  0.31 kB
+www/assets/card-DMgSimR1.module.js                0.60 kB │ gzip:  0.36 kB
+www/assets/nav-ByCpkiKC.module.js                 0.67 kB │ gzip:  0.31 kB
+www/assets/diary-Z7ieqKbo.module.js               0.67 kB │ gzip:  0.44 kB
+www/assets/not-found-DdjRLhj7.module.js           0.75 kB │ gzip:  0.47 kB
+www/assets/empty-state-B93xLM8T.module.js         0.79 kB │ gzip:  0.45 kB
+www/assets/top-bar-CMzzxStr.module.js             0.84 kB │ gzip:  0.50 kB
+www/assets/bottom-nav-Ht8AvHqJ.module.js          0.94 kB │ gzip:  0.55 kB
+www/assets/error-state-CMuHTUbM.module.js         1.30 kB │ gzip:  0.73 kB
+www/assets/role-select-CjudTe76.module.js         1.43 kB │ gzip:  0.76 kB
+www/assets/status-badge-Ct75YyEC.module.js        1.66 kB │ gzip:  0.56 kB
+www/assets/dialog-D6XxmuwD.module.js              1.69 kB │ gzip:  0.84 kB
+www/assets/help-DZeip3NP.module.js                1.71 kB │ gzip:  0.89 kB
+www/assets/sheet-Bo4QTMLi.module.js               1.74 kB │ gzip:  0.92 kB
+www/assets/how-to-use-DkXsm04-.module.js          2.05 kB │ gzip:  1.07 kB
+www/assets/companion-D-MLtRnj.module.js           2.15 kB │ gzip:  1.15 kB
+www/assets/app-shell-CsElV3cz.module.js           3.18 kB │ gzip:  1.30 kB
+www/assets/welcome-CE5OXwcc.module.js             3.42 kB │ gzip:  1.48 kB
+www/assets/profile-BbFnEpap.module.js             3.77 kB │ gzip:  1.73 kB
+www/assets/connection-check-CD5Qbc0m.module.js    3.84 kB │ gzip:  1.63 kB
+www/assets/consent-DmfaL63H.module.js             4.80 kB │ gzip:  2.20 kB
+www/assets/mailbox-DRsZ_FkE.module.js             9.56 kB │ gzip:  3.82 kB
+www/assets/settings-Du6EE-Ti.module.js           11.10 kB │ gzip:  3.70 kB
+www/assets/cards-CzxPeevF.module.js              11.69 kB │ gzip:  4.49 kB
+www/assets/login-CQGxlGE_.module.js              11.72 kB │ gzip:  4.39 kB
+www/assets/proposal-BWxWwToS.module.js           13.58 kB │ gzip:  4.46 kB
+www/assets/signal-Bq26PcF-.module.js             13.68 kB │ gzip:  4.85 kB
+www/assets/privacy-CENQo6vI.module.js            14.55 kB │ gzip:  5.04 kB
+www/assets/message--LSizJcI.module.js            17.67 kB │ gzip:  6.12 kB
+www/assets/connect-CaRtI2s5.module.js            19.53 kB │ gzip:  6.39 kB
+www/assets/home-RSx_zZwv.module.js               25.85 kB │ gzip:  7.61 kB
+www/assets/icon-Bnvw83HZ.module.js               26.46 kB │ gzip:  8.64 kB
+www/assets/compose-Ba5M2Wt_.module.js            33.53 kB │ gzip: 10.11 kB
+www/assets/app.module.js                         53.80 kB │ gzip: 14.90 kB
+www/assets/index.umd-j_zNid9d.module.js         249.19 kB │ gzip: 62.62 kB
+
+✓ built in 237ms
+Verified Zalo app-config and all referenced assets
