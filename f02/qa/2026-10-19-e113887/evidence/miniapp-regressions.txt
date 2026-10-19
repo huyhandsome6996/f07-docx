@@ -1,0 +1,22 @@
+▶ QA 19/10 R01 — revision mới nhất thắng, độc lập thứ tự catalog
+  ✔ catalog [rev2, rev1] → chip tiêu đề bản MỚI + invite gửi rev 2 (98.491866ms)
+  ✔ thứ tự đảo [rev1, rev2] → vẫn rev 2 (không phụ thuộc thứ tự rows) (92.947694ms)
+  ✔ draft/retired không bao giờ được chọn dù revision cao hơn (92.761396ms)
+✔ QA 19/10 R01 — revision mới nhất thắng, độc lập thứ tự catalog (285.85306ms)
+▶ QA 19/10 R05 — đọc hướng dẫn TRƯỚC khi tham gia, không POST enroll
+  ✔ chưa tham gia: mở xem trước thấy đủ guide 4 tuần cả hai vai trò (82.931314ms)
+✔ QA 19/10 R05 — đọc hướng dẫn TRƯỚC khi tham gia, không POST enroll (83.231307ms)
+▶ QA 19/10 R06 — chi tiết hoạt động + thời lượng có nguồn
+  ✔ mở chi tiết: thấy mục tiêu, các bước, phạm vi chia sẻ, phút + nguồn rev (81.947816ms)
+  ✔ minutes không có nguồn → nói 'chưa được cung cấp', KHÔNG bịa '1 phút' (83.584417ms)
+  ✔ body dạng chuỗi JSON (adapter cũ) và dạng dict đều render an toàn (163.377118ms)
+  ✔ body JSON hỏng/không đọc được → nói trung thực 'chưa có mô tả', không crash (81.353715ms)
+✔ QA 19/10 R06 — chi tiết hoạt động + thời lượng có nguồn (410.966632ms)
+ℹ tests 8
+ℹ suites 3
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1366.382674

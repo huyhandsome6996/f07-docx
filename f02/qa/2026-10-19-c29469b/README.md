@@ -44,3 +44,7 @@ Chỉ nội dung/tài khoản synthetic trong DB SQLite local được dùng. Ch
 6. R07 trang web F02 vẫn là placeholder, nếu nghiệm thu F02 trên web thì chưa đạt.
 
 R01–R07 ở đây là mã phát hiện **F02 QA 19/10**, không phải R01–R07 của F07 hay R1–R4 của audit F02 cũ.
+
+## Cập nhật 19/10/2026 — các phát hiện đã được xử lý
+
+Bản sửa + kiểm lại theo FINDINGS của vòng này: [../2026-10-19-e113887/README.md](../2026-10-19-e113887/README.md) (nguồn ứng dụng head `e113887`, cha là đúng SHA `c29469b…` đã QA ở vòng này). Bằng chứng của vòng cũ giữ nguyên không đổi.
