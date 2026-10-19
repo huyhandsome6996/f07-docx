@@ -1,0 +1,13 @@
+{
+  "stopped_own_server_pids": [
+    77589,
+    77618,
+    77625
+  ],
+  "application_source_modified": false,
+  "port_status_after_cleanup": {
+    "8044": "STOPPED",
+    "5144": "STOPPED",
+    "3044": "STOPPED"
+  }
+}

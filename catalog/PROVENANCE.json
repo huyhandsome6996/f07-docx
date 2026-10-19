@@ -5,7 +5,7 @@
   "main_observed_sha": "a4a4b0982db5ae5cd48892d0e8ebf85ba407fdd2",
   "application_repo": "huyhandsome6996/family-bridge",
   "application_branch": "tinh-nang/f04-ai-ho-tro-dien-dat-us029-us033",
-  "tested_sha": "e0ee38827562a75542fa79fff50984696088d1c9",
+  "tested_sha": "ec29abbb60bb5948fff2e87e63b0db5e0cdc4333",
   "retrieval": "Official public GitHub Atom feed + archive pinned by full SHA; Git/API authentication blocked",
   "date": "2026-10-19",
   "timezone": "Asia/Bangkok",
@@ -20,5 +20,19 @@
     "public_git_git_control_without_PAT": "401",
     "api_github_com": "proxy CONNECT 403",
     "credential_persisted": false
-  }
+  },
+  "previous_tested_sha": "e0ee38827562a75542fa79fff50984696088d1c9",
+  "remote_head_before_audit": "ec29abbb60bb5948fff2e87e63b0db5e0cdc4333",
+  "remote_head_after_audit": "ec29abbb60bb5948fff2e87e63b0db5e0cdc4333",
+  "audit_verdict": "REVIEW_WITH_BLOCKERS: N03 P1, N04/N05/N06 P2",
+  "ui_frame_count": {
+    "web_original": 4,
+    "mini_original": 24,
+    "mini_f04_related": 20,
+    "mini_cross_feature_reference": 1,
+    "mini_f12_outside_f04": 3
+  },
+  "source_integrity": "899 archive files compared; zero original files modified",
+  "latest_evidence": "evidence/2026-10-19-ec29ab",
+  "latest_repro": "repro/ec29ab"
 }

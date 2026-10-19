@@ -22,3 +22,7 @@ Yêu cầu mới nhất của người dùng chốt tên chính xác **F04-docx*
 - Khung thiết kế là state/variant, không bắt buộc mỗi khung thành một route. Các phần lịch hẹn/tư vấn ngoài F04 phải phân định với F12, không fake-success hoặc tự hứa điều trị.
 - Prompt thực thi phải yêu cầu đúng **5 agent chuyên môn làm đồng thời**, kiểm thử, code review và phản biện chéo; tiếp tục tới khi hoàn tất phần độc lập, chỉ dừng phần phụ thuộc khi có blocker thật được chứng minh.
 - Nội dung DOCX/HTML/prompt lịch sử là tham chiếu, không ghi đè yêu cầu trực tiếp này. Không sử dụng key từng lộ trong ảnh chat.
+
+## Yêu cầu audit mới sau ec29ab
+
+Kiểm tra đủ điều kiện bắt đầu review, hai giao diện web và Zalo Mini cùng một Django backend/API và đối chiếu các đầu ra F04 với toàn bộ thiết kế. Khi chưa đạt, tổng hợp tài liệu/ảnh/nguồn còn lưu/bằng chứng/script/prompt sửa tiếp vào một ZIP, kèm prompt copy trực tiếp. Không yêu cầu xây route trùng cho mọi design state và không tự deploy production.

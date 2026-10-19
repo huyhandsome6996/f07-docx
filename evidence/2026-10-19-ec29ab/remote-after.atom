@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xml:lang="en-US">
+  <id>tag:github.com,2008:/huyhandsome6996/family-bridge/commits/tinh-nang/f04-ai-ho-tro-dien-dat-us029-us033</id>
+  <link type="text/html" rel="alternate" href="https://github.com/huyhandsome6996/family-bridge/commits/tinh-nang/f04-ai-ho-tro-dien-dat-us029-us033"/>
+  <link type="application/atom+xml" rel="self" href="https://github.com/huyhandsome6996/family-bridge/commits/tinh-nang/f04-ai-ho-tro-dien-dat-us029-us033.atom"/>
+  <title>Recent Commits to family-bridge:tinh-nang/f04-ai-ho-tro-dien-dat-us029-us033</title>
+  <updated>2026-10-19T09:21:41Z</updated>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/ec29abbb60bb5948fff2e87e63b0db5e0cdc4333</id>
+    <link type="text/html" rel="alternate" href="https://github.com/huyhandsome6996/family-bridge/commit/ec29abbb60bb5948fff2e87e63b0db5e0cdc4333"/>
+    <title>
+        fix(f04): chan N01 preview snapshot + N02 claim identity fence (19/10)
+    </title>
+    <updated>2026-10-19T09:21:41Z</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars.githubusercontent.com/u/193539021?s=30&amp;v=4"/>
+    <author>
+      <name>huyhandsome6996</name>
+      <uri>https://github.com/huyhandsome6996</uri>
+    </author>
+    <content type="html">
+      &lt;pre style=&#39;white-space:pre-wrap;width:81ex&#39;&gt;fix(f04): chan N01 preview snapshot + N02 claim identity fence (19/10)
+
+N01 - preview khi dang bay khac ban duyet (web + zalo mini):
+- previewSeq token sau moi await; snapshot body/recipient/revision truoc khi
+  goi preview; khoa textarea/recipient/nut preview khi dang bay co giai thich;
+  lech snapshot -&amp;gt; khong mo sheet + thong bao trung thuc + mo khoa; sheet
+  hien thi preview.body ?? snapshotBody (bo doc live textarea — nguan loi
+  web:836, mini:~1228); nut Gui re-verify truoc confirm; sync loi -&amp;gt; dung flow.
+- backend make_preview tra them body (server-bound snapshot); mock adapter
+  parity; contract test ghim 6 field.
+
+N02 - ket qua truoc deletion chiem claim moi cung key:
+- _claim_refine_operation tra identity {claim_pk, payload_hash}; finalize
+  select_for_update theo pk + kiem hash duoi lock; row mat/lech hash -&amp;gt; fenced
+  (drop, 503) khong hoi sinh suggestion; IntegrityError winner-path chi update
+  claim_pk; TTL reclaim 60s giu nguyen, provider ngoai moi transaction.
+
+Regression: test_f04_claim_identity.py 5 case (do truoc fix 2 fail 1!=0);
+f04-preview-snapshot 9/9 web + 7/7 mini; QA doc lap A5: unit probe 4/4,
+browser Chromium that + Django that finalMatchesPreview=true 2/2,
+probe claim-reuse old_private_rows=0.
+
+Suite: backend 170/170 (f04/f06/f15/f05, skip=2 goc), web 222/222 + build,
+mini 330/330 + build, shared 65/65 + contract_a5 13/13, mobile 51/51.
+Docs: web-zalo-parity.md §6 preview snapshot contract, web-design-states.md
+26 state (6 moi), manifest status_note cap nhat. NOT_RUN: MySQL race,
+Gemini live, Render, Zalo device. Doi 5 agent A1-A5, 2 vong review cheo.&lt;/pre&gt;
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/e0ee38827562a75542fa79fff50984696088d1c9</id>
+    <link type="text/html" rel="alternate" href="https://github.com/huyhandsome6996/family-bridge/commit/e0ee38827562a75542fa79fff50984696088d1c9"/>
+    <title>
+        fix(f04): sua 5 loi QA R01-R05 (18/10) — real diff + regression tests
+    </title>
+    <updated>2026-10-18T05:04:19Z</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars.githubusercontent.com/u/193539021?s=30&amp;v=4"/>
+    <author>
+      <name>huyhandsome6996</name>
+      <uri>https://github.com/huyhandsome6996</uri>
+    </author>
+    <content type="html">
+      &lt;pre style=&#39;white-space:pre-wrap;width:81ex&#39;&gt;fix(f04): sua 5 loi QA R01-R05 (18/10) — real diff + regression tests
+
+R01 (P1, gui sai ban da duyet) — web + mini compose:
+- Track state.syncedBody (noi dung may chu dang giu cho draft).
+- onPreview: tu dong bo (editDraft) final dang hien thi (sau khi Dung
+  goi y AI) truoc khi previewDraft — preview/confirm bam dung text trong
+  sheet xac nhan, khong con gui original cu. Textarea rong -&amp;gt; dung o
+  client (khong bind nham ban cu).
+- Test: web f04-ai-parity (2), mini f04-ai-refine (2).
+
+R02 (P1, ket qua AI cu ghi lai sau deletion completed) — f04_ai/express:
+- Finalize Phase 5: select_for_update claim INFLIGHT trong cung atomic;
+  claim mat (F15 deletion da commit trong luc provider call) -&amp;gt; DROP ket
+  qua, 503 refine_result_discarded_after_deletion, khong tao suggestion.
+- Test: test_f04_deletion.LateProviderResultAfterDeletionTests (2).
+
+R03 (P1, edit bo qua pause) — f06_drafts/drafts:
+- _deadline_guard chot theo DEADLINE tuong lai (khong theo status):
+  edit giu deadline -&amp;gt; preview/confirm van 409 cooldown_active khi
+  t&amp;lt;300. Sang tuong tac: het gio hoac cancel-pause chu dong.
+- Test: test_f06.EditDuringPauseGateTests (4).
+
+R04 (P1, web desktop bo hep) — web compose:
+- page chrome: &amp;#39;app&amp;#39; + showBottomNav true + root &amp;#39;fb-page fb-page--web&amp;#39;
+  -&amp;gt; shell sidebar hien @&amp;gt;=1024, bo cap 480px (1440px: grid 484px/340px,
+  textarea 452px, co app shell). Router test pin meta moi.
+- Test: router.test (pin cap nhat) + f04-ai-parity R04 (2).
+
+R05 (P2, mini tran ngang + hidden van hien) — CSS web + mini:
+- [hidden] { display:none !important } guard toan cuc (fb-btn display
+  inline-flex dang de UA [hidden]) — nut &amp;#39;Huy cho goi y&amp;#39; an that.
+- .fb-compose__ai-btn white-space normal (nowrap ~306px day min-content);
+  pause-buttons minmax(0,1fr) + xep doc &amp;lt;480px; hang AI flex-wrap.
+- Playwright probe: mini scrollWidth 412-&amp;gt;320/390 (khong tran);
+  web 1440 khong tran. Test: design-system mini (3) + f04-ai-parity (1).
+
+Verification: backend 52 OK(2 SKIP); harness 584 OK(12 SKIP); web 213
+pass 0 fail; mini 323 pass 0 fail; shared 61 pass; mobile 52 pass;
+import boundaries CLEAN; web + mini build PASS.&lt;/pre&gt;
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/1d8eeaff7006490d70c95c4ead972cf2be4793b9</id>
+    <link type="text/html" rel="alternate" href="https://github.com/huyhandsome6996/family-bridge/commit/1d8eeaff7006490d70c95c4ead972cf2be4793b9"/>
+    <title>
+        ci: retry kick lai Workers Builds cho F04 (lan 2) — run truoc 03:37:4…
+    </title>
+    <updated>2026-10-18T03:40:33Z</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars.githubusercontent.com/u/193539021?s=30&amp;v=4"/>
+    <author>
+      <name>huyhandsome6996</name>
+      <uri>https://github.com/huyhandsome6996</uri>
+    </author>
+    <content type="html">
+      &lt;pre style=&#39;white-space:pre-wrap;width:81ex&#39;&gt;ci: retry kick lai Workers Builds cho F04 (lan 2) — run truoc 03:37:43 fail dur=0s trong khi main cung code-base build success 03:26-03:30; 14/14 code checks xanh&lt;/pre&gt;
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/032aabafe5bcdbf457370df7f75c0ba4a9ba7699</id>
+    <link type="text/html" rel="alternate" href="https://github.com/huyhandsome6996/family-bridge/commit/032aabafe5bcdbf457370df7f75c0ba4a9ba7699"/>
+    <title>
+        ci: kick lai Workers Builds cho nhanh F04 — head truoc (2a55cc8) bi f…
+    </title>
+    <updated>2026-10-18T03:31:59Z</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars.githubusercontent.com/u/193539021?s=30&amp;v=4"/>
+    <author>
+      <name>huyhandsome6996</name>
+      <uri>https://github.com/huyhandsome6996</uri>
+    </author>
+    <content type="html">
+      &lt;pre style=&#39;white-space:pre-wrap;width:81ex&#39;&gt;ci: kick lai Workers Builds cho nhanh F04 — head truoc (2a55cc8) bi fail tuc thi trong cua so su co Cloudflare 02:37-02:44 UTC 10-18, khong thay doi code&lt;/pre&gt;
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/2a55cc8c5287d1d53f4b97b3f864a194be9931b3</id>
+    <link type="text/html" rel="alternate" href="https://github.com/huyhandsome6996/family-bridge/commit/2a55cc8c5287d1d53f4b97b3f864a194be9931b3"/>
+    <title>
+        feat(f04): AI ho tro dien dat — Gemini backend, consent gate, stale g…
+    </title>
+    <updated>2026-10-16T19:56:25Z</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars.githubusercontent.com/u/193539021?s=30&amp;v=4"/>
+    <author>
+      <name>huyhandsome6996</name>
+      <uri>https://github.com/huyhandsome6996</uri>
+    </author>
+    <content type="html">
+      &lt;pre style=&#39;white-space:pre-wrap;width:81ex&#39;&gt;feat(f04): AI ho tro dien dat — Gemini backend, consent gate, stale guard, UI web + zalo (US-029/US-033)
+
+Backend (packages/family_bridge_features/f04_ai):
+- GeminiProvider REST stdlib, host allowlist generativelanguage.googleapis.com,
+  fail-closed wiring (FB_AI_ENABLED + GEMINI_API_KEY + GEMINI_* validate,
+  khong network o import/startup/health); kill switch re-read tai request time.
+- Consent gate ai_processing server-side truoc provider call (has_active_consent
+  + policy current; thieu/declined/withdrawn/policy cu -&amp;gt; 403 consent_required,
+  provider_calls=0); finalize recheck consent + kill switch.
+- Provider NGOAI atomic block; AiRefineOperation claim (unique author+key,
+  TTL 60s reclaim outcome-unknown) chan double provider charge; IntegrityError
+  -&amp;gt; replay/409/503 race_unresolved khong lo SQL params; input_revision
+  optional + payload_hash include revision; DTO suggested_text + echo.
+- F15 deletion hook &amp;quot;ai&amp;quot; scoped+idempotent; F06 edit kind-optional (C8);
+  F06 _deadline_guard opt-in cooldown; F06 apps.py wire text sender -&amp;gt; F05
+  MessageTransportService (key draft:{id}:rev:{n}, emotion_card 503 trung thuc).
+
+Shared (packages/family_bridge_shared): mock/adapter suggested_text pass-through,
+input_revision, consents/Draft.view shape parity, page_size map, shape-contract tests.
+
+UI (web + zalo-mini-app + packages/family_bridge_mobile/f04_ai): suggested_text,
+inputRevision stale guard (recheck tai luc bam apply + sau accept resolve),
+consent disclosure sheet (Gemini = ben xu ly ky thuat), loading cancel,
+error/off/quota states trung thuc, preview khong ep pause, unmount safety,
+textContent-only, copy sua theo handoff; parity 24 frame (web-zalo-parity.md).
+
+Tests: backend 52 OK (2 skip CI-guard) | harness 220 OK (3 skip MySQL/live)
+| shared 61/61 | web 208/208 + build | zalo 318/318 + build | mobile 5/5
+| boundaries CLEAN | migrations no-drift. Peer-review round 1 (A1-A5 circle):
+5 bao cao trong docs/features/f04/peer-review/; P2 da fix, P3 disposition ghi ro.
+Live Gemini/Render/Zalo device: NOT_RUN/BLOCKED (key chua rotate, khong co access).&lt;/pre&gt;
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/72930ae3fb6530235efa21d8f64b6ae3bd853af1</id>
+    <link type="text/html" rel="alternate" href="https://github.com/huyhandsome6996/family-bridge/commit/72930ae3fb6530235efa21d8f64b6ae3bd853af1"/>
+    <title>
+        docs(part-a): bao giao luong ket noi HS/PH + branch-compatibility report
+    </title>
+    <updated>2026-10-16T13:54:41Z</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars.githubusercontent.com/u/193539021?s=30&amp;v=4"/>
+    <author>
+      <name>huyhandsome6996</name>
+      <uri>https://github.com/huyhandsome6996</uri>
+    </author>
+    <content type="html">
+      &lt;pre style=&#39;white-space:pre-wrap;width:81ex&#39;&gt;docs(part-a): bao giao luong ket noi HS/PH + branch-compatibility report
+
+- docs/handover/hs-ph-connection-part-a/report.md: audit (da dung san vs loi
+  that da sua), bang chung test (miniapp 297, backend 475, E2E 30/30, DB
+  inspect 1 Connection active dung 2 UUID/role), huong dan Huy test 2 tai
+  khoan, NOT_RUN trung thuc.
+- docs/handover/hs-ph-connection-part-a/branch-compatibility-report.md:
+  snapshot 22 refs, merge-tree baseline (4884c83) vs candidate (f14666c) cho
+  5 nhanh AHEAD + 17 nhanh ANCESTOR — 0 xung đột mới; 2 conflict có sẵn
+  (PR #34, PR #33) giữ nguyên đúng owner.
+- docs/handover/README.md: +1 dòng chỉ mục.
+
+Docs-only cho phần A theo quyền direct-main đã cấp; không đụng F02 docs,
+không đụng web/backend.&lt;/pre&gt;
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/f14666ce877f9152002adaf275baa0aed273211e</id>
+    <link type="text/html" rel="alternate" href="https://github.com/huyhandsome6996/family-bridge/commit/f14666ce877f9152002adaf275baa0aed273211e"/>
+    <title>
+        fix(f16-ui): duong di tu home toi de xuat ghep doi + huy theo API + m…
+    </title>
+    <updated>2026-10-16T13:52:23Z</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars.githubusercontent.com/u/193539021?s=30&amp;v=4"/>
+    <author>
+      <name>huyhandsome6996</name>
+      <uri>https://github.com/huyhandsome6996</uri>
+    </author>
+    <content type="html">
+      &lt;pre style=&#39;white-space:pre-wrap;width:81ex&#39;&gt;fix(f16-ui): duong di tu home toi de xuat ghep doi + huy theo API + map loi dung envelope that
+
+Phan A (ket noi HS/PH) — cong viec UI Mini App, khong dong den backend:
+
+1. home: hien the de xuat ghep doi tu lop hoc (F16 listClassProposals, 1 request
+   bound limit 20, song song du lieu khac) khi chua co ket noi active — CTA sang
+   #/proposal. Loi tai danh sach → ghi chu trung thuc + lo xem truc tiep, khong
+   gia bo &amp;#39;chua co de xuat&amp;#39;. Demo khong goi API that.
+2. proposal: bo sung HUY de xuat (POST .../cancel) qua dialog destructive cho
+   ca the actionable va the trang thai awaiting_confirmation; sau thao tac luon
+   tai lai trang thai may chu.
+3. proposal: sua map loi khop envelope backend THAT — InputInvalid/NotAuthorized/
+   NotFound tra code chung (input_invalid/not_authorized/not_found) va reason cu
+   the nam o details.reason (proposal_not_confirmable, already_connected,
+   proposal_blocked_by_open_invite, account_inactive, proposal_not_found,
+   proposal_not_open); truoc day UI chi so error.code nen thong diep rieng khong
+   bao gio khop tren backend that.
+4. test: proposal-entry.test.mjs 9 case happy-dom (entry card, awaiting chip,
+   khong co proposal, loi tai, da ket noi, demo isolation, cancel dialog x2,
+   envelope that); scripts/f16_e2e_flow.mjs E2E API 30 checks chay local sqlite
+   (login → consent → confirm 2 buoc → Connection active dung 2 UUID/role →
+   cancel/decline/actor la/revision conflict).
+
+Khong sua web/**, khong sua backend, khong cham file ma nhang khac dang lam
+(f01_identity, privacy/profile, router.js, harness settings, workflows).
+
+Tests: miniapp 297/297 pass; backend feature-lab 475 OK (baseline, khong doi);
+shared 34/34; web 187/187 + build; import boundary CLEAN; E2E local 30/30.&lt;/pre&gt;
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/4884c832c6a3596e76b536f8e75285716cd00270</id>
+    <link type="text/html" rel="alternate" href="https://github.com/huyhandsome6996/family-bridge/commit/4884c832c6a3596e76b536f8e75285716cd00270"/>
+    <title>
+        docs(handover): record testing deploy version ID 2 and live testing URL
+    </title>
+    <updated>2026-10-16T08:56:22Z</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars.githubusercontent.com/u/193539021?s=30&amp;v=4"/>
+    <author>
+      <name>huyhandsome6996</name>
+      <uri>https://github.com/huyhandsome6996</uri>
+    </author>
+    <content type="html">
+      &lt;pre style=&#39;white-space:pre-wrap;width:81ex&#39;&gt;docs(handover): record testing deploy version ID 2 and live testing URL&lt;/pre&gt;
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/ef870ace16eafeba05186d5a60e29b69f10c5d1d</id>
+    <link type="text/html" rel="alternate" href="https://github.com/huyhandsome6996/family-bridge/commit/ef870ace16eafeba05186d5a60e29b69f10c5d1d"/>
+    <title>
+        feat(miniapp): HS/PH login inside Zalo; preserve legacy Zalo login mo…
+    </title>
+    <updated>2026-10-16T08:49:15Z</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars.githubusercontent.com/u/193539021?s=30&amp;v=4"/>
+    <author>
+      <name>huyhandsome6996</name>
+      <uri>https://github.com/huyhandsome6996</uri>
+    </author>
+    <content type="html">
+      &lt;pre style=&#39;white-space:pre-wrap;width:81ex&#39;&gt;feat(miniapp): HS/PH login inside Zalo; preserve legacy Zalo login module dormant&lt;/pre&gt;
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/c677aab6b2c695a9088778834b00ac057d3df41b</id>
+    <link type="text/html" rel="alternate" href="https://github.com/huyhandsome6996/family-bridge/commit/c677aab6b2c695a9088778834b00ac057d3df41b"/>
+    <title>
+        docs(web-miniapp-separation): handover 9 file + evidence + supersede …
+    </title>
+    <updated>2026-10-16T07:09:52Z</updated>
+    <media:thumbnail height="30" width="30" url="https://1.gravatar.com/avatar/8e2ebaac0de60dfa957d9eca3d0c993f?d=https%3A%2F%2Fgithub.githubassets.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png&amp;r=g&amp;s=30"/>
+    <author>
+      <name></name>
+      <email>agent-a@family-bridge.local</email>
+    </author>
+    <content type="html">
+      &lt;pre style=&#39;white-space:pre-wrap;width:81ex&#39;&gt;docs(web-miniapp-separation): handover 9 file + evidence + supersede notes
+
+- 9 tai lieu handover (README/reading-map/architecture/authentication-flows/
+  route-feature-parity/design-verification/deployment/verification-report/
+  next-agent) + evidence: 26 PNG 2 viewport, e2e-results, import-boundaries,
+  verification-log W3a.
+- Supersede dated 2026-10-16: AGENTS.md (cho phep web doc lap), project-scope,
+  docs/architecture.md, mirror .cursor/.github, handover index + web-render
+  deployment banner. Khong doi DEC/wiring; check_agent_docs PASS.
+- Link text typo tieu hoc trong handover index duoc sua.&lt;/pre&gt;
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/2a91047dfbce6257a705adeca42935f9ae705572</id>
+    <link type="text/html" rel="alternate" href="https://github.com/huyhandsome6996/family-bridge/commit/2a91047dfbce6257a705adeca42935f9ae705572"/>
+    <title>
+        feat(web): port 8 trang phuc tap (cards/signal/message/mailbox/compos…
+    </title>
+    <updated>2026-10-16T05:58:23Z</updated>
+    <media:thumbnail height="30" width="30" url="https://1.gravatar.com/avatar/8e2ebaac0de60dfa957d9eca3d0c993f?d=https%3A%2F%2Fgithub.githubassets.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png&amp;r=g&amp;s=30"/>
+    <author>
+      <name></name>
+      <email>agent-a@family-bridge.local</email>
+    </author>
+    <content type="html">
+      &lt;pre style=&#39;white-space:pre-wrap;width:81ex&#39;&gt;feat(web): port 8 trang phuc tap (cards/signal/message/mailbox/compose/proposal/settings/privacy) + web-screens tests
+
+- 8 trang port VERBATIM tu zalo-mini-app (diff rong), giu nguyen meta stub da khai bao trong router; khong can them component moi.
+- web/tests/web-screens.test.mjs: 78 it port, chi doi path setup (ApiError tu shared, mock tu web-adapter, doc source ROOT=web) — khong assertion nao bi bo/yeu.
+- pages.test.mjs: 8 smoke stub -&amp;gt; smoke trang that (gate dang nhap per-page, cam nhan demo, cam text stub); router.test pin trang that.
+- 1 sua copy trung thuc: compose gate &amp;#39;Dang nhap bang Zalo&amp;#39; -&amp;gt; &amp;#39;Dang nhap de tiep tuc&amp;#39; (web khong co duong Zalo).
+- Xac minh: web 187/187 PASS, build PASS (chunk rieng tung trang), boundary checker 5/5 exit 0 (web closure 63 node, 0 unresolved).&lt;/pre&gt;
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/c7a576d0ce31c556ed0e45621c0c25ef44e75789</id>
+    <link type="text/html" rel="alternate" href="https://github.com/huyhandsome6996/family-bridge/commit/c7a576d0ce31c556ed0e45621c0c25ef44e75789"/>
+    <title>
+        feat(web): ung dung web doc lap — entry/router/build rieng, 13 trang …
+    </title>
+    <updated>2026-10-16T05:35:47Z</updated>
+    <media:thumbnail height="30" width="30" url="https://1.gravatar.com/avatar/8e2ebaac0de60dfa957d9eca3d0c993f?d=https%3A%2F%2Fgithub.githubassets.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png&amp;r=g&amp;s=30"/>
+    <author>
+      <name></name>
+      <email>agent-a@family-bridge.local</email>
+    </author>
+    <content type="html">
+      &lt;pre style=&#39;white-space:pre-wrap;width:81ex&#39;&gt;feat(web): ung dung web doc lap — entry/router/build rieng, 13 trang dung chung
+
+- web/: package.json + lockfile (vite 8.3.4 + happy-dom pin giong mini, khong zmp-sdk), vite.config (base ./, outDir dist, sourcemap off), index.html rieng.
+- core: config (VITE_API_BASE_URL thieu -&amp;gt; ApiError configuration tieng Viet, khong fallback mock), session/policy/login-error shim shared, login-startup khong silent login.
+- adapter/web-adapter: createApiClient + createHttpEndpoints (shared) + loginWithCredentials, surface 69 method giong ADAPTER_METHODS; demo ?demo=1 dung mock shared.
+- app: router copy nguyen 21 hash path (8 trang phuc tap tam stub not-implemented), store in-memory ONLY (bo sessionStorage — SEC-10), dom/nav.
+- components + styles + assets copy nguyen van; main.js boot khong Zalo/SDK.
+- 13 trang port trung thuc: login(+credential-form), welcome, role-select, how-to-use, not-found, connection-check, help, diary, companion, profile, consent, connect, home.
+- tests: 109/109 PASS (invariants 7, router 15, config 15, connection-check SC1-SC18 25, pages 47); build dist 43 assets hashed khong sourcemap; boundary checker 5/5 PASS.&lt;/pre&gt;
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/7fd5135b2dc8d428b0592b830edf05e2c584f15f</id>
+    <link type="text/html" rel="alternate" href="https://github.com/huyhandsome6996/family-bridge/commit/7fd5135b2dc8d428b0592b830edf05e2c584f15f"/>
+    <title>
+        ci(web): boundary checker transitive + job web + render publish web/dist
+    </title>
+    <updated>2026-10-16T05:08:37Z</updated>
+    <media:thumbnail height="30" width="30" url="https://1.gravatar.com/avatar/8e2ebaac0de60dfa957d9eca3d0c993f?d=https%3A%2F%2Fgithub.githubassets.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png&amp;r=g&amp;s=30"/>
+    <author>
+      <name></name>
+      <email>agent-a@family-bridge.local</email>
+    </author>
+    <content type="html">
+      &lt;pre style=&#39;white-space:pre-wrap;width:81ex&#39;&gt;ci(web): boundary checker transitive + job web + render publish web/dist
+
+- scripts/check_import_boundaries.mjs: do thi import transitive tu entry web + mini (static + dynamic import, strip comment truoc token-scan, barrel follow, asset/bare = la); assert web-/-&amp;gt;mini, mini-/-&amp;gt;web, shared purity (khong zmp/DOM/storage), web khong zmp/localStorage; exit 1 khi vi pham; --json report.
+- render.yaml: family-bridge-web buildCommand &amp;#39;cd web &amp;amp;&amp;amp; npm ci &amp;amp;&amp;amp; npm run build&amp;#39;, staticPublishPath web/dist; viet lai ADR comment (hai frontend doc lap + rollback revert ve zalo-mini-app/www); backend service giu nguyen.
+- tests.yml: them job web (node 22.12, guard khi web/tests chua co, shared tests + boundary check); khong dong backend-foundation/miniapp-foundation (PR #35 dang mo).
+- qa-web-invariants: assertion render.yaml theo path moi (build/publish), giu VITE_API_BASE_URL sync:false.&lt;/pre&gt;
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/da83680200939c874a64f4ab4ee89b9f5ce8df96</id>
+    <link type="text/html" rel="alternate" href="https://github.com/huyhandsome6996/family-bridge/commit/da83680200939c874a64f4ab4ee89b9f5ce8df96"/>
+    <title>
+        feat(shared): tach headless client/session/endpoints/mock tu zalo-min…
+    </title>
+    <updated>2026-10-16T05:08:37Z</updated>
+    <media:thumbnail height="30" width="30" url="https://1.gravatar.com/avatar/8e2ebaac0de60dfa957d9eca3d0c993f?d=https%3A%2F%2Fgithub.githubassets.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png&amp;r=g&amp;s=30"/>
+    <author>
+      <name></name>
+      <email>agent-a@family-bridge.local</email>
+    </author>
+    <content type="html">
+      &lt;pre style=&#39;white-space:pre-wrap;width:81ex&#39;&gt;feat(shared): tach headless client/session/endpoints/mock tu zalo-mini-app
+
+- packages/family_bridge_shared: client.mjs + session.js + login-error + policy + fixtures + mock-adapter (di chuyen nguyen van), http-endpoints factory (67 method), contract ADAPTER_METHODS (69 ten), connection-check helpers, barrel + README purity, 34 tests node --test.
+- zalo-mini-app glue: zalo-adapter 1010 -&amp;gt; 224 dong (SDK token, assertZaloHost, loginWithZaloToken, trySilentLogin, logout), adapter.js re-export contract, shims giu path cu cho 8 file test (client/session/mock/login-error/policy), connection-check page import helper tu shared.
+- stitch-upgrade.test.mjs: chi doi path doc source (mock -&amp;gt; shared), assertion giu nguyen.
+- Xac minh: mini 279/279 pass (khong test nao bi xoa/yeu hoa), build + verify-build manifest PASS, shared 34/34.&lt;/pre&gt;
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/96deda1ffee190db339389428c38ca897c1481a9</id>
+    <link type="text/html" rel="alternate" href="https://github.com/huyhandsome6996/family-bridge/commit/96deda1ffee190db339389428c38ca897c1481a9"/>
+    <title>
+        Merge pull request #38: responsive web login for laptop and phone
+    </title>
+    <updated>2026-10-16T03:34:09Z</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars.githubusercontent.com/u/193539021?s=30&amp;v=4"/>
+    <author>
+      <name>huyhandsome6996</name>
+      <uri>https://github.com/huyhandsome6996</uri>
+    </author>
+    <content type="html">
+      &lt;pre style=&#39;white-space:pre-wrap;width:81ex&#39;&gt;Merge pull request #38: responsive web login for laptop and phone
+
+Make web login responsive for laptops, tablets and phones&lt;/pre&gt;
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/6e46d3a73e38a488387ba0e02f2312f78f38d539</id>
+    <link type="text/html" rel="alternate" href="https://github.com/huyhandsome6996/family-bridge/commit/6e46d3a73e38a488387ba0e02f2312f78f38d539"/>
+    <title>
+        fix(web): adapt login layout to laptop and phone viewports
+    </title>
+    <updated>2026-10-16T03:33:37Z</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars.githubusercontent.com/u/193539021?s=30&amp;v=4"/>
+    <author>
+      <name>huyhandsome6996</name>
+      <uri>https://github.com/huyhandsome6996</uri>
+    </author>
+    <content type="html">
+      &lt;pre style=&#39;white-space:pre-wrap;width:81ex&#39;&gt;fix(web): adapt login layout to laptop and phone viewports&lt;/pre&gt;
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/b9b659ca7f37d24752718c70f30d5c06f4ee4a65</id>
+    <link type="text/html" rel="alternate" href="https://github.com/huyhandsome6996/family-bridge/commit/b9b659ca7f37d24752718c70f30d5c06f4ee4a65"/>
+    <title>
+        Merge pull request #37: fix classroom session consumers and Render we…
+    </title>
+    <updated>2026-10-16T03:18:51Z</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars.githubusercontent.com/u/193539021?s=30&amp;v=4"/>
+    <author>
+      <name>huyhandsome6996</name>
+      <uri>https://github.com/huyhandsome6996</uri>
+    </author>
+    <content type="html">
+      &lt;pre style=&#39;white-space:pre-wrap;width:81ex&#39;&gt;Merge pull request #37: fix classroom session consumers and Render web release
+
+Fix classroom session integration and logout; enable verified Render web auto-deploy&lt;/pre&gt;
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/e3c30f1594183c82ee8cf41063e3a4670ae936a6</id>
+    <link type="text/html" rel="alternate" href="https://github.com/huyhandsome6996/family-bridge/commit/e3c30f1594183c82ee8cf41063e3a4670ae936a6"/>
+    <title>
+        fix(integration): resolve classroom sessions across feature APIs and …
+    </title>
+    <updated>2026-10-16T03:16:23Z</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars.githubusercontent.com/u/193539021?s=30&amp;v=4"/>
+    <author>
+      <name>huyhandsome6996</name>
+      <uri>https://github.com/huyhandsome6996</uri>
+    </author>
+    <content type="html">
+      &lt;pre style=&#39;white-space:pre-wrap;width:81ex&#39;&gt;fix(integration): resolve classroom sessions across feature APIs and complete logout navigation&lt;/pre&gt;
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/9b8cdbab2dd0bc5c4e22fe7ebd279764a6b45d55</id>
+    <link type="text/html" rel="alternate" href="https://github.com/huyhandsome6996/family-bridge/commit/9b8cdbab2dd0bc5c4e22fe7ebd279764a6b45d55"/>
+    <title>
+        chore(web): enable main auto-deploy after successful Render login ver…
+    </title>
+    <updated>2026-10-16T03:05:01Z</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars.githubusercontent.com/u/193539021?s=30&amp;v=4"/>
+    <author>
+      <name>huyhandsome6996</name>
+      <uri>https://github.com/huyhandsome6996</uri>
+    </author>
+    <content type="html">
+      &lt;pre style=&#39;white-space:pre-wrap;width:81ex&#39;&gt;chore(web): enable main auto-deploy after successful Render login verification&lt;/pre&gt;
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/41b17a37732f6cf958b36b1f4265c6aabed2d6a8</id>
+    <link type="text/html" rel="alternate" href="https://github.com/huyhandsome6996/family-bridge/commit/41b17a37732f6cf958b36b1f4265c6aabed2d6a8"/>
+    <title>
+        Merge pull request #36: Render web with Stitch UI and classroom API
+    </title>
+    <updated>2026-10-16T03:00:47Z</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars.githubusercontent.com/u/193539021?s=30&amp;v=4"/>
+    <author>
+      <name>huyhandsome6996</name>
+      <uri>https://github.com/huyhandsome6996</uri>
+    </author>
+    <content type="html">
+      &lt;pre style=&#39;white-space:pre-wrap;width:81ex&#39;&gt;Merge pull request #36: Render web with Stitch UI and classroom API
+
+Web Render + Stitch (Task 2): frontend web dựng từ Mini App, 10 màn Stitch + API thật, static service Render&lt;/pre&gt;
+    </content>
+  </entry>
+</feed>

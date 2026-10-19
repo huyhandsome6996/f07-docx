@@ -1,0 +1,12 @@
+Creating test database for alias 'default'...
+........................WARNING core.views Readiness check failed: OperationalError
+ERROR django.request Service Unavailable: /api/v1/ready/
+.ERROR django.request Service Unavailable: /api/v1/ready/
+.....................s..s..
+----------------------------------------------------------------------
+Ran 52 tests in 1.998s
+
+OK (skipped=2)
+Destroying test database for alias 'default'...
+Found 52 test(s).
+System check identified no issues (0 silenced).

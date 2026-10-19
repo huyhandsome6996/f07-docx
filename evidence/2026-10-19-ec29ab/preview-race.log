@@ -1,0 +1,20 @@
+[
+  {
+    "label": "web",
+    "editableDuringPreview": false,
+    "saved": "AUDIT_SAVED_BEFORE_PREVIEW_web",
+    "reviewed": "AUDIT_EDITED_DURING_PREVIEW_web",
+    "previewText": "AUDIT_SAVED_BEFORE_PREVIEW_web",
+    "delivered": "AUDIT_SAVED_BEFORE_PREVIEW_web",
+    "finalMatchesPreview": true
+  },
+  {
+    "label": "mini",
+    "editableDuringPreview": false,
+    "saved": "AUDIT_SAVED_BEFORE_PREVIEW_mini",
+    "reviewed": "AUDIT_EDITED_DURING_PREVIEW_mini",
+    "previewText": "AUDIT_SAVED_BEFORE_PREVIEW_mini",
+    "delivered": "AUDIT_SAVED_BEFORE_PREVIEW_mini",
+    "finalMatchesPreview": true
+  }
+]

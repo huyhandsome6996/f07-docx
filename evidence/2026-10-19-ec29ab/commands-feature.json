@@ -1,0 +1,20 @@
+[
+  {
+    "name": "feature-f04",
+    "command": [
+      "/workspace/f04-review-20261019-ec29ab/venv/bin/python",
+      "manage.py",
+      "test",
+      "harness",
+      "labgrants",
+      "family_bridge_features.f04_ai",
+      "family_bridge_features.f05_inbox",
+      "family_bridge_features.f06_drafts",
+      "family_bridge_features.f15_privacy",
+      "--noinput"
+    ],
+    "cwd": "/workspace/f04-review-20261019-ec29ab/source/tests/feature-lab",
+    "exit_code": 0,
+    "seconds": 95.41
+  }
+]

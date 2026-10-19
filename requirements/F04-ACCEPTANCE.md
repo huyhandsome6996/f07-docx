@@ -17,4 +17,4 @@ US-029 / US-033. Nhánh ứng dụng thực tế: `tinh-nang/f04-ai-ho-tro-dien-
 | Thiết kế | Mapping đủ 4 khung web, 24 khung Mini App; web bổ sung state thiếu; logo thật; không overflow/hidden sai, có kiểm keyboard/focus/large text/safe area |
 | Evidence | Gắn SHA/lệnh/expected/actual; tách SQLite/MySQL, fake/live Gemini, browser/device, local/Render; không gọi Done từ build/test cũ xanh |
 
-Sau e0ee388: năm ca lỗi gốc đã qua kiểm thử cơ bản; hai biến thể P1 mới trong báo cáo hiện hành còn mở. Không dùng checklist lịch sử để yêu cầu làm lại những phần đã sửa mà không đối chiếu.
+Sau ec29ab: N01/N02 và năm ca gốc đã qua kiểm thử cơ bản; N03/N04/N05/N06 trong báo cáo hiện hành còn mở. Không dùng checklist lịch sử để yêu cầu làm lại phần đã sửa mà không đối chiếu SHA.
