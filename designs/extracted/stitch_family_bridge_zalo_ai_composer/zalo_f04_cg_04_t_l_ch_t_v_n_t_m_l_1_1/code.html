@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+
+<html lang="vi"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_stack" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "surface-container-high": "#ffe2dc", "on-surface": "#360f07", "on-secondary": "#ffffff", "tertiary": "#6b4600", "surface-variant": "#ffdad3", "on-tertiary-fixed": "#291800", "on-background": "#360f07", "on-secondary-fixed": "#3d0600", "on-tertiary-container": "#ffdeb4", "on-tertiary": "#ffffff", "surface-container-lowest": "#ffffff", "secondary-fixed-dim": "#ffb4a3", "error": "#ba1a1a", "on-secondary-fixed-variant": "#812815", "primary-container": "#a84733", "secondary": "#a03f2a", "inverse-surface": "#502319", "on-primary": "#ffffff", "surface-container": "#ffe9e5", "on-primary-fixed-variant": "#802918", "tertiary-fixed-dim": "#f7bc65", "on-secondary-container": "#741f0c", "surface": "#fff8f6", "error-container": "#ffdad6", "surface-bright": "#fff8f6", "inverse-on-surface": "#ffede9", "surface-container-highest": "#ffdad3", "primary-fixed": "#ffdad3", "on-primary-container": "#ffdcd5", "surface-tint": "#9f402d", "outline": "#89726d", "surface-container-low": "#fff0ee", "tertiary-fixed": "#ffddb2", "inverse-primary": "#ffb4a4", "background": "#fff8f6", "on-primary-fixed": "#3e0500", "surface-dim": "#ffcfc5", "outline-variant": "#ddc0ba", "on-tertiary-fixed-variant": "#624000", "on-error-container": "#93000a", "tertiary-container": "#895c09", "secondary-container": "#ff866b", "on-error": "#ffffff", "primary-fixed-dim": "#ffb4a4", "on-surface-variant": "#56423e", "secondary-fixed": "#ffdad2", "primary": "#89301e" }, borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" }, spacing: { "space-lg": "1rem", "space-md": "0.75rem", "gutter": "1rem", "space-sm": "0.5rem", "space-xs": "0.25rem", "space-xl": "1.5rem", "margin": "1rem" }, fontFamily: { "headline-md": ["Be Vietnam Pro"], "body-sm": ["Be Vietnam Pro"], "body-lg": ["Be Vietnam Pro"], "label-md": ["Be Vietnam Pro"], "label-sm": ["Be Vietnam Pro"], "body-md": ["Be Vietnam Pro"], "headline-sm": ["Be Vietnam Pro"], "label-lg": ["Be Vietnam Pro"], "headline-lg": ["Be Vietnam Pro"] }, fontSize: { "headline-md": ["20px", { lineHeight: "28px", letterSpacing: "-0.01em", fontWeight: "600" }], "body-sm": ["13px", { lineHeight: "18px", letterSpacing: "0", fontWeight: "400" }], "body-lg": ["16px", { lineHeight: "24px", letterSpacing: "0", fontWeight: "400" }], "label-md": ["13px", { lineHeight: "18px", letterSpacing: "0.01em", fontWeight: "500" }], "label-sm": ["11px", { lineHeight: "14px", letterSpacing: "0.02em", fontWeight: "500" }], "body-md": ["15px", { lineHeight: "22px", letterSpacing: "0", fontWeight: "400" }], "headline-sm": ["17px", { lineHeight: "24px", letterSpacing: "0", fontWeight: "600" }], "label-lg": ["15px", { lineHeight: "20px", letterSpacing: "0.01em", fontWeight: "600" }], "headline-lg": ["24px", { lineHeight: "32px", letterSpacing: "-0.01em", fontWeight: "700" }] } } } }</script><style>@layer base { html, body { width: 100vw; margin: 0; padding: 0; min-height: 100vh; background-color: #fff8f6; } .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); } .pt-safe { padding-top: env(safe-area-inset-top, 0px); } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style></head><body class="bg-surface font-body-md text-on-surface antialiased flex flex-col min-h-screen selection:bg-surface-variant"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-14 px-margin flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-xs min-w-0 flex-1"><button aria-label="Quay lại" class="w-11 h-11 -ml-1.5 flex items-center justify-center rounded-full text-on-surface hover:bg-surface-container active:scale-95 transition-transform" onclick="history.back()" type="button"><span class="material-symbols-outlined text-[24px]">arrow_back</span></button><div class="flex flex-col min-w-0 pr-space-xs"><h1 class="font-headline-sm text-headline-sm text-on-surface truncate">Tư Vấn Tâm Lý 1 1</h1><div class="flex items-center gap-space-xs"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span><span class="font-label-sm text-label-sm text-primary font-medium tracking-wide uppercase truncate">Chế độ Người đồng hành</span></div></div></div><div class="flex items-center gap-space-xs shrink-0"><div class="flex items-center bg-surface-container-low px-space-xs py-1 rounded-full shadow-[0_1px_4px_rgba(113,61,50,0.04)]"><button aria-label="Tùy chọn Zalo" class="w-8 h-8 flex items-center justify-center rounded-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container active:scale-95 transition-all" type="button"><span class="material-symbols-outlined text-[20px]">more_horiz</span></button><div class="w-[1px] h-3.5 bg-outline-variant/60 mx-0.5"></div><button aria-label="Đóng Mini App" class="w-8 h-8 flex items-center justify-center rounded-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container active:scale-95 transition-all" type="button"><span class="material-symbols-outlined text-[18px]">close</span></button></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center ml-1 shadow-[0_1px_3px_rgba(113,61,50,0.12)]"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex flex-col relative w-full pt-14 pb-safe bg-surface min-h-screen"><div class="flex flex-col w-full pb-32">
+<!-- Privacy & Sanctuary Context Banner -->
+<div class="px-margin pt-space-md">
+<div class="bg-surface-container-low rounded-xl p-space-md shadow-sm relative overflow-hidden">
+<div class="flex items-start gap-space-sm relative z-10">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center shrink-0 text-primary">
+<span class="material-symbols-outlined text-[22px]">nest_protect</span>
+</div>
+<div class="flex flex-col flex-1 min-w-0">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-label-sm text-label-sm text-primary font-semibold tracking-wide uppercase">Không gian an toàn riêng tư</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Mẹ Nguyễn Thị Mai</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface mt-0.5">Đồng hành cùng Minh An (16 tuổi)</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+            Chủ đề ưu tiên: <span class="font-medium text-on-surface">Giải tỏa áp lực thi cử &amp; lắng nghe con tuổi dậy thì</span>
+</p>
+</div>
+</div>
+<!-- Trust Badges Strip -->
+<div class="mt-space-md pt-space-sm bg-surface/70 rounded-lg p-space-sm flex items-center gap-space-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-primary text-[18px] shrink-0">lock</span>
+<p class="font-body-sm text-[12px] leading-[16px] text-on-surface-variant">
+          Bảo mật tuyệt đối 1-1 • Cuộc gọi mã hóa • Tuyệt đối không chia sẻ dữ liệu với nhà trường.
+        </p>
+</div>
+</div>
+</div>
+<!-- Expert Selection Section -->
+<section class="mt-space-xl px-margin">
+<div class="flex items-center justify-between mb-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">psychology</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">1. Chọn Chuyên gia Tâm lý</h3>
+</div>
+<span class="font-label-sm text-label-sm text-primary font-medium">2 chuyên gia phù hợp</span>
+</div>
+<div class="flex flex-col gap-space-md">
+<!-- Expert 1: Selected / Recommended -->
+<div class="expert-card bg-surface-container-lowest rounded-xl p-space-md shadow-sm transition-all cursor-pointer relative overflow-hidden ring-2 ring-primary" id="expert-1" onclick="selectExpert(1)">
+<div class="absolute top-0 right-0 bg-primary px-space-sm py-0.5 rounded-bl-lg flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-on-primary text-[14px]">auto_awesome</span>
+<span class="font-label-sm text-[10px] text-on-primary font-semibold tracking-wider uppercase">Khuyên chọn</span>
+</div>
+<div class="flex items-start gap-space-md">
+<div class="relative shrink-0">
+<img class="w-16 h-16 rounded-full object-cover shadow-sm bg-surface-container" data-alt="A warm and gentle portrait of male educational psychologist Le Hoang Nam in his late 30s, wearing soft knitted earth-toned sweater and spectacles, sincere kind smile, warm indoor library backdrop with soft daylight, photography style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDw8q4PKA_20mPfDoxX2OV97mfxa0lpt50SFgNJlivRIKsiucrV74BvHqsrtB8RvipLwJepzcJsw_MhzxOwsdSQyTtU0YNJ32gX5Z_uAFzy8or7F-tPrJuIrcztcDOifSRtWwQ5xBHT4wxq0YBZ2ZcUDVa-eGSqxuPyFpcD9iQQxsJOWZGgV3MbgMW3H9JfMJrsVO61FYQZv1vLby8enkJ_gZHIr8gnWHpFt-bQNnkBq8ASgeWLy1bAlg"/>
+<div class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-secondary-container text-[12px]">verified</span>
+</div>
+</div>
+<div class="flex flex-col flex-1 min-w-0 pr-12">
+<h4 class="font-headline-sm text-[16px] text-on-surface font-semibold flex items-center gap-1">
+              ThS. Lê Hoàng Nam
+            </h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-1">
+              Viện Tâm lý Ứng dụng &amp; ĐH Sư phạm
+            </p>
+<div class="flex items-center gap-space-sm mt-1">
+<div class="flex items-center gap-0.5 text-tertiary">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm text-label-sm font-bold text-on-surface">4.9</span>
+</div>
+<span class="text-outline-variant font-label-sm">•</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">12 năm kinh nghiệm</span>
+<span class="text-outline-variant font-label-sm">•</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">340+ phụ huynh</span>
+</div>
+</div>
+</div>
+<!-- Expertise Tags -->
+<div class="flex flex-wrap gap-1.5 mt-space-md">
+<span class="font-label-sm text-label-sm px-2.5 py-1 rounded-full bg-surface-container text-on-surface-variant">Tâm lý tuổi dậy thì</span>
+<span class="font-label-sm text-label-sm px-2.5 py-1 rounded-full bg-surface-container text-on-surface-variant">Khủng hoảng thi cử</span>
+<span class="font-label-sm text-label-sm px-2.5 py-1 rounded-full bg-surface-container text-on-surface-variant">Giao tiếp cha mẹ - con</span>
+</div>
+<div class="mt-space-sm pt-space-xs flex items-center justify-between text-on-surface-variant">
+<div class="flex items-center gap-1.5 text-primary">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="font-label-sm text-label-sm font-medium">Có lịch trống hôm nay &amp; ngày mai</span>
+</div>
+<div class="expert-radio w-6 h-6 rounded-full bg-primary flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</div>
+</div>
+</div>
+<!-- Expert 2 -->
+<div class="expert-card bg-surface-container-lowest rounded-xl p-space-md shadow-sm transition-all cursor-pointer opacity-90" id="expert-2" onclick="selectExpert(2)">
+<div class="flex items-start gap-space-md">
+<div class="relative shrink-0">
+<img class="w-16 h-16 rounded-full object-cover shadow-sm bg-surface-container" data-alt="A dignified and compassionate Vietnamese female family therapist Dr. Vu Bich Ngoc in her 40s, calm reassuring eyes, neutral linen blouse, warm sunlit counseling room with indoor plants, soft natural photography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqqaXFbkvwDGPfCiSV5HzCh7DcARcnhJfL2yCCgCcoU08PFA8HbxL-tqyG3FC3oRNwYnGooewCIXsqmcVVHmXVq-_yM-AOkpVqwQjEUGbT1CmSX91qBBFNgGPsX7oWfwzV6YGH4vlgsQbVWsG1rEgX9fYrUWoIJ2sU5ttH58qdMXsmSRKCYa_ftBdQ8SmG9-jJeiO0OBN_aXIrYQUpqnFzBU8QTulDQaFCVQihr4liC0ozuvUvyExP4g"/>
+<div class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[12px]">verified</span>
+</div>
+</div>
+<div class="flex flex-col flex-1 min-w-0">
+<h4 class="font-headline-sm text-[16px] text-on-surface font-semibold">
+              TS. Vũ Bích Ngọc
+            </h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-1">
+              Chuyên gia Tham vấn Gia đình &amp; Trẻ vị thành niên
+            </p>
+<div class="flex items-center gap-space-sm mt-1">
+<div class="flex items-center gap-0.5 text-tertiary">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm text-label-sm font-bold text-on-surface">5.0</span>
+</div>
+<span class="text-outline-variant font-label-sm">•</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">15 năm kinh nghiệm</span>
+</div>
+</div>
+</div>
+<div class="flex flex-wrap gap-1.5 mt-space-md">
+<span class="font-label-sm text-label-sm px-2.5 py-1 rounded-full bg-surface-container-low text-on-surface-variant">Trầm cảm học đường</span>
+<span class="font-label-sm text-label-sm px-2.5 py-1 rounded-full bg-surface-container-low text-on-surface-variant">Hòa giải xung đột</span>
+</div>
+<div class="mt-space-sm pt-space-xs flex items-center justify-between text-on-surface-variant">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Có lịch trống từ Thứ Sáu (17/10)</span>
+<div class="expert-radio w-6 h-6 rounded-full bg-surface-container flex items-center justify-center text-transparent">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Consultation Format -->
+<section class="mt-space-xl px-margin">
+<div class="flex items-center gap-space-xs mb-space-sm">
+<span class="material-symbols-outlined text-primary text-[20px]">videocam</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">2. Hình thức tham vấn</h3>
+</div>
+<div class="grid grid-cols-1 gap-space-sm">
+<!-- Option 1: Video call (Selected) -->
+<div class="format-option bg-surface-container-high/60 rounded-xl p-space-md shadow-sm cursor-pointer flex items-center justify-between transition-all" onclick="selectFormat(this)">
+<div class="flex items-center gap-space-md">
+<div class="w-11 h-11 rounded-full bg-primary text-on-primary flex items-center justify-center shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-[22px]">video_chat</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">Gọi Video trực tuyến qua Zalo</span>
+<span class="px-2 py-0.5 rounded-full bg-primary-fixed text-primary font-label-sm text-[10px] font-bold">Khuyên dùng</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Thời lượng 60 phút • Tiện lợi &amp; kết nối cảm xúc trọn vẹn</p>
+</div>
+</div>
+<div class="format-check w-6 h-6 rounded-full bg-primary flex items-center justify-center text-on-primary shrink-0 ml-2">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</div>
+</div>
+<!-- Option 2: Voice call -->
+<div class="format-option bg-surface-container-lowest rounded-xl p-space-md shadow-sm cursor-pointer flex items-center justify-between transition-all" onclick="selectFormat(this)">
+<div class="flex items-center gap-space-md">
+<div class="w-11 h-11 rounded-full bg-surface-container text-on-surface-variant flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[22px]">phone_in_talk</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">Gọi thoại thoại bảo mật</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Thời lượng 45 phút • Phù hợp khi cần giấu biểu cảm</p>
+</div>
+</div>
+<div class="format-check w-6 h-6 rounded-full bg-surface-container flex items-center justify-center text-transparent shrink-0 ml-2">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</div>
+</div>
+<!-- Option 3: In-person -->
+<div class="format-option bg-surface-container-lowest rounded-xl p-space-md shadow-sm cursor-pointer flex items-center justify-between transition-all" onclick="selectFormat(this)">
+<div class="flex items-center gap-space-md">
+<div class="w-11 h-11 rounded-full bg-surface-container text-on-surface-variant flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[22px]">location_on</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">Gặp trực tiếp tại Văn phòng</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Phòng tham vấn chuyên biệt tại Hà Nội &amp; TP.HCM</p>
+</div>
+</div>
+<div class="format-check w-6 h-6 rounded-full bg-surface-container flex items-center justify-center text-transparent shrink-0 ml-2">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Date & Time Slot Selection -->
+<section class="mt-space-xl">
+<div class="px-margin flex items-center justify-between mb-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">calendar_month</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">3. Chọn ngày &amp; khung giờ</h3>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Múi giờ Việt Nam (GMT+7)</span>
+</div>
+<!-- Horizontal Date Selector -->
+<div class="flex gap-space-sm overflow-x-auto px-margin py-1 no-scrollbar">
+<!-- Day 1 -->
+<button class="date-chip flex flex-col items-center justify-center min-w-[76px] py-2.5 px-2 rounded-xl bg-surface-container-lowest text-on-surface-variant shadow-sm active:scale-95 transition-all" onclick="selectDate(this, 'Hôm nay, 15/10')" type="button">
+<span class="font-label-sm text-label-sm">Hôm nay</span>
+<span class="font-headline-sm text-[18px] font-bold text-on-surface mt-0.5">15</span>
+<span class="font-label-sm text-[11px]">Tháng 10</span>
+</button>
+<!-- Day 2 (Selected) -->
+<button class="date-chip flex flex-col items-center justify-center min-w-[76px] py-2.5 px-2 rounded-xl bg-primary text-on-primary shadow-sm active:scale-95 transition-all ring-2 ring-primary" onclick="selectDate(this, 'Ngày mai, 16/10')" type="button">
+<span class="font-label-sm text-label-sm font-medium">Ngày mai</span>
+<span class="font-headline-sm text-[18px] font-bold text-on-primary mt-0.5">16</span>
+<span class="font-label-sm text-[11px] opacity-90">Tháng 10</span>
+</button>
+<!-- Day 3 -->
+<button class="date-chip flex flex-col items-center justify-center min-w-[76px] py-2.5 px-2 rounded-xl bg-surface-container-lowest text-on-surface-variant shadow-sm active:scale-95 transition-all" onclick="selectDate(this, 'Thứ Sáu, 17/10')" type="button">
+<span class="font-label-sm text-label-sm">Thứ Sáu</span>
+<span class="font-headline-sm text-[18px] font-bold text-on-surface mt-0.5">17</span>
+<span class="font-label-sm text-[11px]">Tháng 10</span>
+</button>
+<!-- Day 4 -->
+<button class="date-chip flex flex-col items-center justify-center min-w-[76px] py-2.5 px-2 rounded-xl bg-surface-container-lowest text-on-surface-variant shadow-sm active:scale-95 transition-all" onclick="selectDate(this, 'Thứ Bảy, 18/10')" type="button">
+<span class="font-label-sm text-label-sm">Thứ Bảy</span>
+<span class="font-headline-sm text-[18px] font-bold text-on-surface mt-0.5">18</span>
+<span class="font-label-sm text-[11px]">Tháng 10</span>
+</button>
+<!-- Day 5 -->
+<button class="date-chip flex flex-col items-center justify-center min-w-[76px] py-2.5 px-2 rounded-xl bg-surface-container-lowest text-on-surface-variant shadow-sm active:scale-95 transition-all" onclick="selectDate(this, 'Chủ Nhật, 19/10')" type="button">
+<span class="font-label-sm text-label-sm">Chủ Nhật</span>
+<span class="font-headline-sm text-[18px] font-bold text-on-surface mt-0.5">19</span>
+<span class="font-label-sm text-[11px]">Tháng 10</span>
+</button>
+</div>
+<!-- Time Slots -->
+<div class="px-margin mt-space-md">
+<!-- Morning Slots -->
+<div class="mb-space-md">
+<div class="flex items-center gap-1.5 text-on-surface-variant mb-space-xs">
+<span class="material-symbols-outlined text-[16px]">wb_sunny</span>
+<span class="font-label-sm text-label-sm font-semibold uppercase">Buổi sáng</span>
+</div>
+<div class="grid grid-cols-2 gap-space-sm">
+<button class="time-slot h-11 px-3 rounded-lg bg-surface-container-lowest text-on-surface font-label-md text-label-md flex items-center justify-center shadow-sm active:scale-95 transition-all" onclick="selectTime(this, '09:00 - 10:00')" type="button">
+            09:00 - 10:00
+          </button>
+<button class="time-slot h-11 px-3 rounded-lg bg-surface-container-lowest text-on-surface font-label-md text-label-md flex items-center justify-center shadow-sm active:scale-95 transition-all" onclick="selectTime(this, '10:30 - 11:30')" type="button">
+            10:30 - 11:30
+          </button>
+</div>
+</div>
+<!-- Afternoon & Evening Slots -->
+<div>
+<div class="flex items-center gap-1.5 text-on-surface-variant mb-space-xs">
+<span class="material-symbols-outlined text-[16px]">nightlight</span>
+<span class="font-label-sm text-label-sm font-semibold uppercase">Buổi chiều &amp; tối (Yên tĩnh)</span>
+</div>
+<div class="grid grid-cols-3 gap-space-sm">
+<button class="time-slot h-11 px-2 rounded-lg bg-surface-container-lowest text-on-surface font-label-md text-label-md flex items-center justify-center shadow-sm active:scale-95 transition-all text-center" onclick="selectTime(this, '15:30 - 16:30')" type="button">
+            15:30 - 16:30
+          </button>
+<!-- Active Slot -->
+<button class="time-slot h-11 px-2 rounded-lg bg-primary text-on-primary font-label-md text-label-md flex items-center justify-center shadow-sm active:scale-95 transition-all text-center ring-2 ring-primary" onclick="selectTime(this, '19:30 - 20:30')" type="button">
+            19:30 - 20:30
+          </button>
+<button class="time-slot h-11 px-2 rounded-lg bg-surface-container-lowest text-on-surface font-label-md text-label-md flex items-center justify-center shadow-sm active:scale-95 transition-all text-center" onclick="selectTime(this, '21:00 - 22:00')" type="button">
+            21:00 - 22:00
+          </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Pre-session Notes for Expert -->
+<section class="mt-space-xl px-margin">
+<div class="flex items-center justify-between mb-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">edit_note</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">4. Điều mẹ trăn trở nhất</h3>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Không bắt buộc</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-sm">
+      Lời nhắn nhỏ này giúp chuyên gia thấu hiểu tình hình của Minh An trước khi cuộc trò chuyện bắt đầu.
+    </p>
+<!-- Quick Chips for Easy Selection -->
+<div class="flex gap-space-xs overflow-x-auto pb-space-xs mb-space-xs no-scrollbar">
+<button class="shrink-0 px-3 py-1.5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm active:scale-95 transition-all" onclick="insertPrompt(this)" type="button">
+        Con áp lực thi cử
+      </button>
+<button class="shrink-0 px-3 py-1.5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm active:scale-95 transition-all" onclick="insertPrompt(this)" type="button">
+        Khó bắt chuyện cùng con
+      </button>
+<button class="shrink-0 px-3 py-1.5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm active:scale-95 transition-all" onclick="insertPrompt(this)" type="button">
+        Con thu mình khép kín
+      </button>
+</div>
+<!-- Textarea Note Card -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm">
+<textarea class="w-full bg-transparent font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant/60 focus:outline-none resize-none" id="parent-note" placeholder="Ví dụ: Dạo này con hay im lặng trong bữa cơm, né tránh khi mẹ nhắc về kỳ thi. Mẹ rất muốn tâm sự nhưng sợ con thêm căng thẳng..." rows="3"></textarea>
+<div class="flex items-center justify-between pt-space-xs border-t border-outline-variant/20">
+<div class="flex items-center gap-1 text-on-surface-variant font-label-sm text-[11px]">
+<span class="material-symbols-outlined text-[14px]">lock_person</span>
+<span>Chỉ chuyên gia được đọc</span>
+</div>
+<span class="font-label-sm text-[11px] text-on-surface-variant" id="char-count">0/300</span>
+</div>
+</div>
+</section>
+<!-- Community / School Sponsorship Notice -->
+<section class="mt-space-lg px-margin">
+<div class="bg-surface-container rounded-xl p-space-md flex items-start gap-space-sm shadow-sm">
+<div class="w-9 h-9 rounded-full bg-surface-container-highest text-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">sentiment_satisfied</span>
+</div>
+<div class="flex flex-col flex-1">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">Chi phí tư vấn: Miễn phí 100%</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+          Buổi tham vấn đầu tiên được tài trợ hoàn toàn bởi quỹ <span class="font-medium text-on-surface">Family Bridge School Support</span> phối hợp cùng Hội Cha Mẹ Học Sinh.
+        </p>
+</div>
+</div>
+</section>
+<!-- Sticky Bottom CTA Dock -->
+<div class="fixed bottom-0 left-0 right-0 z-40 bg-surface/95 backdrop-blur-md px-margin py-space-md pb-safe shadow-[0_-4px_20px_rgba(54,15,7,0.06)] max-w-[480px] mx-auto">
+<div class="flex flex-col gap-1.5">
+<button class="w-full h-12 rounded-xl bg-primary active:bg-primary-container text-on-primary font-label-lg text-label-lg font-semibold flex items-center justify-center gap-space-xs shadow-md active:scale-[0.99] transition-all" id="submit-btn" onclick="confirmBooking()" type="button">
+<span class="material-symbols-outlined text-[20px]">calendar_today</span>
+<span id="cta-label">Xác nhận đặt lịch tư vấn (19:30, Ngày mai)</span>
+</button>
+<div class="flex items-center justify-center gap-1 text-on-surface-variant text-center">
+<span class="material-symbols-outlined text-[14px]">history</span>
+<p class="font-label-sm text-[11px]">
+          Phụ huynh có thể đổi lịch hoặc hoàn hủy tự do trước 2 giờ
+        </p>
+</div>
+</div>
+</div>
+<!-- Toast Confirmation Feedback (hidden by default) -->
+<div class="fixed top-16 left-4 right-4 z-50 bg-inverse-surface text-inverse-on-surface p-space-md rounded-xl shadow-xl transform -translate-y-24 opacity-0 transition-all duration-300 flex items-center gap-space-sm max-w-[448px] mx-auto pointer-events-none" id="booking-toast">
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary shrink-0">
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+</div>
+<div class="flex flex-col flex-1">
+<p class="font-label-lg text-label-lg font-semibold">Đã lên lịch tư vấn thành công</p>
+<p class="font-body-sm text-body-sm text-inverse-on-surface/80">Chuyên gia Lê Hoàng Nam sẽ gửi lời chào trước qua Zalo.</p>
+</div>
+</div>
+</div>
+<script>
+  let selectedDateStr = 'Ngày mai, 16/10';
+  let selectedTimeStr = '19:30 - 20:30';
+
+  function updateCTAText() {
+    const timeShort = selectedTimeStr.split(' - ')[0];
+    const dateLabel = selectedDateStr.includes('Hôm nay') ? 'Hôm nay' :
+                      selectedDateStr.includes('Ngày mai') ? 'Ngày mai' : selectedDateStr.split(', ')[1];
+    const btnText = document.getElementById('cta-label');
+    if (btnText) {
+      btnText.textContent = `Xác nhận đặt lịch tư vấn (${timeShort}, ${dateLabel})`;
+    }
+  }
+
+  function selectExpert(id) {
+    const card1 = document.getElementById('expert-1');
+    const card2 = document.getElementById('expert-2');
+
+    if (id === 1) {
+      card1.classList.add('ring-2', 'ring-primary', 'opacity-100');
+      card1.classList.remove('opacity-90');
+      card1.querySelector('.expert-radio').className = 'expert-radio w-6 h-6 rounded-full bg-primary flex items-center justify-center text-on-primary';
+
+      card2.classList.remove('ring-2', 'ring-primary');
+      card2.classList.add('opacity-90');
+      card2.querySelector('.expert-radio').className = 'expert-radio w-6 h-6 rounded-full bg-surface-container flex items-center justify-center text-transparent';
+    } else {
+      card2.classList.add('ring-2', 'ring-primary', 'opacity-100');
+      card2.classList.remove('opacity-90');
+      card2.querySelector('.expert-radio').className = 'expert-radio w-6 h-6 rounded-full bg-primary flex items-center justify-center text-on-primary';
+
+      card1.classList.remove('ring-2', 'ring-primary');
+      card1.classList.add('opacity-90');
+      card1.querySelector('.expert-radio').className = 'expert-radio w-6 h-6 rounded-full bg-surface-container flex items-center justify-center text-transparent';
+    }
+  }
+
+  function selectFormat(elem) {
+    document.querySelectorAll('.format-option').forEach(opt => {
+      opt.classList.remove('bg-surface-container-high/60');
+      opt.classList.add('bg-surface-container-lowest');
+      const iconWrap = opt.querySelector('.w-11');
+      iconWrap.className = 'w-11 h-11 rounded-full bg-surface-container text-on-surface-variant flex items-center justify-center shrink-0';
+      const checkWrap = opt.querySelector('.format-check');
+      checkWrap.className = 'format-check w-6 h-6 rounded-full bg-surface-container flex items-center justify-center text-transparent shrink-0 ml-2';
+    });
+
+    elem.classList.remove('bg-surface-container-lowest');
+    elem.classList.add('bg-surface-container-high/60');
+    const iconWrap = elem.querySelector('.w-11');
+    iconWrap.className = 'w-11 h-11 rounded-full bg-primary text-on-primary flex items-center justify-center shrink-0 shadow-sm';
+    const checkWrap = elem.querySelector('.format-check');
+    checkWrap.className = 'format-check w-6 h-6 rounded-full bg-primary flex items-center justify-center text-on-primary shrink-0 ml-2';
+  }
+
+  function selectDate(elem, dateLabel) {
+    document.querySelectorAll('.date-chip').forEach(btn => {
+      btn.className = 'date-chip flex flex-col items-center justify-center min-w-[76px] py-2.5 px-2 rounded-xl bg-surface-container-lowest text-on-surface-variant shadow-sm active:scale-95 transition-all';
+      btn.querySelectorAll('span')[1].className = 'font-headline-sm text-[18px] font-bold text-on-surface mt-0.5';
+    });
+
+    elem.className = 'date-chip flex flex-col items-center justify-center min-w-[76px] py-2.5 px-2 rounded-xl bg-primary text-on-primary shadow-sm active:scale-95 transition-all ring-2 ring-primary';
+    elem.querySelectorAll('span')[1].className = 'font-headline-sm text-[18px] font-bold text-on-primary mt-0.5';
+
+    selectedDateStr = dateLabel;
+    updateCTAText();
+  }
+
+  function selectTime(elem, timeLabel) {
+    document.querySelectorAll('.time-slot').forEach(btn => {
+      btn.className = 'time-slot h-11 px-2 rounded-lg bg-surface-container-lowest text-on-surface font-label-md text-label-md flex items-center justify-center shadow-sm active:scale-95 transition-all text-center';
+    });
+
+    elem.className = 'time-slot h-11 px-2 rounded-lg bg-primary text-on-primary font-label-md text-label-md flex items-center justify-center shadow-sm active:scale-95 transition-all text-center ring-2 ring-primary';
+
+    selectedTimeStr = timeLabel;
+    updateCTAText();
+  }
+
+  function insertPrompt(btn) {
+    const textarea = document.getElementById('parent-note');
+    const promptText = btn.textContent.trim();
+    if (!textarea.value.includes(promptText)) {
+      textarea.value = textarea.value ? `${textarea.value}. ${promptText}` : promptText;
+      updateCharCount();
+    }
+  }
+
+  const noteInput = document.getElementById('parent-note');
+  const countLabel = document.getElementById('char-count');
+  function updateCharCount() {
+    if (noteInput && countLabel) {
+      countLabel.textContent = `${noteInput.value.length}/300`;
+    }
+  }
+  if (noteInput) {
+    noteInput.addEventListener('input', updateCharCount);
+  }
+
+  function confirmBooking() {
+    const toast = document.getElementById('booking-toast');
+    if (toast) {
+      toast.classList.remove('-translate-y-24', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+      setTimeout(() => {
+        toast.classList.add('-translate-y-24', 'opacity-0');
+        toast.classList.remove('translate-y-0', 'opacity-100');
+      }, 4000);
+    }
+  }
+</script></main></body></html>

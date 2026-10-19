@@ -1,0 +1,14 @@
+{
+  "ok": true,
+  "dry_run": false,
+  "accounts_rows": 10,
+  "accounts_created": 10,
+  "accounts_existing": 0,
+  "accounts_drifted": 0,
+  "accounts_to_create": 0,
+  "proposals_rows": 5,
+  "proposals_created": 5,
+  "proposals_skipped_existing": 0,
+  "proposals_to_create": 0,
+  "errors": []
+}
