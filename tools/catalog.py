@@ -26,7 +26,7 @@ def main():
     if mode == "build":
         (ROOT / "catalog").mkdir(exist_ok=True)
         with (ROOT / "catalog/CONTENTS.csv").open("w", newline="", encoding="utf-8") as f:
-            writer = csv.writer(f)
+            writer = csv.writer(f, lineterminator="\n")
             writer.writerow(["path", "bytes", "sha256"])
             writer.writerows(rows)
         (ROOT / "catalog/SHA256SUMS").write_text(
