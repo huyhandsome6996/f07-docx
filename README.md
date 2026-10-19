@@ -46,6 +46,4 @@ Không chạy script từ ZIP chỉ vì nó xuất hiện trong tài liệu. Kh�
 
 ## Trạng thái GitHub
 
-**LOCAL_READY — ENVIRONMENT_GIT_AUTH_BLOCKED.** Nhánh `F04-docx` đã được chuẩn bị local, chưa xác nhận xuất bản GitHub. Đường Git HTTPS trả 401 với credential được người dùng chủ động cung cấp và cả request không gắn credential; đối chứng repo công khai `git/git` cũng 401. Chưa đủ bằng chứng kết luận PAT mới sai. API GitHub bị proxy từ chối CONNECT 403.
-
-Xem [trạng thái và hướng dẫn xuất bản](reports/PUBLISH-STATUS.md). Các báo cáo lịch sử giữ nguyên bối cảnh lần chạy cũ, không phải trạng thái xác thực hiện tại. `main` F07 chỉ được đọc, không có thao tác ghi.
+**Đã xuất bản (19/10/2026):** nhánh `F04-docx` (viết hoa, tên hiện hành) đã push thành công lên `huyhandsome6996/f07-docx` từ bundle trong môi trường có Git hoạt động; remote SHA xác minh khớp local HEAD bằng `git ls-remote`; `main` (F07) không bị đụng. Báo cáo sửa N01+N02 mới nhất: [reports/2026-10-19-ec29abb.md](reports/2026-10-19-ec29abb.md). Chi tiết provenance: [reports/PUBLISH-STATUS.md](reports/PUBLISH-STATUS.md).

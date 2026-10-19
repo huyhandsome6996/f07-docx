@@ -1,6 +1,13 @@
 # Trạng thái xuất bản F04-docx — 19/10/2026
 
-**LOCAL_READY — ENVIRONMENT_GIT_AUTH_BLOCKED. Chưa xác nhận tạo/push nhánh trên GitHub.**
+## ĐÃ XUẤT BẢN THÀNH CÔNG (cập nhật phiên làm việc sau)
+
+- Nhánh **F04-docx (F viết hoa) đã tồn tại trên GitHub** `huyhandsome6996/f07-docx`, push từ bundle bằng PAT hoạt động trong môi trường phiên này (môi trường trước gặp 401/403 toàn đường Git — xác nhận là vấn đề đường xác thực môi trường, không phải PAT).
+- Xác minh bằng `git ls-remote`: remote `F04-docx` = `767be5c32f0d12d4914eeacffb9ca956eb3107f3` = local HEAD (bundle nguyên bản). Commit cập nhật sau đó (báo cáo sửa N01+N02 + catalog): xem `git rev-parse HEAD` sau khi fetch.
+- `main` @ `a4a4b0982db5ae5cd48892d0e8ebf85ba407fdd2` không bị đụng (không push/merge/reset/đổi default). Không force-push.
+- Ghi chú: nhánh chữ thường `f04-docx` @ `e3a8f8b` từ lần bàn giao trước vẫn tồn tại trên remote; quyết định hiện hành dùng `F04-docx` (viết hoa). Việc dọn nhánh cũ thuộc quyền chủ repo.
+
+## Lịch sử: lần chuẩn bị trước (giữ để rõ provenance)
 
 ## Tên và ranh giới
 
