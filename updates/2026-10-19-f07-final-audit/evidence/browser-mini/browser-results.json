@@ -1,0 +1,59 @@
+{
+  "method": "Chromium + real local API; text scaling uses explicit CSS font/line-height doubling",
+  "results": [
+    {
+      "id": "R01-sheet-removed-on-navigation",
+      "expected": 0,
+      "observed": 0,
+      "pass": true
+    },
+    {
+      "id": "R01-sheet-removed-after-session-clear",
+      "expected": 0,
+      "observed": 0,
+      "pass": true
+    },
+    {
+      "id": "R01-old-preview-cleared",
+      "expected": false,
+      "observed": false,
+      "pass": true
+    },
+    {
+      "id": "layout-320-normal-horizontal-overflow",
+      "expected": false,
+      "observed": false,
+      "pass": true
+    },
+    {
+      "id": "layout-320-css-text-200-horizontal-overflow",
+      "expected": false,
+      "observed": false,
+      "pass": true
+    },
+    {
+      "id": "layout-390-normal-horizontal-overflow",
+      "expected": false,
+      "observed": false,
+      "pass": true
+    },
+    {
+      "id": "layout-390-css-text-200-horizontal-overflow",
+      "expected": false,
+      "observed": false,
+      "pass": true
+    },
+    {
+      "id": "layout-430-normal-horizontal-overflow",
+      "expected": false,
+      "observed": false,
+      "pass": true
+    },
+    {
+      "id": "layout-430-css-text-200-horizontal-overflow",
+      "expected": false,
+      "observed": false,
+      "pass": true
+    }
+  ]
+}

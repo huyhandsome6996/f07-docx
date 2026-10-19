@@ -1,0 +1,35 @@
+{
+  "results": [
+    {
+      "path": "/api/v1/health/",
+      "status": 200,
+      "expected": 200,
+      "cache_control": "no-store",
+      "pass": true
+    },
+    {
+      "path": "/api/v1/ready/",
+      "status": 200,
+      "expected": 200,
+      "cache_control": "no-store",
+      "pass": true
+    },
+    {
+      "path": "/api/v1/connections",
+      "status": 401,
+      "expected": 401,
+      "cache_control": "no-store",
+      "pass": true
+    },
+    {
+      "cors_port": 3019,
+      "status": 200,
+      "pass": true
+    },
+    {
+      "cors_port": 5179,
+      "status": 200,
+      "pass": true
+    }
+  ]
+}

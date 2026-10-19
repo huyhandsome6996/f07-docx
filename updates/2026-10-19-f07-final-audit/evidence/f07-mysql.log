@@ -1,0 +1,118 @@
+Creating test database for alias 'default' ('test_feature_lab')...
+Found 53 test(s).
+Operations to perform:
+  Synchronize unmigrated apps: f10_signal, f13_help, rest_framework, staticfiles
+  Apply all migrations: admin_core, auth, contenttypes, f01_identity, f02_program, f03_cards, f04_ai, f05_inbox, f06_drafts, f07_mood, f08_journal, f09_activities, f11_supporters, f12_appointments, f14_surveys, f15_privacy, f16_classroom, harness, labgrants, labusers
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0001_initial... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying labusers.0001_initial... OK
+  Applying admin_core.0001_initial... OK
+  Applying f01_identity.0001_initial... OK
+  Applying f01_identity.0003_connection_admin_provenance... OK
+  Applying f02_program.0001_initial... OK
+  Applying f03_cards.0001_initial... OK
+  Applying f04_ai.0001_initial... OK
+  Applying f05_inbox.0001_initial... OK
+  Applying f06_drafts.0001_initial... OK
+  Applying f07_mood.0001_initial... OK
+  Applying f08_journal.0001_initial... OK
+  Applying f09_activities.0001_initial... OK
+  Applying f11_supporters.0001_initial... OK
+  Applying f12_appointments.0001_initial... OK
+  Applying f14_surveys.0001_initial... OK
+  Applying f15_privacy.0001_initial... OK
+  Applying f16_classroom.0001_initial... OK
+  Applying f16_classroom.0002_admin_pairs_f16... OK
+  Applying harness.0001_initial... OK
+  Applying labgrants.0001_initial...System check identified some issues:
+
+WARNINGS:
+admin_core.AdminCapabilityGrant: (models.W036) MySQL does not support unique constraints with conditions.
+	HINT: A constraint won't be created. Silence this warning if you don't care about it.
+f01_identity.Connection: (models.W036) MySQL does not support unique constraints with conditions.
+	HINT: A constraint won't be created. Silence this warning if you don't care about it.
+f09_activities.SharedActivityInvite: (models.W036) MySQL does not support unique constraints with conditions.
+	HINT: A constraint won't be created. Silence this warning if you don't care about it.
+f11_supporters.SupporterRole: (models.W036) MySQL does not support unique constraints with conditions.
+	HINT: A constraint won't be created. Silence this warning if you don't care about it.
+
+System check identified 4 issues (0 silenced).
+test_create_and_get_own (family_bridge_features.f07_mood.tests.test_f07.EntryCrudTests.test_create_and_get_own) ... ok
+test_cross_user_and_admin_denied (family_bridge_features.f07_mood.tests.test_f07.EntryCrudTests.test_cross_user_and_admin_denied) ... ok
+test_date_boundary_policy (family_bridge_features.f07_mood.tests.test_f07.EntryCrudTests.test_date_boundary_policy) ... ok
+test_edit_bumps_revision (family_bridge_features.f07_mood.tests.test_f07.EntryCrudTests.test_edit_bumps_revision) ... ok
+test_emotion_allowlist (family_bridge_features.f07_mood.tests.test_f07.EntryCrudTests.test_emotion_allowlist) ... ok
+test_note_unicode_and_bounds (family_bridge_features.f07_mood.tests.test_f07.EntryCrudTests.test_note_unicode_and_bounds) ... ok
+test_one_entry_per_day_duplicate_rejected (family_bridge_features.f07_mood.tests.test_f07.EntryCrudTests.test_one_entry_per_day_duplicate_rejected) ... ok
+test_pagination_bounded_query_count (family_bridge_features.f07_mood.tests.test_f07.EntryCrudTests.test_pagination_bounded_query_count) ... ok
+test_edited_revision_hides_until_reshared (family_bridge_features.f07_mood.tests.test_f07.ShareTests.test_edited_revision_hides_until_reshared) ... ok
+test_recipient_reads_only_granted_entry (family_bridge_features.f07_mood.tests.test_f07.ShareTests.test_recipient_reads_only_granted_entry) ... ok
+test_revoke_is_immediate_and_scoped (family_bridge_features.f07_mood.tests.test_f07.ShareTests.test_revoke_is_immediate_and_scoped) ... ok
+test_share_one_entry_grant_created (family_bridge_features.f07_mood.tests.test_f07.ShareTests.test_share_one_entry_grant_created) ... ok
+test_share_requires_active_connection (family_bridge_features.f07_mood.tests.test_f07.ShareTests.test_share_requires_active_connection) ... ok
+test_share_to_self_rejected (family_bridge_features.f07_mood.tests.test_f07.ShareTests.test_share_to_self_rejected) ... ok
+test_stranger_cannot_revoke_or_read (family_bridge_features.f07_mood.tests.test_f07.ShareTests.test_stranger_cannot_revoke_or_read) ... ok
+test_unlink_fails_closed_for_recipient (family_bridge_features.f07_mood.tests.test_f07.ShareTests.test_unlink_fails_closed_for_recipient) ... ok
+test_summary_descriptive_counts_only (family_bridge_features.f07_mood.tests.test_f07.SummaryTests.test_summary_descriptive_counts_only) ... ok
+test_summary_owner_only_and_bounded (family_bridge_features.f07_mood.tests.test_f07.SummaryTests.test_summary_owner_only_and_bounded) ... ok
+test_unauthenticated_401 (family_bridge_features.f07_mood.tests.test_f07.SummaryTests.test_unauthenticated_401) ... ok
+test_admin_provisioned_pair_share_and_read (family_bridge_features.f07_mood.tests.test_f07_integration.ProductionWiringTests.test_admin_provisioned_pair_share_and_read)
+F07-11: admin-provisioned active pair (invite NULL) shares like ... ok
+test_f15_provider_can_view_true_only_when_current (family_bridge_features.f07_mood.tests.test_f07_integration.ProductionWiringTests.test_f15_provider_can_view_true_only_when_current) ... ok
+test_f15_provider_revoke_blocks_f07_read (family_bridge_features.f07_mood.tests.test_f07_integration.ProductionWiringTests.test_f15_provider_revoke_blocks_f07_read)
+F07-21: revoking from the F15 machinery must cut the F07 read ... ok
+test_mood_deletion_hook_truthful_and_idempotent (family_bridge_features.f07_mood.tests.test_f07_integration.ProductionWiringTests.test_mood_deletion_hook_truthful_and_idempotent) ... ok
+test_real_reader_list_and_summary_owner_scoped (family_bridge_features.f07_mood.tests.test_f07_integration.ProductionWiringTests.test_real_reader_list_and_summary_owner_scoped)
+F07-09 (harness integration layer): with the REAL reader wired, ... ok
+test_wiring_registers_real_ports (family_bridge_features.f07_mood.tests.test_f07_integration.ProductionWiringTests.test_wiring_registers_real_ports) ... ok
+test_full_cycle (family_bridge_features.f07_mood.tests.test_f07_integration.ReshareUnlinkReconnectIntegration.test_full_cycle) ... ok
+test_non_owner_entry_shares_404 (family_bridge_features.f07_mood.tests.test_f07_regressions.Finding1SharesEndpointWorks.test_non_owner_entry_shares_404) ... ok
+test_owner_lists_entry_shares_200 (family_bridge_features.f07_mood.tests.test_f07_regressions.Finding1SharesEndpointWorks.test_owner_lists_entry_shares_200) ... ok
+test_missing_reader_denies_read (family_bridge_features.f07_mood.tests.test_f07_regressions.Finding2ReadSharedFailsClosedWithoutReader.test_missing_reader_denies_read) ... ok
+test_reconnect_new_generation_blocks_old_grant (family_bridge_features.f07_mood.tests.test_f07_regressions.Finding3GrantBoundToCurrentConnectionGeneration.test_reconnect_new_generation_blocks_old_grant) ... ok
+test_same_generation_connection_still_readable (family_bridge_features.f07_mood.tests.test_f07_regressions.Finding3GrantBoundToCurrentConnectionGeneration.test_same_generation_connection_still_readable) ... ok
+test_reshare_after_reconnect_binds_new_connection (family_bridge_features.f07_mood.tests.test_f07_regressions.Finding4ReshareSemantics.test_reshare_after_reconnect_binds_new_connection) ... ok
+test_reshare_after_revoke_reactivates_grant (family_bridge_features.f07_mood.tests.test_f07_regressions.Finding4ReshareSemantics.test_reshare_after_revoke_reactivates_grant) ... ok
+test_revoked_grant_never_auto_revives_on_reconnect (family_bridge_features.f07_mood.tests.test_f07_regressions.Finding4ReshareSemantics.test_revoked_grant_never_auto_revives_on_reconnect) ... ok
+test_shared_list_hides_metadata_after_unlink (family_bridge_features.f07_mood.tests.test_f07_regressions.Finding5SharedListBoundedAndFresh.test_shared_list_hides_metadata_after_unlink) ... ok
+test_shared_list_pagination (family_bridge_features.f07_mood.tests.test_f07_regressions.Finding5SharedListBoundedAndFresh.test_shared_list_pagination) ... ok
+test_share_expected_revision_must_be_positive_int (family_bridge_features.f07_mood.tests.test_f07_regressions.Finding6StalePreviewBlocked.test_share_expected_revision_must_be_positive_int) ... ok
+test_share_with_stale_expected_revision_rejected (family_bridge_features.f07_mood.tests.test_f07_regressions.Finding6StalePreviewBlocked.test_share_with_stale_expected_revision_rejected) ... ok
+test_integrity_error_becomes_business_conflict (family_bridge_features.f07_mood.tests.test_f07_regressions.Finding8CreateRaceBusinessError.test_integrity_error_becomes_business_conflict) ... ok
+test_sequential_duplicate_still_business_error (family_bridge_features.f07_mood.tests.test_f07_regressions.Finding8CreateRaceBusinessError.test_sequential_duplicate_still_business_error) ... ok
+test_pagination_covers_both_owners (family_bridge_features.f07_mood.tests.test_f07_regressions.ReviewFixR03MultiOwnerListing.test_pagination_covers_both_owners) ... ok
+test_two_owners_same_recipient_both_listed (family_bridge_features.f07_mood.tests.test_f07_regressions.ReviewFixR03MultiOwnerListing.test_two_owners_same_recipient_both_listed) ... ok
+test_unlink_one_owner_keeps_other_grant_listed (family_bridge_features.f07_mood.tests.test_f07_regressions.ReviewFixR03MultiOwnerListing.test_unlink_one_owner_keeps_other_grant_listed) ... ok
+test_compact_form_is_rejected (family_bridge_features.f07_mood.tests.test_f07_regressions.ReviewFixR05FullStringDateValidation.test_compact_form_is_rejected) ... ok
+test_long_garbage_string_is_rejected (family_bridge_features.f07_mood.tests.test_f07_regressions.ReviewFixR05FullStringDateValidation.test_long_garbage_string_is_rejected) ... ok
+test_nonexistent_calendar_date_is_rejected (family_bridge_features.f07_mood.tests.test_f07_regressions.ReviewFixR05FullStringDateValidation.test_nonexistent_calendar_date_is_rejected) ... ok
+test_suffix_is_rejected (family_bridge_features.f07_mood.tests.test_f07_regressions.ReviewFixR05FullStringDateValidation.test_suffix_is_rejected) ... ok
+test_timestamp_is_rejected (family_bridge_features.f07_mood.tests.test_f07_regressions.ReviewFixR05FullStringDateValidation.test_timestamp_is_rejected) ... ok
+test_valid_exact_date_still_accepted (family_bridge_features.f07_mood.tests.test_f07_regressions.ReviewFixR05FullStringDateValidation.test_valid_exact_date_still_accepted) ... ok
+test_two_threads_same_day_single_row (family_bridge_features.f07_mood.tests.test_race_mysql.ConcurrentCreateOnePerDayTests.test_two_threads_same_day_single_row) ... ok
+test_concurrent_edits_serialize_and_revision_stays_monotonic (family_bridge_features.f07_mood.tests.test_race_mysql.ConcurrentEditRevisionTests.test_concurrent_edits_serialize_and_revision_stays_monotonic) ... ok
+test_interleaved_edit_share_never_reads_unapproved (family_bridge_features.f07_mood.tests.test_race_mysql.ConcurrentEditRevisionTests.test_interleaved_edit_share_never_reads_unapproved) ... ok
+test_double_share_single_active_grant (family_bridge_features.f07_mood.tests.test_race_mysql.ConcurrentShareRaceTests.test_double_share_single_active_grant) ... ok
+
+----------------------------------------------------------------------
+Ran 53 tests in 104.353s
+
+OK
+Destroying test database for alias 'default' ('test_feature_lab')...
+ OK

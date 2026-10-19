@@ -1,0 +1,858 @@
+{
+  "scope": "Cross-client UI E2E X01–X09 trên backend thật, tài khoản synthetic",
+  "results": [
+    {
+      "name": "X00 hs-login-mini",
+      "pass": true,
+      "observed": 200
+    },
+    {
+      "name": "X00 hs-login-web",
+      "pass": true,
+      "observed": 200
+    },
+    {
+      "name": "X00 ph-login-web",
+      "pass": true,
+      "observed": 200
+    },
+    {
+      "name": "X00 ph-login-mini",
+      "pass": true,
+      "observed": 200
+    },
+    {
+      "name": "X01 mini-write-web-read",
+      "pass": true,
+      "observed": {
+        "miniRev": 2,
+        "webRev": 2
+      }
+    },
+    {
+      "name": "X02 web-edit-mini-reads-current",
+      "pass": true,
+      "observed": {
+        "webRev": 3,
+        "miniRev": 3
+      }
+    },
+    {
+      "name": "X03 mini-share-web-reads",
+      "pass": true,
+      "observed": {
+        "sharedRev": 3,
+        "phRev": 3
+      }
+    },
+    {
+      "name": "X04 web-share-mini-reads",
+      "pass": true,
+      "observed": {
+        "sharedRev": 4,
+        "phRev": 4
+      }
+    },
+    {
+      "name": "X05-stale-grant-hidden-on-web",
+      "pass": true,
+      "observed": {
+        "staleRev": 4,
+        "blocked": true
+      }
+    },
+    {
+      "name": "X06a-reshare-readable-on-mini",
+      "pass": true,
+      "observed": {
+        "sharedRev": 5,
+        "phRev": 5
+      }
+    },
+    {
+      "name": "X06a-web-revoke-blocks-mini",
+      "pass": true,
+      "observed": {
+        "revokedRev": 5,
+        "blocked": true
+      }
+    },
+    {
+      "name": "X06b-reshare-readable-on-web",
+      "pass": true,
+      "observed": {
+        "sharedRev": 5,
+        "phRev": 5
+      }
+    },
+    {
+      "name": "X06b-mini-revoke-blocks-web",
+      "pass": true,
+      "observed": {
+        "revokedRev": 5,
+        "blocked": true
+      }
+    },
+    {
+      "name": "X07-unlink-ui",
+      "pass": true,
+      "observed": "NOT_RUN (F07_E2E_WITH_UNLINK!=1) — phủ bởi regression backend Finding3/Finding4 + f07_local_e2e F15 bước 20-21"
+    },
+    {
+      "name": "X08-prelogout-readable",
+      "pass": true,
+      "observed": {
+        "sharedRev": 5
+      }
+    },
+    {
+      "name": "X08-web-logout-no-private-dom",
+      "pass": true,
+      "observed": {
+        "onLogin": true
+      }
+    },
+    {
+      "name": "X08-mini-logout-no-private-dom",
+      "pass": true,
+      "observed": {
+        "onLogin": true
+      }
+    },
+    {
+      "name": "X09-stranger-login",
+      "pass": true,
+      "observed": 200
+    },
+    {
+      "name": "X09-stranger-shared-empty",
+      "pass": true,
+      "observed": {
+        "empty": true
+      }
+    },
+    {
+      "name": "X09-stranger-mood-private",
+      "pass": true,
+      "observed": {
+        "private": true
+      }
+    }
+  ],
+  "requests": [
+    {
+      "tag": "HS-mini",
+      "method": "GET",
+      "path": "/api/v1/auth/class-capabilities",
+      "status": 200
+    },
+    {
+      "tag": "HS-mini",
+      "method": "POST",
+      "path": "/api/v1/auth/class-session",
+      "status": 200
+    },
+    {
+      "tag": "HS-mini",
+      "method": "GET",
+      "path": "/api/v1/consents",
+      "status": 200
+    },
+    {
+      "tag": "HS-mini",
+      "method": "GET",
+      "path": "/api/v1/consents",
+      "status": 200
+    },
+    {
+      "tag": "HS-web",
+      "method": "GET",
+      "path": "/api/v1/auth/class-capabilities",
+      "status": 200
+    },
+    {
+      "tag": "HS-web",
+      "method": "POST",
+      "path": "/api/v1/auth/class-session",
+      "status": 200
+    },
+    {
+      "tag": "HS-web",
+      "method": "GET",
+      "path": "/api/v1/consents",
+      "status": 200
+    },
+    {
+      "tag": "HS-web",
+      "method": "GET",
+      "path": "/api/v1/consents",
+      "status": 200
+    },
+    {
+      "tag": "PH-web",
+      "method": "GET",
+      "path": "/api/v1/auth/class-capabilities",
+      "status": 200
+    },
+    {
+      "tag": "PH-web",
+      "method": "POST",
+      "path": "/api/v1/auth/class-session",
+      "status": 200
+    },
+    {
+      "tag": "PH-web",
+      "method": "GET",
+      "path": "/api/v1/consents",
+      "status": 200
+    },
+    {
+      "tag": "PH-web",
+      "method": "GET",
+      "path": "/api/v1/consents",
+      "status": 200
+    },
+    {
+      "tag": "PH-mini",
+      "method": "GET",
+      "path": "/api/v1/auth/class-capabilities",
+      "status": 200
+    },
+    {
+      "tag": "PH-mini",
+      "method": "POST",
+      "path": "/api/v1/auth/class-session",
+      "status": 200
+    },
+    {
+      "tag": "PH-mini",
+      "method": "GET",
+      "path": "/api/v1/consents",
+      "status": 200
+    },
+    {
+      "tag": "PH-mini",
+      "method": "GET",
+      "path": "/api/v1/consents",
+      "status": 200
+    },
+    {
+      "tag": "HS-mini",
+      "method": "GET",
+      "path": "/api/v1/mood/entries/summary",
+      "status": 200
+    },
+    {
+      "tag": "HS-mini",
+      "method": "GET",
+      "path": "/api/v1/mood/entries",
+      "status": 200
+    },
+    {
+      "tag": "HS-mini",
+      "method": "GET",
+      "path": "/api/v1/mood/entries",
+      "status": 200
+    },
+    {
+      "tag": "HS-mini",
+      "method": "GET",
+      "path": "/api/v1/messages",
+      "status": 200
+    },
+    {
+      "tag": "HS-mini",
+      "method": "GET",
+      "path": "/api/v1/mood/entries/summary",
+      "status": 200
+    },
+    {
+      "tag": "HS-mini",
+      "method": "PATCH",
+      "path": "/api/v1/mood/entries/<id>",
+      "status": 200
+    },
+    {
+      "tag": "HS-mini",
+      "method": "GET",
+      "path": "/api/v1/mood/entries",
+      "status": 200
+    },
+    {
+      "tag": "HS-mini",
+      "method": "GET",
+      "path": "/api/v1/mood/entries/summary",
+      "status": 200
+    },
+    {
+      "tag": "HS-web",
+      "method": "GET",
+      "path": "/api/v1/mood/entries/summary",
+      "status": 200
+    },
+    {
+      "tag": "HS-web",
+      "method": "GET",
+      "path": "/api/v1/mood/entries",
+      "status": 200
+    },
+    {
+      "tag": "HS-web",
+      "method": "GET",
+      "path": "/api/v1/mood/entries",
+      "status": 200
+    },
+    {
+      "tag": "HS-web",
+      "method": "GET",
+      "path": "/api/v1/messages",
+      "status": 200
+    },
+    {
+      "tag": "HS-web",
+      "method": "GET",
+      "path": "/api/v1/mood/entries/summary",
+      "status": 200
+    },
+    {
+      "tag": "HS-web",
+      "method": "PATCH",
+      "path": "/api/v1/mood/entries/<id>",
+      "status": 200
+    },
+    {
+      "tag": "HS-web",
+      "method": "GET",
+      "path": "/api/v1/mood/entries",
+      "status": 200
+    },
+    {
+      "tag": "HS-web",
+      "method": "GET",
+      "path": "/api/v1/mood/entries/summary",
+      "status": 200
+    },
+    {
+      "tag": "HS-mini",
+      "method": "GET",
+      "path": "/api/v1/mood/entries/summary",
+      "status": 200
+    },
+    {
+      "tag": "HS-mini",
+      "method": "GET",
+      "path": "/api/v1/mood/entries",
+      "status": 200
+    },
+    {
+      "tag": "HS-mini",
+      "method": "GET",
+      "path": "/api/v1/mood/entries",
+      "status": 200
+    },
+    {
+      "tag": "HS-mini",
+      "method": "GET",
+      "path": "/api/v1/messages",
+      "status": 200
+    },
+    {
+      "tag": "HS-mini",
+      "method": "GET",
+      "path": "/api/v1/mood/entries/summary",
+      "status": 200
+    },
+    {
+      "tag": "HS-mini",
+      "method": "GET",
+      "path": "/api/v1/connections",
+      "status": 200
+    },
+    {
+      "tag": "HS-mini",
+      "method": "GET",
+      "path": "/api/v1/mood/entries/<id>/shares",
+      "status": 200
+    },
+    {
+      "tag": "HS-mini",
+      "method": "POST",
+      "path": "/api/v1/mood/entries/<id>/share",
+      "status": 201
+    },
+    {
+      "tag": "PH-web",
+      "method": "GET",
+      "path": "/api/v1/mood/shared",
+      "status": 200
+    },
+    {
+      "tag": "PH-web",
+      "method": "GET",
+      "path": "/api/v1/messages",
+      "status": 200
+    },
+    {
+      "tag": "PH-web",
+      "method": "GET",
+      "path": "/api/v1/mood/shared/<id>",
+      "status": 200
+    },
+    {
+      "tag": "HS-web",
+      "method": "PATCH",
+      "path": "/api/v1/mood/entries/<id>",
+      "status": 200
+    },
+    {
+      "tag": "HS-web",
+      "method": "GET",
+      "path": "/api/v1/mood/entries",
+      "status": 200
+    },
+    {
+      "tag": "HS-web",
+      "method": "GET",
+      "path": "/api/v1/mood/entries/summary",
+      "status": 200
+    },
+    {
+      "tag": "HS-web",
+      "method": "GET",
+      "path": "/api/v1/connections",
+      "status": 200
+    },
+    {
+      "tag": "HS-web",
+      "method": "GET",
+      "path": "/api/v1/mood/entries/<id>/shares",
+      "status": 200
+    },
+    {
+      "tag": "HS-web",
+      "method": "POST",
+      "path": "/api/v1/mood/entries/<id>/share",
+      "status": 201
+    },
+    {
+      "tag": "PH-mini",
+      "method": "GET",
+      "path": "/api/v1/mood/shared",
+      "status": 200
+    },
+    {
+      "tag": "PH-mini",
+      "method": "GET",
+      "path": "/api/v1/messages",
+      "status": 200
+    },
+    {
+      "tag": "PH-mini",
+      "method": "GET",
+      "path": "/api/v1/mood/shared/<id>",
+      "status": 200
+    },
+    {
+      "tag": "HS-mini",
+      "method": "PATCH",
+      "path": "/api/v1/mood/entries/<id>",
+      "status": 200
+    },
+    {
+      "tag": "HS-mini",
+      "method": "GET",
+      "path": "/api/v1/mood/entries",
+      "status": 200
+    },
+    {
+      "tag": "HS-mini",
+      "method": "GET",
+      "path": "/api/v1/mood/entries/summary",
+      "status": 200
+    },
+    {
+      "tag": "PH-web",
+      "method": "GET",
+      "path": "/api/v1/mood/shared",
+      "status": 200
+    },
+    {
+      "tag": "PH-web",
+      "method": "GET",
+      "path": "/api/v1/messages",
+      "status": 200
+    },
+    {
+      "tag": "HS-web",
+      "method": "GET",
+      "path": "/api/v1/mood/entries",
+      "status": 200
+    },
+    {
+      "tag": "HS-web",
+      "method": "GET",
+      "path": "/api/v1/mood/entries/summary",
+      "status": 200
+    },
+    {
+      "tag": "HS-web",
+      "method": "GET",
+      "path": "/api/v1/messages",
+      "status": 200
+    },
+    {
+      "tag": "HS-web",
+      "method": "GET",
+      "path": "/api/v1/mood/entries/summary",
+      "status": 200
+    },
+    {
+      "tag": "HS-web",
+      "method": "GET",
+      "path": "/api/v1/mood/entries",
+      "status": 200
+    },
+    {
+      "tag": "HS-web",
+      "method": "GET",
+      "path": "/api/v1/connections",
+      "status": 200
+    },
+    {
+      "tag": "HS-web",
+      "method": "GET",
+      "path": "/api/v1/mood/entries/<id>/shares",
+      "status": 200
+    },
+    {
+      "tag": "HS-web",
+      "method": "POST",
+      "path": "/api/v1/mood/entries/<id>/share",
+      "status": 201
+    },
+    {
+      "tag": "PH-mini",
+      "method": "GET",
+      "path": "/api/v1/messages",
+      "status": 200
+    },
+    {
+      "tag": "PH-mini",
+      "method": "GET",
+      "path": "/api/v1/mood/shared",
+      "status": 200
+    },
+    {
+      "tag": "PH-mini",
+      "method": "GET",
+      "path": "/api/v1/mood/shared/<id>",
+      "status": 200
+    },
+    {
+      "tag": "HS-web",
+      "method": "GET",
+      "path": "/api/v1/mood/entries/<id>/shares",
+      "status": 200
+    },
+    {
+      "tag": "HS-web",
+      "method": "GET",
+      "path": "/api/v1/connections",
+      "status": 200
+    },
+    {
+      "tag": "HS-web",
+      "method": "POST",
+      "path": "/api/v1/mood/shares/<id>/revoke",
+      "status": 200
+    },
+    {
+      "tag": "HS-web",
+      "method": "GET",
+      "path": "/api/v1/mood/entries/<id>/shares",
+      "status": 200
+    },
+    {
+      "tag": "PH-mini",
+      "method": "GET",
+      "path": "/api/v1/messages",
+      "status": 200
+    },
+    {
+      "tag": "PH-mini",
+      "method": "GET",
+      "path": "/api/v1/mood/shared",
+      "status": 200
+    },
+    {
+      "tag": "HS-mini",
+      "method": "GET",
+      "path": "/api/v1/mood/entries",
+      "status": 200
+    },
+    {
+      "tag": "HS-mini",
+      "method": "GET",
+      "path": "/api/v1/mood/entries/summary",
+      "status": 200
+    },
+    {
+      "tag": "HS-mini",
+      "method": "GET",
+      "path": "/api/v1/messages",
+      "status": 200
+    },
+    {
+      "tag": "HS-mini",
+      "method": "GET",
+      "path": "/api/v1/mood/entries",
+      "status": 200
+    },
+    {
+      "tag": "HS-mini",
+      "method": "GET",
+      "path": "/api/v1/mood/entries/summary",
+      "status": 200
+    },
+    {
+      "tag": "HS-mini",
+      "method": "GET",
+      "path": "/api/v1/mood/entries/<id>/shares",
+      "status": 200
+    },
+    {
+      "tag": "HS-mini",
+      "method": "GET",
+      "path": "/api/v1/connections",
+      "status": 200
+    },
+    {
+      "tag": "HS-mini",
+      "method": "POST",
+      "path": "/api/v1/mood/entries/<id>/share",
+      "status": 201
+    },
+    {
+      "tag": "PH-web",
+      "method": "GET",
+      "path": "/api/v1/messages",
+      "status": 200
+    },
+    {
+      "tag": "PH-web",
+      "method": "GET",
+      "path": "/api/v1/mood/shared",
+      "status": 200
+    },
+    {
+      "tag": "PH-web",
+      "method": "GET",
+      "path": "/api/v1/mood/shared/<id>",
+      "status": 200
+    },
+    {
+      "tag": "HS-mini",
+      "method": "GET",
+      "path": "/api/v1/connections",
+      "status": 200
+    },
+    {
+      "tag": "HS-mini",
+      "method": "GET",
+      "path": "/api/v1/mood/entries/<id>/shares",
+      "status": 200
+    },
+    {
+      "tag": "HS-mini",
+      "method": "POST",
+      "path": "/api/v1/mood/shares/<id>/revoke",
+      "status": 200
+    },
+    {
+      "tag": "HS-mini",
+      "method": "GET",
+      "path": "/api/v1/mood/entries/<id>/shares",
+      "status": 200
+    },
+    {
+      "tag": "PH-web",
+      "method": "GET",
+      "path": "/api/v1/messages",
+      "status": 200
+    },
+    {
+      "tag": "PH-web",
+      "method": "GET",
+      "path": "/api/v1/mood/shared",
+      "status": 200
+    },
+    {
+      "tag": "PH-web",
+      "method": "GET",
+      "path": "/api/v1/mood/shared",
+      "status": 200
+    },
+    {
+      "tag": "PH-web",
+      "method": "GET",
+      "path": "/api/v1/messages",
+      "status": 200
+    },
+    {
+      "tag": "HS-mini",
+      "method": "GET",
+      "path": "/api/v1/mood/entries",
+      "status": 200
+    },
+    {
+      "tag": "HS-mini",
+      "method": "GET",
+      "path": "/api/v1/mood/entries/summary",
+      "status": 200
+    },
+    {
+      "tag": "HS-mini",
+      "method": "GET",
+      "path": "/api/v1/mood/entries",
+      "status": 200
+    },
+    {
+      "tag": "HS-mini",
+      "method": "GET",
+      "path": "/api/v1/messages",
+      "status": 200
+    },
+    {
+      "tag": "HS-mini",
+      "method": "GET",
+      "path": "/api/v1/mood/entries/summary",
+      "status": 200
+    },
+    {
+      "tag": "HS-mini",
+      "method": "GET",
+      "path": "/api/v1/mood/entries/<id>/shares",
+      "status": 200
+    },
+    {
+      "tag": "HS-mini",
+      "method": "GET",
+      "path": "/api/v1/connections",
+      "status": 200
+    },
+    {
+      "tag": "HS-mini",
+      "method": "POST",
+      "path": "/api/v1/mood/entries/<id>/share",
+      "status": 201
+    },
+    {
+      "tag": "PH-web",
+      "method": "GET",
+      "path": "/api/v1/messages",
+      "status": 200
+    },
+    {
+      "tag": "PH-web",
+      "method": "GET",
+      "path": "/api/v1/mood/shared",
+      "status": 200
+    },
+    {
+      "tag": "PH-web",
+      "method": "GET",
+      "path": "/api/v1/mood/shared/<id>",
+      "status": 200
+    },
+    {
+      "tag": "PH-web",
+      "method": "POST",
+      "path": "/api/v1/auth/logout",
+      "status": 200
+    },
+    {
+      "tag": "PH-web",
+      "method": "GET",
+      "path": "/api/v1/auth/class-capabilities",
+      "status": 200
+    },
+    {
+      "tag": "PH-mini",
+      "method": "POST",
+      "path": "/api/v1/auth/logout",
+      "status": 200
+    },
+    {
+      "tag": "PH-mini",
+      "method": "GET",
+      "path": "/api/v1/auth/class-capabilities",
+      "status": 200
+    },
+    {
+      "tag": "stranger-web",
+      "method": "GET",
+      "path": "/api/v1/auth/class-capabilities",
+      "status": 200
+    },
+    {
+      "tag": "stranger-web",
+      "method": "POST",
+      "path": "/api/v1/auth/class-session",
+      "status": 200
+    },
+    {
+      "tag": "stranger-web",
+      "method": "GET",
+      "path": "/api/v1/consents",
+      "status": 200
+    },
+    {
+      "tag": "stranger-web",
+      "method": "GET",
+      "path": "/api/v1/consents",
+      "status": 200
+    },
+    {
+      "tag": "stranger-web",
+      "method": "GET",
+      "path": "/api/v1/mood/shared",
+      "status": 200
+    },
+    {
+      "tag": "stranger-web",
+      "method": "GET",
+      "path": "/api/v1/messages",
+      "status": 200
+    },
+    {
+      "tag": "stranger-web",
+      "method": "GET",
+      "path": "/api/v1/mood/entries/summary",
+      "status": 200
+    },
+    {
+      "tag": "stranger-web",
+      "method": "GET",
+      "path": "/api/v1/messages",
+      "status": 200
+    },
+    {
+      "tag": "stranger-web",
+      "method": "GET",
+      "path": "/api/v1/mood/entries",
+      "status": 200
+    },
+    {
+      "tag": "stranger-web",
+      "method": "GET",
+      "path": "/api/v1/mood/entries/summary",
+      "status": 200
+    },
+    {
+      "tag": "stranger-web",
+      "method": "GET",
+      "path": "/api/v1/mood/entries",
+      "status": 200
+    }
+  ]
+}

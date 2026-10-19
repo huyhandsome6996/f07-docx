@@ -1,0 +1,17 @@
+import {mkdir,writeFile} from 'node:fs/promises';
+const {chromium}=await import(process.env.PLAYWRIGHT_MODULE||'playwright');
+const out=process.env.F07_STALE_OUTPUT||'/tmp/f07-stale-preview';await mkdir(out,{recursive:true});
+const origins={mini:process.env.F07_MINI_BASE||'http://127.0.0.1:3019',web:process.env.F07_WEB_BASE||'http://127.0.0.1:5179'};
+for(const value of Object.values(origins))if(!['127.0.0.1','localhost'].includes(new URL(value).hostname))throw Error('Local fixtures only');
+const browser=await chromium.launch({executablePath:process.env.CHROMIUM_PATH||'/usr/bin/chromium',headless:true,args:['--no-sandbox']});const results=[];
+try {
+ const pages={};for(const [client,url] of Object.entries(origins)){const page=await browser.newPage({viewport:{width:390,height:844}});pages[client]=page;await page.goto(url+'/#/login');await page.locator('#fb-cred-code').fill('HSPAR19');await page.locator('#fb-cred-password').fill(process.env.F07_SYNTHETIC_PASSWORD||'E2e-local-2026!');await page.getByRole('button',{name:'Đăng nhập vào không gian'}).click();await page.waitForURL(u=>!u.hash.startsWith('#/login'));}
+ async function mood(page){await page.evaluate(()=>location.hash='/profile');await page.locator('[data-page=profile]').waitFor();await page.evaluate(()=>location.hash='/mood');await page.locator('[data-page=mood] .fb-mood[data-emotion=vui]').waitFor();await page.waitForTimeout(400);}
+ for(const [previewClient,editClient] of [['mini','web'],['web','mini']]) {
+  const pre=pages[previewClient], edit=pages[editClient];await mood(pre);await pre.getByRole('button',{name:'Chia sẻ mục này',exact:true}).first().click();const sheet=pre.locator('.fb-sheet');await sheet.locator('#mood-share-recipient option').first().waitFor({state:'attached'});const before=await sheet.innerText();const rev=Number((before.match(/Phiên bản:\s*(\d+)/)||[])[1]);
+  await mood(edit);const root=edit.locator('[data-page=mood]');await root.getByRole('button',{name:'Sửa mục này',exact:true}).first().click();await root.locator('.fb-textarea').fill('Synthetic stale preview '+Date.now());const patch=edit.waitForResponse(r=>r.request().method()==='PATCH'&&new URL(r.url()).pathname.startsWith('/api/v1/mood/entries/'));await root.getByRole('button',{name:/^Lưu/}).first().click();const saved=(await patch).status();
+  const shared=pre.waitForResponse(r=>r.request().method()==='POST'&&new URL(r.url()).pathname.endsWith('/share'));await sheet.getByRole('button',{name:'Xác nhận chia sẻ',exact:true}).click();const response=await shared;const data=await response.json();await pre.waitForTimeout(300);const feedback=await sheet.innerText();
+  const outsideFeedback=(await pre.locator('[data-page=mood]').innerText()).includes('Mục này vừa đổi');
+  const result={previewClient,editClient,previewRevision:rev,editStatus:saved,shareStatus:response.status(),errorCode:data.error?.code,backendProtectionPass:saved===200&&response.status()===409&&data.error?.code==='preview_stale',feedbackOutsideDialog:outsideFeedback,feedbackStale:feedback.includes('Mục này vừa đổi'),previewStillOpen:await sheet.count()===1,pass:saved===200&&response.status()===409&&feedback.includes('Mục này vừa đổi')};results.push(result);console.log(JSON.stringify(result));await pre.screenshot({path:`${out}/${previewClient}.png`,fullPage:true});await pre.keyboard.press('Escape');
+ }
+}finally {await writeFile(out+'/results.json',JSON.stringify({results},null,2)+'\n');await browser.close();}process.exitCode=results.some(r=>!r.pass)?1:0;

@@ -1,0 +1,20 @@
+PASS X00 hs-login-mini: 200
+PASS X00 hs-login-web: 200
+PASS X00 ph-login-web: 200
+PASS X00 ph-login-mini: 200
+PASS X01 mini-write-web-read: {"miniRev":2,"webRev":2}
+PASS X02 web-edit-mini-reads-current: {"webRev":3,"miniRev":3}
+PASS X03 mini-share-web-reads: {"sharedRev":3,"phRev":3}
+PASS X04 web-share-mini-reads: {"sharedRev":4,"phRev":4}
+PASS X05-stale-grant-hidden-on-web: {"staleRev":4,"blocked":true}
+PASS X06a-reshare-readable-on-mini: {"sharedRev":5,"phRev":5}
+PASS X06a-web-revoke-blocks-mini: {"revokedRev":5,"blocked":true}
+PASS X06b-reshare-readable-on-web: {"sharedRev":5,"phRev":5}
+PASS X06b-mini-revoke-blocks-web: {"revokedRev":5,"blocked":true}
+PASS X07-unlink-ui: "NOT_RUN (F07_E2E_WITH_UNLINK!=1) — phủ bởi regression backend Finding3/Finding4 + f07_local_e2e F15 bước 20-21"
+PASS X08-prelogout-readable: {"sharedRev":5}
+PASS X08-web-logout-no-private-dom: {"onLogin":true}
+PASS X08-mini-logout-no-private-dom: {"onLogin":true}
+PASS X09-stranger-login: 200
+PASS X09-stranger-shared-empty: {"empty":true}
+PASS X09-stranger-mood-private: {"private":true}

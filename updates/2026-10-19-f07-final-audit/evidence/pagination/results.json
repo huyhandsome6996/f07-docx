@@ -1,0 +1,38 @@
+{
+  "results": [
+    {
+      "client": "mini",
+      "apiRows": 1,
+      "apiNext": null,
+      "initialRows": 1,
+      "button": {
+        "hiddenAttribute": true,
+        "display": "flex",
+        "visible": true
+      },
+      "clickedRequests": [
+        "/api/v1/mood/entries?page_size=20",
+        "/api/v1/mood/entries?page_size=20"
+      ],
+      "finalRows": 3,
+      "pass": false
+    },
+    {
+      "client": "web",
+      "apiRows": 1,
+      "apiNext": null,
+      "initialRows": 1,
+      "button": {
+        "hiddenAttribute": true,
+        "display": "flex",
+        "visible": true
+      },
+      "clickedRequests": [
+        "/api/v1/mood/entries?page_size=20",
+        "/api/v1/mood/entries?page_size=20"
+      ],
+      "finalRows": 3,
+      "pass": false
+    }
+  ]
+}

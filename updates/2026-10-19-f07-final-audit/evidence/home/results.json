@@ -1,0 +1,16 @@
+{
+  "results": [
+    {
+      "code": "HSPAR19",
+      "duplicateStatus": 400,
+      "editLinkWorks": true,
+      "pass": true
+    },
+    {
+      "code": "HSR08W19",
+      "duplicateStatus": 400,
+      "editLinkWorks": true,
+      "pass": true
+    }
+  ]
+}

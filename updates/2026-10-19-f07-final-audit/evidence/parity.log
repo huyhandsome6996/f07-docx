@@ -1,0 +1,12 @@
+PASS mini-real-login: 200
+PASS mini-shared-adapter-real-api: {"allEightMethods":true,"listed":1,"detailRead":true}
+PASS mini-route-mood: ["mood"]
+PASS mini-route-mood-shared: ["mood-shared"]
+PASS mini-profile-f07-navigation: {"owner":1,"recipient":1}
+PASS web-real-login: 200
+PASS web-shared-adapter-real-api: {"allEightMethods":true,"listed":1,"detailRead":true}
+PASS web-route-mood: ["mood"]
+PASS web-route-mood-shared: ["mood-shared"]
+PASS web-profile-f07-navigation: {"owner":1,"recipient":1}
+INFO no legacy quick-mood card; validate the full F07 flow separately
+INFO web-home-edit-placeholder false

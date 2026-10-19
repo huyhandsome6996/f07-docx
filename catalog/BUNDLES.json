@@ -140,6 +140,19 @@
       "role": "review_update",
       "contents_file": "catalog/PARITY-CONTENTS.csv",
       "application_commit": "bb75b2cee314bd5dfea3fff7928664dc68d3e2dd"
+    },
+    {
+      "id": "12",
+      "title": "F07 audit 2ffd674 — kết quả, R08–R10 và prompt",
+      "purpose": "Đọc đầu tiên: R01–R07 kiểm lại; R08–R10 còn mở trên cả hai client; evidence/repro/gate/prompt.",
+      "archive": "bundles/12-final-audit/12-f07-final-audit-2026-10-19.zip",
+      "sha256": "cb28e2cf3e1098bd10946ab606f77c245bb72e4729180335f40b863efbf4d9bc",
+      "archive_bytes": 6049044,
+      "file_count": 109,
+      "uncompressed_bytes": 6712182,
+      "role": "review_update",
+      "contents_file": "catalog/AUDIT-CONTENTS.csv",
+      "application_commit": "2ffd674243c5063f95123010498bc9cc60cf441e"
     }
   ]
 }

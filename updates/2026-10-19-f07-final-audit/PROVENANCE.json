@@ -1,0 +1,136 @@
+{
+  "checked_at_utc": "2026-10-19T09:44:21.344976+00:00",
+  "user_date": "2026-10-19",
+  "user_timezone": "Asia/Bangkok",
+  "application_commit": "2ffd674243c5063f95123010498bc9cc60cf441e",
+  "application_branch": "tinh-nang/f07-tam-trang-va-chia-se-us015-us026",
+  "pull_request": "https://github.com/huyhandsome6996/family-bridge/pull/42",
+  "remote_refs": [
+    "2ffd674243c5063f95123010498bc9cc60cf441e\trefs/heads/tinh-nang/f07-tam-trang-va-chia-se-us015-us026",
+    "2ffd674243c5063f95123010498bc9cc60cf441e\trefs/pull/42/head"
+  ],
+  "reviewer_changed_application_tracked_source": false,
+  "documentation_base_commit": "a4a4b0982db5ae5cd48892d0e8ebf85ba407fdd2",
+  "source_reference_scope": "25 files changed from bb75b2c to 2ffd674; partial reference only, do not copy into application",
+  "source_reference_files": [
+    {
+      "path": "docs/features/f07/report.md",
+      "sha256": "26634f88733f0bb7f7babb78dc6fe7d34c47d802467501aaa32198aa1b1fbb7a"
+    },
+    {
+      "path": "docs/handover/f07-mood-sharing/HUY-TEST-F07.md",
+      "sha256": "180128fb40e8874dbafa2fa4dca5c9b5e3bc774c3faaa0788a0a981d3184d06a"
+    },
+    {
+      "path": "docs/handover/f07-mood-sharing/next-agent.md",
+      "sha256": "fa3b4e7e7450c3da9b4e143717c9d64756ebfefcba3ec86be5bc83e3ad939c17"
+    },
+    {
+      "path": "docs/handover/f07-mood-sharing/verification-report.md",
+      "sha256": "f13ebafeccf448cf0b33a73ad067e666842447465f0f09c032d02fc6686e7435"
+    },
+    {
+      "path": "docs/handover/web-miniapp-separation/route-feature-parity.md",
+      "sha256": "12f7fdbeb9d8756e45358d4afcab3c5e9aea64ab462b02108472d2648b69a098"
+    },
+    {
+      "path": "packages/family_bridge_features/f07_mood/services/mood.py",
+      "sha256": "93f682ed95aca071afaa78ce76541ad35fa5e7b3d0b8555145e252718c8ff077"
+    },
+    {
+      "path": "packages/family_bridge_features/f07_mood/tests/test_f07_regressions.py",
+      "sha256": "7da885fc0e56489d600e2b12383fd7af3cbff33fe375c2af3242b68950b0e2e1"
+    },
+    {
+      "path": "packages/family_bridge_features/f07_mood/tests/test_race_mysql.py",
+      "sha256": "1d43b98c1f03bd9ebac5a408afbf6c80fd3bbfd8adff825d6dbf56aa6e56171e"
+    },
+    {
+      "path": "scripts/f07_cross_client_e2e.mjs",
+      "sha256": "00d1ba0f1d845388e9afcfff0ca2b5fd80a3904a99a2314a36f0b13fce8057d8"
+    },
+    {
+      "path": "web/src/app/router.js",
+      "sha256": "5617e4bb95bc897ce169f9f7997b87878d77fada15701ff78635d2ad12716324"
+    },
+    {
+      "path": "web/src/components/index.js",
+      "sha256": "ba02ef56a7f6db801e3ff4ba485fb908add0e5a8ac1f3792d06a0acc65e4ca82"
+    },
+    {
+      "path": "web/src/components/textarea.js",
+      "sha256": "7a970efebfc516f0b467258d19bc09451d5565a204b6a0a2e39880dfad576948"
+    },
+    {
+      "path": "web/src/pages/home/index.js",
+      "sha256": "02d4f7c96c625bafaed52254369a9f1631d54b36f9fee473375c67cbab59f5d9"
+    },
+    {
+      "path": "web/src/pages/mood-shared/index.js",
+      "sha256": "78406f2c368b507ce4336363f7308e8f89bbc37dc49555ecda14bc35ba59277e"
+    },
+    {
+      "path": "web/src/pages/mood/index.js",
+      "sha256": "91d1e5ab632f9a09e678bf558b1f409e3f82e958c97fc3958ea9844a9981b74e"
+    },
+    {
+      "path": "web/src/pages/profile/index.js",
+      "sha256": "35b1d404b9e799c6a5758b116f59bc34a2fa22e89fc3fe145788112f8682f06b"
+    },
+    {
+      "path": "web/src/styles/components.css",
+      "sha256": "b38aa86e641d360e0b39d75512f5e5a915f934a8a25fc10bdeb84b14fb4bddb1"
+    },
+    {
+      "path": "web/tests/f07-mood.test.mjs",
+      "sha256": "95fb3584b9595a14e13734a096ccc21c1a212300afcf0bddb5c5444dd7cf6eb0"
+    },
+    {
+      "path": "web/tests/f07-r06-reflow.test.mjs",
+      "sha256": "64599fce8e0fba43cf7ce008162028c9488f6368835729c368277a719ed7dc0d"
+    },
+    {
+      "path": "web/tests/router.test.mjs",
+      "sha256": "45cbc821b5548b61e2e5fd983a976b66a4e9449253d365e4332d0183a074946e"
+    },
+    {
+      "path": "zalo-mini-app/src/pages/mood-shared/index.js",
+      "sha256": "78406f2c368b507ce4336363f7308e8f89bbc37dc49555ecda14bc35ba59277e"
+    },
+    {
+      "path": "zalo-mini-app/src/pages/mood/index.js",
+      "sha256": "91d1e5ab632f9a09e678bf558b1f409e3f82e958c97fc3958ea9844a9981b74e"
+    },
+    {
+      "path": "zalo-mini-app/src/styles/components.css",
+      "sha256": "800d474e333be22ee142ca26525e74a0c7304b7d779219806649e6cb09d6ff69"
+    },
+    {
+      "path": "zalo-mini-app/tests/f07-mood.test.mjs",
+      "sha256": "c2cc77b4dcaff366c3e73b8a7bb3144ee3c891caf825a03db099c27afe5882f5"
+    },
+    {
+      "path": "zalo-mini-app/tests/f07-r06-reflow.test.mjs",
+      "sha256": "64599fce8e0fba43cf7ce008162028c9488f6368835729c368277a719ed7dc0d"
+    }
+  ],
+  "services": {
+    "api": "development SQLite loopback 8019",
+    "mini": "Vite loopback 3019",
+    "web": "Vite loopback 5179",
+    "mysql": "MySQL 8.4.11 Docker loopback 3367 disposable test_feature_lab"
+  },
+  "fixture_scope": "Synthetic marker-owned HS/PH/stranger fixtures only, no participants",
+  "environment": "Python3.12.14 Django5.2.18 Node24.19.0 npm11.9.0 Chromium154.0.8037.57",
+  "verdict": "NOT_READY_FOR_HUY",
+  "remaining_findings": [
+    "R08",
+    "R09",
+    "R10"
+  ],
+  "platform_not_run": [
+    "Zalo Android/iOS device",
+    "OS/native text scaling and keyboard",
+    "User-accessible deployment/URLs"
+  ]
+}

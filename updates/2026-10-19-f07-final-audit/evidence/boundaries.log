@@ -1,0 +1,89 @@
+══════════════════════════════════════════════════════════════════════════
+ Family Bridge — check import boundaries (ADR-4, W1-c)
+ Repo: /workspace/family-bridge-f07-review
+══════════════════════════════════════════════════════════════════════════
+
+ Vùng                                        nodes js/ht asset  bare unres
+ ─────────────────────────────────────────────────────────────────────────
+ web closure (web/)                        67    63     4     0     0
+ mini closure (zalo-mini-app/)             72    67     4     1     0
+ shared src (quét token thuần)             10     —     —     —     —
+   ↳ shared reachable từ mini               9     —     —     —     —
+   ↳ shared reachable từ web                9     —     —     —     —
+
+ Assertions:
+   (a) web closure không chứa zalo-mini-app/**          PASS
+   (b) mini closure không chứa web/**                   PASS
+   (c) shared thuần (không DOM/SDK/storage)             PASS
+   (d) web không zmp-sdk/localStorage./sessionStorage.  PASS
+   (e) web closure không bare import zmp-sdk            PASS
+
+ ✅ Không có vi phạm biên giới import.
+══════════════════════════════════════════════════════════════════════════
+ KẾT LUẬN: SẠCH — exit 0
+══════════════════════════════════════════════════════════════════════════
+Agent documents OK: files/links, 5 skills, wiring, Taste checksums/MIT, SEC register; 20 FL, 6 AF, 23 CAP, 25 WF, 24 DEC, 120 CFG, 78 cases and F01..F15/US mapping.
+This does not verify runtime, diagram rendering, source URLs, security or agent obedience.
+▶ shared client — phân loại lỗi theo kind
+  ✔ thiếu baseUrl -> ApiError kind 'configuration', KHÔNG gọi fetch, message không lộ địa chỉ (28.89878ms)
+  ✔ baseUrl sai cú pháp -> kind 'configuration', KHÔNG lộ URL gốc/exception parser (10.99643ms)
+  ✔ https-only: http:// tới host không phải localhost -> kind 'configuration' (0.682455ms)
+  ✔ timer hủy giữa lúc đọc body -> kind 'timeout' (KHÔNG phải invalid_response) (77.186629ms)
+  ✔ timeout mặc định 15000ms: tại 14999ms chưa hủy, 15000ms hủy -> 'timeout' (mock timer) (9.461137ms)
+  ✔ 503 + envelope {error:{code,details}} -> kind 'http', status 503, giữ code/details (10.804535ms)
+  ✔ body 200 không parse được JSON (SyntaxError) -> kind 'invalid_response', giữ mã HTTP (22.432474ms)
+  ✔ Bearer từ getToken() — token chỉ nằm trong memory (SEC-10), không vào URL/storage (0.710989ms)
+✔ shared client — phân loại lỗi theo kind (173.879589ms)
+▶ shared connection-check — errorKind
+  ✔ đọc `kind` của ApiError (6.314458ms)
+  ✔ fallback an toàn: Error thường / ApiError cũ không kind / null -> 'unknown' (KHÔNG bao giờ timeout) (0.404431ms)
+✔ shared connection-check — errorKind (18.843602ms)
+▶ shared connection-check — failureFor theo kind
+  ✔ timeout -> title 'Kết nối quá thời gian chờ' (2.125081ms)
+  ✔ configuration -> title cấu hình + message của lỗi (được nêu tên biến cấu hình) (4.578331ms)
+  ✔ configuration không có message -> dùng mô tả fallback (1.194891ms)
+  ✔ network -> title 'Chưa kết nối được máy chủ' (0.207478ms)
+  ✔ invalid_response -> title 'Không kiểm tra được kết nối' (2.482125ms)
+  ✔ fallback 'http' / 'unknown' (Error thường, ApiError cũ) -> lỗi chung, KHÔNG bao giờ coi là timeout (0.738729ms)
+✔ shared connection-check — failureFor theo kind (13.040211ms)
+▶ shared connection-check — messageOf
+  ✔ ưu tiên message có nội dung (trả nguyên văn), ngược lại trả fallback (0.489417ms)
+✔ shared connection-check — messageOf (0.904749ms)
+▶ shared http-endpoints — authed + phiên
+  ✔ authed gắn Bearer từ getToken() (session in-memory được inject, không storage) (21.172455ms)
+  ✔ 401 cùng thế hệ phiên: xóa phiên (hành vi đăng xuất đúng) (8.691462ms)
+  ✔ 401 của phiên CŨ (generation đã đổi): KHÔNG xóa phiên mới, báo stale_session (9.682594ms)
+  ✔ response 200 của phiên cũ sau khi đổi phiên bị BỎ (stale_session) (1.577437ms)
+  ✔ loginWithCredentials: cài phiên + loginMethod 'class' + role/classRef do máy chủ trả (11.749959ms)
+  ✔ loginWithCredentials: thiếu mã/mật khẩu -> 400 input_invalid, KHÔNG gọi fetch (1.733535ms)
+  ✔ loginWithCredentials: POST trả chậm sau khi phiên đổi -> stale_session, KHÔNG cài phiên (9.693345ms)
+✔ shared http-endpoints — authed + phiên (74.086439ms)
+▶ shared http-endpoints — idempotency + timeout
+  ✔ sendMessage gắn X-Idempotency-Key do caller tạo; thiếu key -> kind configuration (25.470275ms)
+  ✔ coldStartTimeoutMs áp dụng làm mặc định cho health/ready (call mở app đầu tiên) (151.519684ms)
+✔ shared http-endpoints — idempotency + timeout (180.176071ms)
+▶ shared http-endpoints — hợp đồng boundary
+  ✔ getConnectionStatus/getProfile ném 501 (không fake dữ liệu ở mode production) (1.462583ms)
+  ✔ ready 503 là trạng thái hợp lệ -> 'unavailable' (không phải lỗi) (45.812346ms)
+  ✔ getCapabilities best-effort: mọi lỗi -> {} (không chặn đăng nhập) (11.093476ms)
+  ✔ thiếu baseUrl: requireBaseUrl ném kind configuration trước fetch (60.620312ms)
+  ✔ surface phủ ADAPTER_METHODS: 82 tên hợp đồng, mọi method endpoint đều là hàm (0.688852ms)
+✔ shared http-endpoints — hợp đồng boundary (120.789269ms)
+▶ shared http-endpoints — F07 mood (US-015/US-026)
+  ✔ listMoodEntries map `limit` -> query page_size (không còn param bị bỏ qua) (25.563434ms)
+  ✔ shareMoodEntry gửi recipient_id + expected_revision (stale preview chặn ở server) (0.742345ms)
+  ✔ đường dẫn F07 còn lại đúng endpoint thật (detail/edit/summary/shares/revoke/shared) (9.036162ms)
+✔ shared http-endpoints — F07 mood (US-015/US-026) (35.580624ms)
+▶ shared purity contract (ADR-1)
+  ✔ src chỉ chứa file ESM .mjs/.js (không build artifact) (3.204751ms)
+  ✔ src/** KHÔNG import zmp-sdk và KHÔNG đụng window/document/storage trong code (43.376055ms)
+  ✔ package import được trong node thuần (không cần DOM/happy-dom) (37.258588ms)
+✔ shared purity contract (ADR-1) (94.915852ms)
+ℹ tests 37
+ℹ suites 9
+ℹ pass 37
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1333.034605
