@@ -61,7 +61,13 @@ provenance = {
 # F07 catalogs and original bundles deliberately remain byte-identical.
 files = sorted(p for p in (root/"f02").rglob("*") if p.is_file()
                and p.name != "SHA256SUMS" and "__pycache__" not in p.parts)
-files += [root/"PROMPT-COPY-F02.md",root/"README.md",root/"AGENTS.md"]
+files += [root/"PROMPT-COPY-F02.md",root/"README.md",root/"AGENTS.md",root/".gitattributes"]
+# Scoped .gitattributes specifies LF for these textual artifacts. Normalize
+# before hashing so committed blobs and fresh Windows/Linux checkouts agree.
+for p in files:
+    if p.suffix.lower() not in {".jpg", ".png", ".zip"}:
+        raw = p.read_bytes()
+        p.write_bytes(raw.replace(b"\r\n", b"\n"))
 rows = [hashlib.sha256(p.read_bytes()).hexdigest()+"  "+p.relative_to(root).as_posix()
         for p in files]
 (root/"f02"/"SHA256SUMS").write_text("\n".join(rows)+"\n",encoding="utf-8")
