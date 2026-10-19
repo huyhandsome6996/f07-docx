@@ -1,5 +1,15 @@
 # Trạng thái xuất bản nhánh f04-docx — 19/10/2026
 
+## ĐÃ XUẤT BẢN THÀNH CÔNG (cập nhật 19/10/2026, phiên sau)
+
+- Nhánh **f04-docx đã tồn tại trên GitHub** `huyhandsome6996/f07-docx`, push bằng PAT được người dùng cấp trong phiên làm việc sau. Xác minh remote SHA = local HEAD:
+  - Lần 1 (bundle nguyên bản): remote `780e6f4e0d240fc98d3c69f9bdc3a2b64acce9b6` = local HEAD. `git ls-remote` xác minh trực tiếp.
+  - Commit cập nhật sau đó (báo cáo sửa N01+N02, catalog) — SHA xem dòng cuối file này / `git rev-parse HEAD` sau khi fetch.
+- `main` @ `a4a4b0982db5ae5cd48892d0e8ebf85ba407fdd2` KHÔNG bị đụng: không push, không merge, không reset, không đổi default branch. Push luôn nhắm `HEAD:refs/heads/f04-docx`, không force.
+- PAT không được ghi vào repo/config/archive/log (REDACT trong mọi output).
+
+## Lịch sử: lần chuẩn bị trước (giữ để rõ provenance)
+
 - Đã tạo nhánh **f04-docx tại local**, lịch sử gốc độc lập, có đầy đủ tài liệu/ảnh/prompt/bằng chứng F04 và catalog/checksum.
 - Credential có sẵn của môi trường không dùng được. Sau khi người dùng chủ động cung cấp PAT và cho phép sử dụng, đã thử xác thực refs bằng header tạm và askpass tạm (cả Git môi trường và /usr/bin/git). GitHub trả `Invalid username or token` / `Authentication failed`; không thể vượt qua bước xác thực để push. Không ghi PAT vào repo/config/archive/log.
 - **Chưa tạo hoặc push thành công nhánh f04-docx trên GitHub.** Local commit, thư mục và Git bundle không phải bằng chứng remote đã cập nhật.
