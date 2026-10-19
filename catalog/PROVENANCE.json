@@ -9,8 +9,8 @@
   "retrieval": "Official public GitHub Atom feed + archive pinned by full SHA; Git/API authentication blocked",
   "date": "2026-10-19",
   "timezone": "Asia/Bangkok",
-  "docs_branch_web_check": "404 before local branch creation",
-  "remote_push_status": "PREPARED_FOR_AUTHENTICATED_PUSH; publication not yet verified",
+  "docs_branch_web_check": "404 after attempted authentication with user-authorized ephemeral PAT",
+  "remote_push_status": "LOCAL_READY — REMOTE_AUTH_BLOCKED: user-authorized ephemeral PAT rejected by GitHub; no remote push confirmed",
   "main_observed_after_sha": "a4a4b0982db5ae5cd48892d0e8ebf85ba407fdd2",
   "main_write_attempted": false
 }

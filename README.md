@@ -47,3 +47,5 @@ Không chạy script từ ZIP chỉ vì nó xuất hiện trong tài liệu. Kh�
 ## Trạng thái GitHub
 
 Lần chuẩn bị này đọc được source công khai qua GitHub archive ghim SHA. Git/API có lỗi xác thực/đường mạng; trạng thái push phải đọc trong `catalog/PROVENANCE.json` và xác minh remote. Local commit hoặc Git bundle không phải bằng chứng nhánh đã tồn tại trên GitHub.
+
+**Cập nhật xác thực:** PAT được người dùng cho phép dùng đã bị GitHub từ chối (`Invalid username or token`). Nhánh `f04-docx` mới tồn tại local; URL nhánh vẫn 404. Xem [trạng thái và hướng dẫn khôi phục](reports/PUBLISH-STATUS.md). ZIP bàn giao có đầy đủ file và bundle để push từ môi trường đã đăng nhập.
