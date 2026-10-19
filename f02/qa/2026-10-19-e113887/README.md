@@ -1,3 +1,5 @@
+> Vòng tiếp theo (đội 5 agent: kiểm thử thật + phản biện chéo, source `e38688c`): [../2026-10-19-e38688c/README.md](../2026-10-19-e38688c/README.md)
+
 # F02 — Bản cập nhật sau khi sửa theo QA 19/10/2026 (nguồn e113887)
 
 **Ngày:** 19/10/2026 · **Nguồn ứng dụng:** [family-bridge](https://github.com/huyhandsome6996/family-bridge), nhánh `tinh-nang/f02-dong-hanh-bon-tuan-us036-us044`, head **e113887** (commit cha trực tiếp là **c29469b3d57f2c2cc53fe686fe7ec8f917f2dec6** — đúng bản đã QA độc lập). Main của kho ứng dụng không bị đụng tới.
