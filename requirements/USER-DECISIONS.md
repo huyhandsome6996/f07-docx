@@ -1,12 +1,12 @@
 # Quyết định của người dùng — F04
 
-## Tên nhánh đã chốt: `f04-docx` (chữ thường)
+## Tên nhánh mới nhất: `F04-docx` (F viết hoa)
 
-Yêu cầu mới nhất chốt tên nhánh chính xác là **f04-docx**, thay cho cách viết hoa F04-docx trong bản chuẩn bị trước.
+Yêu cầu mới nhất của người dùng chốt tên chính xác **F04-docx** (F viết hoa), thay cho `f04-docx` chữ thường ở lần bàn giao trước. Chỉ dùng tên mới này cho lần xuất bản hiện tại.
 
 ## 19/10/2026: nơi lưu tài liệu từ nay
 
-- Mọi tài liệu, ảnh, yêu cầu, báo cáo và prompt F04 được lưu vào repo `https://github.com/huyhandsome6996/f07-docx`, nhánh **f04-docx**.
+- Mọi tài liệu, ảnh, yêu cầu, báo cáo và prompt F04 được lưu vào repo `https://github.com/huyhandsome6996/f07-docx`, nhánh **F04-docx**.
 - `main` trong repo tài liệu thuộc **F07**, tuyệt đối không đụng vào.
 - Prompt phải copy-paste được sang chat làm việc với repo `https://github.com/huyhandsome6996/family-bridge`, cụ thể F04.
 - Không tự gửi thông điệp sang chat khác. Không trộn F02/F07 vào nhiệm vụ F04.

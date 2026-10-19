@@ -1,6 +1,6 @@
 {
   "document_repo": "huyhandsome6996/f07-docx",
-  "document_branch": "f04-docx",
+  "document_branch": "F04-docx",
   "protected_branch": "main",
   "main_observed_sha": "a4a4b0982db5ae5cd48892d0e8ebf85ba407fdd2",
   "application_repo": "huyhandsome6996/family-bridge",
@@ -10,7 +10,15 @@
   "date": "2026-10-19",
   "timezone": "Asia/Bangkok",
   "docs_branch_web_check": "404 after attempted authentication with user-authorized ephemeral PAT",
-  "remote_push_status": "LOCAL_READY — REMOTE_AUTH_BLOCKED: user-authorized ephemeral PAT rejected by GitHub; no remote push confirmed",
+  "remote_push_status": "LOCAL_READY — ENVIRONMENT_GIT_AUTH_BLOCKED: smart Git returns 401 including public git/git control; new PAT validity unconfirmed",
   "main_observed_after_sha": "a4a4b0982db5ae5cd48892d0e8ebf85ba407fdd2",
-  "main_write_attempted": false
+  "main_write_attempted": false,
+  "previous_local_branch": "f04-docx",
+  "new_auth_diagnostics": {
+    "native_git_with_provided_PAT": "401",
+    "smart_git_without_PAT": "401",
+    "public_git_git_control_without_PAT": "401",
+    "api_github_com": "proxy CONNECT 403",
+    "credential_persisted": false
+  }
 }

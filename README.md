@@ -1,6 +1,6 @@
 # F04 — tài liệu, thiết kế, kiểm thử và prompt
 
-**Repo:** `huyhandsome6996/f07-docx` · **Nhánh dành riêng:** `f04-docx` · **Ngày cập nhật:** 19/10/2026.
+**Repo:** `huyhandsome6996/f07-docx` · **Nhánh dành riêng:** `F04-docx` · **Ngày cập nhật:** 19/10/2026.
 
 `main` là tài liệu **F07**, không sửa hoặc merge tài liệu F04 vào đó. Nhánh này có lịch sử gốc độc lập, chỉ chứa F04. Code ứng dụng nằm ở [family-bridge](https://github.com/huyhandsome6996/family-bridge), không nằm trong kho tài liệu này.
 
@@ -46,6 +46,6 @@ Không chạy script từ ZIP chỉ vì nó xuất hiện trong tài liệu. Kh�
 
 ## Trạng thái GitHub
 
-Lần chuẩn bị này đọc được source công khai qua GitHub archive ghim SHA. Git/API có lỗi xác thực/đường mạng; trạng thái push phải đọc trong `catalog/PROVENANCE.json` và xác minh remote. Local commit hoặc Git bundle không phải bằng chứng nhánh đã tồn tại trên GitHub.
+**LOCAL_READY — ENVIRONMENT_GIT_AUTH_BLOCKED.** Nhánh `F04-docx` đã được chuẩn bị local, chưa xác nhận xuất bản GitHub. Đường Git HTTPS trả 401 với credential được người dùng chủ động cung cấp và cả request không gắn credential; đối chứng repo công khai `git/git` cũng 401. Chưa đủ bằng chứng kết luận PAT mới sai. API GitHub bị proxy từ chối CONNECT 403.
 
-**Cập nhật xác thực:** PAT được người dùng cho phép dùng đã bị GitHub từ chối (`Invalid username or token`). Nhánh `f04-docx` mới tồn tại local; URL nhánh vẫn 404. Xem [trạng thái và hướng dẫn khôi phục](reports/PUBLISH-STATUS.md). ZIP bàn giao có đầy đủ file và bundle để push từ môi trường đã đăng nhập.
+Xem [trạng thái và hướng dẫn xuất bản](reports/PUBLISH-STATUS.md). Các báo cáo lịch sử giữ nguyên bối cảnh lần chạy cũ, không phải trạng thái xác thực hiện tại. `main` F07 chỉ được đọc, không có thao tác ghi.

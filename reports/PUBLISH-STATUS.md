@@ -1,25 +1,36 @@
-# Trạng thái xuất bản nhánh f04-docx — 19/10/2026
+# Trạng thái xuất bản F04-docx — 19/10/2026
 
-- Đã tạo nhánh **f04-docx tại local**, lịch sử gốc độc lập, có đầy đủ tài liệu/ảnh/prompt/bằng chứng F04 và catalog/checksum.
-- Credential có sẵn của môi trường không dùng được. Sau khi người dùng chủ động cung cấp PAT và cho phép sử dụng, đã thử xác thực refs bằng header tạm và askpass tạm (cả Git môi trường và /usr/bin/git). GitHub trả `Invalid username or token` / `Authentication failed`; không thể vượt qua bước xác thực để push. Không ghi PAT vào repo/config/archive/log.
-- **Chưa tạo hoặc push thành công nhánh f04-docx trên GitHub.** Local commit, thư mục và Git bundle không phải bằng chứng remote đã cập nhật.
-- Không có lệnh push/merge/reset tới main. Main F07 chỉ được đọc để xác minh scope/provenance.
-- Cần kết nối/quyền GitHub hoạt động được cho repo `huyhandsome6996/f07-docx`. Có thể dùng môi trường/chat đã đăng nhập GitHub để push bundle. Không cần sửa hoặc gửi lại tài liệu.
+**LOCAL_READY — ENVIRONMENT_GIT_AUTH_BLOCKED. Chưa xác nhận tạo/push nhánh trên GitHub.**
 
-## Khôi phục từ Git bundle mà không đụng main
+## Tên và ranh giới
 
-ZIP bàn giao chứa thư mục tài liệu `f04-docx/`, Git bundle `f04-docx.bundle` và `RESTORE.md`. Giải nén, rồi dùng bundle trong môi trường có quyền GitHub:
+Yêu cầu mới nhất chọn chính xác `F04-docx`, thay cho tên chữ thường của lần chuẩn bị trước. Repo tài liệu: `huyhandsome6996/f07-docx`. `main` thuộc F07, không sửa/push/merge/reset và không đổi default branch. Nhánh tài liệu có gốc độc lập, không chứa tài liệu F07.
+
+## Kết quả xác thực mới
+
+Người dùng chủ động cung cấp PAT mới và cho phép sử dụng. Chỉ dùng credential trong session tạm, không ghi giá trị vào repo, Git config hoặc archive; đã đóng session sau kiểm tra.
+
+- Git refs với askpass tạm và /usr/bin/git: HTTP 401 / Invalid username or token.
+- HTTP smart-Git kiểm tra với và không gắn PAT: đều 401, request ID khác nhau.
+- Đối chứng public repo git/git không gắn PAT: cũng 401 / Invalid username or token.
+- api.github.com: proxy từ chối CONNECT 403.
+
+Các kết quả này xác nhận đường xác thực Git trong môi trường chưa hoạt động; chưa đủ cơ sở kết luận riêng PAT mới sai/thiếu quyền. Cần khôi phục kết nối GitHub/credential routing của môi trường, không tiếp tục yêu cầu tạo token dựa riêng vào lỗi trên. Cấu hình draft không tự áp dụng lên runtime.
+
+## Xuất bản từ Git bundle ở môi trường có GitHub hoạt động
+
+ZIP bàn giao có thư mục `F04-docx/`, `F04-docx.bundle` và `RESTORE.md`. Giải nén rồi chạy trong thư mục mới:
 
 ```bash
-git clone -b f04-docx /duong-dan/f04-docx.bundle /tmp/f04-documents
-cd /tmp/f04-documents
+git clone -b F04-docx /duong-dan/F04-docx.bundle /tmp/F04-documents
+cd /tmp/F04-documents
 git remote set-url origin https://github.com/huyhandsome6996/f07-docx.git
 python3 tools/catalog.py verify
-git push -u origin f04-docx
+git ls-remote --heads origin refs/heads/main refs/heads/F04-docx
+# Nếu remote F04-docx đã tồn tại, fetch và đọc diff trước; không force-push.
+git push -u origin HEAD:refs/heads/F04-docx
+git ls-remote --heads origin refs/heads/F04-docx
+git rev-parse HEAD
 ```
 
-Nếu remote f04-docx đã được người khác tạo sau đó, dừng để fetch/đọc diff và hợp nhất tài liệu đúng nhánh; không force-push. Không đổi target thành main. Sau push phải xác minh remote SHA đúng local HEAD, rồi mới cập nhật trạng thái publish và catalog ở nhánh f04-docx.
-
-## Xác minh sau lần xác thực bằng PAT
-
-GitHub HTML trả 404 cho `/tree/f04-docx`; main vẫn `a4a4b0982db5ae5cd48892d0e8ebf85ba407fdd2`. Vì vậy trạng thái chính xác là **LOCAL_READY — REMOTE_AUTH_BLOCKED**, không phải đã xuất bản. Credential session tạm đã đóng.
+Chỉ gọi đã xuất bản khi remote SHA đúng local HEAD. Sau đó cập nhật báo cáo/cấu trúc catalog đúng nhánh F04-docx. Không đổi target sang main để né lỗi.
