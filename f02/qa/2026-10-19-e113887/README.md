@@ -16,7 +16,7 @@
 | Mục | Trạng thái | Bằng chứng chính |
 | --- | --- | --- |
 | R01 UI lấy revision cũ | **ĐÃ SỬA** (Mini + web parity) | policy "revision published cao nhất thắng, độc lập thứ tự, chặn draft/retired"; 3 test mini + 1 test web; repro R01 của QA GREEN |
-| R02 đổi program revision kẹt thỏa ước | **ĐÃ SỬA** | identity `FamilyAgreement` thêm `program_revision` + migration 0003; 9 test Django; kịch bản HTTP thật 15/15 PASS ([http-r02-results.json](evidence/http-r02-repin-results.json)) |
+| R02 đổi program revision kẹt thỏa ước | **ĐÃ SỬA** | identity `FamilyAgreement` thêm `program_revision` + migration 0003; 9 test Django; kịch bản HTTP thật 15/15 PASS ([http-r02-results.json](evidence/http-r02-results.json)) |
 | R03 accept lời mời sau hủy kết nối | **ĐÃ SỬA** | invite pin `connection_generation`; accept/own-response recheck; `NEW-F09-UNLINK` PASS khi chạy lại bộ HTTP của QA; 8 test Django |
 | R04 `confirmed_at` sai thời điểm | **ĐÃ SỬA** | `max()` hai chữ ký; `NEW-TIMESTAMP` PASS khi chạy lại bộ HTTP của QA; 3 test Django (cả hai thứ tự actor) |
 | R05 không đọc được hướng dẫn trước tham gia | **ĐÃ SỬA** | nút "Xem trước hướng dẫn từng tuần" chỉ-đọc, không POST enroll; ảnh [01](evidence/01-mini-not-enrolled-preview-closed.png), [02](evidence/02-mini-not-enrolled-preview-open.png); repro R05 của QA GREEN |
@@ -28,7 +28,7 @@
 - [Chi tiết từng mục + cách kiểm lại](STATUS-R01-R07.md)
 - [Kết quả tests, lệnh, môi trường và giới hạn](TEST-RESULTS.md)
 - [Bàn giao cho agent/qa tiếp theo](HANDOVER.md)
-- Bằng chứng: [http-results.json](evidence/http-recheck-results.json) (46/46), [http-r02-results.json](evidence/http-r02-repin-results.json) (15/15), ảnh UI `evidence/0*.png`, log test `evidence/*.txt`.
+- Bằng chứng: [http-results.json](evidence/http-results.json) (46/46), [http-r02-results.json](evidence/http-r02-results.json) (15/15), ảnh UI `evidence/0*.png`, log test `evidence/*.txt`.
 
 ## Chưa xác minh (giữ trung thực như vòng QA cũ)
 
