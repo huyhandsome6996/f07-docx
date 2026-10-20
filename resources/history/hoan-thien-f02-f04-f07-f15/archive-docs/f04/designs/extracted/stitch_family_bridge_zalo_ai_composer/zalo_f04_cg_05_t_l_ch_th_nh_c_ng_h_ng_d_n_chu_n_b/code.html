@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+
+<html lang="vi"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_stack" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "surface-container-high": "#ffe2dc", "on-surface": "#360f07", "on-secondary": "#ffffff", "tertiary": "#6b4600", "surface-variant": "#ffdad3", "on-tertiary-fixed": "#291800", "on-background": "#360f07", "on-secondary-fixed": "#3d0600", "on-tertiary-container": "#ffdeb4", "on-tertiary": "#ffffff", "surface-container-lowest": "#ffffff", "secondary-fixed-dim": "#ffb4a3", "error": "#ba1a1a", "on-secondary-fixed-variant": "#812815", "primary-container": "#a84733", "secondary": "#a03f2a", "inverse-surface": "#502319", "on-primary": "#ffffff", "surface-container": "#ffe9e5", "on-primary-fixed-variant": "#802918", "tertiary-fixed-dim": "#f7bc65", "on-secondary-container": "#741f0c", "surface": "#fff8f6", "error-container": "#ffdad6", "surface-bright": "#fff8f6", "inverse-on-surface": "#ffede9", "surface-container-highest": "#ffdad3", "primary-fixed": "#ffdad3", "on-primary-container": "#ffdcd5", "surface-tint": "#9f402d", "outline": "#89726d", "surface-container-low": "#fff0ee", "tertiary-fixed": "#ffddb2", "inverse-primary": "#ffb4a4", "background": "#fff8f6", "on-primary-fixed": "#3e0500", "surface-dim": "#ffcfc5", "outline-variant": "#ddc0ba", "on-tertiary-fixed-variant": "#624000", "on-error-container": "#93000a", "tertiary-container": "#895c09", "secondary-container": "#ff866b", "on-error": "#ffffff", "primary-fixed-dim": "#ffb4a4", "on-surface-variant": "#56423e", "secondary-fixed": "#ffdad2", "primary": "#89301e" }, borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" }, spacing: { "space-lg": "1rem", "space-md": "0.75rem", "gutter": "1rem", "space-sm": "0.5rem", "space-xs": "0.25rem", "space-xl": "1.5rem", "margin": "1rem" }, fontFamily: { "headline-md": ["Be Vietnam Pro"], "body-sm": ["Be Vietnam Pro"], "body-lg": ["Be Vietnam Pro"], "label-md": ["Be Vietnam Pro"], "label-sm": ["Be Vietnam Pro"], "body-md": ["Be Vietnam Pro"], "headline-sm": ["Be Vietnam Pro"], "label-lg": ["Be Vietnam Pro"], "headline-lg": ["Be Vietnam Pro"] }, fontSize: { "headline-md": ["20px", { lineHeight: "28px", letterSpacing: "-0.01em", fontWeight: "600" }], "body-sm": ["13px", { lineHeight: "18px", letterSpacing: "0", fontWeight: "400" }], "body-lg": ["16px", { lineHeight: "24px", letterSpacing: "0", fontWeight: "400" }], "label-md": ["13px", { lineHeight: "18px", letterSpacing: "0.01em", fontWeight: "500" }], "label-sm": ["11px", { lineHeight: "14px", letterSpacing: "0.02em", fontWeight: "500" }], "body-md": ["15px", { lineHeight: "22px", letterSpacing: "0", fontWeight: "400" }], "headline-sm": ["17px", { lineHeight: "24px", letterSpacing: "0", fontWeight: "600" }], "label-lg": ["15px", { lineHeight: "20px", letterSpacing: "0.01em", fontWeight: "600" }], "headline-lg": ["24px", { lineHeight: "32px", letterSpacing: "-0.01em", fontWeight: "700" }] } } } }</script><style>@layer base { html, body { width: 100vw; margin: 0; padding: 0; min-height: 100vh; background-color: #fff8f6; } .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); } .pt-safe { padding-top: env(safe-area-inset-top, 0px); } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head><body class="bg-surface font-body-md text-on-surface antialiased flex flex-col min-h-screen selection:bg-surface-variant"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-14 px-margin flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-xs min-w-0 flex-1"><button aria-label="Quay lại" class="w-11 h-11 -ml-1.5 flex items-center justify-center rounded-full text-on-surface hover:bg-surface-container active:scale-95 transition-transform" onclick="history.back()" type="button"><span class="material-symbols-outlined text-[24px]">arrow_back</span></button><div class="flex flex-col min-w-0 pr-space-xs"><h1 class="font-headline-sm text-headline-sm text-on-surface truncate">Tư Vấn Tâm Lý 1 1</h1><div class="flex items-center gap-space-xs"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span><span class="font-label-sm text-label-sm text-primary font-medium tracking-wide uppercase truncate">Chế độ Người đồng hành</span></div></div></div><div class="flex items-center gap-space-xs shrink-0"><div class="flex items-center bg-surface-container-low px-space-xs py-1 rounded-full shadow-[0_1px_4px_rgba(113,61,50,0.04)]"><button aria-label="Tùy chọn Zalo" class="w-8 h-8 flex items-center justify-center rounded-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container active:scale-95 transition-all" type="button"><span class="material-symbols-outlined text-[20px]">more_horiz</span></button><div class="w-[1px] h-3.5 bg-outline-variant/60 mx-0.5"></div><button aria-label="Đóng Mini App" class="w-8 h-8 flex items-center justify-center rounded-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container active:scale-95 transition-all" type="button"><span class="material-symbols-outlined text-[18px]">close</span></button></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center ml-1 shadow-[0_1px_3px_rgba(113,61,50,0.12)]"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex flex-col relative w-full pt-14 pb-safe bg-surface min-h-screen"><div class="flex flex-col w-full pb-10 px-margin">
+<!-- Status & Celebration Banner -->
+<section class="mt-space-lg flex flex-col items-center text-center">
+<div class="relative w-20 h-20 flex items-center justify-center">
+<div class="absolute inset-0 rounded-full bg-surface-container-high animate-pulse"></div>
+<div class="relative w-16 h-16 rounded-full bg-primary flex items-center justify-center shadow-md">
+<span class="material-symbols-outlined text-[34px] text-on-primary" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</div>
+<div class="absolute -top-1 -right-1 w-7 h-7 rounded-full bg-tertiary-container flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[18px] text-on-tertiary-container">check</span>
+</div>
+</div>
+<div class="inline-flex items-center gap-space-xs mt-space-md px-space-md py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[15px] text-primary">verified_user</span>
+<span>Mã lịch hẹn: FB-2023-8892</span>
+</div>
+<h2 class="mt-space-sm font-headline-lg text-headline-lg text-on-surface font-bold">
+      Đặt lịch tham vấn thành công!
+    </h2>
+<p class="mt-space-xs font-body-md text-body-md text-on-surface-variant max-w-sm leading-relaxed">
+      Mẹ Mai thân mến, bước đầu tiên để thấu hiểu và chạm đến thế giới của <strong class="text-primary font-semibold">Minh An</strong> đã bắt đầu bằng tình thương ấm áp nhất. Chuyên gia sẽ đồng hành cùng mẹ từng bước một.
+    </p>
+<!-- Zalo Sync Notification Pill -->
+<div class="mt-space-md w-full max-w-sm bg-surface-container-low rounded-xl px-space-md py-space-sm flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-space-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px] text-primary">notifications_active</span>
+<span class="font-label-sm text-label-sm">Đã đồng bộ Lịch nhắc Zalo &amp; SMS</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary font-semibold">19:20 ngày mai</span>
+</div>
+</section>
+<!-- Detailed Appointment Card -->
+<section class="mt-space-xl bg-surface-container-lowest rounded-2xl p-space-lg shadow-[0_2px_12px_rgba(113,61,50,0.06)] flex flex-col gap-space-md">
+<!-- Specialist info -->
+<div class="flex items-start gap-space-md pb-space-md bg-surface-container-low/60 p-space-md rounded-xl">
+<div class="relative w-14 h-14 shrink-0 rounded-full overflow-hidden shadow-sm">
+<img class="w-full h-full object-cover" data-alt="Portrait of a friendly middle-aged Vietnamese psychologist male counselor with warm spectacles wearing a neutral linen shirt, natural soft indoor light, trustworthy and deeply compassionate smile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGWwPD7WLmu8ebIHIuRewWQVHG4YMH8b_V4j1pjL7tuRJV6-OVK1qtgMRh7chPdRFTyKF78JhRivN6wL2IzO4U6p-6MtnHvxCfQ5VNu4LsfNAzzThcFmiHq60vidQV754Ufk1aduIDiRQiITO01rrbjbH9q1NM1vFzaBwy2KRPGQnD2mNcvqY4LkSFaikhT_EFfo-PMF9AqZClBKxOhoAyInMUR-mTf4iGt0xYiDIEcM5j0eA_G5LxIQ"/>
+<div class="absolute bottom-0 right-0 w-4 h-4 rounded-full bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[11px] text-on-primary">check</span>
+</div>
+</div>
+<div class="flex flex-col min-w-0 flex-1">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold truncate">ThS. Lê Hoàng Nam</span>
+<span class="px-space-xs py-0.5 rounded-full bg-surface-container text-primary font-label-sm text-label-sm">Đã xác nhận</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Viện Tâm lý Ứng dụng &amp; ĐH Sư phạm</span>
+<div class="flex items-center gap-space-xs mt-1 text-tertiary">
+<span class="material-symbols-outlined text-[15px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm text-label-sm font-semibold">4.9/5.0</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">(120+ phiên cha mẹ &amp; con)</span>
+</div>
+</div>
+</div>
+<!-- Details list -->
+<div class="flex flex-col gap-space-sm pt-space-xs">
+<div class="flex items-start gap-space-md">
+<div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center shrink-0 text-primary">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Thời gian tham vấn</span>
+<span class="font-label-lg text-label-lg text-on-surface">19:30 - 20:30, Thứ Năm (16/10)</span>
+<span class="font-body-sm text-body-sm text-secondary font-medium mt-0.5">Thời gian thực tế: Ngày mai</span>
+</div>
+</div>
+<div class="flex items-start gap-space-md">
+<div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center shrink-0 text-primary">
+<span class="material-symbols-outlined text-[18px]">videocam</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Hình thức trò chuyện</span>
+<span class="font-label-lg text-label-lg text-on-surface">Gọi Video trực tuyến qua Zalo Call</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Link phòng sẽ kích hoạt tự động trước buổi hẹn 10 phút.</span>
+</div>
+</div>
+<div class="flex items-start gap-space-md">
+<div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center shrink-0 text-primary">
+<span class="material-symbols-outlined text-[18px]">psychology</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Nội dung trọng tâm</span>
+<span class="font-label-lg text-label-lg text-on-surface">Giải tỏa áp lực thi cử &amp; Lắng nghe con tuổi dậy thì</span>
+</div>
+</div>
+<div class="flex items-start gap-space-md">
+<div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center shrink-0 text-primary">
+<span class="material-symbols-outlined text-[18px]">volunteer_activism</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Chi phí tham vấn</span>
+<div class="flex items-center gap-space-xs">
+<span class="font-label-lg text-label-lg text-primary font-bold">Miễn phí 100%</span>
+<span class="px-space-xs py-0.5 bg-surface-container-high text-on-secondary-container font-label-sm text-label-sm rounded-full">Tài trợ cộng đồng</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Được bảo trợ bởi Quỹ Family Bridge &amp; Hội Phụ Huynh</span>
+</div>
+</div>
+</div>
+<!-- Quick action links inside card -->
+<div class="flex items-center justify-between pt-space-md bg-surface-container-lowest gap-space-sm">
+<button class="flex-1 py-space-sm px-space-md rounded-xl bg-surface-container-low text-on-surface font-label-md text-label-md flex items-center justify-center gap-space-xs hover:bg-surface-container active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-[18px] text-primary">event</span>
+<span>Lưu vào Lịch</span>
+</button>
+<button class="flex-1 py-space-sm px-space-md rounded-xl bg-surface-container-low text-on-surface-variant font-label-md text-label-md flex items-center justify-center gap-space-xs hover:bg-surface-container active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]">edit_calendar</span>
+<span>Đổi lịch / Hủy</span>
+</button>
+</div>
+</section>
+<!-- Caregiver Preparation Guide (Moments of Delight & Warm Empathy) -->
+<section class="mt-space-xl flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[20px] text-primary" style="font-variation-settings: 'FILL' 1;">spa</span>
+<h3 class="font-headline-md text-headline-md text-on-surface font-bold">Để buổi trò chuyện nhẹ nhàng &amp; hiệu quả</h3>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Những lưu ý nhỏ giúp mẹ buông bớt âu lo trước khi gặp chuyên gia</p>
+</div>
+</div>
+<div class="flex flex-col gap-space-sm">
+<!-- Tip 1 -->
+<div class="bg-surface-container-lowest rounded-2xl p-space-md shadow-sm flex items-start gap-space-md">
+<div class="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[20px]">door_front</span>
+</div>
+<div class="flex flex-col flex-1">
+<h4 class="font-label-lg text-label-lg text-on-surface font-semibold">1. Chọn một không gian riêng tư, yên ắng</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 leading-relaxed">
+            Mẹ hãy chuẩn bị một góc phòng thoải mái để tự do chia sẻ những băn khoăn thật lòng mà không lo con vô tình nghe thấy hay bị gián đoạn bởi việc gia đình.
+          </p>
+</div>
+</div>
+<!-- Tip 2 -->
+<div class="bg-surface-container-lowest rounded-2xl p-space-md shadow-sm flex items-start gap-space-md">
+<div class="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[20px]">chat_bubble_outline</span>
+</div>
+<div class="flex flex-col flex-1">
+<h4 class="font-label-lg text-label-lg text-on-surface font-semibold">2. Mẹ không cần chuẩn bị câu từ hoàn hảo</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 leading-relaxed">
+            Cứ trò chuyện tự nhiên bằng trực cảm của người mẹ. Dù câu chuyện có lộn xộn, chuyên gia luôn lắng nghe không phán xét và sẽ giúp mẹ gỡ từng nút thắt cảm xúc.
+          </p>
+</div>
+</div>
+<!-- Tip 3 -->
+<div class="bg-surface-container-lowest rounded-2xl p-space-md shadow-sm flex items-start gap-space-md">
+<div class="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[20px]">history_edu</span>
+</div>
+<div class="flex flex-col flex-1">
+<h4 class="font-label-lg text-label-lg text-on-surface font-semibold">3. Điểm qua 1 - 2 khoảnh khắc mẹ trăn trở</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 leading-relaxed">
+            Ví dụ: phản ứng cáu gắt của Minh An khi mẹ hỏi thăm kỳ thi thử, hoặc sự im lặng đóng kín cửa của con sau giờ học. Những chi tiết nhỏ là manh mối rất quý giá.
+          </p>
+</div>
+</div>
+<!-- Tip 4 -->
+<div class="bg-surface-container-lowest rounded-2xl p-space-md shadow-sm flex items-start gap-space-md">
+<div class="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[20px]">local_cafe</span>
+</div>
+<div class="flex flex-col flex-1">
+<h4 class="font-label-lg text-label-lg text-on-surface font-semibold">4. Dành 5 phút trước buổi hẹn để hít thở sâu</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 leading-relaxed">
+            Một tách trà ấm, vài nhịp thở đều sẽ giúp mẹ thả lỏng cơ thể. Hãy nhớ rằng mẹ đang làm một điều rất tuyệt vời vì hạnh phúc của con và chính mình.
+          </p>
+</div>
+</div>
+</div>
+</section>
+<!-- Emotional Reassurance Illustration Card -->
+<section class="mt-space-lg rounded-2xl bg-surface-container p-space-lg relative overflow-hidden">
+<div class="flex flex-col relative z-10 max-w-[280px]">
+<span class="font-label-sm text-label-sm uppercase tracking-wide text-primary font-semibold">Lời nhắn gửi từ Family Bridge</span>
+<h4 class="font-headline-sm text-headline-sm text-on-surface font-bold mt-1">Làm cha mẹ là hành trình học hỏi không ngừng</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 leading-relaxed">
+        Mẹ không đơn độc trong hành trình này. Việc mở lòng tìm kiếm sự trợ giúp là minh chứng rõ nhất cho tình thương bao la mẹ dành cho con.
+      </p>
+</div>
+<div class="w-24 h-24 absolute -right-2 -bottom-2 rounded-full overflow-hidden opacity-90 shadow-md">
+<img class="w-full h-full object-cover" data-alt="Warm aesthetic oil painting style illustration of two hands gently holding a small blooming terracotta plant, earth tones, soft sunlight, expressing nurturing empathy and growth" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5foHjkX335quKbNno0cSqqRlS49KbOohUi5EhHmwtMHvpq90sLwvBoUNciaTxvwCwhMmU0xr9Su33Lp95r5MmG-hIgAr4rbZto0T79w6_QyDgViIyWkaFX1rys-2AH1AqleFBf9UdkSETBgRZhfO9TB5q2l6wjw6RumUBVP4lMMOpnUDbFviAOxuXNixdlvnVBfhDsRpO2Ogb6d5RrFhxaAp3kunr-gcRmI20PEySUXSjLUG1GYa2rw"/>
+</div>
+</section>
+<!-- Confidentiality & Privacy Guarantee -->
+<section class="mt-space-lg bg-surface-container-lowest rounded-2xl p-space-md flex items-center gap-space-md shadow-sm">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">lock</span>
+</div>
+<div class="flex flex-col flex-1">
+<div class="flex items-center gap-space-xs">
+<h5 class="font-label-md text-label-md text-on-surface font-bold">100% Bảo mật &amp; Tách biệt dữ liệu</h5>
+<span class="material-symbols-outlined text-[14px] text-tertiary">shield</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5 leading-snug">
+        Minh An hoàn toàn không nhận thông báo về buổi tư vấn này. Mọi chia sẻ của mẹ được giữ kín tuyệt đối theo nguyên tắc đạo đức nghề nghiệp tâm lý.
+      </p>
+</div>
+</section>
+<!-- Support Hotline Zalo Card -->
+<section class="mt-space-md bg-surface-container-low rounded-2xl p-space-md flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-space-sm min-w-0 flex-1">
+<div class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[18px]">support_agent</span>
+</div>
+<div class="flex flex-col min-w-0 pr-space-xs">
+<span class="font-label-sm text-label-sm text-on-surface font-semibold truncate">Cần hỗ trợ kỹ thuật hoặc đổi lịch gấp?</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Trợ lý Zalo Family Bridge phản hồi trong 5 phút (24/7)</span>
+</div>
+</div>
+<button class="shrink-0 px-space-sm py-1.5 rounded-full bg-surface-container-lowest text-primary font-label-sm text-label-sm font-semibold shadow-sm active:scale-95 transition-transform flex items-center gap-0.5" type="button">
+<span>Chat Zalo</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</section>
+<!-- Primary & Secondary Action CTAs -->
+<section class="mt-space-xl flex flex-col gap-space-sm">
+<button class="w-full h-12 rounded-xl bg-primary text-on-primary font-label-lg text-label-lg font-semibold flex items-center justify-center gap-space-xs shadow-md active:bg-[#722718] active:scale-[0.98] transition-all" type="button">
+<span class="material-symbols-outlined text-[20px]">door_sliding</span>
+<span>Vào phòng thử nghiệm thiết bị</span>
+</button>
+<button class="w-full h-11 rounded-xl bg-surface-container-lowest text-on-surface font-label-md text-label-md font-semibold flex items-center justify-center gap-space-xs shadow-sm active:bg-surface-container active:scale-[0.98] transition-all" type="button">
+<span class="material-symbols-outlined text-[18px] text-primary">edit_note</span>
+<span>Xem lại bản nháp lời nhắn gửi con</span>
+</button>
+<div class="text-center mt-space-xs">
+<a class="inline-flex items-center gap-1 font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors py-2 px-space-sm" href="javascript:void(0)">
+<span class="material-symbols-outlined text-[16px]">home</span>
+<span>Trở về Trung tâm đồng hành gia đình</span>
+</a>
+</div>
+</section>
+</div>
+<script>
+  // Simple micro-interaction for testing readiness
+  document.addEventListener('DOMContentLoaded', () => {
+    const primaryBtn = document.querySelector('button.bg-primary');
+    if (primaryBtn) {
+      primaryBtn.addEventListener('click', () => {
+        const originalText = primaryBtn.innerHTML;
+        primaryBtn.innerHTML = `
+          <span class="material-symbols-outlined text-[20px] animate-spin">progress_activity</span>
+          <span>Đang kiểm tra micro & camera...</span>
+        `;
+        setTimeout(() => {
+          primaryBtn.innerHTML = `
+            <span class="material-symbols-outlined text-[20px]">check_circle</span>
+            <span>Thiết bị sẵn sàng! (Phòng mở 19:20 ngày mai)</span>
+          `;
+          setTimeout(() => {
+            primaryBtn.innerHTML = originalText;
+          }, 3500);
+        }, 1200);
+      });
+    }
+  });
+</script></main></body></html>

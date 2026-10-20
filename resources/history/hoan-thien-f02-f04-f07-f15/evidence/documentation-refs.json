@@ -1,0 +1,1626 @@
+{
+  "base_main_sha": "e286f85de133150cfb8560bc44699ee947614e5d",
+  "refs": {
+    "f02": {
+      "ref": "origin/F02-docx",
+      "sha": "d7954c33c35bbdcfa55c228a49ec116e224b9e7d",
+      "included": [
+        ".gitattributes",
+        "AGENTS.md",
+        "PROMPT-COPY-F02.md",
+        "PROMPT-COPY-F07.md",
+        "README.md",
+        "catalog/BUNDLES.json",
+        "catalog/SHA256SUMS",
+        "f02/00-USER-DECISIONS.md",
+        "f02/SHA256SUMS",
+        "f02/qa/2026-10-19-c29469b/ACCEPTANCE.md",
+        "f02/qa/2026-10-19-c29469b/FINDINGS.md",
+        "f02/qa/2026-10-19-c29469b/PROVENANCE.json",
+        "f02/qa/2026-10-19-c29469b/README.md",
+        "f02/qa/2026-10-19-c29469b/RESUME-HANDOVER.md",
+        "f02/qa/2026-10-19-c29469b/TEST-RESULTS.md",
+        "f02/qa/2026-10-19-c29469b/VALIDATION.md",
+        "f02/qa/2026-10-19-c29469b/evidence/01-before-enroll-dom.txt",
+        "f02/qa/2026-10-19-c29469b/evidence/01-before-enroll.jpg",
+        "f02/qa/2026-10-19-c29469b/evidence/02-enrolled-dom.txt",
+        "f02/qa/2026-10-19-c29469b/evidence/02-enrolled.jpg",
+        "f02/qa/2026-10-19-c29469b/evidence/03-progress-saved-dom.txt",
+        "f02/qa/2026-10-19-c29469b/evidence/03-progress-saved.jpg",
+        "f02/qa/2026-10-19-c29469b/evidence/04-proposed-dom.txt",
+        "f02/qa/2026-10-19-c29469b/evidence/05-mobile-390.jpg",
+        "f02/qa/2026-10-19-c29469b/evidence/backend.log",
+        "f02/qa/2026-10-19-c29469b/evidence/boundaries.log",
+        "f02/qa/2026-10-19-c29469b/evidence/http-results.json",
+        "f02/qa/2026-10-19-c29469b/evidence/http.log",
+        "f02/qa/2026-10-19-c29469b/evidence/independent-dom-regressions.log",
+        "f02/qa/2026-10-19-c29469b/evidence/miniapp-build.log",
+        "f02/qa/2026-10-19-c29469b/evidence/miniapp.log",
+        "f02/qa/2026-10-19-c29469b/evidence/shared-mobile.log",
+        "f02/qa/2026-10-19-c29469b/evidence/version-results.json",
+        "f02/qa/2026-10-19-c29469b/evidence/web-build.log",
+        "f02/qa/2026-10-19-c29469b/evidence/web.log",
+        "f02/qa/2026-10-19-e113887/HANDOVER.md",
+        "f02/qa/2026-10-19-e113887/README.md",
+        "f02/qa/2026-10-19-e113887/STATUS-R01-R07.md",
+        "f02/qa/2026-10-19-e113887/TEST-RESULTS.md",
+        "f02/qa/2026-10-19-e113887/evidence/01-mini-not-enrolled-preview-closed.png",
+        "f02/qa/2026-10-19-e113887/evidence/02-mini-not-enrolled-preview-open.png",
+        "f02/qa/2026-10-19-e113887/evidence/03-web-enrolled.png",
+        "f02/qa/2026-10-19-e113887/evidence/04-web-activity-detail.png",
+        "f02/qa/2026-10-19-e113887/evidence/05-web-progress-done.png",
+        "f02/qa/2026-10-19-e113887/evidence/06-mini-cross-client-shared-account.png",
+        "f02/qa/2026-10-19-e113887/evidence/07-mini-activity-detail.png",
+        "f02/qa/2026-10-19-e113887/evidence/http-r02-results.json",
+        "f02/qa/2026-10-19-e113887/evidence/http-results.json",
+        "f02/qa/2026-10-19-e113887/evidence/miniapp-regressions.txt",
+        "f02/qa/2026-10-19-e113887/evidence/miniapp-repro-qa-tool.txt",
+        "f02/qa/2026-10-19-e113887/evidence/web-regressions.txt",
+        "f02/qa/2026-10-19-e38688c/QA-RERUN.md",
+        "f02/qa/2026-10-19-e38688c/README.md",
+        "f02/qa/2026-10-19-e38688c/evidence/08-web-companion-team-run.png",
+        "f02/qa/2026-10-19-e38688c/evidence/09-mini-companion-team-run-full.png",
+        "f02/qa/2026-10-19-e38688c/evidence/09-mini-companion-team-run.png",
+        "f02/reference/PROMPT-CLAUDE-QA-F02-2026-10-18.md",
+        "f02/reference/c29469b/docs/features/f02/scope.md",
+        "f02/reference/c29469b/docs/handover/f02-qa/06-RESUME-HANDOVER.md",
+        "f02/reference/c29469b/docs/product/four-week-flow.md",
+        "f02/reference/c29469b/packages/family_bridge_features/f02_program/models.py",
+        "f02/reference/c29469b/packages/family_bridge_features/f02_program/services/program.py",
+        "f02/reference/c29469b/packages/family_bridge_features/f02_program/wiring.py",
+        "f02/reference/c29469b/packages/family_bridge_features/f09_activities/services/activities.py",
+        "f02/reference/c29469b/packages/family_bridge_features/f09_activities/wiring.py",
+        "f02/reference/c29469b/web/src/pages/companion/index.js",
+        "f02/reference/c29469b/zalo-mini-app/src/pages/companion/index.js",
+        "f02/tools/http_qa.py",
+        "f02/tools/local_fixture.py",
+        "f02/tools/miniapp_repro.test.mjs",
+        "f02/tools/package_qa.py",
+        "f02/tools/version_probe.py"
+      ],
+      "deduplicated": [
+        {
+          "path": "bundles/00-original/F07-NEW-CHAT-HANDOFF-2026-10-18.zip",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "bundles/00-original/README.md",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "bundles/01-f07-mission/01-f07-mission-2026-10-18.zip",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "bundles/01-f07-mission/README.md",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "bundles/02-requirements-docx/02-requirements-docx-2026-10-18.zip",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "bundles/02-requirements-docx/README.md",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "bundles/03-project-docs-rules/03-project-docs-rules-2026-10-18.zip",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "bundles/03-project-docs-rules/README.md",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "bundles/04-f07-branch-reference/04-f07-branch-reference-2026-10-18.zip",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "bundles/04-f07-branch-reference/README.md",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "bundles/05-f02-consent-reference/05-f02-consent-reference-2026-10-18.zip",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "bundles/05-f02-consent-reference/README.md",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "bundles/06-backend-feature-source/06-backend-feature-source-2026-10-18.zip",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "bundles/06-backend-feature-source/README.md",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "bundles/07-clients-shared-source/07-clients-shared-source-2026-10-18.zip",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "bundles/07-clients-shared-source/README.md",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "bundles/08-tests-tools-config/08-tests-tools-config-2026-10-18.zip",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "bundles/08-tests-tools-config/README.md",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "bundles/09-images-fonts/09-images-fonts-2026-10-18.zip",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "bundles/09-images-fonts/README.md",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "bundles/10-independent-review/10-f07-independent-review-2026-10-18.zip",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "bundles/10-independent-review/README.md",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "bundles/11-web-mini-parity/11-f07-web-mini-parity-2026-10-19.zip",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "bundles/11-web-mini-parity/README.md",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "catalog/CONTENTS.csv",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "catalog/PARITY-CONTENTS.csv",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "catalog/PROVENANCE.json",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "catalog/REVIEW-CONTENTS.csv",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "catalog/VALIDATION.md",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "tools/bundles.py",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "tools/package_parity.py",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "tools/package_review.py",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/ACCEPTANCE.md",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/BRANCH-FILES.json",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/FINDINGS.md",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/MANIFEST-SHA256.csv",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/PACKAGING-VALIDATION.md",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/PROMPT-NEXT-AGENT.md",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/PROVENANCE.json",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/README.md",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/READY-FOR-USER-TEST.md",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/TEST-RESULTS.md",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-diff-stat.txt",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-snapshot/docs/features/f07/manifest.json",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-snapshot/docs/features/f07/report.md",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-snapshot/docs/features/f07/test.md",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-snapshot/docs/handover/README.md",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-snapshot/docs/handover/f07-mood-sharing/ANTIGRAVITY-DEPLOY-HANDOFF.md",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-snapshot/docs/handover/f07-mood-sharing/HUY-TEST-F07.md",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-snapshot/docs/handover/f07-mood-sharing/README.md",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-snapshot/docs/handover/f07-mood-sharing/architecture-and-contracts.md",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-snapshot/docs/handover/f07-mood-sharing/branch-compatibility-report.md",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-snapshot/docs/handover/f07-mood-sharing/next-agent.md",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-snapshot/docs/handover/f07-mood-sharing/privacy-lifecycle.md",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-snapshot/docs/handover/f07-mood-sharing/reading-map.md",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-snapshot/docs/handover/f07-mood-sharing/review-rounds.md",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-snapshot/docs/handover/f07-mood-sharing/screenshots/01-mood-page-hs.png",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-snapshot/docs/handover/f07-mood-sharing/screenshots/02-mood-saved.png",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-snapshot/docs/handover/f07-mood-sharing/screenshots/03-share-sheet.png",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-snapshot/docs/handover/f07-mood-sharing/screenshots/04-share-grants.png",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-snapshot/docs/handover/f07-mood-sharing/screenshots/05-shared-list-ph.png",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-snapshot/docs/handover/f07-mood-sharing/screenshots/06-shared-detail-ph.png",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-snapshot/docs/handover/f07-mood-sharing/screenshots/07-revoked-blocked.png",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-snapshot/docs/handover/f07-mood-sharing/team-and-ownership.md",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-snapshot/docs/handover/f07-mood-sharing/verification-report.md",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-snapshot/packages/family_bridge_features/f07_mood/api.py",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-snapshot/packages/family_bridge_features/f07_mood/apps.py",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-snapshot/packages/family_bridge_features/f07_mood/models.py",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-snapshot/packages/family_bridge_features/f07_mood/services/__init__.py",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-snapshot/packages/family_bridge_features/f07_mood/services/deletion.py",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-snapshot/packages/family_bridge_features/f07_mood/services/grant_provider.py",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-snapshot/packages/family_bridge_features/f07_mood/services/mood.py",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-snapshot/packages/family_bridge_features/f07_mood/tests/test_f07_integration.py",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-snapshot/packages/family_bridge_features/f07_mood/tests/test_f07_regressions.py",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-snapshot/packages/family_bridge_features/f07_mood/tests/test_race_mysql.py",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-snapshot/packages/family_bridge_mobile/f07_mood/api.js",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-snapshot/packages/family_bridge_shared/src/adapter/contract.js",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-snapshot/packages/family_bridge_shared/src/adapter/http-endpoints.js",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-snapshot/packages/family_bridge_shared/src/adapter/mock-adapter.js",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-snapshot/packages/family_bridge_shared/tests/http-endpoints.test.mjs",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-snapshot/packages/family_bridge_shared/tests/purity.test.mjs",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-snapshot/scripts/f07_local_e2e.py",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-snapshot/scripts/f07_local_fixtures.py",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-snapshot/zalo-mini-app/src/app/router.js",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-snapshot/zalo-mini-app/src/pages/home/index.js",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-snapshot/zalo-mini-app/src/pages/mood-shared/index.js",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-snapshot/zalo-mini-app/src/pages/mood/index.js",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-snapshot/zalo-mini-app/src/pages/profile/index.js",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/branch-snapshot/zalo-mini-app/tests/f07-mood.test.mjs",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/evidence/agent-docs.log",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/evidence/backend-with-mysql-driver-tests.log",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/evidence/browser-review.log",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/evidence/browser/browser-results.json",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/evidence/browser/layout-320-css-text-200.png",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/evidence/browser/layout-320-normal.png",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/evidence/browser/layout-390-css-text-200.png",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/evidence/browser/layout-390-normal.png",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/evidence/browser/layout-430-css-text-200.png",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/evidence/browser/layout-430-normal.png",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/evidence/browser/r01-after-navigation.png",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/evidence/browser/r01-after-session-clear.png",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/evidence/browser/r01-before-navigation.png",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/evidence/f07-backend-tests.log",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/evidence/f07-mysql-tests.log",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/evidence/f07-sqlite-tests.log",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/evidence/full-harness.log",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/evidence/http-e2e.log",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/evidence/import-boundaries.log",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/evidence/independent-mysql-regressions.log",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/evidence/independent-sqlite-regressions.log",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/evidence/migrations.log",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/evidence/miniapp-build.log",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/evidence/miniapp-tests.log",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/evidence/package-tests.log",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/evidence/web-build.log",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/evidence/web-tests.log",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/recheck/PROVENANCE.json",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/recheck/README.md",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/recheck/browser-review.log",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/recheck/browser/browser-results.json",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/recheck/browser/layout-320-css-text-200.png",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/recheck/browser/layout-320-normal.png",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/recheck/browser/layout-390-css-text-200.png",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/recheck/browser/layout-390-normal.png",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/recheck/browser/layout-430-css-text-200.png",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/recheck/browser/layout-430-normal.png",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/recheck/browser/r01-after-navigation.png",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/recheck/browser/r01-after-session-clear.png",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/recheck/browser/r01-before-navigation.png",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/recheck/mysql-create-race.log",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/recheck/mysql-regressions.log",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/repro/README.md",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/repro/browser_review.mjs",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/repro/review_regressions.py",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-18-f07-review/repro/run_review.py",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/FINDINGS-R07.md",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/MANIFEST-SHA256.csv",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/PROMPT-NEXT-AGENT.md",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/PROVENANCE.json",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/README.md",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/REQUIREMENTS-AND-ACCEPTANCE.md",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/TEST-RESULTS.md",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/USER-DECISION-WEB-PARITY.md",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/evidence/client-parity.log",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/evidence/client-parity/mini-mood-shared.png",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/evidence/client-parity/mini-mood.png",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/evidence/client-parity/mini-profile.png",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/evidence/client-parity/results.json",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/evidence/client-parity/web-home-duplicate-no-edit.png",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/evidence/client-parity/web-mood-shared.png",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/evidence/client-parity/web-mood.png",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/evidence/client-parity/web-profile.png",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/evidence/mini-browser.log",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/evidence/mini-browser/browser-results.json",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/evidence/mini-browser/layout-320-css-text-200.png",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/evidence/mini-browser/layout-320-normal.png",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/evidence/mini-browser/layout-390-css-text-200.png",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/evidence/mini-browser/layout-390-normal.png",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/evidence/mini-browser/layout-430-css-text-200.png",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/evidence/mini-browser/layout-430-normal.png",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/evidence/mini-browser/r01-after-navigation.png",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/evidence/mini-browser/r01-after-session-clear.png",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/evidence/mini-browser/r01-before-navigation.png",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/evidence/mini-build.log",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/evidence/mini-tests.log",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/evidence/mysql-create-race.log",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/evidence/mysql-regressions.log",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/evidence/web-build.log",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/evidence/web-tests.log",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/repro/README.md",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/repro/client_parity.mjs",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/repro/seed_parity.py",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/source-reference/packages/family_bridge_shared/src/adapter/contract.js",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/source-reference/packages/family_bridge_shared/src/adapter/http-endpoints.js",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/source-reference/web/src/adapter/web-adapter.js",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/source-reference/web/src/app/router.js",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/source-reference/web/src/pages/diary/index.js",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/source-reference/web/src/pages/home/index.js",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/source-reference/web/src/pages/profile/index.js",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/source-reference/zalo-mini-app/src/app/router.js",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/source-reference/zalo-mini-app/src/pages/mood-shared/index.js",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/source-reference/zalo-mini-app/src/pages/mood/index.js",
+          "same_as": "documentation-repository-main"
+        },
+        {
+          "path": "updates/2026-10-19-f07-web-mini-parity/source-reference/zalo-mini-app/src/pages/profile/index.js",
+          "same_as": "documentation-repository-main"
+        }
+      ]
+    },
+    "f04": {
+      "ref": "origin/F04-docx",
+      "sha": "878a437bd348111ec35e9d5872c159b719266e04",
+      "included": [
+        "AGENTS.md",
+        "PROMPT-COPY-F04.md",
+        "README.md",
+        "assets/logos/web/app-icon.png",
+        "assets/logos/web/logo-lockup-transparent.png",
+        "assets/logos/web/logo-lockup.png",
+        "assets/logos/web/logo-mark-transparent.png",
+        "assets/logos/web/logo-mark.png",
+        "assets/logos/zalo-mini-app/app-icon.png",
+        "assets/logos/zalo-mini-app/logo-lockup-transparent.png",
+        "assets/logos/zalo-mini-app/logo-lockup.png",
+        "assets/logos/zalo-mini-app/logo-mark-transparent.png",
+        "assets/logos/zalo-mini-app/logo-mark.png",
+        "catalog/CONTENTS.csv",
+        "catalog/PROVENANCE.json",
+        "catalog/SHA256SUMS",
+        "designs/extracted/stitch_family_bridge_ai_composer/warm_paper_sanctuary/DESIGN.md",
+        "designs/extracted/stitch_family_bridge_ai_composer/web_f04_01_so_n_l_i_nh_n/code.html",
+        "designs/extracted/stitch_family_bridge_ai_composer/web_f04_01_so_n_l_i_nh_n/screen.png",
+        "designs/extracted/stitch_family_bridge_ai_composer/web_f04_02_chu_n_b_d_ng_ai_consent/code.html",
+        "designs/extracted/stitch_family_bridge_ai_composer/web_f04_02_chu_n_b_d_ng_ai_consent/screen.png",
+        "designs/extracted/stitch_family_bridge_ai_composer/web_f04_04_xem_v_s_a_g_i/code.html",
+        "designs/extracted/stitch_family_bridge_ai_composer/web_f04_04_xem_v_s_a_g_i/screen.png",
+        "designs/extracted/stitch_family_bridge_ai_composer/web_f04_05_p_d_ng_ch_a_g_i/code.html",
+        "designs/extracted/stitch_family_bridge_ai_composer/web_f04_05_p_d_ng_ch_a_g_i/screen.png",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/warm_empathy_bridge/DESIGN.md",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_01_kb_so_n_l_i_nh_n_b_n_ph_m_m/code.html",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_01_kb_so_n_l_i_nh_n_b_n_ph_m_m/screen.png",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_01_so_n_l_i_nh_n/code.html",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_01_so_n_l_i_nh_n/screen.png",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_02_ch_n_n_i_dung_ai/code.html",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_02_ch_n_n_i_dung_ai/screen.png",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_03_th_ng_b_o_ng_ai/code.html",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_03_th_ng_b_o_ng_ai/screen.png",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_04_ang_t_o_g_i/code.html",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_04_ang_t_o_g_i/screen.png",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_05_xem_g_i/code.html",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_05_xem_g_i/screen.png",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_06_kb_s_a_v_p_d_ng_b_n_ph_m_m/code.html",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_06_kb_s_a_v_p_d_ng_b_n_ph_m_m/screen.png",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_06_s_a_v_p_d_ng/code.html",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_06_s_a_v_p_d_ng/screen.png",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_07_g_i_c/code.html",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_07_g_i_c/screen.png",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_08_ai_l_i_kh_ng_b_t/code.html",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_08_ai_l_i_kh_ng_b_t/screen.png",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_09_ch_n_ng_i_nh_n/code.html",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_09_ch_n_ng_i_nh_n/screen.png",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_10_xem_tr_c_v_x_c_nh_n/code.html",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_10_xem_tr_c_v_x_c_nh_n/screen.png",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_11_kho_ng_d_ng_5_ph_t/code.html",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_11_kho_ng_d_ng_5_ph_t/screen.png",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_12_k_t_qu_g_i/code.html",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_12_k_t_qu_g_i/screen.png",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_13_tr_l_i_c_ai/code.html",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_13_tr_l_i_c_ai/screen.png",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_14_ng_i_nh_n_c_final/code.html",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_14_ng_i_nh_n_c_final/screen.png",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_cg_01_kb_ng_i_ch_m_s_c_so_n_l_i_nh_n_b_n_ph_m_m/code.html",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_cg_01_kb_ng_i_ch_m_s_c_so_n_l_i_nh_n_b_n_ph_m_m/screen.png",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_cg_01_ng_i_ch_m_s_c_so_n_l_i_nh_n/code.html",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_cg_01_ng_i_ch_m_s_c_so_n_l_i_nh_n/screen.png",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_cg_02_kb_ng_i_ch_m_s_c_s_a_v_p_d_ng_b_n_ph_m_m/code.html",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_cg_02_kb_ng_i_ch_m_s_c_s_a_v_p_d_ng_b_n_ph_m_m/screen.png",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_cg_02_ng_i_ch_m_s_c_xem_g_i_th_u_c_m/code.html",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_cg_02_ng_i_ch_m_s_c_xem_g_i_th_u_c_m/screen.png",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_cg_03_trung_t_m_ng_i_ch_m_s_c_ng_h_nh/code.html",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_cg_03_trung_t_m_ng_i_ch_m_s_c_ng_h_nh/screen.png",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_cg_04_t_l_ch_t_v_n_t_m_l_1_1/code.html",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_cg_04_t_l_ch_t_v_n_t_m_l_1_1/screen.png",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_cg_05_t_l_ch_th_nh_c_ng_h_ng_d_n_chu_n_b/code.html",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_cg_05_t_l_ch_th_nh_c_ng_h_ng_d_n_chu_n_b/screen.png",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_cg_06_ph_ng_th_nghi_m_thi_t_b_tr_c_gi_g_i/code.html",
+        "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_cg_06_ph_ng_th_nghi_m_thi_t_b_tr_c_gi_g_i/screen.png",
+        "designs/original/stitch_family_bridge_ai_composer.zip",
+        "designs/original/stitch_family_bridge_zalo_ai_composer.zip",
+        "evidence/2026-10-19-ec29ab/backend-check.log",
+        "evidence/2026-10-19-ec29ab/boundaries.log",
+        "evidence/2026-10-19-ec29ab/browser-e2e.json",
+        "evidence/2026-10-19-ec29ab/browser-e2e.log",
+        "evidence/2026-10-19-ec29ab/claim-reuse.log",
+        "evidence/2026-10-19-ec29ab/cleanup.json",
+        "evidence/2026-10-19-ec29ab/commands-backend.json",
+        "evidence/2026-10-19-ec29ab/commands-feature.json",
+        "evidence/2026-10-19-ec29ab/commands-mini.json",
+        "evidence/2026-10-19-ec29ab/commands-probes.json",
+        "evidence/2026-10-19-ec29ab/commands-shared.json",
+        "evidence/2026-10-19-ec29ab/commands-web.json",
+        "evidence/2026-10-19-ec29ab/cors.json",
+        "evidence/2026-10-19-ec29ab/cross-client-draft-conflict.json",
+        "evidence/2026-10-19-ec29ab/cross-client-draft-conflict.log",
+        "evidence/2026-10-19-ec29ab/cross-client-recipient.json",
+        "evidence/2026-10-19-ec29ab/cross-client-recipient.log",
+        "evidence/2026-10-19-ec29ab/docs.log",
+        "evidence/2026-10-19-ec29ab/feature-f04.log",
+        "evidence/2026-10-19-ec29ab/fixtures.log",
+        "evidence/2026-10-19-ec29ab/foundation.log",
+        "evidence/2026-10-19-ec29ab/layout-control.json",
+        "evidence/2026-10-19-ec29ab/layout-control.log",
+        "evidence/2026-10-19-ec29ab/migrate.log",
+        "evidence/2026-10-19-ec29ab/migration-drift.log",
+        "evidence/2026-10-19-ec29ab/mini-320-layout.png",
+        "evidence/2026-10-19-ec29ab/mini-390-layout.png",
+        "evidence/2026-10-19-ec29ab/mini-build.log",
+        "evidence/2026-10-19-ec29ab/mini-caregiver-applied.png",
+        "evidence/2026-10-19-ec29ab/mini-caregiver-preview.png",
+        "evidence/2026-10-19-ec29ab/mini-caregiver-responsive-1440.png",
+        "evidence/2026-10-19-ec29ab/mini-caregiver-responsive-320.png",
+        "evidence/2026-10-19-ec29ab/mini-caregiver-state-compose.png",
+        "evidence/2026-10-19-ec29ab/mini-caregiver-state-consent.png",
+        "evidence/2026-10-19-ec29ab/mini-caregiver-state-error.png",
+        "evidence/2026-10-19-ec29ab/mini-caregiver-state-final-on-other-client.png",
+        "evidence/2026-10-19-ec29ab/mini-caregiver-state-loading.png",
+        "evidence/2026-10-19-ec29ab/mini-caregiver-state-pause.png",
+        "evidence/2026-10-19-ec29ab/mini-caregiver-state-recipient-final.png",
+        "evidence/2026-10-19-ec29ab/mini-caregiver-state-recipient.png",
+        "evidence/2026-10-19-ec29ab/mini-caregiver-state-reply-ai.png",
+        "evidence/2026-10-19-ec29ab/mini-caregiver-state-stale.png",
+        "evidence/2026-10-19-ec29ab/mini-caregiver-state-suggestion.png",
+        "evidence/2026-10-19-ec29ab/mini-caregiver-text-200.png",
+        "evidence/2026-10-19-ec29ab/mini-preview-inflight-race.png",
+        "evidence/2026-10-19-ec29ab/mini-review-web-edit-wrong-recipient-preview.png",
+        "evidence/2026-10-19-ec29ab/mini-server.log",
+        "evidence/2026-10-19-ec29ab/mini-stale-save-after-web-silent-overwrite.png",
+        "evidence/2026-10-19-ec29ab/mini-student-applied.png",
+        "evidence/2026-10-19-ec29ab/mini-student-preview.png",
+        "evidence/2026-10-19-ec29ab/mini-student-state-compose.png",
+        "evidence/2026-10-19-ec29ab/mini-student-state-consent.png",
+        "evidence/2026-10-19-ec29ab/mini-student-state-error.png",
+        "evidence/2026-10-19-ec29ab/mini-student-state-final-on-other-client.png",
+        "evidence/2026-10-19-ec29ab/mini-student-state-loading.png",
+        "evidence/2026-10-19-ec29ab/mini-student-state-pause.png",
+        "evidence/2026-10-19-ec29ab/mini-student-state-recipient-final.png",
+        "evidence/2026-10-19-ec29ab/mini-student-state-recipient.png",
+        "evidence/2026-10-19-ec29ab/mini-student-state-reply-ai.png",
+        "evidence/2026-10-19-ec29ab/mini-student-state-stale.png",
+        "evidence/2026-10-19-ec29ab/mini-student-state-suggestion.png",
+        "evidence/2026-10-19-ec29ab/mini-test.log",
+        "evidence/2026-10-19-ec29ab/preview-race.json",
+        "evidence/2026-10-19-ec29ab/preview-race.log",
+        "evidence/2026-10-19-ec29ab/regression.log",
+        "evidence/2026-10-19-ec29ab/remote-after.atom",
+        "evidence/2026-10-19-ec29ab/remote.atom",
+        "evidence/2026-10-19-ec29ab/reply-e2e.json",
+        "evidence/2026-10-19-ec29ab/reply-e2e.log",
+        "evidence/2026-10-19-ec29ab/responsive.json",
+        "evidence/2026-10-19-ec29ab/responsive.log",
+        "evidence/2026-10-19-ec29ab/server.log",
+        "evidence/2026-10-19-ec29ab/shared.log",
+        "evidence/2026-10-19-ec29ab/source-integrity.json",
+        "evidence/2026-10-19-ec29ab/ui-states.json",
+        "evidence/2026-10-19-ec29ab/ui-states.log",
+        "evidence/2026-10-19-ec29ab/web-1440-layout.png",
+        "evidence/2026-10-19-ec29ab/web-390-layout.png",
+        "evidence/2026-10-19-ec29ab/web-build.log",
+        "evidence/2026-10-19-ec29ab/web-caregiver-applied.png",
+        "evidence/2026-10-19-ec29ab/web-caregiver-preview.png",
+        "evidence/2026-10-19-ec29ab/web-caregiver-responsive-1440.png",
+        "evidence/2026-10-19-ec29ab/web-caregiver-responsive-320.png",
+        "evidence/2026-10-19-ec29ab/web-caregiver-state-compose.png",
+        "evidence/2026-10-19-ec29ab/web-caregiver-state-consent.png",
+        "evidence/2026-10-19-ec29ab/web-caregiver-state-error.png",
+        "evidence/2026-10-19-ec29ab/web-caregiver-state-final-on-other-client.png",
+        "evidence/2026-10-19-ec29ab/web-caregiver-state-loading.png",
+        "evidence/2026-10-19-ec29ab/web-caregiver-state-pause.png",
+        "evidence/2026-10-19-ec29ab/web-caregiver-state-recipient-final.png",
+        "evidence/2026-10-19-ec29ab/web-caregiver-state-recipient.png",
+        "evidence/2026-10-19-ec29ab/web-caregiver-state-reply-ai.png",
+        "evidence/2026-10-19-ec29ab/web-caregiver-state-stale.png",
+        "evidence/2026-10-19-ec29ab/web-caregiver-state-suggestion.png",
+        "evidence/2026-10-19-ec29ab/web-caregiver-text-200.png",
+        "evidence/2026-10-19-ec29ab/web-preview-inflight-race.png",
+        "evidence/2026-10-19-ec29ab/web-review-mini-edit-wrong-recipient-preview.png",
+        "evidence/2026-10-19-ec29ab/web-server.log",
+        "evidence/2026-10-19-ec29ab/web-stale-save-after-mini-silent-overwrite.png",
+        "evidence/2026-10-19-ec29ab/web-student-applied.png",
+        "evidence/2026-10-19-ec29ab/web-student-preview.png",
+        "evidence/2026-10-19-ec29ab/web-student-state-compose.png",
+        "evidence/2026-10-19-ec29ab/web-student-state-consent.png",
+        "evidence/2026-10-19-ec29ab/web-student-state-error.png",
+        "evidence/2026-10-19-ec29ab/web-student-state-final-on-other-client.png",
+        "evidence/2026-10-19-ec29ab/web-student-state-loading.png",
+        "evidence/2026-10-19-ec29ab/web-student-state-pause.png",
+        "evidence/2026-10-19-ec29ab/web-student-state-recipient-final.png",
+        "evidence/2026-10-19-ec29ab/web-student-state-recipient.png",
+        "evidence/2026-10-19-ec29ab/web-student-state-reply-ai.png",
+        "evidence/2026-10-19-ec29ab/web-student-state-stale.png",
+        "evidence/2026-10-19-ec29ab/web-student-state-suggestion.png",
+        "evidence/2026-10-19-ec29ab/web-test.log",
+        "evidence/2026-10-19/backend-server.log",
+        "evidence/2026-10-19/browser-e2e.json",
+        "evidence/2026-10-19/browser-e2e.log",
+        "evidence/2026-10-19/claim-reuse.log",
+        "evidence/2026-10-19/feature-f04.log",
+        "evidence/2026-10-19/fixtures.log",
+        "evidence/2026-10-19/foundation.log",
+        "evidence/2026-10-19/layout-control.json",
+        "evidence/2026-10-19/layout-control.log",
+        "evidence/2026-10-19/mini-320-layout.png",
+        "evidence/2026-10-19/mini-390-layout.png",
+        "evidence/2026-10-19/mini-caregiver-applied.png",
+        "evidence/2026-10-19/mini-caregiver-preview.png",
+        "evidence/2026-10-19/mini-preview-inflight-race.png",
+        "evidence/2026-10-19/mini-server.log",
+        "evidence/2026-10-19/mini-student-applied.png",
+        "evidence/2026-10-19/mini-student-preview.png",
+        "evidence/2026-10-19/mini.log",
+        "evidence/2026-10-19/preview-race.json",
+        "evidence/2026-10-19/preview-race.log",
+        "evidence/2026-10-19/regression.log",
+        "evidence/2026-10-19/shared.log",
+        "evidence/2026-10-19/web-1440-layout.png",
+        "evidence/2026-10-19/web-390-layout.png",
+        "evidence/2026-10-19/web-caregiver-applied.png",
+        "evidence/2026-10-19/web-caregiver-preview.png",
+        "evidence/2026-10-19/web-preview-inflight-race.png",
+        "evidence/2026-10-19/web-server.log",
+        "evidence/2026-10-19/web-student-applied.png",
+        "evidence/2026-10-19/web-student-preview.png",
+        "evidence/2026-10-19/web.log",
+        "prompts/history/2026-10-18-before-e0ee388.md",
+        "prompts/history/2026-10-19-before-ec29ab.md",
+        "references/family-bridge-ec29ab/README.md",
+        "references/family-bridge-ec29ab/application-diff-e0ee388-ec29ab.patch",
+        "references/family-bridge-ec29ab/changed-files.json",
+        "references/family-bridge-ec29ab/docs/features/f04/manifest.json",
+        "references/family-bridge-ec29ab/docs/features/f04/peer-review.md",
+        "references/family-bridge-ec29ab/docs/features/f04/peer-review/round1-A1-reviews-A2.md",
+        "references/family-bridge-ec29ab/docs/features/f04/peer-review/round1-A2-reviews-A3.md",
+        "references/family-bridge-ec29ab/docs/features/f04/peer-review/round1-A3-reviews-A4.md",
+        "references/family-bridge-ec29ab/docs/features/f04/peer-review/round1-A4-reviews-A5.md",
+        "references/family-bridge-ec29ab/docs/features/f04/peer-review/round1-A5-reviews-A1-plus-security.md",
+        "references/family-bridge-ec29ab/docs/features/f04/report.md",
+        "references/family-bridge-ec29ab/docs/features/f04/scope.md",
+        "references/family-bridge-ec29ab/docs/features/f04/test.md",
+        "references/family-bridge-ec29ab/docs/features/f04/web-design-states.md",
+        "references/family-bridge-ec29ab/docs/features/f04/web-zalo-parity.md",
+        "references/family-bridge-f04/manifest.json",
+        "references/family-bridge-f04/peer-review.md",
+        "references/family-bridge-f04/peer-review/round1-A1-reviews-A2.md",
+        "references/family-bridge-f04/peer-review/round1-A2-reviews-A3.md",
+        "references/family-bridge-f04/peer-review/round1-A3-reviews-A4.md",
+        "references/family-bridge-f04/peer-review/round1-A4-reviews-A5.md",
+        "references/family-bridge-f04/peer-review/round1-A5-reviews-A1-plus-security.md",
+        "references/family-bridge-f04/report.md",
+        "references/family-bridge-f04/scope.md",
+        "references/family-bridge-f04/test.md",
+        "references/family-bridge-f04/web-zalo-parity.md",
+        "reports/2026-10-18-1d8eeaf.md",
+        "reports/2026-10-19-d33b250.md",
+        "reports/2026-10-19-e0ee388.md",
+        "reports/2026-10-19-ec29ab-ui-matrix.md",
+        "reports/2026-10-19-ec29ab.md",
+        "reports/2026-10-19-ec29abb.md",
+        "reports/PUBLISH-STATUS.md",
+        "repro/README.md",
+        "repro/audit_server.py",
+        "repro/browser_e2e.mjs",
+        "repro/browser_layout_and_control.mjs",
+        "repro/ec29ab/README.md",
+        "repro/ec29ab/audit_server.py",
+        "repro/ec29ab/browser_e2e.mjs",
+        "repro/ec29ab/browser_layout_and_control.mjs",
+        "repro/ec29ab/cross_client_draft_conflict.mjs",
+        "repro/ec29ab/cross_client_recipient.mjs",
+        "repro/ec29ab/independent_backend_probe.py",
+        "repro/ec29ab/prepare_browser.py",
+        "repro/ec29ab/preview_race.mjs",
+        "repro/ec29ab/probe_claim_reuse.py",
+        "repro/ec29ab/reply_e2e.mjs",
+        "repro/ec29ab/responsive_audit.mjs",
+        "repro/ec29ab/run_checks.py",
+        "repro/ec29ab/ui_state_audit.mjs",
+        "repro/independent_backend_probe.py",
+        "repro/prepare_browser.py",
+        "repro/preview_race.mjs",
+        "repro/probe_claim_reuse.py",
+        "requirements/F04-ACCEPTANCE.md",
+        "requirements/Family-Bridge-mo-ta-15-nhanh-tinh-nang.docx",
+        "requirements/USER-DECISIONS.md",
+        "tools/catalog.py"
+      ],
+      "deduplicated": []
+    },
+    "f04-legacy-lowercase": {
+      "ref": "origin/f04-docx",
+      "sha": "e3a8f8b4bb720d30f9548e0252ec22b9d7f5daa8",
+      "included": [
+        "AGENTS.md",
+        "PROMPT-COPY-F04.md",
+        "README.md",
+        "catalog/CONTENTS.csv",
+        "catalog/PROVENANCE.json",
+        "catalog/SHA256SUMS",
+        "reports/PUBLISH-STATUS.md",
+        "requirements/F04-ACCEPTANCE.md",
+        "requirements/USER-DECISIONS.md"
+      ],
+      "deduplicated": [
+        {
+          "path": "assets/logos/web/app-icon.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "assets/logos/web/logo-lockup-transparent.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "assets/logos/web/logo-lockup.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "assets/logos/web/logo-mark-transparent.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "assets/logos/web/logo-mark.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "assets/logos/zalo-mini-app/app-icon.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "assets/logos/zalo-mini-app/logo-lockup-transparent.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "assets/logos/zalo-mini-app/logo-lockup.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "assets/logos/zalo-mini-app/logo-mark-transparent.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "assets/logos/zalo-mini-app/logo-mark.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_ai_composer/warm_paper_sanctuary/DESIGN.md",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_ai_composer/web_f04_01_so_n_l_i_nh_n/code.html",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_ai_composer/web_f04_01_so_n_l_i_nh_n/screen.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_ai_composer/web_f04_02_chu_n_b_d_ng_ai_consent/code.html",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_ai_composer/web_f04_02_chu_n_b_d_ng_ai_consent/screen.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_ai_composer/web_f04_04_xem_v_s_a_g_i/code.html",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_ai_composer/web_f04_04_xem_v_s_a_g_i/screen.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_ai_composer/web_f04_05_p_d_ng_ch_a_g_i/code.html",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_ai_composer/web_f04_05_p_d_ng_ch_a_g_i/screen.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/warm_empathy_bridge/DESIGN.md",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_01_kb_so_n_l_i_nh_n_b_n_ph_m_m/code.html",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_01_kb_so_n_l_i_nh_n_b_n_ph_m_m/screen.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_01_so_n_l_i_nh_n/code.html",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_01_so_n_l_i_nh_n/screen.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_02_ch_n_n_i_dung_ai/code.html",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_02_ch_n_n_i_dung_ai/screen.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_03_th_ng_b_o_ng_ai/code.html",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_03_th_ng_b_o_ng_ai/screen.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_04_ang_t_o_g_i/code.html",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_04_ang_t_o_g_i/screen.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_05_xem_g_i/code.html",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_05_xem_g_i/screen.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_06_kb_s_a_v_p_d_ng_b_n_ph_m_m/code.html",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_06_kb_s_a_v_p_d_ng_b_n_ph_m_m/screen.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_06_s_a_v_p_d_ng/code.html",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_06_s_a_v_p_d_ng/screen.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_07_g_i_c/code.html",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_07_g_i_c/screen.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_08_ai_l_i_kh_ng_b_t/code.html",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_08_ai_l_i_kh_ng_b_t/screen.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_09_ch_n_ng_i_nh_n/code.html",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_09_ch_n_ng_i_nh_n/screen.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_10_xem_tr_c_v_x_c_nh_n/code.html",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_10_xem_tr_c_v_x_c_nh_n/screen.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_11_kho_ng_d_ng_5_ph_t/code.html",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_11_kho_ng_d_ng_5_ph_t/screen.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_12_k_t_qu_g_i/code.html",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_12_k_t_qu_g_i/screen.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_13_tr_l_i_c_ai/code.html",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_13_tr_l_i_c_ai/screen.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_14_ng_i_nh_n_c_final/code.html",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_14_ng_i_nh_n_c_final/screen.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_cg_01_kb_ng_i_ch_m_s_c_so_n_l_i_nh_n_b_n_ph_m_m/code.html",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_cg_01_kb_ng_i_ch_m_s_c_so_n_l_i_nh_n_b_n_ph_m_m/screen.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_cg_01_ng_i_ch_m_s_c_so_n_l_i_nh_n/code.html",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_cg_01_ng_i_ch_m_s_c_so_n_l_i_nh_n/screen.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_cg_02_kb_ng_i_ch_m_s_c_s_a_v_p_d_ng_b_n_ph_m_m/code.html",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_cg_02_kb_ng_i_ch_m_s_c_s_a_v_p_d_ng_b_n_ph_m_m/screen.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_cg_02_ng_i_ch_m_s_c_xem_g_i_th_u_c_m/code.html",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_cg_02_ng_i_ch_m_s_c_xem_g_i_th_u_c_m/screen.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_cg_03_trung_t_m_ng_i_ch_m_s_c_ng_h_nh/code.html",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_cg_03_trung_t_m_ng_i_ch_m_s_c_ng_h_nh/screen.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_cg_04_t_l_ch_t_v_n_t_m_l_1_1/code.html",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_cg_04_t_l_ch_t_v_n_t_m_l_1_1/screen.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_cg_05_t_l_ch_th_nh_c_ng_h_ng_d_n_chu_n_b/code.html",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_cg_05_t_l_ch_th_nh_c_ng_h_ng_d_n_chu_n_b/screen.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_cg_06_ph_ng_th_nghi_m_thi_t_b_tr_c_gi_g_i/code.html",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/extracted/stitch_family_bridge_zalo_ai_composer/zalo_f04_cg_06_ph_ng_th_nghi_m_thi_t_b_tr_c_gi_g_i/screen.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/original/stitch_family_bridge_ai_composer.zip",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "designs/original/stitch_family_bridge_zalo_ai_composer.zip",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "evidence/2026-10-19/backend-server.log",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "evidence/2026-10-19/browser-e2e.json",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "evidence/2026-10-19/browser-e2e.log",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "evidence/2026-10-19/claim-reuse.log",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "evidence/2026-10-19/feature-f04.log",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "evidence/2026-10-19/fixtures.log",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "evidence/2026-10-19/foundation.log",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "evidence/2026-10-19/layout-control.json",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "evidence/2026-10-19/layout-control.log",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "evidence/2026-10-19/mini-320-layout.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "evidence/2026-10-19/mini-390-layout.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "evidence/2026-10-19/mini-caregiver-applied.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "evidence/2026-10-19/mini-caregiver-preview.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "evidence/2026-10-19/mini-preview-inflight-race.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "evidence/2026-10-19/mini-server.log",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "evidence/2026-10-19/mini-student-applied.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "evidence/2026-10-19/mini-student-preview.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "evidence/2026-10-19/mini.log",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "evidence/2026-10-19/preview-race.json",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "evidence/2026-10-19/preview-race.log",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "evidence/2026-10-19/regression.log",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "evidence/2026-10-19/shared.log",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "evidence/2026-10-19/web-1440-layout.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "evidence/2026-10-19/web-390-layout.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "evidence/2026-10-19/web-caregiver-applied.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "evidence/2026-10-19/web-caregiver-preview.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "evidence/2026-10-19/web-preview-inflight-race.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "evidence/2026-10-19/web-server.log",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "evidence/2026-10-19/web-student-applied.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "evidence/2026-10-19/web-student-preview.png",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "evidence/2026-10-19/web.log",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "prompts/history/2026-10-18-before-e0ee388.md",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "references/family-bridge-f04/manifest.json",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "references/family-bridge-f04/peer-review.md",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "references/family-bridge-f04/peer-review/round1-A1-reviews-A2.md",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "references/family-bridge-f04/peer-review/round1-A2-reviews-A3.md",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "references/family-bridge-f04/peer-review/round1-A3-reviews-A4.md",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "references/family-bridge-f04/peer-review/round1-A4-reviews-A5.md",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "references/family-bridge-f04/peer-review/round1-A5-reviews-A1-plus-security.md",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "references/family-bridge-f04/report.md",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "references/family-bridge-f04/scope.md",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "references/family-bridge-f04/test.md",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "references/family-bridge-f04/web-zalo-parity.md",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "reports/2026-10-18-1d8eeaf.md",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "reports/2026-10-19-e0ee388.md",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "reports/2026-10-19-ec29abb.md",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "repro/README.md",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "repro/audit_server.py",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "repro/browser_e2e.mjs",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "repro/browser_layout_and_control.mjs",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "repro/independent_backend_probe.py",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "repro/prepare_browser.py",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "repro/preview_race.mjs",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "repro/probe_claim_reuse.py",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "requirements/Family-Bridge-mo-ta-15-nhanh-tinh-nang.docx",
+          "same_as": "archive-docs/f04"
+        },
+        {
+          "path": "tools/catalog.py",
+          "same_as": "archive-docs/f04"
+        }
+      ]
+    }
+  }
+}

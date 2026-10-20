@@ -1,0 +1,20 @@
+[
+  "docs/features/f04/manifest.json",
+  "docs/features/f04/web-design-states.md",
+  "docs/features/f04/web-zalo-parity.md",
+  "packages/family_bridge_features/f04_ai/services/express.py",
+  "packages/family_bridge_features/f04_ai/tests/test_f04_claim_identity.py",
+  "packages/family_bridge_features/f06_drafts/services/drafts.py",
+  "packages/family_bridge_features/f06_drafts/tests/test_f06.py",
+  "packages/family_bridge_shared/src/adapter/http-endpoints.js",
+  "packages/family_bridge_shared/src/adapter/mock-adapter.js",
+  "packages/family_bridge_shared/tests/f04-contract.test.mjs",
+  "tests/qa-f04/n01-preview-inflight-a5.test.mjs",
+  "web/src/pages/compose/index.js",
+  "web/src/styles/components.css",
+  "web/tests/f04-ai-parity.test.mjs",
+  "web/tests/f04-preview-snapshot.test.mjs",
+  "zalo-mini-app/src/pages/compose/index.js",
+  "zalo-mini-app/tests/f04-preview-snapshot.test.mjs",
+  "zalo-mini-app/tests/stitch-upgrade.test.mjs"
+]

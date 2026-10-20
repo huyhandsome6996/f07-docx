@@ -1,0 +1,366 @@
+
+> family-bridge-web@0.3.0 test
+> node --test tests/*.test.mjs
+
+▶ Cấu hình: VITE_API_BASE_URL
+  ✔ getApiBaseUrl không cấu hình -> chuỗi rỗng (không tự đoán URL) (1.024075ms)
+  ✔ thiếu baseUrl -> assertApiBaseUrlConfigured ném ApiError kind 'configuration', message tiếng Việt giống mini (0.334123ms)
+  ✔ assertApiBaseUrlConfigured với baseUrl hợp lệ -> trả về chính nó (0.177285ms)
+  ✔ getTestBuildLabel ngoài Vite -> chuỗi rỗng (an toàn) (0.154395ms)
+✔ Cấu hình: VITE_API_BASE_URL (2.966696ms)
+▶ Demo mode (?demo=1|true) — isolation như mini
+  ✔ isDemoModeRequested = FALSE khi URL không có ?demo (0.314882ms)
+  ✔ isDemoModeRequested = FALSE khi ?demo=0 (chỉ nhận '1' hoặc 'true') (0.174927ms)
+  ✔ isDemoModeRequested = TRUE khi ?demo=1 hoặc ?demo=true (0.194412ms)
+✔ Demo mode (?demo=1|true) — isolation như mini (1.013908ms)
+▶ Adapter mode — không fallback tự động
+  ✔ resolveAdapterMode: null/false/undefined -> 'web' (KHÔNG BAO GIỜ mock khi demo tắt) (0.349478ms)
+  ✔ resolveAdapterMode: true -> 'mock' (chỉ khi demo bật rõ ràng) (0.192293ms)
+  ✔ createAdapter mode không hợp lệ -> throw (không âm thầm chọn chế độ) (0.861932ms)
+  ✔ createAdapter 'mock' -> adapter mock (mode 'mock'), có surface ADAPTER_METHODS (0.618328ms)
+  ✔ createAdapter 'web' (baseUrl mặc định rỗng) -> adapter mode 'web'; health ném lỗi cấu hình, KHÔNG fallback mock (3.43557ms)
+  ✔ createWebAdapter trực tiếp KHÔNG có method Zalo (loginWithZaloToken/trySilentLogin/assertZaloHost) (0.252192ms)
+✔ Adapter mode — không fallback tự động (6.20445ms)
+▶ Demo isolation: mock không tạo token/phiên thật
+  ✔ loginWithZaloToken trên mock (demo) KHÔNG cài phiên sống có token thật ngoài bộ nhớ demo (201.320274ms)
+  ✔ demo adapter: getConnectionStatus trả fixture với source 'fixture' (giống mini) (200.111165ms)
+✔ Demo isolation: mock không tạo token/phiên thật (401.747184ms)
+▶ Tầng API client — kind gắn tại nơi ném (fetch stub, timer thật)
+  ✔ SC1-client: thiếu baseUrl -> ApiError kind 'configuration', status 0 (1.512385ms)
+  ✔ SC2-client: baseUrl HTTP ngoài localhost -> kind 'configuration' (client chặn HTTPS) (0.479906ms)
+  ✔ SC3-client: fetch ném TypeError (mạng) -> kind 'network', status 0 (0.516098ms)
+  ✔ SC4-client: AbortError do timer thật (timeoutMs 30) -> kind 'timeout', status 0 (30.799433ms)
+  ✔ SC5-client: ready trả 503 -> ApiError kind 'http', status 503 (mã HTTP thật) (0.66499ms)
+  ✔ SC5b-adapter: web-adapter giữ nguyên hợp đồng ready-503 -> 'unavailable' (0.899463ms)
+  ✔ SC7-client: response 200 nhưng json() ném SyntaxError -> kind 'invalid_response' (0.344804ms)
+✔ Tầng API client — kind gắn tại nơi ném (fetch stub, timer thật) (38.426395ms)
+▶ Tầng hiển thị connection-check — mount page thật (happy-dom)
+  ✔ SC1-UI: thiếu VITE_API_BASE_URL -> lỗi cấu hình, TUYỆT ĐỐI không phải timeout (88.453591ms)
+  ✔ SC2-UI: địa chỉ backend HTTP ngoài localhost -> lỗi cấu hình, không phải timeout (85.96688ms)
+  ✔ SC3-UI: fetch ném TypeError -> 'Chưa kết nối được máy chủ' + nút Thử lại, không phải timeout (81.552532ms)
+  ✔ SC4-UI: adapter ném kind 'timeout' -> title 'Kết nối quá thời gian chờ' (theo kind, không dò message) (83.932509ms)
+  ✔ SC5-UI: health ok + ready 503 unavailable -> 'Máy chủ chưa sẵn sàng' (không phải lỗi mạng/timeout) (80.638004ms)
+  ✔ SC6-UI: health + ready đều ok -> badge 'Đã kết nối tới máy chủ' (81.264941ms)
+  ✔ SC7-UI: 200 nhưng json() hỏng -> kind 'invalid_response' -> 'Không kiểm tra được kết nối' (80.790023ms)
+  ✔ SC8-UI: destroy khi request đang treo -> vẫn loading, không render stale khi request hoàn tất sau đó (362.186043ms)
+  ✔ SC9-UI: lỗi mạng -> bấm 'Thử lại' sau khi backend hồi phục -> 'Đã kết nối tới máy chủ' (204.359741ms)
+  ✔ SC10-UI (khóa regression): ApiError cũ KHÔNG kind, status 0 -> lỗi chung, KHÔNG bao giờ timeout (81.633819ms)
+  ✔ SC11-UI (demo): bấm 'Giả lập: timeout' (mock adapter thật + rebuildAdapter) -> ~4.5s sau hiện title timeout (7005.328598ms)
+✔ Tầng hiển thị connection-check — mount page thật (happy-dom) (8239.320629ms)
+▶ Tầng API client — FIX 1: baseUrl sai cú pháp -> configuration, chặn trước fetch
+  ✔ SC12-client: baseUrl 'not-a-url' -> ApiError kind 'configuration', status 0, KHÔNG gọi fetch, không lộ URL/exception (0.560314ms)
+  ✔ SC13-client: baseUrl 'https://' -> ApiError kind 'configuration', status 0, KHÔNG gọi fetch (0.258619ms)
+  ✔ SC14-client: baseUrl 'http://[:' -> ApiError kind 'configuration', status 0, KHÔNG gọi fetch (0.258284ms)
+✔ Tầng API client — FIX 1: baseUrl sai cú pháp -> configuration, chặn trước fetch (1.24806ms)
+▶ Tầng API client — FIX 2: timeout khi đang đọc body (HTTP server thật node:http + fetch thật của Node)
+  ✔ SC15-client: server 200 + giữ body chưa hoàn tất, timer 500ms hủy giữa lúc đọc json() -> kind 'timeout' (KHÔNG phải invalid_response) (510.773932ms)
+  ✔ SC16-client (đối chứng): server 200 + body hoàn chỉnh KHÔNG phải JSON rồi end() -> kind 'invalid_response', status 200 (PASS trên cả code cũ và mới) (8.920475ms)
+✔ Tầng API client — FIX 2: timeout khi đang đọc body (HTTP server thật node:http + fetch thật của Node) (520.506768ms)
+▶ Tầng hiển thị — FIX 1: baseUrl sai cú pháp ở UI (mount page connection-check thật)
+  ✔ SC17-UI: baseUrl 'not-a-url' -> 'Chưa cấu hình địa chỉ máy chủ' + gợi ý VITE_API_BASE_URL, không lộ URL/exception, không phải timeout, có nút Thử lại (81.846871ms)
+✔ Tầng hiển thị — FIX 1: baseUrl sai cú pháp ở UI (mount page connection-check thật) (82.0521ms)
+▶ Tầng hiển thị — FIX 2: timeout khi đang đọc body ở UI (timer thật 15s của adapter)
+  ✔ SC18-UI: fetch trả headers 200 rồi json() treo đến khi timer 15s hủy -> 'Kết nối quá thời gian chờ' (không phải 'Không kiểm tra được kết nối') (15601.082256ms)
+✔ Tầng hiển thị — FIX 2: timeout khi đang đọc body ở UI (timer thật 15s của adapter) (15601.358907ms)
+▶ F04 web — C4 stale guard inputRevision
+  ✔ deferred response + user đổi text trước khi response về -> STALE: banner + khoá 'Dùng gợi ý' + còn 'Tạo gợi ý mới' + manual giữ nguyên (179.657431ms)
+  ✔ response về OK rồi user sửa text TRƯỚC lúc bấm apply -> apply bị chặn (kiểm tra revision tại thời điểm bấm) (158.117466ms)
+  ✔ gõ trong lúc accept đang bay -> sau khi aiAccept resolve: KHÔNG điền đè, giữ text mới + banner stale (R3A4-01) (197.276341ms)
+  ✔ inputRevision tăng theo TỪNG keystroke (input event) và gửi kèm refine (C4) (127.124454ms)
+✔ F04 web — C4 stale guard inputRevision (664.452167ms)
+▶ F04 web — C3 consent sheet
+  ✔ chưa consent -> sheet disclosure; decline -> recordConsent(declined) + manual vẫn dùng được, không gọi refine (186.406187ms)
+  ✔ 403 consent_required sau khi consent bị rút -> sheet mở lại; đồng ý -> recordConsent(accepted) rồi refine, không loop vô hạn (213.561411ms)
+  ✔ consent sai phiên bản policy (current=false) -> phải hỏi lại, không tự coi là đã đồng ý (3.208845ms)
+✔ F04 web — C3 consent sheet (403.701802ms)
+▶ F04 web — C5 error trung thực + manual fallback
+  ✔ 503/timeout khi refine -> panel lỗi trung thực, bản soạn nguyên, lưu nháp vẫn chạy (156.014606ms)
+  ✔ aiStatus lỗi mạng -> nút disabled + 'chưa kiểm tra được' (không giả AI off, không giả AI on) (61.027242ms)
+  ✔ loading có 'Hủy chờ gợi ý' (frame 04): hủy cục bộ -> response cũ bị bỏ qua, không tự retry, bấm lại là lượt mới (key mới) (255.93581ms)
+✔ F04 web — C5 error trung thực + manual fallback (473.504312ms)
+▶ F04 web — C6 apply không gửi, an toàn render
+  ✔ apply/discard không gọi confirmDraftSend/sendMessage; suggestion chứa HTML -> render textContent thuần (153.847687ms)
+  ✔ unmount giữa request đang bay -> response cũ không đụng DOM, không throw (163.487615ms)
+✔ F04 web — C6 apply không gửi, an toàn render (317.692872ms)
+▶ F04 web — caregiver variant + receipt + responsive smoke
+  ✔ caregiver: CÙNG component/classes, copy xưng hô khác ('Lời bạn muốn gửi') (122.913284ms)
+  ✔ receipt 'sent': chỉ sau response thành công; receipt 'unknown' khi lỗi -> không tự retry, có nút kiểm tra (133.21111ms)
+  ✔ receipt 'sent' khi máy chủ xác nhận; reset về bản soạn mới (131.950131ms)
+  ✔ responsive/palette smoke (source-level): grid 2 cột chỉ >=1024px; palette F04 đủ 6 màu; touch 44px; không hero ảnh (1.291565ms)
+  ✔ message reply dùng CÙNG khối assist + suggested_text (parity 2 chiều frame 13) (112.422895ms)
+  ✔ chọn người nhận: sheet chỉ liệt kê kết nối active; chọn -> hiện đúng người, không tự gửi (frame 09) (123.008006ms)
+✔ F04 web — caregiver variant + receipt + responsive smoke (625.316084ms)
+▶ F04 web — C8 preview (R2A3-01 web) + preview dùng bản đã sửa (R4A5-03)
+  ✔ draft CHƯA pause -> 'Xem trước nội dung' mở ngay (C8: khoảng dừng tuỳ chọn, không bắt buộc) (92.787191ms)
+  ✔ paused còn deadline -> preview vẫn chặn kèm thông báo cooldown trung thực (server sẽ 409) (61.980592ms)
+  ✔ apply AI -> user sửa tiếp -> preview dùng bản ĐÃ SỬA (không phải suggested_text gốc) (R4A5-03) (224.961768ms)
+  ✔ R01 (QA 18/10) — Dùng gợi ý KHÔNG lưu nháp -> preview TỰ ĐỒNG BỘ final lên máy chủ, confirm gửi đúng bản đã duyệt (không còn gửi original cũ) (247.291198ms)
+  ✔ R01 (QA 18/10) — textarea rỗng -> preview DỪNG ở client, không bind nhầm bản cũ trên máy chủ (100.672574ms)
+✔ F04 web — C8 preview (R2A3-01 web) + preview dùng bản đã sửa (R4A5-03) (728.13328ms)
+▶ R04/R05 (QA F04 18/10): compose web bọc app-shell desktop; CSS chống tràn + hidden guard
+  ✔ R04 — compose page phải render trong app-shell (chrome 'app') như các trang web desktop khác (0.11062ms)
+  ✔ R04 — root class fb-page--web (nâng cap 480px của mobile contract khi vào shell) (0.479454ms)
+  ✔ R05 — base.css có guard toàn cục [hidden]; CSS compose không còn min-content đẩy ngang (0.790979ms)
+✔ R04/R05 (QA F04 18/10): compose web bọc app-shell desktop; CSS chống tràn + hidden guard (1.680813ms)
+▶ Page contract (shape) — 13 trang port
+  ✔ welcome khớp contract (0.862272ms)
+  ✔ howToUse khớp contract (0.163052ms)
+  ✔ roleSelect khớp contract (0.153097ms)
+  ✔ home khớp contract (0.066338ms)
+  ✔ login khớp contract (0.059017ms)
+  ✔ consent khớp contract (0.094836ms)
+  ✔ connect khớp contract (0.140963ms)
+  ✔ companion khớp contract (0.099246ms)
+  ✔ diary khớp contract (0.162102ms)
+  ✔ profile khớp contract (0.198459ms)
+  ✔ connectionCheck khớp contract (0.0906ms)
+  ✔ help khớp contract (0.075898ms)
+  ✔ notFound khớp contract (0.086515ms)
+✔ Page contract (shape) — 13 trang port (3.680104ms)
+▶ 8 trang W2-b: meta khớp mini + render smoke trang thật (chưa đăng nhập)
+  ✔ cards: meta khớp mini + gate đăng nhập trung thực khi chưa có phiên (7.071019ms)
+  ✔ signal: meta khớp mini + gate đăng nhập trung thực khi chưa có phiên (1.246832ms)
+  ✔ message: meta khớp mini + gate đăng nhập trung thực khi chưa có phiên (1.029333ms)
+  ✔ mailbox: meta khớp mini + gate đăng nhập trung thực khi chưa có phiên (0.872502ms)
+  ✔ compose: meta khớp mini + gate đăng nhập trung thực khi chưa có phiên (1.868381ms)
+  ✔ proposal: meta khớp mini + gate đăng nhập trung thực khi chưa có phiên (2.018172ms)
+  ✔ settings: meta khớp mini + gate đăng nhập trung thực khi chưa có phiên (0.859332ms)
+  ✔ privacy: meta khớp mini + gate đăng nhập trung thực khi chưa có phiên (0.854364ms)
+✔ 8 trang W2-b: meta khớp mini + render smoke trang thật (chưa đăng nhập) (16.176907ms)
+▶ Render không throw + copy bắt buộc
+  ✔ U01 welcome (Stitch): CTA đăng nhập + liên kết Trợ giúp luôn hiển thị (4.285117ms)
+  ✔ U02 how-to-use: 4 bước + ghi chú demo + CTA 'Tiếp tục' về đăng nhập (1.891178ms)
+  ✔ U04 role-select: 2 vai trò + ghi chú không tạo tài khoản (0.993887ms)
+  ✔ U04 role-select: bấm vai trò -> setRole thật + navigate('/home') (42.782551ms)
+  ✔ Home student (demo): greeting fixture + DemoBanner + dữ liệu thật qua mock (w08) (1003.276391ms)
+  ✔ Home caregiver (demo): tự chăm sóc + thẻ lời nhắn + bài học trung thực (w09) (1007.785318ms)
+  ✔ Home production chưa đăng nhập: trạng thái mời đăng nhập, không gọi adapter (61.605584ms)
+  ✔ Home production đã đăng nhập + chưa có kết nối: mời sang /connect (81.169515ms)
+  ✔ Home production đã đăng nhập + có kết nối: 'Đang đồng hành' không lộ danh tính (84.72364ms)
+  ✔ Home production lỗi máy chủ: ErrorState + Thử lại, không fallback mock (81.489348ms)
+  ✔ Home thiếu vai trò: hướng về chọn vai trò, không gọi adapter (0.839454ms)
+  ✔ Home destroy: huỷ cập nhật async đang chờ (901.029622ms)
+  ✔ Hub Đồng hành: tuần 1 xem trước được, tuần 2–4 'Sắp có', ghi chú tự nguyện (1.204113ms)
+  ✔ Hub Nhật ký: chưa mở + nhấn mạnh chia sẻ từng trang do người dùng chọn (0.516352ms)
+  ✔ Hub Cá nhân: đổi vai trò + dẫn tới Cài đặt/Riêng tư thật + phiên bản US-003 (22.0876ms)
+  ✔ Help: 2 đầu mối 'Thông tin đang được xác minh', không số điện thoại, có khối nhà phát triển (1.066152ms)
+  ✔ Not-found: EmptyState + lối về màn hình đầu (0.882759ms)
+✔ Render không throw + copy bắt buộc (3299.057794ms)
+▶ Login web (f01): form mã tài khoản + mật khẩu
+  ✔ chưa đăng nhập: hiện form credential (mã + mật khẩu), không có nút Zalo (3.570422ms)
+  ✔ thiếu thông tin: bấm submit khi rỗng -> lỗi inline, không gọi mạng (23.530921ms)
+  ✔ sai thông tin (401): thông báo GENERIC 'Mã tài khoản hoặc mật khẩu chưa đúng.' — anti-enumeration (63.875269ms)
+✔ Login web (f01): form mã tài khoản + mật khẩu (91.400396ms)
+▶ Connection-check
+  ✔ loading hiển thị text đúng (1.54706ms)
+  ✔ demo thành công: badge 'Đã kết nối tới máy chủ' + có nút giả lập (1602.782696ms)
+  ✔ demo kịch bản lỗi: ErrorState + nút 'Thử lại' (1101.381498ms)
+  ✔ demo: bấm 'Giả lập: lỗi' (rebuildAdapter) chạy lại kiểm tra và ra lỗi (2702.711098ms)
+  ✔ timeout: ErrorState riêng 'Kết nối quá thời gian chờ' + nút 'Thử lại' (81.329308ms)
+  ✔ destroy: huỷ kiểm tra đang chạy, không cập nhật sau khi rời trang (1102.014077ms)
+✔ Connection-check (6592.320881ms)
+▶ QA web: cấm CDN bên ngoài (src + index.html)
+  ✔ không file nào chứa URL/điểm gốc CDN bị cấm (6.260169ms)
+✔ QA web: cấm CDN bên ngoài (src + index.html) (7.546358ms)
+▶ QA web: bất biến web độc lập (zmp-sdk / storage / interval)
+  ✔ KHÔNG zmp-sdk / localStorage / sessionStorage / setInterval trong web/src (8.7447ms)
+  ✔ web/index.html không tham chiếu zmp/manifest Zalo (0.406375ms)
+✔ QA web: bất biến web độc lập (zmp-sdk / storage / interval) (9.413787ms)
+▶ QA web: nút icon-only phải có aria-label (spot check regex)
+  ✔ createButton / h('button') chứa createIcon phải có aria-label hoặc text (6.975783ms)
+✔ QA web: nút icon-only phải có aria-label (spot check regex) (7.154774ms)
+▶ QA web: cấm copy giả thành công
+  ✔ cấm 'Đã gửi/Đã lưu nháp/Đã lưu/Đã chia sẻ' trong web/src (4.012311ms)
+✔ QA web: cấm copy giả thành công (4.289153ms)
+▶ QA web: cấu hình deploy & env
+  ✔ .env.example không gán biến SECRET/PASSWORD/TOKEN/PRIVATE (0.351592ms)
+  ✔ render.yaml khai báo static service family-bridge-web build web/dist (ADR-4) (0.36021ms)
+✔ QA web: cấu hình deploy & env (0.92213ms)
+▶ Route table: 21 hash path GIỮ NGUYÊN mini
+  ✔ đúng 21 route, không thêm/bớt (3.117823ms)
+  ✔ mỗi route là hàm loader trả Promise module có page contract (46.173279ms)
+  ✔ 8 trang W2-b giữ meta mini (requiresAuth + chrome app) (1.865045ms)
+  ✔ 13 trang port giữ meta mini (2.314103ms)
+✔ Route table: 21 hash path GIỮ NGUYÊN mini (55.117536ms)
+▶ Pattern route /messages/:id
+  ✔ matchPattern khớp đúng một segment và decode URI (0.688098ms)
+  ✔ /messages/abc khớp route pattern (exact miss -> pattern) (0.763392ms)
+✔ Pattern route /messages/:id (1.69195ms)
+▶ parseHash + guard
+  ✔ hash rỗng -> '/' (0.522458ms)
+  ✔ hash query (#/help?x=1) parse được (0.962045ms)
+  ✔ navigate() tới cùng hash không crash (1.299002ms)
+✔ parseHash + guard (3.226737ms)
+▶ Router render (happy-dom)
+  ✔ hash '#/abc' -> render trang not-found (11.088838ms)
+  ✔ hash rỗng -> welcome (7.363559ms)
+  ✔ requiresRole: chưa chọn vai trò vào /home -> redirect #/role-select (3.90141ms)
+  ✔ requiresAuth TRƯỚC requiresRole: trang /mailbox không phiên -> redirect /login?reason=expired (1.320192ms)
+  ✔ đã có phiên + vai trò -> /mailbox render TRANG THẬT trong app-shell, dữ liệu qua adapter (191.361447ms)
+  ✔ chrome app (home) bọc trong app-shell với sidebar NAV_ITEMS_SIDEBAR (26.591011ms)
+✔ Router render (happy-dom) (242.198114ms)
+▶ Web M3 — proposal (w05) contract + luồng xác nhận
+  ✔ page contract: chrome 'app' + requiresAuth (router guard phiên) (1.095468ms)
+  ✔ demo: một đề xuất → thẻ w05, checkbox KHÓA nút xác nhận đến khi tích (429.533465ms)
+  ✔ demo: xác nhận → máy chủ trả connected → thẻ thành công hai phía (1003.014514ms)
+  ✔ production: decline 'Không đúng người' → adapter nhận reason 'wrong_pair' (165.303623ms)
+  ✔ production: trạng thái awaiting_confirmation → banner chờ, không đếm ngược (61.323249ms)
+  ✔ production: không có đề xuất → empty state + lối #/connect (60.799761ms)
+  ✔ production: lỗi confirm proposal_blocked_by_open_invite → copy + lối #/connect (122.813712ms)
+  ✔ production: lỗi confirm consent_required → copy + lối #/consent (123.15406ms)
+  ✔ BẢN DỊCH AN TOÀN: không chứa 'Giám hộ'/'Ban Cố Vấn'/'Lớp 11A' (identity bug Stitch) (402.703842ms)
+✔ Web M3 — proposal (w05) contract + luồng xác nhận (2372.047008ms)
+▶ Web M3 — home: mood pill + chương trình trung thực
+  ✔ 5 mood pill phải búng MÃ CẢM XÚC THẬT của backend F07 (81.532928ms)
+  ✔ chọn mood pill → createMoodEntry nhận MÃ F07 thật, không emoji tự chế (144.371276ms)
+  ✔ chương trình đã ghi danh: tuần + bước từ máy chủ, KHÔNG gauge/phần trăm (81.779163ms)
+  ✔ hộp thư preview: chip 'Mới' chỉ cho received && !read; thư gửi ghi 'Gửi lúc' (80.74768ms)
+✔ Web M3 — home: mood pill + chương trình trung thực (389.669491ms)
+▶ Web M4 — cards (w10): preview + xác nhận chốt gửi, filter group thật
+  ✔ page contract: chrome 'app' + requiresAuth (0.292086ms)
+  ✔ select thẻ -> sheet: gửi bị CHẶN đến khi preview + xác nhận; key gắn ở nút xác nhận (239.211523ms)
+  ✔ filter pill -> listCards nhận param group thật; 'Tất cả' bỏ lọc; counter từ cửa sổ đã tải (245.7934ms)
+  ✔ nhóm rỗng -> empty state trung thực theo nhóm; catalog rỗng -> honest empty (81.131894ms)
+  ✔ gửi lỗi -> KẾT QUẢ CHƯA XÁC ĐỊNH + 'Kiểm tra trạng thái gửi' -> lookupOperation(key) (295.573056ms)
+✔ Web M4 — cards (w10): preview + xác nhận chốt gửi, filter group thật (862.512159ms)
+▶ Web M4 — signal (w16): 3 nhu cầu từ meta, preview -> phát, caregiver ack
+  ✔ page contract: chrome 'app' + requiresAuth (0.146104ms)
+  ✔ student: 3 nhu cầu render từ signalMeta (nhãn máy chủ ưu tiên), KHÔNG time-picker (81.448769ms)
+  ✔ student: meta thiếu -> fallback nhãn tiếng Việt 3 nhu cầu (80.795594ms)
+  ✔ student: preview TRƯỚC khi gửi; send disabled đến khi có preview; body/headers đúng hợp đồng (222.283755ms)
+  ✔ student: banned copy vắng mặt (Bảo mật 100% / Mã hóa nội bộ / HS-SYNC-2025) (80.486443ms)
+  ✔ student: gửi lỗi -> KẾT QUẢ CHƯA XÁC ĐỊNH + tra cứu lookupOperation(key) (282.937621ms)
+  ✔ student: không có kết nối active -> empty 'Kết nối với người đồng hành trước' + #/connect (81.151167ms)
+  ✔ caregiver: hàng listening_signal từ listMessages -> signalAck(id) + link #/messages/{id} (140.315989ms)
+  ✔ caregiver: không có tín hiệu -> empty 'Chưa có tín hiệu nào' (80.783659ms)
+✔ Web M4 — signal (w16): 3 nhu cầu từ meta, preview -> phát, caregiver ack (1051.043131ms)
+▶ Web M4 — compose restyle (w11/w12): 2 cột, vòng đếm, niêm phong, AI thật
+  ✔ markup có lớp 2 cột .fb-compose-grid + shell.css có rule desktop >=1024px (0.523332ms)
+  ✔ demo: lưu nháp -> pause -> vòng đếm SVG + textarea niêm phong + preview vẫn chặn (3306.384434ms)
+  ✔ F04: consent gate -> 'Đồng ý và tạo gợi ý' -> aiRefine(key+inputRevision) -> suggested_text; 'Dùng gợi ý' -> aiAccept + chỉ điền textarea (2507.19426ms)
+  ✔ F04: 'Bỏ' -> aiDiscard, textarea giữ nguyên; consent cấp sẵn -> refine thẳng; aiStatus tắt -> nút disabled trung thực (2171.467796ms)
+  ✔ không thêm setInterval vào compose (DSA-10) — bất biến QA giữ nguyên (0.758927ms)
+✔ Web M4 — compose restyle (w11/w12): 2 cột, vòng đếm, niêm phong, AI thật (7986.69682ms)
+▶ Web M5a — mailbox (w14): danh sách title-only dữ liệu thật, không bịa
+  ✔ page contract: chrome 'app' + requiresAuth + requiresRole + bottom-nav (0.153292ms)
+  ✔ heading + sub; tên người đối diện từ listConnections; fallback trung thực khi không resolve (62.1875ms)
+  ✔ 'Mới' chỉ cho received-unread; 'Gửi lúc' cho sent; 'Nhận lúc' cho received đã tải (60.825153ms)
+  ✔ nhóm lọc map đúng (kind + reply_to) trên cửa sổ đã tải; không gọi lại listMessages (74.757049ms)
+  ✔ tìm kiếm lọc trong cửa sổ đã tải + caption trung thực (63.31478ms)
+  ✔ phân trang: 'Tải thêm' truyền cursor thật; hết cursor -> ẩn nút (91.942233ms)
+  ✔ desktop ≥1024px: click hàng -> #/mailbox?sel=<id>; pane chi tiết meta + liên kết mở thư (121.956887ms)
+  ✔ mobile: hàng là liên kết sang #/messages/{id} (không pane chi tiết) (60.97831ms)
+  ✔ rỗng thật từ máy chủ: giữ pin copy cũ + nút kiểm tra kết nối (65.341901ms)
+  ✔ lỗi tải: trung thực cold-start + Thử lại; không hiện số bịa (61.378611ms)
+✔ Web M5a — mailbox (w14): danh sách title-only dữ liệu thật, không bịa (665.996852ms)
+▶ Web M5a — message (w15): chi tiết + phản hồi qua API thật
+  ✔ thread render body thật; bong bóng theo direction; markRead CHỈ received-unread (91.572433ms)
+  ✔ thư gửi đi (sent + đã đọc): KHÔNG gọi markMessageRead; bong bóng --sent (91.910475ms)
+  ✔ quickReplies library_not_configured -> ẩn chip trung thực; audience theo vai trò (61.587311ms)
+  ✔ quickReplies có kết quả -> chip điền VÀO TEXTAREA (người dùng vẫn tự bấm gửi) (61.228585ms)
+  ✔ gửi phản hồi: body có kind text + recipientId + reply_to + key; xong -> về #/mailbox (92.232867ms)
+  ✔ gửi lỗi -> KẾT QUẢ CHƯA XÁC ĐỊNH + 'Kiểm tra trạng thái gửi' -> lookupOperation(key) (122.514893ms)
+  ✔ F04 reply AI: consent cấp sẵn -> aiRefine(key+inputRevision) -> suggested_text; 'Dùng gợi ý' -> aiAccept + chỉ điền textarea; 'Bỏ' giữ nguyên; không tự gửi (212.672327ms)
+  ✔ AI tắt (mặc định) -> nút disabled kèm lý do trung thực, không ẩn âm thầm (60.321882ms)
+  ✔ getMessage lỗi -> trạng thái lỗi + Thử lại, không bịa nội dung (60.855258ms)
+✔ Web M5a — message (w15): chi tiết + phản hồi qua API thật (855.570895ms)
+▶ Web M5b — settings: đổi mật khẩu / mã đăng nhập / tên hiển thị (trung thực)
+  ✔ page contract: chrome 'app' + requiresAuth (0.158355ms)
+  ✔ đổi mật khẩu gửi đúng {currentPassword,newPassword} + success đếm phiên từ máy chủ (81.205821ms)
+  ✔ success hiển thị SỐ PHIÊN MÁY CHỦ báo (sessions_revoked_other=2) (81.332043ms)
+  ✔ 403 reauth_failed → 'Mật khẩu hiện tại chưa đúng.' (không fake success) (82.18233ms)
+  ✔ weak_password → render danh sách details.messages của máy chủ (80.596261ms)
+  ✔ new != confirm → lỗi client-side, KHÔNG gọi máy chủ (60.343867ms)
+  ✔ backend 404 → thẻ DISABLED 'chưa được bật trên máy chủ', KHÔNG fake success (81.232099ms)
+  ✔ capabilities.settings.change_password=false → thẻ disabled từ đầu (40.830917ms)
+  ✔ đổi mã đăng nhập thành công → 'Đã đổi mã đăng nhập thành {code}.' từ login_code máy chủ (81.750333ms)
+  ✔ đổi mã khớp giới hạn backend 3–16 ký tự, chặn 2/17 trước API (163.169586ms)
+  ✔ mã sai định dạng → lỗi client-side không gọi máy chủ; duplicate_code → copy máy chủ (91.709443ms)
+  ✔ đổi tên hiển thị KHÔNG cần mật khẩu → updateMyProfile + copy thành công (81.327901ms)
+  ✔ đổi tên lỗi 401 → redirect login?reason=expired (không có thông báo giả) (71.517592ms)
+  ✔ riêng tư + đăng xuất: hàng dẫn #/privacy; logout qua dialog xóa phiên (71.940068ms)
+✔ Web M5b — settings: đổi mật khẩu / mã đăng nhập / tên hiển thị (trung thực) (1070.089898ms)
+▶ Logout session generation with real adapter timing
+  ✔ late logout response does not navigate away from a newly signed-in actor (72.128844ms)
+  ✔ revocation network failure still navigates to an honest logged-out-pending state (70.231809ms)
+✔ Logout session generation with real adapter timing (142.666058ms)
+▶ Web M5b — settings: tài khoản LỚP đổi tên phải re-auth (hợp đồng Task 19)
+  ✔ loginMethod 'class' → đổi tên gọi changeClassDisplayName kèm current_password (44.166615ms)
+  ✔ loginMethod 'class' + 403 → thông báo mật khẩu chưa đúng, không fake success (42.582597ms)
+✔ Web M5b — settings: tài khoản LỚP đổi tên phải re-auth (hợp đồng Task 19) (87.058116ms)
+▶ Web M5b — privacy (F15): thu hồi / yêu cầu xóa / rút đồng ý — không over-claim
+  ✔ page contract: chrome 'app' + requiresAuth (0.136541ms)
+  ✔ grants: 'Thu hồi' qua dialog confirm → revokeGrant đúng tham số → refetch overview (113.219062ms)
+  ✔ grants rỗng → empty state trung thực, không bịa mục (51.691313ms)
+  ✔ yêu cầu xóa: cần ≥1 phạm vi; tạo qua confirm → requestDeletion(categories) + biên nhận một lần (133.177456ms)
+  ✔ hủy yêu cầu qua confirm → cancelDeletionRequest(id,{expectedRevision}) → trạng thái Đã hủy (173.750234ms)
+  ✔ 409 revision_conflict khi hủy → tải lại trạng thái, KHÔNG tự retry hủy (173.726818ms)
+  ✔ consents: service đang đồng ý → Rút đồng ý (confirm) → withdrawConsent + refetch; research declined không có nút (113.177689ms)
+  ✔ overview lỗi → error state + Thử lại; KHÔNG hiển thị trạng thái bịa (50.744503ms)
+  ✔ banned strings vắng mặt trên cả hai trang (không over-claim) (0.544101ms)
+✔ Web M5b — privacy (F15): thu hồi / yêu cầu xóa / rút đồng ý — không over-claim (810.750011ms)
+ℹ tests 213
+ℹ suites 42
+ℹ pass 213
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 27683.508144
+
+> family-bridge-web@0.3.0 build
+> vite build
+
+vite v8.3.4 building client environment for production...
+transforming...
+✓ 66 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                     0.85 kB │ gzip:  0.51 kB
+dist/assets/BeVietnamPro-Regular-DxE1rDs9.ttf     132.94 kB
+dist/assets/BeVietnamPro-Medium-zLP32ZWI.ttf      135.98 kB
+dist/assets/BeVietnamPro-SemiBold-DEWu8_st.ttf    136.73 kB
+dist/assets/BeVietnamPro-Bold-C_pM0_D6.ttf        140.30 kB
+dist/assets/hero-welcome-tea-CWl9abdP.jpg         155.73 kB
+dist/assets/logo-mark-transparent-BishO1QN.png    168.88 kB
+dist/assets/logo-lockup-transparent-cgusvOql.png  321.44 kB
+dist/assets/index-YvJ3lGdr.css                     70.27 kB │ gzip: 10.45 kB
+dist/assets/demo-banner-Cd3nZ3X3.js                 0.17 kB │ gzip:  0.18 kB
+dist/assets/logo-BvwPdfOe.js                        0.38 kB │ gzip:  0.30 kB
+dist/assets/button-Dhj9T1VQ.js                      0.48 kB │ gzip:  0.32 kB
+dist/assets/card-DU7IuCFy.js                        0.60 kB │ gzip:  0.36 kB
+dist/assets/diary-CVmuZ_Zf.js                       0.66 kB │ gzip:  0.45 kB
+dist/assets/nav-ByCpkiKC.js                         0.67 kB │ gzip:  0.31 kB
+dist/assets/not-found-DuXVHkBP.js                   0.74 kB │ gzip:  0.47 kB
+dist/assets/empty-state-1fz7Ulhi.js                 0.80 kB │ gzip:  0.46 kB
+dist/assets/top-bar-xGUGV3tZ.js                     0.85 kB │ gzip:  0.50 kB
+dist/assets/bottom-nav-DBgL24rG.js                  0.93 kB │ gzip:  0.56 kB
+dist/assets/error-state-BLIVIVc_.js                 1.30 kB │ gzip:  0.73 kB
+dist/assets/role-select-DVzW0K-O.js                 1.41 kB │ gzip:  0.77 kB
+dist/assets/status-badge-DgD96er0.js                1.67 kB │ gzip:  0.57 kB
+dist/assets/dialog-Sl_frZSM.js                      1.70 kB │ gzip:  0.85 kB
+dist/assets/help-CiQTkDSE.js                        1.70 kB │ gzip:  0.90 kB
+dist/assets/sheet-70yEESBo.js                       1.75 kB │ gzip:  0.93 kB
+dist/assets/how-to-use-BZSHC7JO.js                  2.06 kB │ gzip:  1.10 kB
+dist/assets/companion-BUSZD8GY.js                   2.12 kB │ gzip:  1.15 kB
+dist/assets/app-shell-BAoY0rdp.js                   3.17 kB │ gzip:  1.31 kB
+dist/assets/welcome-C06U4jtp.js                     3.42 kB │ gzip:  1.49 kB
+dist/assets/profile-CF2pfpDu.js                     3.76 kB │ gzip:  1.74 kB
+dist/assets/connection-check-9wieXDqD.js            3.81 kB │ gzip:  1.63 kB
+dist/assets/consent-D31bjjDw.js                     4.77 kB │ gzip:  2.21 kB
+dist/assets/message-B00Kgf2T.js                     8.34 kB │ gzip:  3.46 kB
+dist/assets/mailbox-DHwj4KHW.js                     9.53 kB │ gzip:  3.82 kB
+dist/assets/settings-D0zphmVl.js                   11.07 kB │ gzip:  3.68 kB
+dist/assets/cards-CXPr4S8x.js                      11.65 kB │ gzip:  4.48 kB
+dist/assets/login-Bit71cwZ.js                      11.68 kB │ gzip:  4.39 kB
+dist/assets/proposal-CjIsP2Fz.js                   11.97 kB │ gzip:  4.17 kB
+dist/assets/signal-DeKLQdQs.js                     13.65 kB │ gzip:  4.85 kB
+dist/assets/privacy-Be_9dKyd.js                    14.51 kB │ gzip:  5.03 kB
+dist/assets/ai-assist-DwH48u9p.js                  15.37 kB │ gzip:  4.28 kB
+dist/assets/connect-DEBcsDDX.js                    19.46 kB │ gzip:  6.38 kB
+dist/assets/compose-nysmzLuP.js                    22.18 kB │ gzip:  7.04 kB
+dist/assets/home-DwFL8_C0.js                       23.58 kB │ gzip:  7.09 kB
+dist/assets/icon-Bnvw83HZ.js                       26.46 kB │ gzip:  8.64 kB
+dist/assets/index-CbFbhF9H.js                      51.32 kB │ gzip: 14.16 kB
+
+✓ built in 173ms

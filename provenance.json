@@ -1,0 +1,16 @@
+{
+  "package": "Family Bridge Antigravity Mini App + HS/PH reply + AI + Testing deploy",
+  "date_local": "2026-10-21",
+  "timezone": "UTC+07:00",
+  "app_repository": "huyhandsome6996/family-bridge",
+  "app_audit_sha": "7ace3dab80c2473095cdef51c0cd3b35805b4143",
+  "audit_document_repository": "huyhandsome6996/f07-docx",
+  "audit_document_commit": "eaeb733a531f705954c1e3a51120531f97147d3e",
+  "audit_document_blob": "c18fede57ab4fe9de214d8fd5bed3836051ae326",
+  "history_commit": "3de455868115e9c2848974f7272020355a85dda4",
+  "history_tree_sha": "fdea47b10846592c2e12b6eebb399356c5a7aa2d",
+  "history_files": 1846,
+  "zip_original_miniapp_bytes_included": false,
+  "source_evidence_scope": "GitHub source review and V8 probes with dependency doubles; full runtime/provider/device/deployment not verified",
+  "deployment_authorization": "New user instruction authorizes Antigravity to fix/test/deploy existing Zalo Mini App Testing and necessary existing backend updates; no automatic Live review/publication"
+}

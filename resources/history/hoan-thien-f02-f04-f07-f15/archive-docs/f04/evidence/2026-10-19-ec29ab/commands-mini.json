@@ -1,0 +1,23 @@
+[
+  {
+    "name": "mini-test",
+    "command": [
+      "npm",
+      "test"
+    ],
+    "cwd": "/workspace/f04-review-20261019-ec29ab/source/zalo-mini-app",
+    "exit_code": 0,
+    "seconds": 50.91
+  },
+  {
+    "name": "mini-build",
+    "command": [
+      "npm",
+      "run",
+      "build"
+    ],
+    "cwd": "/workspace/f04-review-20261019-ec29ab/source/zalo-mini-app",
+    "exit_code": 0,
+    "seconds": 0.67
+  }
+]

@@ -1,0 +1,57 @@
+[
+  {
+    "name": "UI invitation uses latest published activity revision2",
+    "pass": false,
+    "actual": {
+      "content_revision": 1,
+      "status": "pending"
+    }
+  },
+  {
+    "name": "new program revision with unchanged agreement template does not reuse wrong pin",
+    "pass": false,
+    "actual": {
+      "status": 201,
+      "old_agreement_id": "05e01734-cdae-4eff-b313-44b69cecc6d2",
+      "proposal": {
+        "agreement_id": "05e01734-cdae-4eff-b313-44b69cecc6d2",
+        "program_key": "dong-hanh-bon-tuan",
+        "program_revision": 1,
+        "agreement_revision": 1,
+        "connection_generation": 1,
+        "status": "proposed",
+        "proposed_by": "c96090fb-41f8-48b6-9cec-221e2c5c3bb3",
+        "proposed_by_me": true,
+        "my_confirmed": false,
+        "counterpart_confirmed": false,
+        "commitments": [
+          "Mỗi tuần có ít nhất một khoảng thời gian nói chuyện riêng không điện thoại",
+          "Gọi tên cảm xúc thay vì trách móc",
+          "Không so sánh con với ai — so với chính con hôm qua",
+          "Tôn trọng ranh giới riêng tư đã thống nhất; muốn biết thì hỏi thẳng",
+          "Cảm ơn và xin lỗi cụ thể, cả hai chiều"
+        ],
+        "created_at": "2026-10-19T06:57:25.433086+00:00",
+        "updated_at": "2026-10-19T06:57:25.433086+00:00",
+        "confirmed_at": null
+      }
+    }
+  },
+  {
+    "name": "both repinned users can confirm a proposal on their new program revision",
+    "pass": false,
+    "actual": {
+      "status": 400,
+      "response": {
+        "error": {
+          "code": "input_invalid",
+          "details": {
+            "reason": "revision_mismatch",
+            "my_revision": 2,
+            "agreement_revision": 1
+          }
+        }
+      }
+    }
+  }
+]

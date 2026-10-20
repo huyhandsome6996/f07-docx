@@ -1,0 +1,11 @@
+✔ R01: two published revisions cannot make an old one overwrite latest (168.333999ms)
+✔ R05: logged-in user can inspect a week guide without enrollment (81.990618ms)
+✔ R06: published activity steps are readable or have a detail CTA (81.935223ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 881.261918

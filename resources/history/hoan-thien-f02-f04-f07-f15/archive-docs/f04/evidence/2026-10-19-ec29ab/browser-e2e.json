@@ -1,0 +1,362 @@
+[
+  {
+    "label": "web-student",
+    "provider": "LOCAL_SYNTHETIC_PROVIDER; NOT live Gemini",
+    "original": "AUDIT_ORIGINAL_PRIVATE_web-student: lời cũ chưa được duyệt gửi.",
+    "approved": "AUDIT_FINAL_SUGGESTION — Tôi muốn được lắng nghe.",
+    "previewText": "AUDIT_FINAL_SUGGESTION — Tôi muốn được lắng nghe.",
+    "storedBefore": "AUDIT_FINAL_SUGGESTION — Tôi muốn được lắng nghe.",
+    "deliveredBody": "AUDIT_FINAL_SUGGESTION — Tôi muốn được lắng nghe.",
+    "finalMatchesApproval": true,
+    "originalReachedRecipient": false,
+    "messagesBeforeExplicitConfirm": 0,
+    "messagesAfterConfirm": 1,
+    "foreignSuggestionStatus": 404,
+    "recipientDetailFields": [
+      "message_id",
+      "kind",
+      "direction",
+      "counterparty_id",
+      "title",
+      "created_at",
+      "read",
+      "reply_to",
+      "body",
+      "connection_generation"
+    ],
+    "pageErrors": [],
+    "calls": [
+      {
+        "method": "GET",
+        "path": "/api/v1/auth/class-capabilities"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/auth/class-session"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/consents"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/connections"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/drafts"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/messages"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/ai/status"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/consents"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/ai/refine"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/ai/suggestions/8e76787a-b0c2-4ea5-969c-b124b3bf70a4/accept"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/drafts/884227fa-9853-43b5-b7e9-fcf074abeaef"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/drafts/884227fa-9853-43b5-b7e9-fcf074abeaef/preview"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/drafts/884227fa-9853-43b5-b7e9-fcf074abeaef/confirm-send"
+      }
+    ]
+  },
+  {
+    "label": "web-caregiver",
+    "provider": "LOCAL_SYNTHETIC_PROVIDER; NOT live Gemini",
+    "original": "AUDIT_ORIGINAL_PRIVATE_web-caregiver: lời cũ chưa được duyệt gửi.",
+    "approved": "AUDIT_FINAL_SUGGESTION — Tôi muốn được lắng nghe.",
+    "previewText": "AUDIT_FINAL_SUGGESTION — Tôi muốn được lắng nghe.",
+    "storedBefore": "AUDIT_FINAL_SUGGESTION — Tôi muốn được lắng nghe.",
+    "deliveredBody": "AUDIT_FINAL_SUGGESTION — Tôi muốn được lắng nghe.",
+    "finalMatchesApproval": true,
+    "originalReachedRecipient": false,
+    "messagesBeforeExplicitConfirm": 0,
+    "messagesAfterConfirm": 1,
+    "foreignSuggestionStatus": 404,
+    "recipientDetailFields": [
+      "message_id",
+      "kind",
+      "direction",
+      "counterparty_id",
+      "title",
+      "created_at",
+      "read",
+      "reply_to",
+      "body",
+      "connection_generation"
+    ],
+    "pageErrors": [],
+    "calls": [
+      {
+        "method": "GET",
+        "path": "/api/v1/auth/class-capabilities"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/auth/class-session"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/consents"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/connections"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/drafts"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/messages"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/ai/status"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/consents"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/ai/refine"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/ai/suggestions/df80ee39-4f88-4665-b9f9-61bad4b2cacd/accept"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/drafts/2ad2603d-cc33-40ab-a439-52ebcaeb1812"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/drafts/2ad2603d-cc33-40ab-a439-52ebcaeb1812/preview"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/drafts/2ad2603d-cc33-40ab-a439-52ebcaeb1812/confirm-send"
+      }
+    ]
+  },
+  {
+    "label": "mini-student",
+    "provider": "LOCAL_SYNTHETIC_PROVIDER; NOT live Gemini",
+    "original": "AUDIT_ORIGINAL_PRIVATE_mini-student: lời cũ chưa được duyệt gửi.",
+    "approved": "AUDIT_FINAL_SUGGESTION — Tôi muốn được lắng nghe.",
+    "previewText": "AUDIT_FINAL_SUGGESTION — Tôi muốn được lắng nghe.",
+    "storedBefore": "AUDIT_FINAL_SUGGESTION — Tôi muốn được lắng nghe.",
+    "deliveredBody": "AUDIT_FINAL_SUGGESTION — Tôi muốn được lắng nghe.",
+    "finalMatchesApproval": true,
+    "originalReachedRecipient": false,
+    "messagesBeforeExplicitConfirm": 0,
+    "messagesAfterConfirm": 1,
+    "foreignSuggestionStatus": 404,
+    "recipientDetailFields": [
+      "message_id",
+      "kind",
+      "direction",
+      "counterparty_id",
+      "title",
+      "created_at",
+      "read",
+      "reply_to",
+      "body",
+      "connection_generation"
+    ],
+    "pageErrors": [],
+    "calls": [
+      {
+        "method": "GET",
+        "path": "/api/v1/auth/class-capabilities"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/auth/class-session"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/consents"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/messages"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/program/my"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/mood/entries"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/classroom/proposals"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/connections"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/connections"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/drafts"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/ai/status"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/consents"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/ai/refine"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/ai/suggestions/1e314fe1-c8cf-45ab-962e-ef1bc6b39822/accept"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/drafts/da2ab4e7-cf81-4386-a70e-610277392b2a"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/drafts/da2ab4e7-cf81-4386-a70e-610277392b2a/preview"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/drafts/da2ab4e7-cf81-4386-a70e-610277392b2a/confirm-send"
+      }
+    ]
+  },
+  {
+    "label": "mini-caregiver",
+    "provider": "LOCAL_SYNTHETIC_PROVIDER; NOT live Gemini",
+    "original": "AUDIT_ORIGINAL_PRIVATE_mini-caregiver: lời cũ chưa được duyệt gửi.",
+    "approved": "AUDIT_FINAL_SUGGESTION — Tôi muốn được lắng nghe.",
+    "previewText": "AUDIT_FINAL_SUGGESTION — Tôi muốn được lắng nghe.",
+    "storedBefore": "AUDIT_FINAL_SUGGESTION — Tôi muốn được lắng nghe.",
+    "deliveredBody": "AUDIT_FINAL_SUGGESTION — Tôi muốn được lắng nghe.",
+    "finalMatchesApproval": true,
+    "originalReachedRecipient": false,
+    "messagesBeforeExplicitConfirm": 0,
+    "messagesAfterConfirm": 1,
+    "foreignSuggestionStatus": 404,
+    "recipientDetailFields": [
+      "message_id",
+      "kind",
+      "direction",
+      "counterparty_id",
+      "title",
+      "created_at",
+      "read",
+      "reply_to",
+      "body",
+      "connection_generation"
+    ],
+    "pageErrors": [],
+    "calls": [
+      {
+        "method": "GET",
+        "path": "/api/v1/auth/class-capabilities"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/auth/class-session"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/consents"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/messages"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/program/my"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/mood/entries"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/activities/catalog"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/classroom/proposals"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/connections"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/connections"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/drafts"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/ai/status"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/consents"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/ai/refine"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/ai/suggestions/ef2dbddd-a212-4215-bd3d-b17d4ff1c60e/accept"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/drafts/1fd69bb4-b660-4ae6-be9e-fc9dd6a08b66"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/drafts/1fd69bb4-b660-4ae6-be9e-fc9dd6a08b66/preview"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/drafts/1fd69bb4-b660-4ae6-be9e-fc9dd6a08b66/confirm-send"
+      }
+    ]
+  }
+]

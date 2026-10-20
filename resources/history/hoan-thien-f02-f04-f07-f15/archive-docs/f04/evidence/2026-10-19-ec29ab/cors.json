@@ -1,0 +1,20 @@
+[
+  {
+    "origin": "http://127.0.0.1:5144",
+    "status": 200,
+    "allowOrigin": "http://127.0.0.1:5144",
+    "allowHeaders": "accept, authorization, content-type, user-agent, x-csrftoken, x-requested-with, x-idempotency-key"
+  },
+  {
+    "origin": "http://127.0.0.1:3044",
+    "status": 200,
+    "allowOrigin": "http://127.0.0.1:3044",
+    "allowHeaders": "accept, authorization, content-type, user-agent, x-csrftoken, x-requested-with, x-idempotency-key"
+  },
+  {
+    "origin": "https://untrusted.invalid",
+    "status": 200,
+    "allowOrigin": null,
+    "allowHeaders": null
+  }
+]

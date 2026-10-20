@@ -1,0 +1,177 @@
+{
+  "schema_version": 2,
+  "date": "2026-10-18",
+  "source_filename": "F07-NEW-CHAT-HANDOFF-2026-10-18.zip",
+  "source_file_count": 946,
+  "source_manifest_verified_files": 945,
+  "bundles": [
+    {
+      "id": "00",
+      "title": "ZIP gốc nguyên vẹn",
+      "purpose": "Toàn bộ bàn giao gốc; dùng để lưu trữ hoặc giải nén một lần thay cho các gói 01–09.",
+      "archive": "bundles/00-original/F07-NEW-CHAT-HANDOFF-2026-10-18.zip",
+      "sha256": "5e8701f77b1005eedec0f1a951afc652f4ebbb4ec9397fbf16d34c1d73ea99d4",
+      "archive_bytes": 14099814,
+      "file_count": 946,
+      "uncompressed_bytes": 18525248,
+      "role": "original"
+    },
+    {
+      "id": "01",
+      "title": "Nhiệm vụ và tiêu chí nghiệm thu F07",
+      "purpose": "Đọc đầu tiên để hiểu bàn giao; chỉ thực hiện khi nhiệm vụ hiện tại yêu cầu.",
+      "archive": "bundles/01-f07-mission/01-f07-mission-2026-10-18.zip",
+      "sha256": "2af28db11891e5ea5251dbb6f0c01fb180ba55cfea35e390f95f96adec7c0180",
+      "archive_bytes": 34301,
+      "file_count": 6,
+      "uncompressed_bytes": 79958,
+      "role": "partition"
+    },
+    {
+      "id": "02",
+      "title": "Yêu cầu gốc và tài liệu Word",
+      "purpose": "Đối chiếu yêu cầu 15 tính năng, bản trích xuất và tài liệu phân công Word.",
+      "archive": "bundles/02-requirements-docx/02-requirements-docx-2026-10-18.zip",
+      "sha256": "1198960fcf831ea091db40bee5097ed76e108aede02352887e9e6394731dd036",
+      "archive_bytes": 133850,
+      "file_count": 4,
+      "uncompressed_bytes": 178332,
+      "role": "partition"
+    },
+    {
+      "id": "03",
+      "title": "Kiến trúc, hợp đồng, quyền và quy tắc",
+      "purpose": "Tra cứu tài liệu dự án, API, dữ liệu, ownership, handover và kỹ năng trong snapshot main.",
+      "archive": "bundles/03-project-docs-rules/03-project-docs-rules-2026-10-18.zip",
+      "sha256": "b53bc6391d6170e049c2cb5e77d1d0786902b63840fe7898a6f9ab3641e05553",
+      "archive_bytes": 608669,
+      "file_count": 199,
+      "uncompressed_bytes": 1484501,
+      "role": "partition"
+    },
+    {
+      "id": "04",
+      "title": "Snapshot nhánh F07 để so sánh",
+      "purpose": "So sánh module F07 cũ; không dùng làm baseline hiện hành.",
+      "archive": "bundles/04-f07-branch-reference/04-f07-branch-reference-2026-10-18.zip",
+      "sha256": "247ef3544b338a02952429215c8a3830d1e962cadadf039c8c06d445bcb6b42f",
+      "archive_bytes": 26251,
+      "file_count": 22,
+      "uncompressed_bytes": 67139,
+      "role": "partition"
+    },
+    {
+      "id": "05",
+      "title": "Tham chiếu F02 và Consent",
+      "purpose": "Đọc ranh giới phối hợp và tham chiếu nhánh khác; không tự áp dụng hoặc merge.",
+      "archive": "bundles/05-f02-consent-reference/05-f02-consent-reference-2026-10-18.zip",
+      "sha256": "d2b0235fab0cad59717bb77b85ac853a3b811ee79e87413e170aeb6bf878b7e6",
+      "archive_bytes": 55033,
+      "file_count": 19,
+      "uncompressed_bytes": 116200,
+      "role": "partition"
+    },
+    {
+      "id": "06",
+      "title": "Mã nguồn backend và các feature",
+      "purpose": "Theo dõi Django, model, service, migration, test và shared backend contracts.",
+      "archive": "bundles/06-backend-feature-source/06-backend-feature-source-2026-10-18.zip",
+      "sha256": "491a964a6fa2fc3e5f515702d9198e0c01059812bd9a8fbb1db1ab2c49600262",
+      "archive_bytes": 374907,
+      "file_count": 296,
+      "uncompressed_bytes": 1115631,
+      "role": "partition"
+    },
+    {
+      "id": "07",
+      "title": "Mã nguồn web, Mini App và shared JS",
+      "purpose": "Theo dõi trang, router, adapter, CSS, client tests và hợp đồng JS; ảnh/font ở gói 09.",
+      "archive": "bundles/07-clients-shared-source/07-clients-shared-source-2026-10-18.zip",
+      "sha256": "c4d1ec01dc697737501a32af77adceab8b45423d915085851143775066994844",
+      "archive_bytes": 707487,
+      "file_count": 263,
+      "uncompressed_bytes": 2345333,
+      "role": "partition"
+    },
+    {
+      "id": "08",
+      "title": "Harness, công cụ, CI và cấu hình mẫu",
+      "purpose": "Tra cứu harness, scripts, ops, cấu hình gốc và manifest gốc; chỉ đọc script trước khi quyết định chạy.",
+      "archive": "bundles/08-tests-tools-config/08-tests-tools-config-2026-10-18.zip",
+      "sha256": "13d97fca85a9f6c752e0d68a3c5a6cbd0ea3e4bf393a63d946fd15aa5871a11f",
+      "archive_bytes": 127596,
+      "file_count": 72,
+      "uncompressed_bytes": 321553,
+      "role": "partition"
+    },
+    {
+      "id": "09",
+      "title": "Ảnh, logo, screenshot và font",
+      "purpose": "Dùng khi cần tham chiếu giao diện hoặc tài nguyên; giữ nguyên cây đường dẫn và giấy phép font.",
+      "archive": "bundles/09-images-fonts/09-images-fonts-2026-10-18.zip",
+      "sha256": "af0615324644e81d0ece0fd8a750b972b698dc13f73ea11ea09099b354b5c952",
+      "archive_bytes": 11999203,
+      "file_count": 65,
+      "uncompressed_bytes": 12816601,
+      "role": "partition"
+    },
+    {
+      "id": "10",
+      "title": "Review F07 độc lập sau coding agent",
+      "purpose": "Đọc trước: 6 finding tại bb75b2c, evidence MySQL/browser, repro và prompt tiếp tục.",
+      "archive": "bundles/10-independent-review/10-f07-independent-review-2026-10-18.zip",
+      "sha256": "468bca1f80d34bf3d5fb500fac4f1cdd8733fdad22b790d172ddac155af70329",
+      "archive_bytes": 3729945,
+      "file_count": 103,
+      "uncompressed_bytes": 4288272,
+      "role": "review_update",
+      "contents_file": "catalog/REVIEW-CONTENTS.csv",
+      "application_commit": "bb75b2cee314bd5dfea3fff7928664dc68d3e2dd"
+    },
+    {
+      "id": "11",
+      "title": "F07 web và Mini App — yêu cầu và kiểm tra mới",
+      "purpose": "Đọc trước: yêu cầu UI/API cả hai client, R01–R07, evidence và prompt mới nhất.",
+      "archive": "bundles/11-web-mini-parity/11-f07-web-mini-parity-2026-10-19.zip",
+      "sha256": "5face9522511c457da392be4972d08b35e2ad856a52cc5cbd7481f7130a72a12",
+      "archive_bytes": 2073129,
+      "file_count": 48,
+      "uncompressed_bytes": 2388318,
+      "role": "review_update",
+      "contents_file": "catalog/PARITY-CONTENTS.csv",
+      "application_commit": "bb75b2cee314bd5dfea3fff7928664dc68d3e2dd"
+    },
+    {
+      "id": "12",
+      "title": "F07 audit 2ffd674 — kết quả, R08–R10 và prompt",
+      "purpose": "Đọc đầu tiên: R01–R07 kiểm lại; R08–R10 còn mở trên cả hai client; evidence/repro/gate/prompt.",
+      "archive": "bundles/12-final-audit/12-f07-final-audit-2026-10-19.zip",
+      "sha256": "cb28e2cf3e1098bd10946ab606f77c245bb72e4729180335f40b863efbf4d9bc",
+      "archive_bytes": 6049044,
+      "file_count": 109,
+      "uncompressed_bytes": 6712182,
+      "role": "review_update",
+      "contents_file": "catalog/AUDIT-CONTENTS.csv",
+      "application_commit": "2ffd674243c5063f95123010498bc9cc60cf441e"
+    },
+    {
+      "id": "13",
+      "title": "F02 F04 F07 F15 — bộ hoàn thiện và tích hợp an toàn",
+      "purpose": "Entry point mới trên nhánh tổng hợp; yêu cầu, prompt, conflict map, source pin, thiết kế và audit lịch sử. Không là verdict runtime.",
+      "archive": "bundles/13-integration-four-features/13-F02-F04-F07-F15-integration-kit.zip",
+      "sha256": "da9fb60038c950d1972a06518008319011bb4a1b6c366e65e1dc7fe0cbcd0536",
+      "archive_bytes": 315773,
+      "file_count": 23,
+      "uncompressed_bytes": 1199853,
+      "role": "review_update",
+      "contents_file": "catalog/INTEGRATION-CONTENTS.csv",
+      "application_commit": "a64f6531e627a9163b98d5a4fe8d6787ea45e36e",
+      "feature_heads": {
+        "F02": "e38688c8bbcd1848aca727630f0fe79cb98ce992",
+        "F04": "d33b250f16cab362cb3d93908274ea1df2967351",
+        "F07": "3fe66cd6b30fd4e1b905e243f272f13823a52ab1",
+        "F15": "aeae32124a00bd05fc39802f662370df60ebea93"
+      }
+    }
+  ]
+}

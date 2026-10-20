@@ -1,0 +1,113 @@
+[
+  {
+    "label": "web-1440",
+    "viewport": 1440,
+    "documentWidth": 1440,
+    "page": {
+      "width": 880,
+      "height": 861,
+      "left": 400,
+      "right": 1280
+    },
+    "textarea": {
+      "width": 452,
+      "height": 144,
+      "left": 432,
+      "right": 884
+    },
+    "grid": {
+      "width": 848,
+      "height": 684,
+      "left": 416,
+      "right": 1264
+    },
+    "gridColumns": "484px 340px",
+    "shellPresent": true,
+    "visibleHiddenElements": []
+  },
+  {
+    "label": "web-390",
+    "viewport": 390,
+    "documentWidth": 390,
+    "page": {
+      "width": 366,
+      "height": 1579,
+      "left": 12,
+      "right": 378
+    },
+    "textarea": {
+      "width": 302,
+      "height": 144,
+      "left": 44,
+      "right": 346
+    },
+    "grid": {
+      "width": 334,
+      "height": 1402,
+      "left": 28,
+      "right": 362
+    },
+    "gridColumns": "none",
+    "shellPresent": true,
+    "visibleHiddenElements": []
+  },
+  {
+    "label": "mini-320",
+    "viewport": 320,
+    "documentWidth": 320,
+    "page": {
+      "width": 320,
+      "height": 1634.1875,
+      "left": 0,
+      "right": 320
+    },
+    "textarea": {
+      "width": 256,
+      "height": 144,
+      "left": 32,
+      "right": 288
+    },
+    "grid": {
+      "width": 288,
+      "height": 1513.1875,
+      "left": 16,
+      "right": 304
+    },
+    "gridColumns": "none",
+    "shellPresent": false,
+    "visibleHiddenElements": []
+  },
+  {
+    "label": "mini-390",
+    "viewport": 390,
+    "documentWidth": 390,
+    "page": {
+      "width": 390,
+      "height": 1453,
+      "left": 0,
+      "right": 390
+    },
+    "textarea": {
+      "width": 326,
+      "height": 144,
+      "left": 32,
+      "right": 358
+    },
+    "grid": {
+      "width": 358,
+      "height": 1332,
+      "left": 16,
+      "right": 374
+    },
+    "gridColumns": "none",
+    "shellPresent": false,
+    "visibleHiddenElements": []
+  },
+  {
+    "label": "positive-manual-save-control",
+    "aiFailure": 503,
+    "draftPreservedOnAiError": true,
+    "deliveredMatchesSavedFinal": true,
+    "deliveredBody": "AUDIT_MANUAL_FINAL explicitly saved after AI outage"
+  }
+]

@@ -1,0 +1,26 @@
+- banner:
+  - heading "Đồng hành" [level=1]
+- heading "Chương trình Đồng hành bốn tuần" [level=2]
+- paragraph: Lộ trình bốn tuần tự nguyện cho bạn và người đồng hành. Xem trước miễn phí — tham gia là một nút bấm, và bạn có thể nghỉ bất cứ lúc nào mà không mất gì.
+- status
+- heading "[THỬ LOCAL] Đồng hành bốn tuần" [level=3]
+- paragraph: "Tuần 1: Nhận diện cảm xúc — Tiếng lòng chưa nói • Tuần 2: Giảm so sánh — Bản sắc riêng của con • Tuần 3: Ranh giới riêng tư và niềm tin • Tuần 4: Cảm ơn, xin lỗi và Thỏa ước gia đình mới"
+- button "Tham gia chương trình"
+- paragraph: Bạn hoàn toàn có thể dùng sổ giấy — app không bắt buộc ghi mọi thứ vào máy, và không đọc sổ giấy của bạn.
+- navigation "Điều hướng chính":
+  - list:
+    - link "Trang chủ":
+      - /url: "#/home"
+      - generic: Trang chủ
+    - link "Đồng hành":
+      - /url: "#/companion"
+      - generic: Đồng hành
+    - link "Hộp thư":
+      - /url: "#/mailbox"
+      - generic: Hộp thư
+    - link "Nhật ký":
+      - /url: "#/diary"
+      - generic: Nhật ký
+    - link "Cá nhân":
+      - /url: "#/profile"
+      - generic: Cá nhân

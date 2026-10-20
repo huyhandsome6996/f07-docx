@@ -1,0 +1,33 @@
+[
+  {
+    "name": "shared",
+    "command": [
+      "bash",
+      "-c",
+      "node --test packages/family_bridge_shared/tests/*.test.mjs packages/family_bridge_shared/tests/test_f04_contract_a5.mjs packages/family_bridge_mobile/f04_ai/tests/*.mjs tests/qa-f04/*.test.mjs"
+    ],
+    "cwd": "/workspace/f04-review-20261019-ec29ab/source",
+    "exit_code": 0,
+    "seconds": 23.97
+  },
+  {
+    "name": "boundaries",
+    "command": [
+      "node",
+      "scripts/check_import_boundaries.mjs"
+    ],
+    "cwd": "/workspace/f04-review-20261019-ec29ab/source",
+    "exit_code": 0,
+    "seconds": 0.11
+  },
+  {
+    "name": "docs",
+    "command": [
+      "python3",
+      "scripts/check_agent_docs.py"
+    ],
+    "cwd": "/workspace/f04-review-20261019-ec29ab/source",
+    "exit_code": 0,
+    "seconds": 0.05
+  }
+]

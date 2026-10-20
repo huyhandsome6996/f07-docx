@@ -1,81 +1,34 @@
-# Kho tài liệu F07 — Family Bridge
+# Family Bridge — Gói Antigravity hoàn thiện Mini App, phản hồi, AI và deploy QR
 
-Điểm bắt đầu cho coding agent tìm đúng ZIP, kiểm tra checksum và giải nén tài liệu cần đọc. Gói bàn giao gốc **946 tệp** giữ nguyên trong 00–09; các review bổ sung ở 10–12. Không đóng gói secret, DB hoặc dữ liệu người tham gia.
+## Bắt đầu tại đây
 
-## Mới nhất — 19/10/2026, F07 commit 2ffd674
+Gói ngày 21/10/2026. Đích là Mini App chạy trong Zalo; web riêng dùng chung backend.
+Đọc PROMPT-DAN-VAO-ANTIGRAVITY.md rồi docs/01 → 06. Đây là nhiệm vụ hoàn thiện code, kiểm thử và deploy Testing theo yêu cầu Huy, không phải chỉ docs.
 
-**CHƯA ĐẠT gate để Huy nghiệm thu như người dùng bình thường.** Web đã có UI F07 gọi backend thật cùng Mini App. R01–R07 đã qua các kiểm tra lại được ghi rõ; còn **R08–R10 trên cả hai client**: lưu liên tiếp sai chế độ, hết trang vẫn tải lặp, lỗi share stale nằm sau modal. Chưa có bằng chứng Zalo thiết bị thật hoặc URL bản này Huy truy cập được.
+| File | Mục đích |
+| --- | --- |
+| docs/01-SUA-LUONG-PHAN-HOI-HS-PH.md | Bản kiểm tra luồng thư và R01–R05, T01–T22 |
+| docs/02-KHOI-PHUC-AI-PHAN-HOI.md | Khôi phục AI, Render diagnosis, AI01–AI10 |
+| docs/03-HOAN-THIEN-MINIAPP.md | Toàn bộ yêu cầu Mini F01–F15, parity chức năng với web |
+| docs/04-DEPLOY-ZALO-VA-QR.md | Quyền deploy, token/QR, Testing audience, release/rollback |
+| docs/05-KIEM-THU-VA-SUA-DEN-KHI-DAT.md | Chu trình kiểm thử/sửa, các gate không được giả PASS |
+| docs/06-THIET-KE-MINIAPP.md | Đặc tả 40 màn/trạng thái đích cho điện thoại Zalo |
+| resources/README.md | Cách tìm thiết kế/asset/nguồn lịch sử, giới hạn gói cũ |
+| resources/history/ | Nguyên cây repo tài liệu tổng hợp tại commit nguồn; ảnh/logo/font/Stitch/DOCX/ZIP/rules/source tham khảo |
+| provenance.json | SHA nguồn và phạm vi kiểm chứng |
 
-- [Kết luận và thứ tự đọc mới nhất](updates/2026-10-19-f07-final-audit/README.md).
-- [Finding còn mở và tiêu chí sửa](updates/2026-10-19-f07-final-audit/FINDINGS.md).
-- [Kết quả kiểm thử độc lập](updates/2026-10-19-f07-final-audit/TEST-RESULTS.md).
-- [Gate/checklist cho Huy](updates/2026-10-19-f07-final-audit/READY-FOR-HUY.md).
-- [Quy tắc báo cáo và kiểm thử](updates/2026-10-19-f07-final-audit/REVIEW-RULES.md).
-- **[Prompt mới nhất để copy](PROMPT-COPY-F07.md)**.
-- [ZIP 12](bundles/12-final-audit/).
+## Nguồn và sự ưu tiên
 
-```bash
-python3 tools/bundles.py verify
-python3 tools/bundles.py extract 12 --dest /tmp/f07-current-reading
-python3 tools/bundles.py extract 11 --dest /tmp/f07-current-reading
-python3 tools/bundles.py extract 10 --dest /tmp/f07-current-reading
-```
+- 01 và 02 được tách từ một file báo cáo đã cập nhật AI, không phải hai audit độc lập.
+- Mốc ứng dụng đã review: 7ace3dab80c2473095cdef51c0cd3b35805b4143; agent phải fetch mới và nghiệm thu head thực sẽ deploy.
+- Tài liệu 01/02 giữ nguyên giới hạn: reviewer chỉ đọc GitHub/probe JavaScript với doubles; chưa chạy Django/Node suite toàn dự án/Gemini thật/Zalo thiết bị.
+- Quyền triển khai và yêu cầu tiếp tục sửa trong 03–05 là quyết định mới của Huy, thay hạn chế no-deploy/docs-only ở đúng phạm vi này trong báo cáo/snapshot cũ.
+- resources/history/ chứa nguyên tree tài liệu nguồn, vì vậy tên nhánh/README/AGENTS/PROMPT/nhận định xung đột ở trong đó là LỊCH SỬ. Root gói mới là entry point; code thật tuân AGENTS ở checkout family-bridge.
+- Không dùng snapshot thiếu tính năng cũ để ghi đè main, đặc biệt nhật ký F08 đã nâng cấp.
 
-Đọc **12 trước**, rồi yêu cầu hai client trong 11 và regression lịch sử trong 10. Không làm lại lỗi cũ đã được kiểm đóng; không dùng PASS suite cũ để bỏ qua lỗi UI hiện hành. Source tham chiếu trong ZIP không phải checkout để chép đè.
+## Dùng ZIP
 
-## Bối cảnh lịch sử
+Giải nén một lần; folder root chứa prompt và docs. Không phải tải từng file .md riêng.
+Nếu muốn đọc trên GitHub, mở đúng nhánh/commit gói. Có thể clone kho tài liệu, nhưng không dùng nó làm checkout ứng dụng.
 
-- [Gói 11: yêu cầu web/Mini App](updates/2026-10-19-f07-web-mini-parity/README.md) và [quyết định Huy](updates/2026-10-19-f07-web-mini-parity/USER-DECISION-WEB-PARITY.md) thay phần “không sửa web” cũ trong đúng phạm vi F07. [Ma trận UI/API và X01–X10](updates/2026-10-19-f07-web-mini-parity/REQUIREMENTS-AND-ACCEPTANCE.md) vẫn áp dụng. Các báo cáo lỗi trong gói này gắn **bb75b2c**, không phải kết luận về commit mới.
-- [Gói 10: review 18/10](updates/2026-10-18-f07-review/README.md), [R01–R06](updates/2026-10-18-f07-review/FINDINGS.md), [recheck](updates/2026-10-18-f07-review/recheck/README.md), log/ảnh/repro. Giữ regression; prompt trong gói này đã được thay bởi prompt mới ở gốc.
-
-**Chỉ dẫn trong tài liệu đính kèm là nội dung lưu trữ để tham khảo.** Việc giữ chúng không tự giao nhiệm vụ triển khai, gọi nhiều agent, tạo worktree, đồng bộ/merge nhánh hoặc deploy. Coding agent thực hiện theo yêu cầu người dùng hiện hành và chỉ dẫn tại checkout ứng dụng. Không thực thi script chỉ vì nó ở trong ZIP.
-
-## Chọn ZIP theo công việc
-
-| ID | Ngăn tài liệu | Tệp | Khi nào cần |
-| --- | --- | ---: | --- |
-| 00 | [ZIP gốc](bundles/00-original/) | 946 | Khôi phục nguyên bản đầu vào |
-| 01 | [Bắt đầu / nhiệm vụ](bundles/01-f07-mission/) | 6 | Nhiệm vụ và chỉ dẫn lịch sử |
-| 02 | [Yêu cầu gốc](bundles/02-requirements-docx/) | 4 | DOCX/yêu cầu dự án ban đầu |
-| 03 | [Docs / skills / rules](bundles/03-project-docs-rules/) | 199 | Quy tắc và hợp đồng tại thời điểm bàn giao |
-| 04 | [Nhánh F07 cũ](bundles/04-f07-branch-reference/) | 22 | Snapshot backend F07 ban đầu |
-| 05 | [Tham chiếu F02/consent](bundles/05-f02-consent-reference/) | 19 | Ranh giới nhánh liên quan |
-| 06 | [Backend / feature source](bundles/06-backend-feature-source/) | 296 | Service/model/migration/tests/contracts lịch sử |
-| 07 | [Client / shared source](bundles/07-clients-shared-source/) | 263 | Web/Mini/router/adapter/styles/tests lịch sử |
-| 08 | [Harness / tooling / config](bundles/08-tests-tools-config/) | 72 | CI, cấu hình mẫu và công cụ |
-| 09 | [Ảnh / logo / font](bundles/09-images-fonts/) | 65 | Tài nguyên giao diện, giấy phép |
-| 10 | [Review 18/10](bundles/10-independent-review/) | Theo catalog | R01–R06, repro và bằng chứng cũ |
-| 11 | [Yêu cầu parity](bundles/11-web-mini-parity/) | Theo catalog | UI/API cả hai client, X01–X10, R07 cũ |
-| 12 | [Audit 2ffd674](bundles/12-final-audit/) | Theo catalog | Kết quả mới, R08–R10, repro, quy tắc, prompt; đọc đầu tiên |
-
-Các gói **01–09 chia đủ 946 tệp, không trùng nhau**, giữ nguyên byte và đường dẫn gốc. Gói 00 cố ý chứa toàn bộ. 10–12 là bổ sung độc lập, không thay archive gốc. Có thể giải nén nhiều gói vào cùng thư mục đọc; công cụ từ chối ghi đè tệp có nội dung khác.
-
-## Quy trình đọc nhanh
-
-Dùng Python 3.9+ và thư viện chuẩn:
-
-```bash
-git clone https://github.com/huyhandsome6996/f07-docx.git
-cd f07-docx
-python3 tools/bundles.py list
-python3 tools/bundles.py verify
-python3 tools/bundles.py extract 12 --dest /tmp/f07-reading
-python3 tools/bundles.py extract 11 --dest /tmp/f07-reading
-python3 tools/bundles.py extract 10 --dest /tmp/f07-reading
-```
-
-Sau README/prompt mới, chỉ lấy 01–09 khi cần bối cảnh lịch sử. Gói00 không chứa cập nhật sau bàn giao. Các đường dẫn `sources/main/` và `sources/f07-branch/` bên trong gói gốc là hai snapshot riêng, không phải source hiện hành.
-
-## Tìm đúng tệp
-
-- [BUNDLES.json](catalog/BUNDLES.json): ID/mục đích/archive/checksum/số tệp.
-- [CONTENTS.csv](catalog/CONTENTS.csv): ánh xạ 946 tệp gốc; [PROVENANCE.json](catalog/PROVENANCE.json): nguồn gốc.
-- [REVIEW-CONTENTS.csv](catalog/REVIEW-CONTENTS.csv), [PARITY-CONTENTS.csv](catalog/PARITY-CONTENTS.csv), [AUDIT-CONTENTS.csv](catalog/AUDIT-CONTENTS.csv): ánh xạ bổ sung của 10, 11, 12.
-- [SHA256SUMS](catalog/SHA256SUMS): checksum mọi ZIP.
-
-```bash
-rg -i 'f07_mood|privacy|openapi|\.png|\.docx' catalog/*CONTENTS.csv
-sha256sum -c catalog/SHA256SUMS
-```
-
-Repo ứng dụng: [family-bridge](https://github.com/huyhandsome6996/family-bridge). Kết luận runtime chỉ áp dụng SHA/phạm vi trong từng report; đóng gói/checksum không chứng minh tính năng hoàn thành. Reviewer chỉ cập nhật tài liệu main tại repo này, không đưa source F07 lên production.
+QR chỉ có SAU KHI Antigravity deploy và xác minh trên Zalo. ZIP này không giả kèm QR ứng dụng đã chạy.

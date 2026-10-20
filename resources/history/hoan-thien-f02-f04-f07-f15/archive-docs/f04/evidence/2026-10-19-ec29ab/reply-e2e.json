@@ -1,0 +1,102 @@
+[
+  {
+    "label": "web-student",
+    "receivedFinalVisible": true,
+    "original": "AUDIT_PRIVATE_REPLY_ORIGINAL_web-student",
+    "approved": "AUDIT_FINAL_SUGGESTION — Tôi muốn được lắng nghe.",
+    "noSendBeforeExplicit": true,
+    "http": 201,
+    "finalMatchesApproval": true,
+    "originalNotDelivered": true,
+    "fields": [
+      "message_id",
+      "kind",
+      "direction",
+      "counterparty_id",
+      "title",
+      "created_at",
+      "read",
+      "reply_to",
+      "body",
+      "connection_generation"
+    ],
+    "replyToMatches": true,
+    "otherClientReadsFinal": true,
+    "result": "COMPLETED"
+  },
+  {
+    "label": "web-caregiver",
+    "receivedFinalVisible": true,
+    "original": "AUDIT_PRIVATE_REPLY_ORIGINAL_web-caregiver",
+    "approved": "AUDIT_FINAL_SUGGESTION — Tôi muốn được lắng nghe.",
+    "noSendBeforeExplicit": true,
+    "http": 201,
+    "finalMatchesApproval": true,
+    "originalNotDelivered": true,
+    "fields": [
+      "message_id",
+      "kind",
+      "direction",
+      "counterparty_id",
+      "title",
+      "created_at",
+      "read",
+      "reply_to",
+      "body",
+      "connection_generation"
+    ],
+    "replyToMatches": true,
+    "otherClientReadsFinal": true,
+    "result": "COMPLETED"
+  },
+  {
+    "label": "mini-student",
+    "receivedFinalVisible": true,
+    "original": "AUDIT_PRIVATE_REPLY_ORIGINAL_mini-student",
+    "approved": "AUDIT_FINAL_SUGGESTION — Tôi muốn được lắng nghe.",
+    "noSendBeforeExplicit": true,
+    "http": 201,
+    "finalMatchesApproval": true,
+    "originalNotDelivered": true,
+    "fields": [
+      "message_id",
+      "kind",
+      "direction",
+      "counterparty_id",
+      "title",
+      "created_at",
+      "read",
+      "reply_to",
+      "body",
+      "connection_generation"
+    ],
+    "replyToMatches": true,
+    "otherClientReadsFinal": true,
+    "result": "COMPLETED"
+  },
+  {
+    "label": "mini-caregiver",
+    "receivedFinalVisible": true,
+    "original": "AUDIT_PRIVATE_REPLY_ORIGINAL_mini-caregiver",
+    "approved": "AUDIT_FINAL_SUGGESTION — Tôi muốn được lắng nghe.",
+    "noSendBeforeExplicit": true,
+    "http": 201,
+    "finalMatchesApproval": true,
+    "originalNotDelivered": true,
+    "fields": [
+      "message_id",
+      "kind",
+      "direction",
+      "counterparty_id",
+      "title",
+      "created_at",
+      "read",
+      "reply_to",
+      "body",
+      "connection_generation"
+    ],
+    "replyToMatches": true,
+    "otherClientReadsFinal": true,
+    "result": "COMPLETED"
+  }
+]

@@ -1,0 +1,147 @@
+# Render Blueprint Specification for Family Bridge Backend
+# Official Docs: https://render.com/docs/blueprint-spec
+#
+# Arch Decision: Uses Docker runtime (context: repo root) to provide MySQL C development
+# headers (default-libmysqlclient-dev, pkg-config) required to compile mysqlclient==2.2.8
+# on Linux, while preserving monorepo access to both backend/ and packages/.
+#
+# Migration strategy (Free plan):
+#   preDeployCommand is NOT available on Render Free plan (paid web services only).
+#   Source: https://render.com/docs/deploys#pre-deploy-command
+#   Run migrations from your local machine against the remote MySQL DB before the first
+#   deploy and before each schema-changing deploy.
+#   See docs/handover/blueprint-deployment-guide.md for the complete procedure.
+#
+# healthCheckPath probes the liveness endpoint (/api/v1/health/), which never touches DB.
+services:
+  - type: web
+    name: family-bridge-backend
+    runtime: docker
+    plan: free
+    region: singapore
+    branch: main
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    autoDeployTrigger: 'off'
+    healthCheckPath: /api/v1/health/
+    envVars:
+      - key: DJANGO_ENV
+        value: production
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: DB_ENGINE
+        value: mysql
+      # Real environment/secret variables supplied by Huy on Render Dashboard (sync: false).
+      # Never commit real credentials to Git (SEC-19).
+      #
+      # DJANGO_ALLOWED_HOSTS: comma-separated list of custom domain hostnames only.
+      # The service's onrender.com hostname is automatically added at runtime via
+      # RENDER_EXTERNAL_HOSTNAME (injected by Render, read in backend/config/settings.py).
+      - key: DJANGO_ALLOWED_HOSTS
+        sync: false
+      # CORS_ALLOWED_ORIGINS: comma-separated frontend origins permitted to call the API.
+      # Set to your actual local dev origins for testing (e.g. http://localhost:3000).
+      # Zalo Mini App WebView origins must be verified during device integration before adding.
+      # Do NOT use wildcards.
+      - key: CORS_ALLOWED_ORIGINS
+        sync: false
+      - key: MYSQL_DATABASE
+        sync: false
+      - key: MYSQL_USER
+        sync: false
+      - key: MYSQL_PASSWORD
+        sync: false
+      - key: MYSQL_HOST
+        sync: false
+      - key: MYSQL_PORT
+        sync: false
+      # Path to CA certificate for TLS verification.
+      # Defaults to /etc/ssl/certs/ca-certificates.crt inside the container image.
+      - key: MYSQL_SSL_CA
+        value: /etc/ssl/certs/ca-certificates.crt
+      # Zalo verification credentials (SEC-01). Fails closed when missing.
+      - key: ZALO_APP_ID
+        sync: false
+      - key: ZALO_APP_SECRET
+        sync: false
+      # FB_FEATURES is intentionally NOT declared here.
+      # When the variable is absent, settings.py defaults to loading all 16 feature app labels.
+      # Declaring it as sync:false risks an accidental empty string being entered,
+      # which causes settings.py to load 0 features (FB_FEATURES="" -> csv split -> []).
+      # To narrow the feature set for ops/rollback, set FB_FEATURES manually in the
+      # Render Dashboard Environment tab using explicit labels separated by commas:
+      #   e.g. f01_identity,f02_program,f15_privacy,admin_core
+
+  # ---------------------------------------------------------------------------
+  # Web (W1-c — web-miniapp-separation, ADR-4): static service cho frontend web
+  # ĐỘC LẬP. Supersede (2026-10-16) ADR cũ "single codebase zalo-mini-app".
+  #
+  # ADR summary:
+  # - HAI FRONTEND ĐỘC LẬP: web/ (app web riêng — entry index.html, hash router
+  #   riêng, Vite build ra web/dist) và zalo-mini-app/ (Mini App Zalo giữ nguyên
+  #   entry, app-config.json, dynamic chunks — deploy Zalo không đổi).
+  # - Code dùng chung nằm ở packages/family_bridge_shared (headless ESM thuần:
+  #   không DOM, không zmp-sdk, không storage), import trực tiếp bằng relative
+  #   path — không workspaces, không build riêng. Biên giới import được kiểm
+  #   chứng TRANSITIVE bởi scripts/check_import_boundaries.mjs (job `web` trong
+  #   .github/workflows/tests.yml): web không import zalo-mini-app/**, mini
+  #   không import web/**, shared không chạm DOM/SDK/storage.
+  # - Hash router (#/route) → KHÔNG cần SPA fallback/rewrite rule; deep link
+  #   luôn trả index.html rồi router điều hướng client-side.
+  # - runtime: static (KHÔNG docker) — không server process, free plan OK.
+  #   Token/session IN MEMORY (SEC-10) — không persist gì phía web origin.
+  # - KHÔNG Tailwind CDN (và không asset CDN nào khác): bundle local toàn bộ —
+  #   enforced bởi tests/qa-web-invariants.test.mjs.
+  # - ROLLBACK: revert render.yaml về publish zalo-mini-app/www (buildCommand
+  #   `cd zalo-mini-app && npm ci && npm run build`) — mini app vẫn build song
+  #   song nên rollback khả thi ngay; không drop DB, không đụng data.
+  #
+  # Owner checklist (web-miniapp-separation):
+  # 1. Apply service này trong Render Dashboard (Blueprint "Apply").
+  # 2. Set VITE_API_BASE_URL=https://family-bridge-backend.onrender.com
+  #    (sync:false — không commit; được bake vào JS bundle lúc build).
+  # 3. Backend env CORS_ALLOWED_ORIGINS += origin web mới
+  #    (https://...onrender.com), comma-separated, KHÔNG wildcard.
+  # 4. Manual deploy lần đầu sau khi web/ đã có package-lock.json (lần đầu tiên
+  #    build từ web/dist); các deploy sau giữ autoDeployTrigger hiện tại.
+  # 5. Verify: mở site, đăng nhập bằng class code, kiểm tra /api/v1/health/.
+  #
+  # NOTE: buildCommand deliberately EXCLUDES `npm test` — tests chạy trong CI
+  # (job `web` của .github/workflows/tests.yml + boundary check) và không gate
+  # deploy tĩnh hai lần. env vars chỉ tác động BUILD (VITE_* là compile-time);
+  # runtime không cần server env.
+  # ---------------------------------------------------------------------------
+  - type: web
+    name: family-bridge-web
+    runtime: static
+    branch: main
+    buildCommand: cd web && npm ci && npm run build
+    staticPublishPath: web/dist
+    autoDeployTrigger: commit
+    pullRequestPreviewsEnabled: false
+    envVars:
+      - key: NODE_VERSION
+        value: "22.12.0"
+      # Baked into the frontend bundle at build time (Vite). Owner sets the real
+      # value in the Render Dashboard (sync: false) — must be the backend origin
+      # with HTTPS, no trailing slash.
+      - key: VITE_API_BASE_URL
+        sync: false
+      # Optional build label shown on the login screen during test rounds.
+      - key: VITE_TEST_LABEL
+        sync: false
+    headers:
+      # Assets revalidate (no-cache) sau mỗi lần deploy — an toàn cho cả hashed
+      # lẫn stable filename: bản release mới không bao giờ trộn JS/CSS cũ với
+      # chunk mới.
+      - path: /assets/*
+        name: Cache-Control
+        value: no-cache
+      # index.html là bootstrap hash-router — luôn revalidate.
+      - path: /index.html
+        name: Cache-Control
+        value: no-cache
+      # Baseline hardening cho mọi response.
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff

@@ -1,0 +1,468 @@
+{
+  "refs": {
+    "main": {
+      "ref": "origin/main",
+      "sha": "a64f6531e627a9163b98d5a4fe8d6787ea45e36e"
+    },
+    "F02": {
+      "ref": "origin/tinh-nang/f02-dong-hanh-bon-tuan-us036-us044",
+      "sha": "e38688c8bbcd1848aca727630f0fe79cb98ce992",
+      "counts": [
+        "1",
+        "13"
+      ],
+      "merge_base": "ee1346a32bb5adaee7fdb7e842fceb7b9b8c32d0",
+      "changed_files": [
+        "docs/features/f02/manifest.json",
+        "docs/features/f02/report.md",
+        "docs/features/f02/scope.md",
+        "docs/features/f02/test.md",
+        "docs/handover/README.md",
+        "docs/handover/f02-four-week-program/ANTIGRAVITY-DEPLOY-HANDOFF.md",
+        "docs/handover/f02-four-week-program/handover.md",
+        "docs/handover/f02-qa/06-RESUME-HANDOVER.md",
+        "packages/family_bridge_features/f02_program/api.py",
+        "packages/family_bridge_features/f02_program/apps.py",
+        "packages/family_bridge_features/f02_program/management/__init__.py",
+        "packages/family_bridge_features/f02_program/management/commands/__init__.py",
+        "packages/family_bridge_features/f02_program/management/commands/seed_f02_draft_program.py",
+        "packages/family_bridge_features/f02_program/migrations/0002_familyagreement_and_more.py",
+        "packages/family_bridge_features/f02_program/migrations/0003_agreement_identity_program_pin.py",
+        "packages/family_bridge_features/f02_program/models.py",
+        "packages/family_bridge_features/f02_program/services/program.py",
+        "packages/family_bridge_features/f02_program/services/registry.py",
+        "packages/family_bridge_features/f02_program/tests/test_current_connections.py",
+        "packages/family_bridge_features/f02_program/tests/test_f02.py",
+        "packages/family_bridge_features/f02_program/tests/test_f02_audit_regressions.py",
+        "packages/family_bridge_features/f02_program/tests/test_f02_qa_20261019.py",
+        "packages/family_bridge_features/f02_program/tests/test_f02_wiring_agreement.py",
+        "packages/family_bridge_features/f02_program/urls.py",
+        "packages/family_bridge_features/f02_program/wiring.py",
+        "packages/family_bridge_features/f09_activities/apps.py",
+        "packages/family_bridge_features/f09_activities/migrations/0002_invite_connection_generation.py",
+        "packages/family_bridge_features/f09_activities/models.py",
+        "packages/family_bridge_features/f09_activities/services/activities.py",
+        "packages/family_bridge_features/f09_activities/tests/test_f09_r06_wiring_minutes.py",
+        "packages/family_bridge_features/f09_activities/tests/test_f09_unlink_guard.py",
+        "packages/family_bridge_features/f09_activities/wiring.py",
+        "packages/family_bridge_mobile/f02_program/api.js",
+        "packages/family_bridge_mobile/f02_program/tests/f02.test.mjs",
+        "packages/family_bridge_shared/src/adapter/contract.js",
+        "packages/family_bridge_shared/src/adapter/http-endpoints.js",
+        "packages/family_bridge_shared/src/adapter/mock-adapter.js",
+        "packages/family_bridge_shared/tests/http-endpoints.test.mjs",
+        "packages/family_bridge_shared/tests/purity.test.mjs",
+        "scripts/f02_e2e_flow.mjs",
+        "web/src/pages/companion/index.js",
+        "web/tests/f02-companion.test.mjs",
+        "web/tests/pages.test.mjs",
+        "zalo-mini-app/src/pages/companion/index.js",
+        "zalo-mini-app/tests/companion-audit-fixes.test.mjs",
+        "zalo-mini-app/tests/companion-program.test.mjs",
+        "zalo-mini-app/tests/companion-qa-20261019.test.mjs",
+        "zalo-mini-app/tests/companion-r03-optout.test.mjs",
+        "zalo-mini-app/tests/pages.test.mjs"
+      ],
+      "deleted_paths": []
+    },
+    "F04": {
+      "ref": "origin/tinh-nang/f04-ai-ho-tro-dien-dat-us029-us033",
+      "sha": "d33b250f16cab362cb3d93908274ea1df2967351",
+      "counts": [
+        "24",
+        "6"
+      ],
+      "merge_base": "72930ae3fb6530235efa21d8f64b6ae3bd853af1",
+      "changed_files": [
+        "backend/config/settings.py",
+        "backend/core/tests/test_cors.py",
+        "docs/features/f04/manifest.json",
+        "docs/features/f04/peer-review.md",
+        "docs/features/f04/peer-review/round1-A1-reviews-A2.md",
+        "docs/features/f04/peer-review/round1-A2-reviews-A3.md",
+        "docs/features/f04/peer-review/round1-A3-reviews-A4.md",
+        "docs/features/f04/peer-review/round1-A4-reviews-A5.md",
+        "docs/features/f04/peer-review/round1-A5-reviews-A1-plus-security.md",
+        "docs/features/f04/report.md",
+        "docs/features/f04/scope.md",
+        "docs/features/f04/test.md",
+        "docs/features/f04/web-design-states.md",
+        "docs/features/f04/web-zalo-parity.md",
+        "packages/family_bridge_features/f04_ai/api.py",
+        "packages/family_bridge_features/f04_ai/apps.py",
+        "packages/family_bridge_features/f04_ai/migrations/0002_aisuggestion_input_revision.py",
+        "packages/family_bridge_features/f04_ai/migrations/0003_airefineoperation.py",
+        "packages/family_bridge_features/f04_ai/models.py",
+        "packages/family_bridge_features/f04_ai/services/deletion.py",
+        "packages/family_bridge_features/f04_ai/services/express.py",
+        "packages/family_bridge_features/f04_ai/services/gemini.py",
+        "packages/family_bridge_features/f04_ai/services/wiring.py",
+        "packages/family_bridge_features/f04_ai/tests/test_f04.py",
+        "packages/family_bridge_features/f04_ai/tests/test_f04_claim_identity.py",
+        "packages/family_bridge_features/f04_ai/tests/test_f04_deletion.py",
+        "packages/family_bridge_features/f04_ai/tests/test_f04_transaction.py",
+        "packages/family_bridge_features/f04_ai/tests/test_gemini_transport.py",
+        "packages/family_bridge_features/f04_ai/tests/test_wiring.py",
+        "packages/family_bridge_features/f06_drafts/api.py",
+        "packages/family_bridge_features/f06_drafts/apps.py",
+        "packages/family_bridge_features/f06_drafts/services/drafts.py",
+        "packages/family_bridge_features/f06_drafts/tests/test_f06.py",
+        "packages/family_bridge_features/f06_drafts/tests/test_f06_expected_revision.py",
+        "packages/family_bridge_mobile/f04_ai/api.js",
+        "packages/family_bridge_mobile/f04_ai/pages/refine.js",
+        "packages/family_bridge_mobile/f04_ai/tests/f04.test.mjs",
+        "packages/family_bridge_shared/src/adapter/http-endpoints.js",
+        "packages/family_bridge_shared/src/adapter/mock-adapter.js",
+        "packages/family_bridge_shared/tests/f04-contract.test.mjs",
+        "packages/family_bridge_shared/tests/test_f04_contract_a5.mjs",
+        "packages/family_bridge_shared/tests/test_f06_concurrency_contract.test.mjs",
+        "tests/feature-lab/harness/tests/test_f04_e2e_a5.py",
+        "tests/feature-lab/harness/tests/test_f06_wiring_a2finish.py",
+        "tests/qa-f04/helpers/f04_probe_backend.py",
+        "tests/qa-f04/helpers/spawn-backend.mjs",
+        "tests/qa-f04/n01-preview-inflight-a5.test.mjs",
+        "tests/qa-f04/n03-cross-client-recipient.test.mjs",
+        "tests/qa-f04/n06-cross-client-draft-conflict.test.mjs",
+        "web/src/components/ai-assist.js",
+        "web/src/pages/compose/index.js",
+        "web/src/pages/message/index.js",
+        "web/src/styles/base.css",
+        "web/src/styles/components.css",
+        "web/src/styles/shell.css",
+        "web/tests/f04-ai-parity.test.mjs",
+        "web/tests/f04-n03-preview-bind.test.mjs",
+        "web/tests/f04-n06-conflict.test.mjs",
+        "web/tests/f04-preview-snapshot.test.mjs",
+        "web/tests/router.test.mjs",
+        "web/tests/web-screens.test.mjs",
+        "zalo-mini-app/src/pages/compose/index.js",
+        "zalo-mini-app/src/pages/message/index.js",
+        "zalo-mini-app/src/styles/base.css",
+        "zalo-mini-app/src/styles/components.css",
+        "zalo-mini-app/src/styles/shell.css",
+        "zalo-mini-app/tests/design-system.test.mjs",
+        "zalo-mini-app/tests/f04-ai-refine.test.mjs",
+        "zalo-mini-app/tests/f04-fix1-recipient-sync-conflict.test.mjs",
+        "zalo-mini-app/tests/f04-n03-preview-bind.test.mjs",
+        "zalo-mini-app/tests/f04-n04-role-copy.test.mjs",
+        "zalo-mini-app/tests/f04-n06-conflict.test.mjs",
+        "zalo-mini-app/tests/f04-preview-snapshot.test.mjs",
+        "zalo-mini-app/tests/stitch-upgrade.test.mjs",
+        "zalo-mini-app/tests/web-screens.test.mjs"
+      ],
+      "deleted_paths": []
+    },
+    "F07": {
+      "ref": "origin/tinh-nang/f07-tam-trang-va-chia-se-us015-us026",
+      "sha": "3fe66cd6b30fd4e1b905e243f272f13823a52ab1",
+      "counts": [
+        "2",
+        "6"
+      ],
+      "merge_base": "571abcb7916954964d82e0aa27e7661e7d7efd83",
+      "changed_files": [
+        "docs/features/f07/manifest.json",
+        "docs/features/f07/report.md",
+        "docs/features/f07/test.md",
+        "docs/handover/README.md",
+        "docs/handover/f07-mood-sharing/ANTIGRAVITY-DEPLOY-HANDOFF.md",
+        "docs/handover/f07-mood-sharing/HUY-TEST-F07.md",
+        "docs/handover/f07-mood-sharing/README.md",
+        "docs/handover/f07-mood-sharing/architecture-and-contracts.md",
+        "docs/handover/f07-mood-sharing/branch-compatibility-report.md",
+        "docs/handover/f07-mood-sharing/next-agent.md",
+        "docs/handover/f07-mood-sharing/privacy-lifecycle.md",
+        "docs/handover/f07-mood-sharing/reading-map.md",
+        "docs/handover/f07-mood-sharing/review-rounds.md",
+        "docs/handover/f07-mood-sharing/screenshots/01-mood-page-hs.png",
+        "docs/handover/f07-mood-sharing/screenshots/02-mood-saved.png",
+        "docs/handover/f07-mood-sharing/screenshots/03-share-sheet.png",
+        "docs/handover/f07-mood-sharing/screenshots/04-share-grants.png",
+        "docs/handover/f07-mood-sharing/screenshots/05-shared-list-ph.png",
+        "docs/handover/f07-mood-sharing/screenshots/06-shared-detail-ph.png",
+        "docs/handover/f07-mood-sharing/screenshots/07-revoked-blocked.png",
+        "docs/handover/f07-mood-sharing/team-and-ownership.md",
+        "docs/handover/f07-mood-sharing/verification-report.md",
+        "docs/handover/web-miniapp-separation/route-feature-parity.md",
+        "packages/family_bridge_features/f07_mood/api.py",
+        "packages/family_bridge_features/f07_mood/apps.py",
+        "packages/family_bridge_features/f07_mood/models.py",
+        "packages/family_bridge_features/f07_mood/services/__init__.py",
+        "packages/family_bridge_features/f07_mood/services/deletion.py",
+        "packages/family_bridge_features/f07_mood/services/grant_provider.py",
+        "packages/family_bridge_features/f07_mood/services/mood.py",
+        "packages/family_bridge_features/f07_mood/tests/test_f07_integration.py",
+        "packages/family_bridge_features/f07_mood/tests/test_f07_regressions.py",
+        "packages/family_bridge_features/f07_mood/tests/test_race_mysql.py",
+        "packages/family_bridge_mobile/f07_mood/api.js",
+        "packages/family_bridge_shared/src/adapter/contract.js",
+        "packages/family_bridge_shared/src/adapter/http-endpoints.js",
+        "packages/family_bridge_shared/src/adapter/mock-adapter.js",
+        "packages/family_bridge_shared/tests/http-endpoints.test.mjs",
+        "packages/family_bridge_shared/tests/purity.test.mjs",
+        "scripts/f07_cross_client_e2e.mjs",
+        "scripts/f07_layout_more_check.mjs",
+        "scripts/f07_local_e2e.py",
+        "scripts/f07_local_fixtures.py",
+        "web/src/app/router.js",
+        "web/src/components/index.js",
+        "web/src/components/textarea.js",
+        "web/src/pages/home/index.js",
+        "web/src/pages/mood-shared/index.js",
+        "web/src/pages/mood/index.js",
+        "web/src/pages/profile/index.js",
+        "web/src/styles/components.css",
+        "web/tests/f07-mood.test.mjs",
+        "web/tests/f07-r06-reflow.test.mjs",
+        "web/tests/f07-r08-r10.test.mjs",
+        "web/tests/router.test.mjs",
+        "zalo-mini-app/src/app/router.js",
+        "zalo-mini-app/src/pages/home/index.js",
+        "zalo-mini-app/src/pages/mood-shared/index.js",
+        "zalo-mini-app/src/pages/mood/index.js",
+        "zalo-mini-app/src/pages/profile/index.js",
+        "zalo-mini-app/src/styles/components.css",
+        "zalo-mini-app/tests/f07-mood.test.mjs",
+        "zalo-mini-app/tests/f07-r06-reflow.test.mjs",
+        "zalo-mini-app/tests/f07-r08-r10.test.mjs"
+      ],
+      "deleted_paths": []
+    },
+    "F15": {
+      "ref": "origin/tinh-nang/f15-quyen-rieng-tu-va-xoa-du-lieu-us012-us017-us023",
+      "sha": "aeae32124a00bd05fc39802f662370df60ebea93",
+      "counts": [
+        "63",
+        "9"
+      ],
+      "merge_base": "f8fc6a4cc8bbceb2b115bbadc06619734142cad7",
+      "changed_files": [
+        ".gitignore",
+        "docs/features/f15/api.md",
+        "docs/features/f15/manifest.json",
+        "docs/features/f15/pilot-2026-10-14.md",
+        "docs/features/f15/report.md",
+        "docs/features/f15/test.md",
+        "docs/features/f15/two-account-script.md",
+        "packages/family_bridge_features/f01_identity/api.py",
+        "packages/family_bridge_features/f01_identity/services/identity.py",
+        "packages/family_bridge_features/f01_identity/tests/test_audit_round2.py",
+        "packages/family_bridge_features/f07_mood/auth.py",
+        "packages/family_bridge_features/f07_mood/services/mood.py",
+        "packages/family_bridge_features/f07_mood/services/registry.py",
+        "packages/family_bridge_features/f08_journal/api.py",
+        "packages/family_bridge_features/f08_journal/auth.py",
+        "packages/family_bridge_features/f08_journal/services/journal.py",
+        "packages/family_bridge_features/f08_journal/services/registry.py",
+        "packages/family_bridge_features/f15_privacy/api.py",
+        "packages/family_bridge_features/f15_privacy/apps.py",
+        "packages/family_bridge_features/f15_privacy/services/adapters.py",
+        "packages/family_bridge_features/f15_privacy/services/consent.py",
+        "packages/family_bridge_features/f15_privacy/services/deletion.py",
+        "packages/family_bridge_features/f15_privacy/services/deletion_hooks.py",
+        "packages/family_bridge_features/f15_privacy/services/ports.py",
+        "packages/family_bridge_features/f15_privacy/services/registry.py",
+        "packages/family_bridge_features/f15_privacy/services/revocation.py",
+        "packages/family_bridge_features/f15_privacy/services/sessions.py",
+        "packages/family_bridge_features/f15_privacy/services/verification.py",
+        "packages/family_bridge_features/f15_privacy/services/wiring.py",
+        "packages/family_bridge_features/f15_privacy/tests/test_f15.py",
+        "packages/family_bridge_features/f15_privacy/tests/test_f15_regression.py",
+        "packages/family_bridge_features/f15_privacy/tests/test_f15_wiring.py",
+        "packages/family_bridge_features/f15_privacy/tests/test_pilot_integration.py",
+        "packages/family_bridge_features/f15_privacy/tests/test_restore_safety.py",
+        "packages/family_bridge_features/f15_privacy/urls.py",
+        "packages/family_bridge_mobile/f15_privacy/api.js",
+        "packages/family_bridge_mobile/f15_privacy/page-core.js",
+        "packages/family_bridge_mobile/f15_privacy/pages/privacy.js",
+        "packages/family_bridge_mobile/f15_privacy/tests/page-core-regression.test.mjs",
+        "packages/family_bridge_mobile/f15_privacy/tests/page-core.test.mjs",
+        "tests/feature-lab/harness/settings.py",
+        "tests/feature-lab/labgrants/f05_fixtures.py",
+        "zalo-mini-app/src/app/router.js",
+        "zalo-mini-app/src/pages/privacy/api.mjs",
+        "zalo-mini-app/src/pages/privacy/index.js",
+        "zalo-mini-app/src/pages/privacy/items.js",
+        "zalo-mini-app/src/pages/privacy/session-bridge.js",
+        "zalo-mini-app/src/pages/profile/index.js",
+        "zalo-mini-app/tests/f15-items.test.mjs",
+        "zalo-mini-app/tests/f15-privacy.test.mjs",
+        "zalo-mini-app/tests/f15-session-bridge-artifact.test.mjs",
+        "zalo-mini-app/tests/f15-session-race.test.mjs",
+        "zalo-mini-app/tests/pages.test.mjs",
+        "zalo-mini-app/tests/qa-no-auto-send.test.mjs"
+      ],
+      "deleted_paths": []
+    }
+  },
+  "merge_tree": [
+    {
+      "left": "main",
+      "right": "F02",
+      "exit": 1,
+      "conflicts": [
+        "packages/family_bridge_shared/src/adapter/contract.js",
+        "packages/family_bridge_shared/src/adapter/http-endpoints.js",
+        "packages/family_bridge_shared/src/adapter/mock-adapter.js",
+        "packages/family_bridge_shared/tests/http-endpoints.test.mjs",
+        "packages/family_bridge_shared/tests/purity.test.mjs"
+      ],
+      "error": ""
+    },
+    {
+      "left": "main",
+      "right": "F04",
+      "exit": 1,
+      "conflicts": [
+        "web/src/styles/components.css"
+      ],
+      "error": ""
+    },
+    {
+      "left": "main",
+      "right": "F07",
+      "exit": 1,
+      "conflicts": [
+        "packages/family_bridge_shared/tests/http-endpoints.test.mjs",
+        "packages/family_bridge_shared/tests/purity.test.mjs",
+        "web/tests/router.test.mjs"
+      ],
+      "error": ""
+    },
+    {
+      "left": "main",
+      "right": "F15",
+      "exit": 1,
+      "conflicts": [
+        ".gitignore",
+        "packages/family_bridge_features/f15_privacy/services/sessions.py",
+        "zalo-mini-app/src/pages/privacy/index.js",
+        "zalo-mini-app/src/pages/profile/index.js",
+        "zalo-mini-app/tests/pages.test.mjs"
+      ],
+      "error": ""
+    },
+    {
+      "left": "F02",
+      "right": "F04",
+      "exit": 1,
+      "conflicts": [
+        "web/src/styles/components.css"
+      ],
+      "error": ""
+    },
+    {
+      "left": "F02",
+      "right": "F07",
+      "exit": 1,
+      "conflicts": [
+        "packages/family_bridge_shared/tests/http-endpoints.test.mjs",
+        "packages/family_bridge_shared/tests/purity.test.mjs"
+      ],
+      "error": ""
+    },
+    {
+      "left": "F02",
+      "right": "F15",
+      "exit": 1,
+      "conflicts": [
+        ".gitignore",
+        "packages/family_bridge_features/f15_privacy/services/sessions.py",
+        "zalo-mini-app/src/pages/privacy/index.js",
+        "zalo-mini-app/src/pages/profile/index.js",
+        "zalo-mini-app/tests/pages.test.mjs"
+      ],
+      "error": ""
+    },
+    {
+      "left": "F04",
+      "right": "F07",
+      "exit": 1,
+      "conflicts": [
+        "packages/family_bridge_shared/src/adapter/http-endpoints.js",
+        "web/src/styles/components.css"
+      ],
+      "error": ""
+    },
+    {
+      "left": "F04",
+      "right": "F15",
+      "exit": 1,
+      "conflicts": [
+        "packages/family_bridge_features/f15_privacy/services/sessions.py",
+        "zalo-mini-app/src/pages/privacy/index.js",
+        "zalo-mini-app/src/pages/profile/index.js",
+        "zalo-mini-app/tests/pages.test.mjs"
+      ],
+      "error": ""
+    },
+    {
+      "left": "F07",
+      "right": "F15",
+      "exit": 1,
+      "conflicts": [
+        ".gitignore",
+        "packages/family_bridge_features/f07_mood/services/mood.py",
+        "packages/family_bridge_features/f15_privacy/services/sessions.py",
+        "zalo-mini-app/src/pages/privacy/index.js",
+        "zalo-mini-app/src/pages/profile/index.js",
+        "zalo-mini-app/tests/pages.test.mjs"
+      ],
+      "error": ""
+    }
+  ],
+  "overlaps": [
+    {
+      "left": "F02",
+      "right": "F04",
+      "files": [
+        "packages/family_bridge_shared/src/adapter/http-endpoints.js",
+        "packages/family_bridge_shared/src/adapter/mock-adapter.js"
+      ]
+    },
+    {
+      "left": "F02",
+      "right": "F07",
+      "files": [
+        "docs/handover/README.md",
+        "packages/family_bridge_shared/src/adapter/contract.js",
+        "packages/family_bridge_shared/src/adapter/http-endpoints.js",
+        "packages/family_bridge_shared/src/adapter/mock-adapter.js",
+        "packages/family_bridge_shared/tests/http-endpoints.test.mjs",
+        "packages/family_bridge_shared/tests/purity.test.mjs"
+      ]
+    },
+    {
+      "left": "F02",
+      "right": "F15",
+      "files": [
+        "zalo-mini-app/tests/pages.test.mjs"
+      ]
+    },
+    {
+      "left": "F04",
+      "right": "F07",
+      "files": [
+        "packages/family_bridge_shared/src/adapter/http-endpoints.js",
+        "packages/family_bridge_shared/src/adapter/mock-adapter.js",
+        "web/src/styles/components.css",
+        "web/tests/router.test.mjs",
+        "zalo-mini-app/src/styles/components.css"
+      ]
+    },
+    {
+      "left": "F04",
+      "right": "F15",
+      "files": []
+    },
+    {
+      "left": "F07",
+      "right": "F15",
+      "files": [
+        "packages/family_bridge_features/f07_mood/services/mood.py",
+        "zalo-mini-app/src/app/router.js",
+        "zalo-mini-app/src/pages/profile/index.js"
+      ]
+    }
+  ]
+}

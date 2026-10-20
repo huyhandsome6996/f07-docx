@@ -1,0 +1,20 @@
+▶ QA 19/10 R07 — web companion là trang THẬT cùng API
+  ✔ đã tham gia: tuần render từ MÁY CHỦ (tuần 2–4 mở được, không 'Sắp có') (64.677524ms)
+  ✔ tiến độ riêng: 'Tôi đã làm' gọi programProgress đúng key/tuần/trạng thái (92.958526ms)
+  ✔ thỏa ước: đề xuất + xác nhận gọi đúng adapter (hai chữ ký riêng biệt) (173.447623ms)
+  ✔ opt-out tự nguyện qua dialog gọi programOptOut (115.641208ms)
+  ✔ chưa đăng nhập (không demo) → gate đăng nhập trung thực, không gọi API dữ liệu (43.284766ms)
+✔ QA 19/10 R07 — web companion là trang THẬT cùng API (491.533446ms)
+▶ Parity R01/R05/R06 trên web companion
+  ✔ R01: catalog [rev2, rev1] → mời đúng rev 2 (độc lập thứ tự) (92.345169ms)
+  ✔ R05: chưa tham gia → xem trước guide đủ tuần, KHÔNG POST enroll (81.748098ms)
+  ✔ R06: chi tiết hoạt động có bước + phút có nguồn; thiếu nguồn nói thẳng (162.470348ms)
+✔ Parity R01/R05/R06 trên web companion (337.08745ms)
+ℹ tests 8
+ℹ suites 2
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1403.069609

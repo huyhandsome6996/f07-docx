@@ -1,0 +1,551 @@
+{
+  "base": "http://127.0.0.1:8004",
+  "synthetic_only": true,
+  "results": [
+    {
+      "id": "LOGIN-HS901",
+      "name": "login synthetic actor",
+      "pass": true,
+      "actual": 200
+    },
+    {
+      "id": "LOGIN-PH901",
+      "name": "login synthetic actor",
+      "pass": true,
+      "actual": 200
+    },
+    {
+      "id": "LOGIN-HS903",
+      "name": "login synthetic actor",
+      "pass": true,
+      "actual": 200
+    },
+    {
+      "id": "CONSENT-HS",
+      "name": "participant chooses service consent",
+      "pass": true,
+      "actual": 201
+    },
+    {
+      "id": "A01-HS",
+      "name": "admin pair already active without confirmation",
+      "pass": true,
+      "actual": {
+        "results": [
+          {
+            "connection_id": "3fb7b60e-d539-48c5-a81c-a06c99a422db",
+            "other_party_id": "4b0f0206-f120-4424-a642-ec9d057f072d",
+            "relationship_kind": "primary",
+            "generation": 1,
+            "status": "active",
+            "counterpart": {
+              "display_name": "Phụ huynh thử F02 901",
+              "identity_basis": "self_declared"
+            }
+          }
+        ],
+        "next_cursor": null
+      }
+    },
+    {
+      "id": "A01-PROPOSALS-HS",
+      "name": "no proposal to confirm",
+      "pass": true,
+      "actual": {
+        "results": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "id": "CONSENT-PH",
+      "name": "participant chooses service consent",
+      "pass": true,
+      "actual": 201
+    },
+    {
+      "id": "A01-PH",
+      "name": "admin pair already active without confirmation",
+      "pass": true,
+      "actual": {
+        "results": [
+          {
+            "connection_id": "3fb7b60e-d539-48c5-a81c-a06c99a422db",
+            "other_party_id": "7d82420a-985e-4857-b9cc-0bd2baffbc65",
+            "relationship_kind": "primary",
+            "generation": 1,
+            "status": "active",
+            "counterpart": {
+              "display_name": "Học sinh thử F02 901",
+              "identity_basis": "self_declared"
+            }
+          }
+        ],
+        "next_cursor": null
+      }
+    },
+    {
+      "id": "A01-PROPOSALS-PH",
+      "name": "no proposal to confirm",
+      "pass": true,
+      "actual": {
+        "results": [],
+        "next_cursor": null
+      }
+    },
+    {
+      "id": "A04",
+      "name": "four published weeks from real startup provider",
+      "pass": true,
+      "actual": {
+        "status": 200,
+        "count": 1
+      }
+    },
+    {
+      "id": "E01",
+      "name": "anonymous request denied",
+      "pass": true,
+      "actual": 401
+    },
+    {
+      "id": "B01-HS",
+      "name": "voluntary enrollment pins revision1",
+      "pass": true,
+      "actual": {
+        "enrollment_id": "4592dc44-1889-4955-b6f5-f4698341c218",
+        "program_key": "dong-hanh-bon-tuan",
+        "program_revision": 1,
+        "active": true,
+        "joined_at": "2026-10-19T06:54:45.900010+00:00"
+      }
+    },
+    {
+      "id": "A07-HS",
+      "name": "week4 available before week1 completion",
+      "pass": true,
+      "actual": {
+        "status": 200,
+        "week_numbers": [
+          1,
+          2,
+          3,
+          4
+        ]
+      }
+    },
+    {
+      "id": "C01-HS",
+      "name": "real weeks response has activities, not fake field",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "id": "B10-HS",
+      "name": "paper alternative",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "id": "B01-PH",
+      "name": "voluntary enrollment pins revision1",
+      "pass": true,
+      "actual": {
+        "enrollment_id": "8baf9a2f-7a55-42e2-a024-267ba10800d1",
+        "program_key": "dong-hanh-bon-tuan",
+        "program_revision": 1,
+        "active": true,
+        "joined_at": "2026-10-19T06:54:45.931260+00:00"
+      }
+    },
+    {
+      "id": "A07-PH",
+      "name": "week4 available before week1 completion",
+      "pass": true,
+      "actual": {
+        "status": 200,
+        "week_numbers": [
+          1,
+          2,
+          3,
+          4
+        ]
+      }
+    },
+    {
+      "id": "C01-PH",
+      "name": "real weeks response has activities, not fake field",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "id": "B10-PH",
+      "name": "paper alternative",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "id": "B02-HS",
+      "name": "save own progress done",
+      "pass": true,
+      "actual": {
+        "week_no": 1,
+        "activity_key": "f09-w1-tieng-long-chua-noi",
+        "program_revision": 1,
+        "status": "done",
+        "updated_at": "2026-10-19T06:54:45.946885+00:00"
+      }
+    },
+    {
+      "id": "B03-HS",
+      "name": "reload keeps own independent progress",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "id": "B02-PH",
+      "name": "save own progress skipped",
+      "pass": true,
+      "actual": {
+        "week_no": 1,
+        "activity_key": "f09-w1-tieng-long-chua-noi",
+        "program_revision": 1,
+        "status": "skipped",
+        "updated_at": "2026-10-19T06:54:45.978133+00:00"
+      }
+    },
+    {
+      "id": "B03-PH",
+      "name": "reload keeps own independent progress",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "id": "B04",
+      "name": "cannot tick another participant",
+      "pass": true,
+      "actual": {
+        "error": {
+          "code": "input_invalid",
+          "details": {
+            "reason": "unknown_fields",
+            "fields": "['participant_id']"
+          }
+        }
+      }
+    },
+    {
+      "id": "B05",
+      "name": "reject activity outside requested week",
+      "pass": true,
+      "actual": {
+        "error": {
+          "code": "input_invalid",
+          "details": {
+            "field": "activity_key",
+            "reason": "not_in_pinned_program"
+          }
+        }
+      }
+    },
+    {
+      "id": "B02-RESET",
+      "name": "clear own progress",
+      "pass": true,
+      "actual": {
+        "week_no": 1,
+        "activity_key": "f09-w1-tieng-long-chua-noi",
+        "program_revision": 1,
+        "status": "reset",
+        "updated_at": "2026-10-19T06:54:46.009385+00:00"
+      }
+    },
+    {
+      "id": "C02-CATALOG",
+      "name": "published activity revision2 exists",
+      "pass": true,
+      "actual": [
+        2,
+        1
+      ]
+    },
+    {
+      "id": "C04",
+      "name": "invite does not auto-accept",
+      "pass": true,
+      "actual": {
+        "invite_id": "c6704f0d-b293-4475-960d-21cfa2a43293",
+        "content_key": "f09-w1-tieng-long-chua-noi",
+        "content_revision": 2,
+        "inviter_id": "7d82420a-985e-4857-b9cc-0bd2baffbc65",
+        "invitee_id": "4b0f0206-f120-4424-a642-ec9d057f072d",
+        "direction": "sent",
+        "status": "pending",
+        "inviter_response": null,
+        "invitee_response": null,
+        "updated_at": "2026-10-19T06:54:46.040635+00:00"
+      }
+    },
+    {
+      "id": "C07",
+      "name": "duplicate pending invite uses same id",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "id": "C04-RECEIVED",
+      "name": "receiver sees actual pending invite",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "id": "C05-SENDER",
+      "name": "sender cannot accept for receiver",
+      "pass": true,
+      "actual": {
+        "error": {
+          "code": "not_found",
+          "details": {
+            "reason": "invite_not_found"
+          }
+        }
+      }
+    },
+    {
+      "id": "C06",
+      "name": "other family cannot accept invite",
+      "pass": true,
+      "actual": {
+        "error": {
+          "code": "not_found",
+          "details": {
+            "reason": "invite_not_found"
+          }
+        }
+      }
+    },
+    {
+      "id": "C05-ACCEPT",
+      "name": "receiver accepts",
+      "pass": true,
+      "actual": {
+        "invite_id": "c6704f0d-b293-4475-960d-21cfa2a43293",
+        "content_key": "f09-w1-tieng-long-chua-noi",
+        "content_revision": 2,
+        "inviter_id": "7d82420a-985e-4857-b9cc-0bd2baffbc65",
+        "invitee_id": "4b0f0206-f120-4424-a642-ec9d057f072d",
+        "direction": "received",
+        "status": "accepted",
+        "inviter_response": null,
+        "invitee_response": null,
+        "updated_at": "2026-10-19T06:54:46.084469+00:00"
+      }
+    },
+    {
+      "id": "D01-D04",
+      "name": "admin inviteNULL pair can propose without signatures",
+      "pass": true,
+      "actual": {
+        "agreement_id": "580b6c65-1ad6-4efe-8c27-7fc2940dae1e",
+        "program_key": "dong-hanh-bon-tuan",
+        "program_revision": 1,
+        "agreement_revision": 1,
+        "connection_generation": 1,
+        "status": "proposed",
+        "proposed_by": "7d82420a-985e-4857-b9cc-0bd2baffbc65",
+        "proposed_by_me": true,
+        "my_confirmed": false,
+        "counterpart_confirmed": false,
+        "commitments": [
+          "Mỗi tuần có ít nhất một khoảng thời gian nói chuyện riêng không điện thoại",
+          "Gọi tên cảm xúc thay vì trách móc",
+          "Không so sánh con với ai — so với chính con hôm qua",
+          "Tôn trọng ranh giới riêng tư đã thống nhất; muốn biết thì hỏi thẳng",
+          "Cảm ơn và xin lỗi cụ thể, cả hai chiều"
+        ],
+        "created_at": "2026-10-19T06:54:46.103142+00:00",
+        "updated_at": "2026-10-19T06:54:46.103142+00:00",
+        "confirmed_at": null
+      }
+    },
+    {
+      "id": "D11",
+      "name": "other family cannot sign",
+      "pass": true,
+      "actual": {
+        "error": {
+          "code": "not_found",
+          "details": {
+            "reason": "agreement_not_found"
+          }
+        }
+      }
+    },
+    {
+      "id": "D05",
+      "name": "one signature stays proposed",
+      "pass": true,
+      "actual": {
+        "agreement_id": "580b6c65-1ad6-4efe-8c27-7fc2940dae1e",
+        "program_key": "dong-hanh-bon-tuan",
+        "program_revision": 1,
+        "agreement_revision": 1,
+        "connection_generation": 1,
+        "status": "proposed",
+        "proposed_by": "7d82420a-985e-4857-b9cc-0bd2baffbc65",
+        "proposed_by_me": true,
+        "my_confirmed": true,
+        "counterpart_confirmed": false,
+        "commitments": [
+          "Mỗi tuần có ít nhất một khoảng thời gian nói chuyện riêng không điện thoại",
+          "Gọi tên cảm xúc thay vì trách móc",
+          "Không so sánh con với ai — so với chính con hôm qua",
+          "Tôn trọng ranh giới riêng tư đã thống nhất; muốn biết thì hỏi thẳng",
+          "Cảm ơn và xin lỗi cụ thể, cả hai chiều"
+        ],
+        "created_at": "2026-10-19T06:54:46.103142+00:00",
+        "updated_at": "2026-10-19T06:54:46.118768+00:00",
+        "confirmed_at": null
+      }
+    },
+    {
+      "id": "D05-DUP",
+      "name": "same person cannot sign twice",
+      "pass": true,
+      "actual": {
+        "error": {
+          "code": "input_invalid",
+          "details": {
+            "reason": "already_confirmed_by_you"
+          }
+        }
+      }
+    },
+    {
+      "id": "D06",
+      "name": "two different signatures confirm same revision",
+      "pass": true,
+      "actual": {
+        "agreement_id": "580b6c65-1ad6-4efe-8c27-7fc2940dae1e",
+        "program_key": "dong-hanh-bon-tuan",
+        "program_revision": 1,
+        "agreement_revision": 1,
+        "connection_generation": 1,
+        "status": "confirmed",
+        "proposed_by": "7d82420a-985e-4857-b9cc-0bd2baffbc65",
+        "proposed_by_me": false,
+        "my_confirmed": true,
+        "counterpart_confirmed": true,
+        "commitments": [
+          "Mỗi tuần có ít nhất một khoảng thời gian nói chuyện riêng không điện thoại",
+          "Gọi tên cảm xúc thay vì trách móc",
+          "Không so sánh con với ai — so với chính con hôm qua",
+          "Tôn trọng ranh giới riêng tư đã thống nhất; muốn biết thì hỏi thẳng",
+          "Cảm ơn và xin lỗi cụ thể, cả hai chiều"
+        ],
+        "created_at": "2026-10-19T06:54:46.103142+00:00",
+        "updated_at": "2026-10-19T06:54:46.192271+00:00",
+        "confirmed_at": "2026-10-19T06:54:46.118768+00:00"
+      }
+    },
+    {
+      "id": "NEW-TIMESTAMP",
+      "name": "confirmed_at is second-signature time",
+      "pass": false,
+      "actual": {
+        "first_signature": "2026-10-19T06:54:46.118768+00:00",
+        "confirmed_at": "2026-10-19T06:54:46.118768+00:00",
+        "second_signature": "2026-10-19T06:54:46.192271+00:00"
+      }
+    },
+    {
+      "id": "B09-OUT",
+      "name": "opt-out is voluntary",
+      "pass": true,
+      "actual": {
+        "enrollment_id": "4592dc44-1889-4955-b6f5-f4698341c218",
+        "program_key": "dong-hanh-bon-tuan",
+        "program_revision": 1,
+        "active": false,
+        "joined_at": "2026-10-19T06:54:45.900010+00:00"
+      }
+    },
+    {
+      "id": "B09-NO-ENROLL",
+      "name": "no phantom active enrollment",
+      "pass": true,
+      "actual": {
+        "error": {
+          "code": "not_found",
+          "details": {
+            "reason": "enrollment_not_found"
+          }
+        }
+      }
+    },
+    {
+      "id": "B09-REJOIN",
+      "name": "rejoin explicitly",
+      "pass": true,
+      "actual": {
+        "enrollment_id": "4592dc44-1889-4955-b6f5-f4698341c218",
+        "program_key": "dong-hanh-bon-tuan",
+        "program_revision": 1,
+        "active": true,
+        "joined_at": "2026-10-19T06:54:45.900010+00:00"
+      }
+    },
+    {
+      "id": "C04-UNLINK-PRE",
+      "name": "pending invite exists before unlink",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "id": "D12-UNLINK",
+      "name": "unlink succeeds through real F01",
+      "pass": true,
+      "actual": {
+        "connection_id": "3fb7b60e-d539-48c5-a81c-a06c99a422db",
+        "status": "revoked",
+        "revoked_at": "2026-10-19T06:54:46.254784+00:00",
+        "generation": 1,
+        "note": "Kết nối mới phải qua lời mời hai bên; quyền đã thu hồi không hồi sinh."
+      }
+    },
+    {
+      "id": "D12-OVERVIEW",
+      "name": "old family agreement unavailable after unlink",
+      "pass": true,
+      "actual": {
+        "error": {
+          "code": "input_invalid",
+          "details": {
+            "reason": "no_active_connection"
+          }
+        }
+      }
+    },
+    {
+      "id": "NEW-F09-UNLINK",
+      "name": "cannot accept joint invitation after connection revoked",
+      "pass": false,
+      "actual": {
+        "status": 200,
+        "response": {
+          "invite_id": "fc09eb98-f2f7-45bd-a38f-7856b9c0bd2a",
+          "content_key": "f09-w2-ban-sac-rieng",
+          "content_revision": 1,
+          "inviter_id": "7d82420a-985e-4857-b9cc-0bd2baffbc65",
+          "invitee_id": "4b0f0206-f120-4424-a642-ec9d057f072d",
+          "direction": "received",
+          "status": "accepted",
+          "inviter_response": null,
+          "invitee_response": null,
+          "updated_at": "2026-10-19T06:54:46.286163+00:00"
+        }
+      }
+    }
+  ],
+  "pass": 44,
+  "fail": 2
+}

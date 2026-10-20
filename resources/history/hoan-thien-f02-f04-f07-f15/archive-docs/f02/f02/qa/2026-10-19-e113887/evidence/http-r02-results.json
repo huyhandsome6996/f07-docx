@@ -1,0 +1,265 @@
+{
+  "base": "http://127.0.0.1:8004",
+  "synthetic_only": true,
+  "results": [
+    {
+      "name": "enroll-rev1-HS",
+      "pass": true,
+      "actual": {
+        "enrollment_id": "a2d0674b-30b9-4279-8eb9-dd7e2dc899a4",
+        "program_key": "dong-hanh-bon-tuan",
+        "program_revision": 1,
+        "active": true,
+        "joined_at": "2026-10-19T10:01:14.888321+00:00"
+      }
+    },
+    {
+      "name": "enroll-rev1-PH",
+      "pass": true,
+      "actual": {
+        "enrollment_id": "fe7d86f8-e7b2-448a-a5c2-97d62ffeb4c8",
+        "program_key": "dong-hanh-bon-tuan",
+        "program_revision": 1,
+        "active": true,
+        "joined_at": "2026-10-19T10:01:14.893642+00:00"
+      }
+    },
+    {
+      "name": "propose-rev1",
+      "pass": true,
+      "actual": {
+        "agreement_id": "ec6b8b7b-8c83-4de3-adfe-d31e78950c87",
+        "program_key": "dong-hanh-bon-tuan",
+        "program_revision": 1,
+        "agreement_revision": 1,
+        "connection_generation": 1,
+        "status": "proposed",
+        "proposed_by": "9e53fe7e-588c-46f3-a756-f1b75fd5e489",
+        "proposed_by_me": true,
+        "my_confirmed": false,
+        "counterpart_confirmed": false,
+        "commitments": [
+          "Mỗi tuần có ít nhất một khoảng thời gian nói chuyện riêng không điện thoại",
+          "Gọi tên cảm xúc thay vì trách móc",
+          "Không so sánh con với ai — so với chính con hôm qua",
+          "Tôn trọng ranh giới riêng tư đã thống nhất; muốn biết thì hỏi thẳng",
+          "Cảm ơn và xin lỗi cụ thể, cả hai chiều"
+        ],
+        "created_at": "2026-10-19T10:01:14.901245+00:00",
+        "updated_at": "2026-10-19T10:01:14.901247+00:00",
+        "confirmed_at": null
+      }
+    },
+    {
+      "name": "program-clone-rev2-same-template",
+      "pass": true,
+      "actual": {
+        "program_revision": 2,
+        "agreement_revision": 1
+      }
+    },
+    {
+      "name": "catalog-has-rev1-rev2",
+      "pass": true,
+      "actual": [
+        2,
+        1
+      ]
+    },
+    {
+      "name": "repin-rev2-HS",
+      "pass": true,
+      "actual": {
+        "enrollment_id": "a2d0674b-30b9-4279-8eb9-dd7e2dc899a4",
+        "program_key": "dong-hanh-bon-tuan",
+        "program_revision": 2,
+        "active": true,
+        "joined_at": "2026-10-19T10:01:14.888321+00:00"
+      }
+    },
+    {
+      "name": "repin-rev2-PH",
+      "pass": true,
+      "actual": {
+        "enrollment_id": "fe7d86f8-e7b2-448a-a5c2-97d62ffeb4c8",
+        "program_key": "dong-hanh-bon-tuan",
+        "program_revision": 2,
+        "active": true,
+        "joined_at": "2026-10-19T10:01:14.893642+00:00"
+      }
+    },
+    {
+      "name": "propose-after-repin-new-row",
+      "pass": true,
+      "actual": {
+        "agreement_id": "a953432f-5058-4391-b0f4-c3e2ae5aa67e",
+        "program_key": "dong-hanh-bon-tuan",
+        "program_revision": 2,
+        "agreement_revision": 1,
+        "connection_generation": 1,
+        "status": "proposed",
+        "proposed_by": "9e53fe7e-588c-46f3-a756-f1b75fd5e489",
+        "proposed_by_me": true,
+        "my_confirmed": false,
+        "counterpart_confirmed": false,
+        "commitments": [
+          "Mỗi tuần có ít nhất một khoảng thời gian nói chuyện riêng không điện thoại",
+          "Gọi tên cảm xúc thay vì trách móc",
+          "Không so sánh con với ai — so với chính con hôm qua",
+          "Tôn trọng ranh giới riêng tư đã thống nhất; muốn biết thì hỏi thẳng",
+          "Cảm ơn và xin lỗi cụ thể, cả hai chiều"
+        ],
+        "created_at": "2026-10-19T10:01:15.197983+00:00",
+        "updated_at": "2026-10-19T10:01:15.197984+00:00",
+        "confirmed_at": null
+      }
+    },
+    {
+      "name": "propose-repeat-still-new-pin",
+      "pass": true,
+      "actual": {
+        "agreement_id": "a953432f-5058-4391-b0f4-c3e2ae5aa67e",
+        "program_key": "dong-hanh-bon-tuan",
+        "program_revision": 2,
+        "agreement_revision": 1,
+        "connection_generation": 1,
+        "status": "proposed",
+        "proposed_by": "9e53fe7e-588c-46f3-a756-f1b75fd5e489",
+        "proposed_by_me": true,
+        "my_confirmed": false,
+        "counterpart_confirmed": false,
+        "commitments": [
+          "Mỗi tuần có ít nhất một khoảng thời gian nói chuyện riêng không điện thoại",
+          "Gọi tên cảm xúc thay vì trách móc",
+          "Không so sánh con với ai — so với chính con hôm qua",
+          "Tôn trọng ranh giới riêng tư đã thống nhất; muốn biết thì hỏi thẳng",
+          "Cảm ơn và xin lỗi cụ thể, cả hai chiều"
+        ],
+        "created_at": "2026-10-19T10:01:15.197983+00:00",
+        "updated_at": "2026-10-19T10:01:15.197984+00:00",
+        "confirmed_at": null
+      }
+    },
+    {
+      "name": "sig1-stays-proposed",
+      "pass": true,
+      "actual": {
+        "agreement_id": "a953432f-5058-4391-b0f4-c3e2ae5aa67e",
+        "program_key": "dong-hanh-bon-tuan",
+        "program_revision": 2,
+        "agreement_revision": 1,
+        "connection_generation": 1,
+        "status": "proposed",
+        "proposed_by": "9e53fe7e-588c-46f3-a756-f1b75fd5e489",
+        "proposed_by_me": true,
+        "my_confirmed": true,
+        "counterpart_confirmed": false,
+        "commitments": [
+          "Mỗi tuần có ít nhất một khoảng thời gian nói chuyện riêng không điện thoại",
+          "Gọi tên cảm xúc thay vì trách móc",
+          "Không so sánh con với ai — so với chính con hôm qua",
+          "Tôn trọng ranh giới riêng tư đã thống nhất; muốn biết thì hỏi thẳng",
+          "Cảm ơn và xin lỗi cụ thể, cả hai chiều"
+        ],
+        "created_at": "2026-10-19T10:01:15.197983+00:00",
+        "updated_at": "2026-10-19T10:01:15.209126+00:00",
+        "confirmed_at": null
+      }
+    },
+    {
+      "name": "sig2-confirms-rev2-pin",
+      "pass": true,
+      "actual": {
+        "agreement_id": "a953432f-5058-4391-b0f4-c3e2ae5aa67e",
+        "program_key": "dong-hanh-bon-tuan",
+        "program_revision": 2,
+        "agreement_revision": 1,
+        "connection_generation": 1,
+        "status": "confirmed",
+        "proposed_by": "9e53fe7e-588c-46f3-a756-f1b75fd5e489",
+        "proposed_by_me": false,
+        "my_confirmed": true,
+        "counterpart_confirmed": true,
+        "commitments": [
+          "Mỗi tuần có ít nhất một khoảng thời gian nói chuyện riêng không điện thoại",
+          "Gọi tên cảm xúc thay vì trách móc",
+          "Không so sánh con với ai — so với chính con hôm qua",
+          "Tôn trọng ranh giới riêng tư đã thống nhất; muốn biết thì hỏi thẳng",
+          "Cảm ơn và xin lỗi cụ thể, cả hai chiều"
+        ],
+        "created_at": "2026-10-19T10:01:15.197983+00:00",
+        "updated_at": "2026-10-19T10:01:15.264994+00:00",
+        "confirmed_at": "2026-10-19T10:01:15.264994+00:00"
+      }
+    },
+    {
+      "name": "confirmed-at-second-signature",
+      "pass": true,
+      "actual": {
+        "first": "2026-10-19T10:01:15.209126+00:00",
+        "confirmed_at": "2026-10-19T10:01:15.264994+00:00",
+        "second": "2026-10-19T10:01:15.264994+00:00"
+      }
+    },
+    {
+      "name": "history-kept-two-rows",
+      "pass": true,
+      "actual": [
+        {
+          "rev": 1,
+          "status": "superseded"
+        },
+        {
+          "rev": 2,
+          "status": "confirmed"
+        }
+      ]
+    },
+    {
+      "name": "catalog-body-typed-dict",
+      "pass": true,
+      "actual": [
+        {
+          "content_key": "f09-w1-tieng-long-chua-noi",
+          "kind": "activity",
+          "revision": 2,
+          "title": "[THỬ LOCAL] Tiếng lòng chưa nói — trao nhau một điều",
+          "body": {
+            "steps": [
+              "Mỗi người chuẩn bị một điều chưa nói ra (ghi sổ giấy hoặc trong app)",
+              "Người student chọn thời điểm và mở đầu: 'Dạo này con/mình đang thấy…'",
+              "Người caregiver chỉ lắng nghe và cảm ơn, không phán xét",
+              "Cùng ghi lại một câu muốn nhớ lại sau chương trình"
+            ]
+          },
+          "audience": "joint",
+          "minutes": null
+        }
+      ]
+    },
+    {
+      "name": "catalog-minutes-honest",
+      "pass": true,
+      "actual": [
+        {
+          "content_key": "f09-w1-tieng-long-chua-noi",
+          "kind": "activity",
+          "revision": 2,
+          "title": "[THỬ LOCAL] Tiếng lòng chưa nói — trao nhau một điều",
+          "body": {
+            "steps": [
+              "Mỗi người chuẩn bị một điều chưa nói ra (ghi sổ giấy hoặc trong app)",
+              "Người student chọn thời điểm và mở đầu: 'Dạo này con/mình đang thấy…'",
+              "Người caregiver chỉ lắng nghe và cảm ơn, không phán xét",
+              "Cùng ghi lại một câu muốn nhớ lại sau chương trình"
+            ]
+          },
+          "audience": "joint",
+          "minutes": null
+        }
+      ]
+    }
+  ],
+  "pass": 15,
+  "fail": 0
+}

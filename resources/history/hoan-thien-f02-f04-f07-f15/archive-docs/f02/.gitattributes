@@ -1,0 +1,10 @@
+# F02 evidence must retain reproducible bytes across Windows and Linux.
+# This file exists only on F02-docx; inherited F07 bundles are unaffected.
+/.gitattributes text eol=lf
+/AGENTS.md text eol=lf
+/README.md text eol=lf
+/PROMPT-COPY-F02.md text eol=lf
+/f02/** text eol=lf
+/f02/**/*.jpg binary
+/f02/**/*.png binary
+/f02/**/*.zip binary
